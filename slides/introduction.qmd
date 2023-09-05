@@ -1,0 +1,32 @@
+---
+title: Introduction aux méthodes quantitatives avec `R`
+subtitle: |
+  **[Introduction]{.orange}**
+authors: |
+  [Lino Galiana](https://www.linogaliana.fr/),
+# date: 
+slide-number: true
+footer: |
+  Ecole Normale Supérieure
+# uncomment for French presentations:
+lang: fr-FR
+# for blind readers:
+slide-tone: false
+# for @olevitt:
+chalkboard: # press the B key to toggle chalkboard
+  theme: whiteboard
+# uncomment to use the multiplex mode:
+#multiplex: true
+format:
+  # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
+  onyxia-revealjs:
+  #onyxia-dark-revealjs:
+    output-file: complete.html
+controls: true
+css: custom.css
+from: markdown+emoji
+---
+
+## Introduction
+
+TO BE COMPLETED

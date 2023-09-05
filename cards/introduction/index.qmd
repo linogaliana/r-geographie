@@ -1,0 +1,23 @@
+---
+image: baby.png
+title: Version courte
+date: "2022-02-01"
+description: |
+  <br>
+  Introduction à <code>R</code>
+  <br>
+abstract: |
+  <br>
+  Introduction à <code>R</code>
+  <br>
+categories:
+  - R
+  - Introduction
+slides:
+  text: Slides
+  url: /slides/light.html
+code:
+  text: Code 
+  url: https://github.com/InseeFrLab/formation-bonnes-pratiques-git-R
+order: 1
+---

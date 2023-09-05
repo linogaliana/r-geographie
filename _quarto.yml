@@ -1,0 +1,25 @@
+project:
+  type: website
+  render:
+    - /slides/introduction.qmd
+    - index.qmd
+    - "/cards/**/*.qmd"
+
+website:
+  title: "Introduction aux méthodes quantitatives avec `R`"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: slides/introduction.html
+        text: Introduction
+    background: "#808000"
+  twitter-card:
+    image: /cards/version-light/baby.png
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+

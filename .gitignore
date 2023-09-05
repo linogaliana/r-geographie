@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+slides/index_files
+slides/formation_light_files
+slides/formation_full_files
+_targets/
+<<<<<<< HEAD
+
+/.quarto/
+=======
+/.quarto/
+site_libs
+_site
+>>>>>>> acd3bfc9d986032a5fea11d2178f4b9a19be5e2e
