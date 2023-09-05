@@ -13,7 +13,7 @@ website:
         text: Home
       - href: slides/introduction.html
         text: Introduction
-    background: "#808000"
+    background: "#014001"
   twitter-card:
     image: /cards/version-light/baby.png
 
