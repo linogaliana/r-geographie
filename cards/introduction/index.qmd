@@ -21,3 +21,5 @@ code:
   url: https://github.com/InseeFrLab/formation-bonnes-pratiques-git-R
 order: 1
 ---
+
+## Introduction
