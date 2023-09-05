@@ -15,11 +15,10 @@ categories:
   - Introduction
 slides:
   text: Slides
-  url: /slides/light.html
+  url: /slides/introduction.html
 code:
   text: Code 
   url: https://github.com/InseeFrLab/formation-bonnes-pratiques-git-R
 order: 1
 ---
 
-## Introduction

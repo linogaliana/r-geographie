@@ -27,6 +27,57 @@ css: custom.css
 from: markdown+emoji
 ---
 
+# Introduction
+
+## Une prolifération de données
+
+- Un volume de données produites en explosion:
+    + L'utilisation des statistiques n'est pas nouvelle (cf. [Desrosières](https://www.cairn.info/la-politique-des-grands-nombres--9782707165046.htm))...
+    + ... mais sa place dans le débat public et l'action publique va croissante ([Supiot](https://www.fayard.fr/sciences-humaines/la-gouvernance-par-les-nombres-9782213681092), [Martin](https://www.cairn.info/l-empire-des-chiffres--9782200625719.htm))
+
+## Diversité
+
+
+- Des formes de données de nature de plus en plus variée
+
+  - Données tabulaires classiques ; 
+  - Données géolocalisées et réseaux ;
+  - Données textuelles ;
+  - Images, sons et vidéos
+
+cf. cours ENSAI
+
+## De nouveaux acteurs
+
+offices statistiques & administrations classiques
+
+collectivités locales
+
+  - réseaux sociaux : Facebook, Twitter, Instagram
+  - plateformes : Uber, LeBonCoin, Yelp, Google Maps...
+  - projets contributifs : OpenStreetMap, Wikidata...  
+
+
+
+## Des accès de plus en plus direct à la données
+
+- Une ouverture croissante:
+    + Depuis ère Obama (2008): _open data_
+- Ouverture et numérisation des données :
+
+
+
+
+
+
 ## Introduction
 
-TO BE COMPLETED
+![](img/moredata.png)
+
+## Qui suis-je ?
+
+- Administrateur Insee, _data scientist_ à l'Insee
+
+- Formation économie & statistiques
+
+- Travaux intersection économie, sociologie & géographie
