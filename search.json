@@ -1,10 +1,45 @@
 [
   {
-    "objectID": "slides/complete.html#introduction",
-    "href": "slides/complete.html#introduction",
+    "objectID": "slides/complete.html#une-prolifération-de-données",
+    "href": "slides/complete.html#une-prolifération-de-données",
+    "title": "Introduction aux méthodes quantitatives avec R",
+    "section": "Une prolifération de données",
+    "text": "Une prolifération de données\n\nUn volume de données produites en explosion:\n\nL’utilisation des statistiques n’est pas nouvelle (cf. Desrosières)…\n… mais sa place dans le débat public et l’action publique va croissante (Supiot, Martin)"
+  },
+  {
+    "objectID": "slides/complete.html#diversité",
+    "href": "slides/complete.html#diversité",
+    "title": "Introduction aux méthodes quantitatives avec R",
+    "section": "Diversité",
+    "text": "Diversité\n\nDes formes de données de nature de plus en plus variée\n\nDonnées tabulaires classiques ;\nDonnées géolocalisées et réseaux ;\nDonnées textuelles ;\nImages, sons et vidéos\n\n\ncf. cours ENSAI"
+  },
+  {
+    "objectID": "slides/complete.html#de-nouveaux-acteurs",
+    "href": "slides/complete.html#de-nouveaux-acteurs",
+    "title": "Introduction aux méthodes quantitatives avec R",
+    "section": "De nouveaux acteurs",
+    "text": "De nouveaux acteurs\noffices statistiques & administrations classiques\ncollectivités locales\n\nréseaux sociaux : Facebook, Twitter, Instagram\nplateformes : Uber, LeBonCoin, Yelp, Google Maps…\nprojets contributifs : OpenStreetMap, Wikidata…"
+  },
+  {
+    "objectID": "slides/complete.html#des-accès-de-plus-en-plus-direct-à-la-données",
+    "href": "slides/complete.html#des-accès-de-plus-en-plus-direct-à-la-données",
+    "title": "Introduction aux méthodes quantitatives avec R",
+    "section": "Des accès de plus en plus direct à la données",
+    "text": "Des accès de plus en plus direct à la données\n\nUne ouverture croissante:\n\nDepuis ère Obama (2008): open data\n\nOuverture et numérisation des données :"
+  },
+  {
+    "objectID": "slides/complete.html#introduction-1",
+    "href": "slides/complete.html#introduction-1",
     "title": "Introduction aux méthodes quantitatives avec R",
     "section": "Introduction",
-    "text": "Introduction\nTO BE COMPLETED\n\n\nEcole Normale Supérieure"
+    "text": "Introduction"
+  },
+  {
+    "objectID": "slides/complete.html#qui-suis-je",
+    "href": "slides/complete.html#qui-suis-je",
+    "title": "Introduction aux méthodes quantitatives avec R",
+    "section": "Qui suis-je ?",
+    "text": "Qui suis-je ?\n\nAdministrateur Insee, data scientist à l’Insee\nFormation économie & statistiques\nTravaux intersection économie, sociologie & géographie\n\n\n\nEcole Normale Supérieure"
   },
   {
     "objectID": "index.html",
