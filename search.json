@@ -1,127 +1,134 @@
 [
   {
+    "objectID": "slides/introduction.html#qui-suis-je-fa-brands-github-size25px",
+    "href": "slides/introduction.html#qui-suis-je-fa-brands-github-size25px",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Qui suis-je ?  ",
+    "text": "Qui suis-je ?  \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists de l’administration\n\nFormation en économie & statistiques ;\nTravaux à l’intersection entre informatique, économie, sociologie & géographie\n\nRenseignez-vous sur le concours ! Il y a de belles missions !"
+  },
+  {
     "objectID": "slides/introduction.html#qui-suis-je",
     "href": "slides/introduction.html#qui-suis-je",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qui suis-je ?",
-    "text": "Qui suis-je ?\n\nAdministrateur Insee1, data scientist à l’Insee\nFormation économie & statistiques\nTravaux intersection économie, sociologie & géographie\n\nLe service statistique public est constitué de l’Insee et des 16 services statistiques ministériels (SSM)"
+    "text": "Qui suis-je ?\n\nCours"
   },
   {
     "objectID": "slides/introduction.html#prolifération-des-données",
     "href": "slides/introduction.html#prolifération-des-données",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Prolifération des données",
     "text": "Prolifération des données\n\nNumérisation et innovations technologiques ont réduit le coût de production de la donnée ;\n\nVolume de données produites en explosion\n\n\n\n\nL’utilisation des statistiques n’est pas nouvelle (cf. Desrosières)…\n\n\n\n\n… mais une place accrue dans le débat public et l’action publique (Supiot, Martin)"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-14",
     "href": "slides/introduction.html#diversification-des-données-14",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (1/4)",
     "text": "Diversification des données (1/4)\nDonnées tabulaires classiques\n\nviewof info_mutations = Inputs.radio(\n  [\"Tableau\", \"Graphique\"], {value: \"Tableau\"}\n)\n\n\n\n\n\n\n\ninfo_mutations == \"Tableau\" ? html`&lt;div&gt;${table_mutations1}&lt;div&gt;` : html`&lt;div&gt;${plot_mutations}&lt;div&gt;`\n\n\n\n\n\n\n\nurl = \"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv\"\nproxy = \"https://corsproxy.io/?\"\ndvf = d3.csv(proxy + url)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntable_mutations1 = Inputs.table(dvf, {\"columns\": ['date_mutation', 'valeur_fonciere', 'adresse_nom_voie']})\nplot_mutations = Plot.plot({\n  y: {grid: true, label: \"Nombre de transactions\"},\n  x: {\n    ticks: 12,\n    transform: (d) =&gt; Math.pow(10, d),\n    type: \"log\",\n    tickFormat: \"~s\",\n    label: \"Prix (échelle log) →\"\n  },\n  marks: [\n    Plot.rectY(\n      dvf.filter(d =&gt; d.valeur_fonciere &gt; 10000),\n      Plot.binX({y: \"count\"},\n      {\n        x: d =&gt; Math.log10(d.valeur_fonciere),\n        tip: true\n      })\n    ),\n    Plot.ruleY([0])\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot = require(\"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js\")"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-14-1",
     "href": "slides/introduction.html#diversification-des-données-14-1",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (1/4)",
     "text": "Diversification des données (1/4)\nDonnées tabulaires classiques\n\nDonnées structurées sous forme de tableau\n\n\nSource: Hadley Wickham, R for data science\n très bien outillé pour ces données (si volumétrie adaptée)"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-24",
     "href": "slides/introduction.html#diversification-des-données-24",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (2/4)",
     "text": "Diversification des données (2/4)\n\nDonnées géolocalisées\n\n\nviewof info_power_plants = Inputs.radio(\n  [\"Tableau\", \"Carte\"], {value: \"Tableau\"}\n)\n\n\n\n\n\n\n\ninfo_power_plants == \"Tableau\" ? html`&lt;div&gt;${table_power_plants}&lt;div&gt;` : html`&lt;div&gt;${plot_power_plants}&lt;div&gt;`\n\n\n\n\n\n\n\nimport {us_power_plants, states} from \"@observablehq/build-your-first-map-with-observable-plot\"\n\ntable_power_plants = Inputs.table(\n  us_power_plants\n)\n\n\nplot_power_plants = Plot.plot({\n  projection: \"albers-usa\",\n  marks: [\n    Plot.geo(states, { fill: \"white\", stroke: \"#e2e2e2\"  }),\n    Plot.dot(us_power_plants, {\n      x: \"longitude\",\n      y: \"latitude\",\n      r: \"Total_MW\",\n      fill: \"PrimSource\",\n      opacity: 0.7,\n      tip: true\n    }),\n    Plot.dot(us_power_plants, { // Can you figure out what this additional Plot.dot layer adds?\n      x: \"longitude\",\n      y: \"latitude\",\n      r: \"Total_MW\",\n      fill: \"PrimSource\",\n      stroke: \"black\",\n      filter: d =&gt; d.Total_MW &gt; 3500,\n    }),\n    Plot.text(us_power_plants, { // Add text to the map using data from us_power_plants\n      x: \"longitude\", // Place text horizontally at plant longitude\n      y: \"latitude\", // Place text vertically at plant latitude\n      text: \"Plant_Name\", // The text that appears is the value from the Plant_Name column,\n      filter: (d) =&gt; d.Total_MW &gt; 3500, // Only add text for plants with capacity exceeding 3500 MW\n      fontSize: 12, // Increased font size\n      fontWeight: 600, // Increased font weight\n      stroke: \"white\", // Adds white outer stroke to text (for readability)\n      fill: \"black\", // Text fill color\n      textAnchor: \"start\", // Left align text with the x- and y-coordinates\n      dx: 15 // Shifts text to the right (starting from left alignment with coordinate)\n    })\n  ],\n  r: { range: [1, 15] },\n  color: { legend: true },\n  height: 500,\n  width: 800,\n  margin: 50\n})"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-24-1",
     "href": "slides/introduction.html#diversification-des-données-24-1",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (2/4)",
     "text": "Diversification des données (2/4)\n\nDonnées géolocalisées\n\n\nDonnées tabulaires avec une dimension spatiale supplémentaire\n\nDimension géographique prend des formes multiples:\nPoints, lignes, polygones…\n\n\n\n\n très bien outillé pour ces données (si volumétrie adaptée)"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-34",
     "href": "slides/introduction.html#diversification-des-données-34",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (3/4)",
     "text": "Diversification des données (3/4)\n\nDonnées textuelles et non structurées\n\n\nTechniques statistiques anciennes (Levenshtein 1957, perceptron) ;\n\n\n\nApplications limitées jusqu’aux années 2010 ;\n\n\n\n\nDéveloppement très rapide de la recherche :\n\nCollecte accrue : réseaux sociaux, enquêtes…\nBaisse coûts stockage & augmentation ressources traitement ;\nNouvelles techniques statistiques: webscraping, LLM…\n\n\n\n\n\nUtilisation intensive dans l’administration, la recherche et le secteur privé\n\nPlus d’infos dans mon cours sur les données émergentes"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-44",
     "href": "slides/introduction.html#diversification-des-données-44",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (4/4)",
     "text": "Diversification des données (4/4)\nImages, sons et vidéos\n\nPlus d’infos dans mon cours sur les données émergentes"
   },
   {
     "objectID": "slides/introduction.html#apparition-de-nouveaux-acteurs",
     "href": "slides/introduction.html#apparition-de-nouveaux-acteurs",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Apparition de nouveaux acteurs",
     "text": "Apparition de nouveaux acteurs\n\nActeurs classiques:\n\nInstituts statistiques (INSEE et SSM1) ;\nAdministrations centrales (DGFiP, DINUM…) ou opérateurs (IGN…)\nPlus de détails à venir\n\n\n\n\nCollectivités locales (exemple: Open data Paris)\n\n\n\n\nProjets contributifs: OpenStreetMap, Wikidata, OpenFoodFacts…\n\n\n\n\nActeurs privés:\n\nCollectent des données sur leurs utilisateurs/clients (extrapolation possible?)\nPeuvent mettre à disposition ces données à d’autres acteurs (chercheurs par exemple)\nCadre réglementaire: RGPD\n\n\n\nLe service statistique public est constitué de l’Insee et des 16 services statistiques ministériels (SSM)"
   },
   {
     "objectID": "slides/introduction.html#accès-de-plus-en-plus-direct-à-la-donnée",
     "href": "slides/introduction.html#accès-de-plus-en-plus-direct-à-la-donnée",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Accès de plus en plus direct à la donnée",
     "text": "Accès de plus en plus direct à la donnée\n\nEre de l’open data et open source :\n\nMouvement accéléré depuis l’élection Obama 2008\nCréation Etalab en 2011 ;\nLoi pour une république numérique 2016\n\n\n\n\nChangements technologiques et culturels :\n\nFormats ouverts et standardisés ;\nSuccès des langages open source (notamment Python  et R )\nAcculturation aux API"
   },
   {
     "objectID": "slides/introduction.html#data-is-everywhere",
     "href": "slides/introduction.html#data-is-everywhere",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Data is everywhere",
     "text": "Data is everywhere"
   },
   {
     "objectID": "slides/introduction.html#des-métiers-multiples-dans-ladministration",
     "href": "slides/introduction.html#des-métiers-multiples-dans-ladministration",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Des métiers multiples dans l’administration",
     "text": "Des métiers multiples dans l’administration\n\n\n\n\n\n\n\nmais aussi data engineer, data architect, data analyst…\ncf. Rapport INSEE-DINUM “Évaluation des besoins de l’État en compétences et expertises en matière de donnée”\n\n\n\n\nhttps://www.numerique.gouv.fr/uploads/RAPPORT-besoins-competences-donnee.pdf"
   },
   {
     "objectID": "slides/introduction.html#le-tournant-numérique-des-sciences-sociales",
     "href": "slides/introduction.html#le-tournant-numérique-des-sciences-sociales",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Le tournant numérique des sciences sociales",
     "text": "Le tournant numérique des sciences sociales\n\nAccès facilité à des données spatialisées ;\nAcculturation aux SIG et langages statistiques ;\nDéveloppement de technologies web interactives (observable)\n\n\n\n\nRéférences\n\n\nRoth Camille. 2019. “Digital, Digitized, and Numerical Humanities.” Digital Scholarship in the Humanities\nAsh J, Kitchin R, Leszczynski A. 2018. “Digital turn, digital geographies ?” Progress in Human Geography\nEinav, L., & Levin, J. (2014). Economics in the age of big data. Science, 346(6210), 1243089."
   },
   {
     "objectID": "slides/introduction.html#le-tournant-numérique-des-sciences-sociales-1",
     "href": "slides/introduction.html#le-tournant-numérique-des-sciences-sociales-1",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Le tournant numérique des sciences sociales",
     "text": "Le tournant numérique des sciences sociales\n\nWe live life in the network. We check our e-mails regularly, make mobile phone calls from almost any location, swipe transit cards to use public transportation,and make purchases with credit cards. Our movements in public places may be captured by video cameras, and our medical records stored as digital files. We may post blog entries accessible to anyone, or maintain friendships through online social networks. Each of these transactions leaves digital traces that can be compiled into comprehensive pictures of both individual and group behavior, with the potential to transform our understanding of our lives, organizations, and societies.\nLazer et al. ,Computational Social Science, Science (2009)"
   },
   {
     "objectID": "slides/introduction.html#la-géographie-quantitative",
     "href": "slides/introduction.html#la-géographie-quantitative",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "La géographie quantitative",
     "text": "La géographie quantitative\n\nUne des premières cartes statistiques (1798)"
   },
   {
     "objectID": "slides/introduction.html#la-géographie-quantitative-1",
     "href": "slides/introduction.html#la-géographie-quantitative-1",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "La géographie quantitative",
     "text": "La géographie quantitative\n\nJohn Snow cartographie le choléra à Londres"
   },
   {
     "objectID": "slides/introduction.html#années-1950-1960-révolution-quantitative",
     "href": "slides/introduction.html#années-1950-1960-révolution-quantitative",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Années 1950-1960 : révolution quantitative",
     "text": "Années 1950-1960 : révolution quantitative\n\nEverything is related to everything else, but near things are more related than distant things.\nW. Tobler, 1970, Economic Geography\n\n\nUne science nomothétique : recherche des lois générales de l’organisation de l’espace\n\n\n\nUne science explicative : modélisation\n\nModèle de Christaller\n\n\n\n\n\nUne science appliquée : essor de la regional science, de l’économétrie spatiale\n\nLoi de Zipf…)\n\n\n\n\n\nUne science de l’information (déjà):\n\nSémiologie (carto)graphique de Bertin, 1967"
   },
   {
     "objectID": "slides/introduction.html#années-2010-tournant-digital-de-la-géographie-quantitative",
     "href": "slides/introduction.html#années-2010-tournant-digital-de-la-géographie-quantitative",
-    "title": "Introduction aux méthodes quantitatives avec R",
+    "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Années 2010 : tournant “digital” de la géographie quantitative",
     "text": "Années 2010 : tournant “digital” de la géographie quantitative\n\nQuantification de masse de phénomènes spatiaux sociaux:\n\nDéplacements, lieux fréquentés…\n\n\n\n\nIntersection avec d’autres sciences : data science, CSS\n\nExemple: le RIATE\n\n\n\n\n\nArribas-Bel, D, 2018. “Geography and Computers: Past, Present, and Future” Geography Compass.\n\n\n\nEcole Normale Supérieure"
   },
