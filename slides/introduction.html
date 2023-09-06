@@ -7,7 +7,9 @@
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
   <title>Introduction aux méthodes quantitatives avec R</title>
@@ -28,6 +30,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="_extensions/InseeFrLab/onyxia/logo.css">
@@ -322,6 +389,8 @@
       margin-right: 0; 
     }
   </style>
+  <script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <meta name="twitter:title" content="Introduction aux méthodes quantitatives avec R">
 <meta name="twitter:description" content="Introduction">
@@ -350,8 +419,21 @@
 <h1>Introduction</h1>
 
 </section>
-<section id="une-prolifération-de-données" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>Une prolifération de données</h2>
+<section id="qui-suis-je" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Qui suis-je ?</h2>
+<ul>
+<li><p><a href="https://www.insee.fr/fr/information/4774197">Administrateur Insee</a><sup>1</sup>, <em>data scientist</em> à l’Insee</p></li>
+<li><p>Formation économie &amp; statistiques</p></li>
+<li><p>Travaux intersection économie, sociologie &amp; géographie</p></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Le <a href="https://www.insee.fr/fr/information/1302192">service statistique public</a> est constitué de l’Insee et des 16 <strong>services statistiques ministériels</strong> (SSM)</p></li></ol></aside></section></section>
+<section>
+<section id="panorama-général" class="title-slide slide level1 center" data-background-image="background.svg" data-background-size="contain">
+<h1>Panorama général</h1>
+
+</section>
+<section id="prolifération-des-données" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Prolifération des données</h2>
 <ul>
 <li>Numérisation et innovations technologiques ont réduit le coût de production de la donnée ;
 <ul>
@@ -369,55 +451,433 @@
 </ul>
 </div>
 </section>
-<section id="des-données-diversifiées" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>Des données diversifiées</h2>
-<ul>
-<li><p>Des formes de données de nature de plus en plus variée</p>
-<ul>
-<li>Données tabulaires classiques ;</li>
-<li>Données géolocalisées et réseaux ;</li>
-<li>Données textuelles ;</li>
-<li>Images, sons et vidéos</li>
-</ul></li>
-</ul>
-<p>cf.&nbsp;cours ENSAI</p>
-</section>
-<section id="de-nouveaux-acteurs" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>De nouveaux acteurs</h2>
-<p>offices statistiques &amp; administrations classiques</p>
-<p>collectivités locales</p>
-<ul>
-<li>réseaux sociaux : Facebook, Twitter, Instagram</li>
-<li>plateformes : Uber, LeBonCoin, Yelp, Google Maps…</li>
-<li>projets contributifs : OpenStreetMap, Wikidata…</li>
-</ul>
-</section>
-<section id="des-accès-de-plus-en-plus-direct-à-la-données" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>Des accès de plus en plus direct à la données</h2>
-<ul>
-<li>Une ouverture croissante:
-<ul>
-<li>Depuis ère Obama (2008): <em>open data</em></li>
-</ul></li>
-<li>Ouverture et numérisation des données :</li>
-</ul>
-</section>
-<section id="introduction-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>Introduction</h2>
+<section id="diversification-des-données-14" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Diversification des données (1/4)</h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="données-tabulaires-classiques">Données tabulaires classiques</h3>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="61" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 60;"><span id="cb1-61"><a href="#cb1-61"></a>viewof info_mutations <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb1-62"><a href="#cb1-62"></a>  [<span class="st">"Tableau"</span><span class="op">,</span> <span class="st">"Graphique"</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"Tableau"</span>}</span>
+<span id="cb1-63"><a href="#cb1-63"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
 
-<img data-src="img/moredata.png" class="r-stretch"></section>
-<section id="qui-suis-je" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>Qui suis-je ?</h2>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="67" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 66;"><span id="cb2-67"><a href="#cb2-67"></a>info_mutations <span class="op">==</span> <span class="st">"Tableau"</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>table_mutations1<span class="sc">}</span><span class="vs">&lt;div&gt;`</span> <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot_mutations<span class="sc">}</span><span class="vs">&lt;div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="73" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 72;"><span id="cb3-73"><a href="#cb3-73"></a>url <span class="op">=</span> <span class="st">"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv"</span></span>
+<span id="cb3-74"><a href="#cb3-74"></a>proxy <span class="op">=</span> <span class="st">"https://corsproxy.io/?"</span></span>
+<span id="cb3-75"><a href="#cb3-75"></a>dvf <span class="op">=</span> d3<span class="op">.</span><span class="fu">csv</span>(proxy <span class="op">+</span> url)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="80" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 79;"><span id="cb4-80"><a href="#cb4-80"></a>table_mutations1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(dvf<span class="op">,</span> {<span class="st">"columns"</span><span class="op">:</span> [<span class="st">'date_mutation'</span><span class="op">,</span> <span class="st">'valeur_fonciere'</span><span class="op">,</span> <span class="st">'adresse_nom_voie'</span>]})</span>
+<span id="cb4-81"><a href="#cb4-81"></a>plot_mutations <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb4-82"><a href="#cb4-82"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Nombre de transactions"</span>}<span class="op">,</span></span>
+<span id="cb4-83"><a href="#cb4-83"></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb4-84"><a href="#cb4-84"></a>    <span class="dt">ticks</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span></span>
+<span id="cb4-85"><a href="#cb4-85"></a>    <span class="dt">transform</span><span class="op">:</span> (d) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">10</span><span class="op">,</span> d)<span class="op">,</span></span>
+<span id="cb4-86"><a href="#cb4-86"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span></span>
+<span id="cb4-87"><a href="#cb4-87"></a>    <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">"~s"</span><span class="op">,</span></span>
+<span id="cb4-88"><a href="#cb4-88"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Prix (échelle log) →"</span></span>
+<span id="cb4-89"><a href="#cb4-89"></a>  }<span class="op">,</span></span>
+<span id="cb4-90"><a href="#cb4-90"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb4-91"><a href="#cb4-91"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(</span>
+<span id="cb4-92"><a href="#cb4-92"></a>      dvf<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">valeur_fonciere</span> <span class="op">&gt;</span> <span class="dv">10000</span>)<span class="op">,</span></span>
+<span id="cb4-93"><a href="#cb4-93"></a>      Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span></span>
+<span id="cb4-94"><a href="#cb4-94"></a>      {</span>
+<span id="cb4-95"><a href="#cb4-95"></a>        <span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(d<span class="op">.</span><span class="at">valeur_fonciere</span>)<span class="op">,</span></span>
+<span id="cb4-96"><a href="#cb4-96"></a>        <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb4-97"><a href="#cb4-97"></a>      })</span>
+<span id="cb4-98"><a href="#cb4-98"></a>    )<span class="op">,</span></span>
+<span id="cb4-99"><a href="#cb4-99"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb4-100"><a href="#cb4-100"></a>  ]</span>
+<span id="cb4-101"><a href="#cb4-101"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-4-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-4-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="104" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 103;"><span id="cb5-104"><a href="#cb5-104"></a>Plot <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</section>
+<section id="diversification-des-données-14-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Diversification des données (1/4)</h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="données-tabulaires-classiques-1">Données tabulaires classiques</h3>
 <ul>
-<li><p>Administrateur Insee, <em>data scientist</em> à l’Insee</p></li>
-<li><p>Formation économie &amp; statistiques</p></li>
-<li><p>Travaux intersection économie, sociologie &amp; géographie</p></li>
+<li>Données <strong>structurées</strong> sous forme de tableau</li>
+</ul>
+
+<img data-src="https://r4ds.hadley.nz/images/tidy-1.png" class="r-stretch quarto-figure-center"><p class="caption">Source: <a href="https://r4ds.hadley.nz/data-tidy.html">Hadley Wickham, <em>R for data science</em></a></p><ul>
+<li><i class="fa-brands fa-r-project" aria-label="r-project"></i> très bien outillé pour ces données (si volumétrie adaptée)</li>
+</ul>
+</section>
+<section id="diversification-des-données-24" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Diversification des données (2/4)</h2>
+<h3>
+Données géolocalisées
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="125" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 124;"><span id="cb6-125"><a href="#cb6-125"></a>viewof info_power_plants <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb6-126"><a href="#cb6-126"></a>  [<span class="st">"Tableau"</span><span class="op">,</span> <span class="st">"Carte"</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"Tableau"</span>}</span>
+<span id="cb6-127"><a href="#cb6-127"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="131" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 130;"><span id="cb7-131"><a href="#cb7-131"></a>info_power_plants <span class="op">==</span> <span class="st">"Tableau"</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>table_power_plants<span class="sc">}</span><span class="vs">&lt;div&gt;`</span> <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot_power_plants<span class="sc">}</span><span class="vs">&lt;div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-7" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="138" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 137;"><span id="cb8-138"><a href="#cb8-138"></a><span class="im">import</span> {us_power_plants<span class="op">,</span> states} <span class="im">from</span> <span class="st">"@observablehq/build-your-first-map-with-observable-plot"</span></span>
+<span id="cb8-139"><a href="#cb8-139"></a></span>
+<span id="cb8-140"><a href="#cb8-140"></a>table_power_plants <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(</span>
+<span id="cb8-141"><a href="#cb8-141"></a>  us_power_plants</span>
+<span id="cb8-142"><a href="#cb8-142"></a>)</span>
+<span id="cb8-143"><a href="#cb8-143"></a></span>
+<span id="cb8-144"><a href="#cb8-144"></a></span>
+<span id="cb8-145"><a href="#cb8-145"></a>plot_power_plants <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb8-146"><a href="#cb8-146"></a>  <span class="dt">projection</span><span class="op">:</span> <span class="st">"albers-usa"</span><span class="op">,</span></span>
+<span id="cb8-147"><a href="#cb8-147"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb8-148"><a href="#cb8-148"></a>    Plot<span class="op">.</span><span class="fu">geo</span>(states<span class="op">,</span> { <span class="dt">fill</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#e2e2e2"</span>  })<span class="op">,</span></span>
+<span id="cb8-149"><a href="#cb8-149"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(us_power_plants<span class="op">,</span> {</span>
+<span id="cb8-150"><a href="#cb8-150"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span></span>
+<span id="cb8-151"><a href="#cb8-151"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span></span>
+<span id="cb8-152"><a href="#cb8-152"></a>      <span class="dt">r</span><span class="op">:</span> <span class="st">"Total_MW"</span><span class="op">,</span></span>
+<span id="cb8-153"><a href="#cb8-153"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"PrimSource"</span><span class="op">,</span></span>
+<span id="cb8-154"><a href="#cb8-154"></a>      <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.7</span><span class="op">,</span></span>
+<span id="cb8-155"><a href="#cb8-155"></a>      <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb8-156"><a href="#cb8-156"></a>    })<span class="op">,</span></span>
+<span id="cb8-157"><a href="#cb8-157"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(us_power_plants<span class="op">,</span> { <span class="co">// Can you figure out what this additional Plot.dot layer adds?</span></span>
+<span id="cb8-158"><a href="#cb8-158"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span></span>
+<span id="cb8-159"><a href="#cb8-159"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span></span>
+<span id="cb8-160"><a href="#cb8-160"></a>      <span class="dt">r</span><span class="op">:</span> <span class="st">"Total_MW"</span><span class="op">,</span></span>
+<span id="cb8-161"><a href="#cb8-161"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"PrimSource"</span><span class="op">,</span></span>
+<span id="cb8-162"><a href="#cb8-162"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span></span>
+<span id="cb8-163"><a href="#cb8-163"></a>      <span class="dt">filter</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Total_MW</span> <span class="op">&gt;</span> <span class="dv">3500</span><span class="op">,</span></span>
+<span id="cb8-164"><a href="#cb8-164"></a>    })<span class="op">,</span></span>
+<span id="cb8-165"><a href="#cb8-165"></a>    Plot<span class="op">.</span><span class="fu">text</span>(us_power_plants<span class="op">,</span> { <span class="co">// Add text to the map using data from us_power_plants</span></span>
+<span id="cb8-166"><a href="#cb8-166"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span> <span class="co">// Place text horizontally at plant longitude</span></span>
+<span id="cb8-167"><a href="#cb8-167"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span> <span class="co">// Place text vertically at plant latitude</span></span>
+<span id="cb8-168"><a href="#cb8-168"></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"Plant_Name"</span><span class="op">,</span> <span class="co">// The text that appears is the value from the Plant_Name column,</span></span>
+<span id="cb8-169"><a href="#cb8-169"></a>      <span class="dt">filter</span><span class="op">:</span> (d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Total_MW</span> <span class="op">&gt;</span> <span class="dv">3500</span><span class="op">,</span> <span class="co">// Only add text for plants with capacity exceeding 3500 MW</span></span>
+<span id="cb8-170"><a href="#cb8-170"></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="co">// Increased font size</span></span>
+<span id="cb8-171"><a href="#cb8-171"></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="dv">600</span><span class="op">,</span> <span class="co">// Increased font weight</span></span>
+<span id="cb8-172"><a href="#cb8-172"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="co">// Adds white outer stroke to text (for readability)</span></span>
+<span id="cb8-173"><a href="#cb8-173"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="co">// Text fill color</span></span>
+<span id="cb8-174"><a href="#cb8-174"></a>      <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="co">// Left align text with the x- and y-coordinates</span></span>
+<span id="cb8-175"><a href="#cb8-175"></a>      <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span> <span class="co">// Shifts text to the right (starting from left alignment with coordinate)</span></span>
+<span id="cb8-176"><a href="#cb8-176"></a>    })</span>
+<span id="cb8-177"><a href="#cb8-177"></a>  ]<span class="op">,</span></span>
+<span id="cb8-178"><a href="#cb8-178"></a>  <span class="dt">r</span><span class="op">:</span> { <span class="dt">range</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">15</span>] }<span class="op">,</span></span>
+<span id="cb8-179"><a href="#cb8-179"></a>  <span class="dt">color</span><span class="op">:</span> { <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb8-180"><a href="#cb8-180"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
+<span id="cb8-181"><a href="#cb8-181"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
+<span id="cb8-182"><a href="#cb8-182"></a>  <span class="dt">margin</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb8-183"><a href="#cb8-183"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-8-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-8-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-8-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="diversification-des-données-24-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Diversification des données (2/4)</h2>
+<h3>
+Données géolocalisées
+</h3>
+<ul>
+<li>Données tabulaires avec une dimension spatiale supplémentaire
+<ul>
+<li>Dimension géographique prend des formes multiples:</li>
+<li>Points, lignes, polygones…</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li><i class="fa-brands fa-r-project" aria-label="r-project"></i> très bien outillé pour ces données (si volumétrie adaptée)</li>
+</ul>
+</div>
+</section>
+<section id="diversification-des-données-34" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Diversification des données (3/4)</h2>
+<h3>
+Données textuelles et non structurées
+</h3>
+<ul>
+<li>Techniques statistiques anciennes (<a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein 1957</a>, <a href="https://fr.wikipedia.org/wiki/Perceptron">perceptron</a>) ;</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Applications limitées jusqu’aux années 2010 ;</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Développement très rapide de la recherche :
+<ul>
+<li>Collecte accrue : réseaux sociaux, enquêtes…</li>
+<li>Baisse coûts stockage &amp; augmentation ressources traitement ;</li>
+<li>Nouvelles techniques statistiques: <em>webscraping</em>, LLM…</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Utilisation intensive dans l’administration, la recherche et le secteur privé
+<ul>
+<li>Plus d’infos dans mon cours sur les <a href="https://ensai-donnees-emergentes.netlify.app/textes">données émergentes</a></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="diversification-des-données-44" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Diversification des données (4/4)</h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="images-sons-et-vidéos">Images, sons et vidéos</h3>
+
+<img data-src="https://nanonets.com/blog/content/images/2020/08/1_Hz6t-tokG1niaUfmcysusw.jpeg" class="r-stretch quarto-figure-center"><p class="caption">Plus d’infos dans mon cours sur les <a href="https://ensai-donnees-emergentes.netlify.app/textes">données émergentes</a></p></section>
+<section id="apparition-de-nouveaux-acteurs" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Apparition de nouveaux acteurs</h2>
+<ul>
+<li>Acteurs classiques:
+<ul>
+<li>Instituts statistiques (INSEE et SSM<sup>1</sup>) ;</li>
+<li>Administrations centrales (DGFiP, DINUM…) ou opérateurs (IGN…)</li>
+<li>Plus de détails à venir</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Collectivités locales (exemple: <a href="https://opendata.paris.fr/pages/home/"><em>Open data</em> Paris</a>)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Projets contributifs: <code>OpenStreetMap</code>, <code>Wikidata</code>, <code>OpenFoodFacts</code>…</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Acteurs privés:
+<ul>
+<li>Collectent des données sur leurs utilisateurs/clients (extrapolation possible?)</li>
+<li>Peuvent mettre à disposition ces données à d’autres acteurs (chercheurs par exemple)</li>
+<li>Cadre réglementaire: <a href="https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on">RGPD</a></li>
+</ul></li>
+</ul>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Le <a href="https://www.insee.fr/fr/information/1302192">service statistique public</a> est constitué de l’Insee et des 16 <strong>services statistiques ministériels</strong> (SSM)</p></li></ol></aside></section>
+<section id="accès-de-plus-en-plus-direct-à-la-donnée" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Accès de plus en plus direct à la donnée</h2>
+<ul>
+<li>Ere de l’<em>open data</em> et <em>open source</em> :
+<ul>
+<li>Mouvement accéléré depuis l’élection Obama 2008</li>
+<li>Création Etalab en 2011 ;</li>
+<li>Loi pour une république numérique 2016</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Changements technologiques et culturels :
+<ul>
+<li>Formats ouverts et standardisés ;</li>
+<li>Succès des langages open source (notamment <code>Python</code> <i class="fa-brands fa-python" aria-label="python"></i> et <code>R</code> <i class="fa-brands fa-r-project" aria-label="r-project"></i>)</li>
+<li>Acculturation aux <a href="https://www.book.utilitr.org/03_fiches_thematiques/fiche_api">API</a></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="data-is-everywhere" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2><em>Data is everywhere</em></h2>
+
+<img data-src="img/moredata.png" class="r-stretch"></section></section>
+<section>
+<section id="les-sciences-sociales-quantitatives" class="title-slide slide level1 center" data-background-image="background.svg" data-background-size="contain">
+<h1>Les sciences sociales quantitatives</h1>
+
+</section>
+<section id="des-métiers-multiples-dans-ladministration" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Des métiers multiples dans l’administration</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="img/datascientist.png"></p>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li>mais aussi <em>data engineer</em>, <em>data architect</em>, <em>data analyst</em>…</li>
+<li>cf.&nbsp;<a href="https://www.numerique.gouv.fr/uploads/RAPPORT-besoins-competences-donnee.pdf">Rapport INSEE-DINUM “Évaluation des besoins de l’État en compétences et expertises en matière de donnée”</a></li>
+</ul>
+</div>
+</div>
+</div>
+<p>https://www.numerique.gouv.fr/uploads/RAPPORT-besoins-competences-donnee.pdf</p>
+</section>
+<section id="le-tournant-numérique-des-sciences-sociales" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Le tournant numérique des sciences sociales</h2>
+<ul>
+<li><p>Accès facilité à des données spatialisées ;</p></li>
+<li><p>Acculturation aux SIG et langages statistiques ;</p></li>
+<li><p>Développement de technologies <em>web</em> interactives (<a href="https://observablehq.com/"><code>observable</code></a>)</p></li>
+</ul>
+<div class="smaller">
+<details>
+<summary>
+Références
+</summary>
+<ul>
+<li>Roth Camille. 2019. “<a href="https://academic.oup.com/dsh/article-abstract/34/3/616/5161109">Digital, Digitized, and Numerical Humanities.</a>” <em>Digital Scholarship in the Humanities</em></li>
+<li>Ash J, Kitchin R, Leszczynski A. 2018. “<a href="https://journals.sagepub.com/doi/10.1177/0309132516664800">Digital turn, digital geographies ?</a>” <em>Progress in Human Geography</em></li>
+<li>Einav, L., &amp; Levin, J. (2014). <em>Economics in the age of big data</em>. <em>Science</em>, 346(6210), 1243089.</li>
+</ul>
+</details>
+</div>
+</section>
+<section id="le-tournant-numérique-des-sciences-sociales-1" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Le tournant numérique des sciences sociales</h2>
+<blockquote>
+<p>We live life in the network. We check our e-mails regularly, make mobile phone calls from almost any location, swipe transit cards to use public transportation,and make purchases with credit cards. Our movements in public places may be captured by video cameras, and our medical records stored as digital files. We may post blog entries accessible to anyone, or maintain friendships through online social networks. Each of these transactions leaves digital traces that can be compiled into comprehensive pictures of both individual and group behavior, with the potential to transform our understanding of our lives, organizations, and societies.</p>
+<p><a href="https://gking.harvard.edu/files/LazPenAda09.pdf">Lazer et al.&nbsp;,<em>Computational Social Science</em>, <em>Science</em> (2009)</a></p>
+</blockquote>
+</section>
+<section id="la-géographie-quantitative" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>La géographie quantitative</h2>
+
+<img data-src="img/carto.png" class="r-stretch quarto-figure-center"><p class="caption">Une des premières cartes statistiques (1798)</p></section>
+<section id="la-géographie-quantitative-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>La géographie quantitative</h2>
+
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/2/27/Snow-cholera-map-1.jpg" class="r-stretch quarto-figure-center"><p class="caption">John Snow cartographie le choléra à Londres</p></section>
+<section id="années-1950-1960-révolution-quantitative" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Années 1950-1960 : révolution quantitative</h2>
+<blockquote>
+<p>Everything is related to everything else, but near things are more related than distant things.</p>
+<p>W. Tobler, 1970, <em>Economic Geography</em></p>
+</blockquote>
+<ul>
+<li>Une science nomothétique : recherche des lois générales de l’organisation de l’espace</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Une science explicative : modélisation
+<ul>
+<li><a href="https://fr.wikipedia.org/wiki/Mod%C3%A8le_christall%C3%A9rien">Modèle de Christaller</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Une science appliquée : essor de la <em>regional science</em>, de l’économétrie spatiale
+<ul>
+<li><a href="http://geoconfluences.ens-lyon.fr/glossaire/zipf-loi-ou-regle-de">Loi de Zipf</a>…)</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Une science de l’information (déjà):
+<ul>
+<li><a href="https://visionscarto.net/la-semiologie-graphique-a-50-ans">Sémiologie (carto)graphique de Bertin, 1967</a></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="années-2010-tournant-digital-de-la-géographie-quantitative" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Années 2010 : tournant <em>“digital”</em> de la géographie quantitative</h2>
+<ul>
+<li>Quantification de masse de phénomènes <del>spatiaux</del> sociaux:
+<ul>
+<li>Déplacements, lieux fréquentés…</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Intersection avec d’autres sciences : <em>data science</em>, CSS
+<ul>
+<li>Exemple: le <a href="https://riate.cnrs.fr/">RIATE</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Arribas-Bel, D, 2018. “<a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/gec3.12403">Geography and Computers: Past, Present, and Future</a>” <em>Geography Compass</em>.</li>
 </ul>
 
 <div class="footer footer-default">
 <p>Ecole Normale Supérieure</p>
 </div>
+</div>
 </section></section>
+
     </div>
   </div>
 
@@ -630,6 +1090,18 @@
           RevealZoom
         ]
       });
+    </script>
+    
+    <script type="ojs-module-contents">
+    {"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"viewof info_mutations = Inputs.radio(\n  [\"Tableau\", \"Graphique\"], {value: \"Tableau\"}\n)\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"info_mutations == \"Tableau\" ? html`<div>${table_mutations1}<div>` : html`<div>${plot_mutations}<div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"url = \"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv\"\nproxy = \"https://corsproxy.io/?\"\ndvf = d3.csv(proxy + url)\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"table_mutations1 = Inputs.table(dvf, {\"columns\": ['date_mutation', 'valeur_fonciere', 'adresse_nom_voie']})\nplot_mutations = Plot.plot({\n  y: {grid: true, label: \"Nombre de transactions\"},\n  x: {\n    ticks: 12,\n    transform: (d) => Math.pow(10, d),\n    type: \"log\",\n    tickFormat: \"~s\",\n    label: \"Prix (échelle log) →\"\n  },\n  marks: [\n    Plot.rectY(\n      dvf.filter(d => d.valeur_fonciere > 10000),\n      Plot.binX({y: \"count\"},\n      {\n        x: d => Math.log10(d.valeur_fonciere),\n        tip: true\n      })\n    ),\n    Plot.ruleY([0])\n  ]\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"Plot = require(\"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js\")\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"viewof info_power_plants = Inputs.radio(\n  [\"Tableau\", \"Carte\"], {value: \"Tableau\"}\n)\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"info_power_plants == \"Tableau\" ? html`<div>${table_power_plants}<div>` : html`<div>${plot_power_plants}<div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-8","inline":false,"source":"import {us_power_plants, states} from \"@observablehq/build-your-first-map-with-observable-plot\"\n\ntable_power_plants = Inputs.table(\n  us_power_plants\n)\n\n\nplot_power_plants = Plot.plot({\n  projection: \"albers-usa\",\n  marks: [\n    Plot.geo(states, { fill: \"white\", stroke: \"#e2e2e2\"  }),\n    Plot.dot(us_power_plants, {\n      x: \"longitude\",\n      y: \"latitude\",\n      r: \"Total_MW\",\n      fill: \"PrimSource\",\n      opacity: 0.7,\n      tip: true\n    }),\n    Plot.dot(us_power_plants, { // Can you figure out what this additional Plot.dot layer adds?\n      x: \"longitude\",\n      y: \"latitude\",\n      r: \"Total_MW\",\n      fill: \"PrimSource\",\n      stroke: \"black\",\n      filter: d => d.Total_MW > 3500,\n    }),\n    Plot.text(us_power_plants, { // Add text to the map using data from us_power_plants\n      x: \"longitude\", // Place text horizontally at plant longitude\n      y: \"latitude\", // Place text vertically at plant latitude\n      text: \"Plant_Name\", // The text that appears is the value from the Plant_Name column,\n      filter: (d) => d.Total_MW > 3500, // Only add text for plants with capacity exceeding 3500 MW\n      fontSize: 12, // Increased font size\n      fontWeight: 600, // Increased font weight\n      stroke: \"white\", // Adds white outer stroke to text (for readability)\n      fill: \"black\", // Text fill color\n      textAnchor: \"start\", // Left align text with the x- and y-coordinates\n      dx: 15 // Shifts text to the right (starting from left alignment with coordinate)\n    })\n  ],\n  r: { range: [1, 15] },\n  color: { legend: true },\n  height: 500,\n  width: 800,\n  margin: 50\n})\n"},{"methodName":"interpretQuiet","source":"shinyInput('info_mutations')"},{"methodName":"interpretQuiet","source":"shinyInput('info_power_plants')"}]}
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../slides";
+    window._ojs.paths.runtimeToRoot = "../..";
+    window._ojs.paths.docToRoot = "..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
