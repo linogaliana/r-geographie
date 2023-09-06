@@ -18,10 +18,9 @@ chalkboard: # press the B key to toggle chalkboard
 # uncomment to use the multiplex mode:
 #multiplex: true
 format:
+  onyxia-revealjs
   # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
-  onyxia-revealjs:
   #onyxia-dark-revealjs:
-    output-file: complete.html
 controls: true
 css: custom.css
 from: markdown+emoji
@@ -31,11 +30,18 @@ from: markdown+emoji
 
 ## Une prolifération de données
 
-- Un volume de données produites en explosion:
-    + L'utilisation des statistiques n'est pas nouvelle (cf. [Desrosières](https://www.cairn.info/la-politique-des-grands-nombres--9782707165046.htm))...
-    + ... mais sa place dans le débat public et l'action publique va croissante ([Supiot](https://www.fayard.fr/sciences-humaines/la-gouvernance-par-les-nombres-9782213681092), [Martin](https://www.cairn.info/l-empire-des-chiffres--9782200625719.htm))
+- Numérisation et innovations technologiques ont réduit le coût de production de la donnée ;
+    + Volume de données produites en explosion
 
-## Diversité
+. . .
+
+- L'utilisation des statistiques n'est pas nouvelle (cf. [Desrosières](https://www.cairn.info/la-politique-des-grands-nombres--9782707165046.htm))...
+
+. . .
+
+- ... mais une place accrue dans le débat public et l'action publique ([Supiot](https://www.fayard.fr/sciences-humaines/la-gouvernance-par-les-nombres-9782213681092), [Martin](https://www.cairn.info/l-empire-des-chiffres--9782200625719.htm))
+
+## Des données diversifiées
 
 
 - Des formes de données de nature de plus en plus variée
