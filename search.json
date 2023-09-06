@@ -1,42 +1,42 @@
 [
   {
-    "objectID": "slides/complete.html#une-prolifération-de-données",
-    "href": "slides/complete.html#une-prolifération-de-données",
+    "objectID": "slides/introduction.html#une-prolifération-de-données",
+    "href": "slides/introduction.html#une-prolifération-de-données",
     "title": "Introduction aux méthodes quantitatives avec R",
     "section": "Une prolifération de données",
-    "text": "Une prolifération de données\n\nUn volume de données produites en explosion:\n\nL’utilisation des statistiques n’est pas nouvelle (cf. Desrosières)…\n… mais sa place dans le débat public et l’action publique va croissante (Supiot, Martin)"
+    "text": "Une prolifération de données\n\nNumérisation et innovations technologiques ont réduit le coût de production de la donnée ;\n\nVolume de données produites en explosion\n\n\n\n\nL’utilisation des statistiques n’est pas nouvelle (cf. Desrosières)…\n\n\n\n\n… mais une place accrue dans le débat public et l’action publique (Supiot, Martin)"
   },
   {
-    "objectID": "slides/complete.html#diversité",
-    "href": "slides/complete.html#diversité",
+    "objectID": "slides/introduction.html#des-données-diversifiées",
+    "href": "slides/introduction.html#des-données-diversifiées",
     "title": "Introduction aux méthodes quantitatives avec R",
-    "section": "Diversité",
-    "text": "Diversité\n\nDes formes de données de nature de plus en plus variée\n\nDonnées tabulaires classiques ;\nDonnées géolocalisées et réseaux ;\nDonnées textuelles ;\nImages, sons et vidéos\n\n\ncf. cours ENSAI"
+    "section": "Des données diversifiées",
+    "text": "Des données diversifiées\n\nDes formes de données de nature de plus en plus variée\n\nDonnées tabulaires classiques ;\nDonnées géolocalisées et réseaux ;\nDonnées textuelles ;\nImages, sons et vidéos\n\n\ncf. cours ENSAI"
   },
   {
-    "objectID": "slides/complete.html#de-nouveaux-acteurs",
-    "href": "slides/complete.html#de-nouveaux-acteurs",
+    "objectID": "slides/introduction.html#de-nouveaux-acteurs",
+    "href": "slides/introduction.html#de-nouveaux-acteurs",
     "title": "Introduction aux méthodes quantitatives avec R",
     "section": "De nouveaux acteurs",
     "text": "De nouveaux acteurs\noffices statistiques & administrations classiques\ncollectivités locales\n\nréseaux sociaux : Facebook, Twitter, Instagram\nplateformes : Uber, LeBonCoin, Yelp, Google Maps…\nprojets contributifs : OpenStreetMap, Wikidata…"
   },
   {
-    "objectID": "slides/complete.html#des-accès-de-plus-en-plus-direct-à-la-données",
-    "href": "slides/complete.html#des-accès-de-plus-en-plus-direct-à-la-données",
+    "objectID": "slides/introduction.html#des-accès-de-plus-en-plus-direct-à-la-données",
+    "href": "slides/introduction.html#des-accès-de-plus-en-plus-direct-à-la-données",
     "title": "Introduction aux méthodes quantitatives avec R",
     "section": "Des accès de plus en plus direct à la données",
     "text": "Des accès de plus en plus direct à la données\n\nUne ouverture croissante:\n\nDepuis ère Obama (2008): open data\n\nOuverture et numérisation des données :"
   },
   {
-    "objectID": "slides/complete.html#introduction-1",
-    "href": "slides/complete.html#introduction-1",
+    "objectID": "slides/introduction.html#introduction-1",
+    "href": "slides/introduction.html#introduction-1",
     "title": "Introduction aux méthodes quantitatives avec R",
     "section": "Introduction",
     "text": "Introduction"
   },
   {
-    "objectID": "slides/complete.html#qui-suis-je",
-    "href": "slides/complete.html#qui-suis-je",
+    "objectID": "slides/introduction.html#qui-suis-je",
+    "href": "slides/introduction.html#qui-suis-je",
     "title": "Introduction aux méthodes quantitatives avec R",
     "section": "Qui suis-je ?",
     "text": "Qui suis-je ?\n\nAdministrateur Insee, data scientist à l’Insee\nFormation économie & statistiques\nTravaux intersection économie, sociologie & géographie\n\n\n\nEcole Normale Supérieure"
