@@ -28,7 +28,19 @@ from: markdown+emoji
 
 # Introduction
 
-## Une prolifération de données
+## Qui suis-je ?
+
+- [Administrateur Insee](https://www.insee.fr/fr/information/4774197)[^1], _data scientist_ à l'Insee
+
+- Formation économie & statistiques
+
+- Travaux intersection économie, sociologie & géographie
+
+[^1]: Renseignez-vous ! Il y a de belles missions ! 
+
+# Panorama général
+
+## Prolifération des données
 
 - Numérisation et innovations technologiques ont réduit le coût de production de la donnée ;
     + Volume de données produites en explosion
@@ -41,49 +53,322 @@ from: markdown+emoji
 
 - ... mais une place accrue dans le débat public et l'action publique ([Supiot](https://www.fayard.fr/sciences-humaines/la-gouvernance-par-les-nombres-9782213681092), [Martin](https://www.cairn.info/l-empire-des-chiffres--9782200625719.htm))
 
-## Des données diversifiées
+## Diversification des données (1/4)
+
+### Données tabulaires classiques
 
 
-- Des formes de données de nature de plus en plus variée
+```{ojs}
+viewof info_mutations = Inputs.radio(
+  ["Tableau", "Graphique"], {value: "Tableau"}
+)
+```
 
-  - Données tabulaires classiques ; 
-  - Données géolocalisées et réseaux ;
-  - Données textuelles ;
-  - Images, sons et vidéos
+```{ojs}
+info_mutations == "Tableau" ? html`<div>${table_mutations1}<div>` : html`<div>${plot_mutations}<div>`
+```
 
-cf. cours ENSAI
+```{ojs}
+//| output: false
+url = "https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv"
+proxy = "https://corsproxy.io/?"
+dvf = d3.csv(proxy + url)
+```
 
-## De nouveaux acteurs
+```{ojs}
+//| output: false
+table_mutations1 = Inputs.table(dvf, {"columns": ['date_mutation', 'valeur_fonciere', 'adresse_nom_voie']})
+plot_mutations = Plot.plot({
+  y: {grid: true, label: "Nombre de transactions"},
+  x: {
+    ticks: 12,
+    transform: (d) => Math.pow(10, d),
+    type: "log",
+    tickFormat: "~s",
+    label: "Prix (échelle log) →"
+  },
+  marks: [
+    Plot.rectY(
+      dvf.filter(d => d.valeur_fonciere > 10000),
+      Plot.binX({y: "count"},
+      {
+        x: d => Math.log10(d.valeur_fonciere),
+        tip: true
+      })
+    ),
+    Plot.ruleY([0])
+  ]
+})
+```
 
-offices statistiques & administrations classiques
-
-collectivités locales
-
-  - réseaux sociaux : Facebook, Twitter, Instagram
-  - plateformes : Uber, LeBonCoin, Yelp, Google Maps...
-  - projets contributifs : OpenStreetMap, Wikidata...  
+```{ojs}
+Plot = require("https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js")
+```
 
 
+## Diversification des données (1/4) 
 
-## Des accès de plus en plus direct à la données
+### Données tabulaires classiques
 
-- Une ouverture croissante:
-    + Depuis ère Obama (2008): _open data_
-- Ouverture et numérisation des données :
+- Données __structurées__ sous forme de tableau
 
-
-
+![Source: [Hadley Wickham, _R for data science_](https://r4ds.hadley.nz/data-tidy.html)](https://r4ds.hadley.nz/images/tidy-1.png)
 
 
+- {{< fa brands r-project >}} très bien outillé pour ces données (si volumétrie adaptée)
 
-## Introduction
+
+## Diversification des données (2/4)
+
+<h3>Données géolocalisées</h3>
+
+```{ojs}
+viewof info_power_plants = Inputs.radio(
+  ["Tableau", "Carte"], {value: "Tableau"}
+)
+```
+
+```{ojs}
+info_power_plants == "Tableau" ? html`<div>${table_power_plants}<div>` : html`<div>${plot_power_plants}<div>`
+```
+
+
+```{ojs}
+//| output: false
+import {us_power_plants, states} from "@observablehq/build-your-first-map-with-observable-plot"
+
+table_power_plants = Inputs.table(
+  us_power_plants
+)
+
+
+plot_power_plants = Plot.plot({
+  projection: "albers-usa",
+  marks: [
+    Plot.geo(states, { fill: "white", stroke: "#e2e2e2"  }),
+    Plot.dot(us_power_plants, {
+      x: "longitude",
+      y: "latitude",
+      r: "Total_MW",
+      fill: "PrimSource",
+      opacity: 0.7,
+      tip: true
+    }),
+    Plot.dot(us_power_plants, { // Can you figure out what this additional Plot.dot layer adds?
+      x: "longitude",
+      y: "latitude",
+      r: "Total_MW",
+      fill: "PrimSource",
+      stroke: "black",
+      filter: d => d.Total_MW > 3500,
+    }),
+    Plot.text(us_power_plants, { // Add text to the map using data from us_power_plants
+      x: "longitude", // Place text horizontally at plant longitude
+      y: "latitude", // Place text vertically at plant latitude
+      text: "Plant_Name", // The text that appears is the value from the Plant_Name column,
+      filter: (d) => d.Total_MW > 3500, // Only add text for plants with capacity exceeding 3500 MW
+      fontSize: 12, // Increased font size
+      fontWeight: 600, // Increased font weight
+      stroke: "white", // Adds white outer stroke to text (for readability)
+      fill: "black", // Text fill color
+      textAnchor: "start", // Left align text with the x- and y-coordinates
+      dx: 15 // Shifts text to the right (starting from left alignment with coordinate)
+    })
+  ],
+  r: { range: [1, 15] },
+  color: { legend: true },
+  height: 500,
+  width: 800,
+  margin: 50
+})
+```
+
+## Diversification des données (2/4)
+
+<h3>Données géolocalisées</h3>
+
+- Données tabulaires avec une dimension spatiale supplémentaire
+    + Dimension géographique prend des formes multiples:
+    + Points, lignes, polygones...
+
+. . .
+
+- {{< fa brands r-project >}} très bien outillé pour ces données (si volumétrie adaptée)
+
+## Diversification des données (3/4) {.smaller}
+
+<h3>Données textuelles et non structurées</h3>
+
+- Techniques statistiques anciennes ([Levenshtein 1957](https://en.wikipedia.org/wiki/Levenshtein_distance), [perceptron](https://fr.wikipedia.org/wiki/Perceptron)) ;
+
+. . .
+
+- Applications limitées jusqu'aux années 2010 ;
+
+. . .
+
+- Développement très rapide de la recherche :
+    + Collecte accrue : réseaux sociaux, enquêtes...
+    + Baisse coûts stockage & augmentation ressources traitement ;
+    + Nouvelles techniques statistiques: _webscraping_, LLM...
+
+. . .
+
+- Utilisation intensive dans l'administration, la recherche et le secteur privé
+    + Plus d'infos dans mon cours sur les [données émergentes](https://ensai-donnees-emergentes.netlify.app/textes)
+
+## Diversification des données (4/4)
+
+### Images, sons et vidéos
+
+![Plus d'infos dans mon cours sur les [données émergentes](https://ensai-donnees-emergentes.netlify.app/textes)](https://nanonets.com/blog/content/images/2020/08/1_Hz6t-tokG1niaUfmcysusw.jpeg)
+
+
+## Apparition de nouveaux acteurs {.smaller}
+
+- Acteurs classiques: 
+    + Instituts statistiques (INSEE et SSM[^1]) ;
+    + Administrations centrales (DGFiP, DINUM...) ou opérateurs (IGN...)
+    + Plus de détails à venir
+
+[^1]: Le [service statistique public](https://www.insee.fr/fr/information/1302192) est constitué de l’Insee et des 16 __services statistiques ministériels__ (SSM)
+
+. . .
+
+- Collectivités locales (exemple: [_Open data_ Paris](https://opendata.paris.fr/pages/home/))
+
+. . .
+
+
+- Projets contributifs: `OpenStreetMap`, `Wikidata`, `OpenFoodFacts`...
+
+. . .
+
+- Acteurs privés:
+    + Collectent des données sur leurs utilisateurs/clients (extrapolation possible?)
+    + Peuvent mettre à disposition ces données à d'autres acteurs (chercheurs par exemple)
+    + Cadre réglementaire: [RGPD](https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on)
+
+
+
+## Accès de plus en plus direct à la donnée {.smaller}
+
+- Ere de l'_open data_ et _open source_ :
+    + Mouvement accéléré depuis l'élection Obama 2008
+    + Création Etalab en 2011 ;
+    + Loi pour une république numérique 2016
+    
+. . .
+
+- Changements technologiques et culturels :
+    + Formats ouverts et standardisés ;
+    + Succès des langages open source (notamment `Python` {{< fa brands python >}} et `R` {{< fa brands r-project >}})
+    + Acculturation aux [API](https://www.book.utilitr.org/03_fiches_thematiques/fiche_api)
+    
+
+
+## _Data is everywhere_
 
 ![](img/moredata.png)
 
-## Qui suis-je ?
+# Les sciences sociales quantitatives
 
-- Administrateur Insee, _data scientist_ à l'Insee
+## Des métiers multiples dans l'administration {.smaller}
 
-- Formation économie & statistiques
 
-- Travaux intersection économie, sociologie & géographie
+:::: {layout-ncol=2}
+
+::: {#first-column}
+![](img/datascientist.png)
+:::
+
+::: {#second-column}
+* mais aussi _data engineer_, _data architect_, _data analyst_...
+* cf. [Rapport INSEE-DINUM "Évaluation des besoins de l’État en compétences et expertises en matière de donnée"](https://www.numerique.gouv.fr/uploads/RAPPORT-besoins-competences-donnee.pdf)
+:::
+
+::::
+
+
+
+https://www.numerique.gouv.fr/uploads/RAPPORT-besoins-competences-donnee.pdf
+
+
+## Le tournant numérique des sciences sociales
+
+- Accès facilité à des données spatialisées ;
+
+- Acculturation aux SIG et langages statistiques ;
+
+- Développement de technologies _web_ interactives ([`observable`](https://observablehq.com/))
+
+:::{.smaller}
+
+<details>
+<summary>Références</summary>
+
+* Roth Camille. 2019. “[Digital, Digitized, and Numerical Humanities.](https://academic.oup.com/dsh/article-abstract/34/3/616/5161109)” _Digital Scholarship in the Humanities_ 
+* Ash J, Kitchin R, Leszczynski A. 2018. “[Digital turn, digital geographies ?](https://journals.sagepub.com/doi/10.1177/0309132516664800)” _Progress in Human Geography_
+* Einav, L., & Levin, J. (2014). _Economics in the age of big data_. _Science_, 346(6210), 1243089.
+
+</details>
+
+:::
+
+
+## Le tournant numérique des sciences sociales {.smaller}
+
+> We live life in the network. We check our e-mails regularly, make mobile phone calls from almost any location, swipe transit cards to use public transportation,and  make  purchases  with  credit cards. Our movements in public places may be captured by video cameras, and our medical records stored as digital files. We may post blog entries accessible to anyone, or maintain friendships through online social networks. Each of these transactions leaves digital traces that can be compiled into comprehensive pictures of both individual and group behavior, with the potential to transform our understanding of our lives, organizations, and societies.
+>
+> [Lazer et al. ,_Computational Social Science_, _Science_ (2009)](https://gking.harvard.edu/files/LazPenAda09.pdf)
+
+## La géographie quantitative
+
+![Une des premières cartes statistiques (1798)](img/carto.png)
+
+## La géographie quantitative
+
+![John Snow cartographie le choléra à Londres](https://upload.wikimedia.org/wikipedia/commons/2/27/Snow-cholera-map-1.jpg)
+
+
+## Années 1950-1960 : révolution quantitative {.smaller}
+
+> Everything is related to everything else, but near things are more related than distant things.
+> 
+> W. Tobler, 1970, _Economic Geography_
+
+- Une science nomothétique : recherche des lois générales de l'organisation de l'espace
+
+. . .
+
+- Une science explicative : modélisation 
+    + [Modèle de Christaller](https://fr.wikipedia.org/wiki/Mod%C3%A8le_christall%C3%A9rien)
+
+. . .
+
+- Une science appliquée : essor de la _regional science_, de l'économétrie spatiale
+    + [Loi de Zipf](http://geoconfluences.ens-lyon.fr/glossaire/zipf-loi-ou-regle-de)...)
+
+. . .
+
+- Une science de l'information (déjà):
+    + [Sémiologie (carto)graphique de Bertin, 1967](https://visionscarto.net/la-semiologie-graphique-a-50-ans)
+
+
+## Années 2010 : tournant _"digital"_ de la géographie quantitative
+
+- Quantification de masse de phénomènes <del>spatiaux</del> sociaux:
+    + Déplacements, lieux fréquentés...
+
+. . .
+
+- Intersection avec d'autres sciences : _data science_, CSS 
+    + Exemple: le [RIATE](https://riate.cnrs.fr/)
+
+. . .
+
+
+- Arribas-Bel, D, 2018. “[Geography and Computers: Past, Present, and Future](https://onlinelibrary.wiley.com/doi/abs/10.1111/gec3.12403)” _Geography Compass_.
+
+
+
