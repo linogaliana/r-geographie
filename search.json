@@ -32,7 +32,14 @@
     "href": "slides/introduction.html#modalités-pratiques",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Modalités pratiques",
-    "text": "Modalités pratiques\n\nDes slides et surtout des TP guidés\nInfrastructure informatique fournie par l’Insee pour éviter:\n\nles galères d’installation\nles galères de configuration\n\n\nSSPCloud"
+    "text": "Modalités pratiques\n\nDes slides et surtout des TP guidés\nInfrastructure informatique fournie par l’Insee pour éviter:\n\nles galères d’installation\nles galères de configuration\n\nModalités d’initialisation à venir\n\nOn va utiliser le SSPCloud 😍🐉☁️🇫🇷!"
+  },
+  {
+    "objectID": "slides/introduction.html#ressources-complémentaires",
+    "href": "slides/introduction.html#ressources-complémentaires",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Ressources complémentaires",
+    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n\n\nDocumentation collaborative utilitR ;\n\n\n\n\nPortail de formation du SSPCloud\n\n\n\n\nFormation au lissage spatial ;\n\n\n\n\nR for Data Science (la bible !)\n\n\n\n\nData science with R (Sciences Po) ;"
   },
   {
     "objectID": "slides/introduction.html#prolifération-des-données",
