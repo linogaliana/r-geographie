@@ -4,7 +4,7 @@
     "href": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qui suis-je ?      ",
-    "text": "Qui suis-je ?      \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists\n\n\n\n\nImplication dans l’innovation statistique, l’open source et la diffusion grand public2:\n\n: utilitR, doremifasol\n: cartiflette, pynsee\n\n\n\nRenseignez-vous sur le concours ENS ! Il y a de belles missions !Pas tout seul ! Avec une communauté de gens sympa de l’administration et de la recherche !"
+    "text": "Qui suis-je ?      \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists\n\n\n\n\nImplication dans l’innovation statistique, l’open source et la diffusion grand public2:\n\n: utilitR, doremifasol\n: cartiflette, pynsee\n\n\n\nRenseignez-vous sur le concours ENS ! Il y a de belles missions !Pas tout seul ! Avec une communauté de gens sympa de l’administration et de la recherche ! Beaucoup de projets novateurs 😍 sur compte  InseeFrLab"
   },
   {
     "objectID": "slides/introduction.html#qui-suis-je",
@@ -18,7 +18,21 @@
     "href": "slides/introduction.html#qui-suis-je-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qui suis-je ?",
-    "text": "Qui suis-je ?\n\nCours"
+    "text": "Qui suis-je ?\nD’autres cours introductifs que je donne peuvent vous intéresser:\n\nPython pour la data science ;\nBonnes pratiques en R et Git ;\nDonnées émergentes ;\n\nEt surtout consultez le portail complet de formation du datalab de l’Insee"
+  },
+  {
+    "objectID": "slides/introduction.html#objectifs-pédagogiques",
+    "href": "slides/introduction.html#objectifs-pédagogiques",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Objectifs pédagogiques",
+    "text": "Objectifs pédagogiques\n\nDécouverte de l’écosystème de l’open data 🇫🇷\n\n\n\nIntroduction pratique au langage :\n\nDonnées classiques\nDonnées géographiques\n\n\n\n\n\nIntroduction à la publication reproductible avec Quarto\n\n\n\n\nOuverture à la cartographie web avec Observable"
+  },
+  {
+    "objectID": "slides/introduction.html#modalités-pratiques",
+    "href": "slides/introduction.html#modalités-pratiques",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Modalités pratiques",
+    "text": "Modalités pratiques\n\nDes slides et surtout des TP guidés\nInfrastructure informatique fournie par l’Insee pour éviter:\n\nles galères d’installation\nles galères de configuration\n\n\nSSPCloud"
   },
   {
     "objectID": "slides/introduction.html#prolifération-des-données",
