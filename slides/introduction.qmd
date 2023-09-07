@@ -100,9 +100,34 @@ __Et surtout consultez le portail complet de formation du [datalab de l'Insee](h
 - Infrastructure informatique fournie par l'Insee pour éviter:
     + les galères d'installation
     + les galères de configuration
+
+- Modalités d'initialisation à venir    
     
-    
-__[`SSPCloud`](https://datalab.sspcloud.fr/home)__
+__On va utiliser le [`SSPCloud`](https://datalab.sspcloud.fr/home) 😍🐉☁️🇫🇷!__
+
+## Ressources complémentaires
+
+- [Introduction à `R` et au `tidyverse`](https://juba.github.io/tidyverse/) ;
+
+. . .
+
+- Documentation collaborative [`utilitR`](https://www.book.utilitr.org/) ;
+
+. . .
+
+- [Portail de formation du `SSPCloud`](https://www.sspcloud.fr/formation)
+
+. . .
+
+- [Formation au lissage spatial](https://inseefrlab.github.io/formation-r-lissage-spatial/tuto.html#introduction) ;
+
+. . .
+
+- [_`R` for Data Science_](https://r4ds.had.co.nz/) (la bible !)
+
+. . .
+
+- [_Data science with `R`_](https://dswithr.netlify.app/) (Sciences Po) ;
 
 # Panorama général
 
