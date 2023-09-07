@@ -1,14 +1,21 @@
 [
   {
-    "objectID": "slides/introduction.html#qui-suis-je-fa-brands-github-size25px",
-    "href": "slides/introduction.html#qui-suis-je-fa-brands-github-size25px",
+    "objectID": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
+    "href": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Qui suis-je ?  ",
-    "text": "Qui suis-je ?  \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists de l’administration\n\nFormation en économie & statistiques ;\nTravaux à l’intersection entre informatique, économie, sociologie & géographie\n\nRenseignez-vous sur le concours ! Il y a de belles missions !"
+    "section": "Qui suis-je ?      ",
+    "text": "Qui suis-je ?      \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists\n\n\n\n\nImplication dans l’innovation statistique, l’open source et la diffusion grand public2:\n\n: utilitR, doremifasol\n: cartiflette, pynsee\n\n\n\nRenseignez-vous sur le concours ENS ! Il y a de belles missions !Pas tout seul ! Avec une communauté de gens sympa de l’administration et de la recherche !"
   },
   {
     "objectID": "slides/introduction.html#qui-suis-je",
     "href": "slides/introduction.html#qui-suis-je",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Qui suis-je ?",
+    "text": "Qui suis-je ?\n\nTravaux à l’intersection entre informatique, économie, sociologie & géographie:\n\nSégrégation avec données de téléphonie mobile\nInégalités alimentaires à partir de données massives de supermarchés\n\n\n\nExemple tiré de l’Insee Analyse sur la mixité sociale"
+  },
+  {
+    "objectID": "slides/introduction.html#qui-suis-je-1",
+    "href": "slides/introduction.html#qui-suis-je-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qui suis-je ?",
     "text": "Qui suis-je ?\n\nCours"
@@ -135,14 +142,14 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Introduction aux méthodes quantitatives avec `R`",
+    "title": "Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}",
     "section": "",
     "text": "détails prochainement\n\n\n  \n     \n      \n          \n            \n          \n          \n            \n            \n              \nIntroduction à R\n\n\n              \n                \n              \n            \n            \n                \n                    \n                        Slides\n                    \n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
   },
   {
     "objectID": "index.html#cours-ens",
     "href": "index.html#cours-ens",
-    "title": "Introduction aux méthodes quantitatives avec `R`",
+    "title": "Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}",
     "section": "",
     "text": "détails prochainement\n\n\n  \n     \n      \n          \n            \n          \n          \n            \n            \n              \nIntroduction à R\n\n\n              \n                \n              \n            \n            \n                \n                    \n                        Slides\n                    \n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
   }

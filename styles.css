@@ -20,4 +20,7 @@
     transform: scale(1.05); /* Increase the scale for a zoom effect */
 }
 
+.observable-logo path {
+    fill: #ff562c;
+}
   
