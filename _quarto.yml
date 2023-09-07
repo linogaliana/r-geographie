@@ -6,14 +6,14 @@ project:
     - "/cards/**/*.qmd"
 
 website:
-  title: "Introduction aux méthodes quantitatives avec `R`"
+  title: "Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - href: slides/introduction.html
         text: Introduction
-    background: "#014001"
+    background: "#802a03"
   twitter-card:
     image: /cards/version-light/baby.png
 
