@@ -1,0 +1,12 @@
+---
+title: Données émergentes
+author: "Lino Galiana et Tom Seimandi"
+date: '2023-10-01'
+categories: ["python","ENSAI"]
+tags: ["python","data science"]
+summary: Cours en 2e année d'`ENSAI` (M1) disponible sur https://ensai-donnees-emergentes.netlify.app/
+url: https://ensai-donnees-emergentes.netlify.app/
+github: https://github.com/linogaliana/ensai-donnees-emergentes/
+image: https://github.com/linogaliana/ensai-donnees-emergentes/raw/master/img/images/image_segmentation_output.png
+website: https://ensai-donnees-emergentes.netlify.app/
+---

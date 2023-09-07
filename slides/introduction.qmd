@@ -24,6 +24,11 @@ format:
 controls: true
 css: custom.css
 from: markdown+emoji
+listing:
+  id: sample-listings
+  contents: teaching
+  sort: "date desc"
+  type: table
 ---
 
 # Introduction
@@ -43,7 +48,7 @@ from: markdown+emoji
     + {{< fa brands python >}}: [`cartiflette`](https://github.com/InseeFrLab/cartiflette), [`pynsee`](https://github.com/InseeFrLab/pynsee)
 
     
-[^2]: Pas tout seul ! Avec une communauté de gens sympa de l'administration et de la recherche !
+[^2]: Pas tout seul ! Avec une communauté de gens sympa de l'administration et de la recherche ! Beaucoup de projets novateurs 😍 sur [compte {{< fa brands github >}} `InseeFrLab`](https://github.com/InseeFrLab/)
 
 . . .
 
@@ -61,9 +66,43 @@ informatique, économie, sociologie & géographie:
 [^admin]: Renseignez-vous sur le [concours ENS](https://www.insee.fr/fr/information/4774197) ! Il y a de belles missions ! 
 
 ## [Qui suis-je ?](https://www.linogaliana.fr/)
-    
-- Cours
 
+D'autres cours introductifs que je donne peuvent vous intéresser: 
+
+- [`Python` pour la _data science_](https://pythonds.linogaliana.fr/) ;
+- [Bonnes pratiques en `R` et `Git`](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/) ;
+- [Données émergentes](https://ensai-donnees-emergentes.netlify.app) ;
+
+__Et surtout consultez le portail complet de formation du [datalab de l'Insee](https://www.sspcloud.fr/formation)__
+
+## Objectifs pédagogiques
+
+- Découverte de l'écosystème de l'_open data_ 🇫🇷
+
+. . .
+
+- Introduction pratique au langage {{< fa brands r-project >}}:
+    + Données classiques
+    + Données géographiques
+    
+. . .
+
+- Introduction à la publication reproductible avec [`Quarto`](https://quarto.org/)
+
+. . .
+
+- Ouverture à la cartographie _web_ avec [`Observable`](https://observablehq.com/)
+
+## Modalités pratiques
+
+- Des _slides_ et surtout des `TP` guidés 
+
+- Infrastructure informatique fournie par l'Insee pour éviter:
+    + les galères d'installation
+    + les galères de configuration
+    
+    
+__[`SSPCloud`](https://datalab.sspcloud.fr/home)__
 
 # Panorama général
 

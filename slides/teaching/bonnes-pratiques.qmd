@@ -1,0 +1,12 @@
+---
+title: Bonnes pratiques en <code>R</code> et <code>Git</code>
+author: "Romain Avouac et Lino Galiana"
+date: '2023-04-01'
+categories: ["R","INSEE"]
+tags: ["R","data science"]
+summary: Cours sur les bonnes pratiques
+url: https://ensae-reproductibilite.github.io/website/
+github: https://github.com/inseefrlab/formation-bonnes-pratiques-git-R
+website: https://inseefrlab.github.io/formation-bonnes-pratiques-git-R
+image: https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/cards/version-light/cheetah.png
+---

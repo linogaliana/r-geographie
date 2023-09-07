@@ -1,0 +1,12 @@
+---
+title: 'Python pour la data science'
+author: "Lino Galiana"
+date: '2023-06-01'
+categories: ["python","ENSAE"]
+tags: ["python","data science"]
+summary: Cours en 2e année d'`ENSAE` (M1) disponible sur https://pythonds.linogaliana.fr/
+url: 'https://pythonds.linogaliana.fr/'
+github: https://github.com/linogaliana/python-datascientist
+website: https://pythonds.linogaliana.fr/
+image: python.png
+---

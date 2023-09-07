@@ -1,0 +1,43 @@
+```{ojs}
+function teaserList(docs, css = THEME_TEASERS) {
+  const id = DOM.uid().id;
+  return html`<div id="${id}">
+    ${getScopedStyle(`#${id}`, css)}
+    <div class=listing-grid>${docs.map(doc => renderTeaser(doc))}
+  `;
+}
+```
+
+```{ojs}
+function renderTeaser(doc) {
+  const {
+    name,
+    web_url,
+    author,
+    description,
+    image    
+  } = doc;
+
+
+  return `
+    <div class="item">
+      <div class="body">
+          <p class="card-img-top">
+            <img src="${image}" class="thumbnail-image card-img" style="height: auto;" alt="">
+          </p>
+        <a class="title" href="${web_url}">${name}</a>
+        ${description !== "NA" ? `<p class="description" style="margin-top: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${description}</p>` : ''}
+      </div>
+      <div class="time-info" style="display: flex; justify-content: flex-end; margin-top: 35px;">
+          <p class="time-label">Création: ${author}</p>
+      </div>
+    </div>
+  `;
+}
+```
+
+
+
+```{ojs}
+import { THEME_TEASERS, ICON_LIKE, getScopedStyle } from "@mootari/notebook-teasers"
+```
