@@ -13,6 +13,8 @@ website:
         text: Home
       - href: slides/introduction.html
         text: Introduction
+      - icon: github
+        href: https://github.com/linogaliana/r-geographie
     background: "#802a03"
   twitter-card:
     image: /cards/version-light/baby.png
