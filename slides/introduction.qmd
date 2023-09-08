@@ -7,7 +7,7 @@ authors: |
 # date: 
 slide-number: true
 footer: |
-  Ecole Normale Supérieure
+  École Normale Supérieure
 # uncomment for French presentations:
 lang: fr-FR
 # for blind readers:
@@ -107,13 +107,13 @@ __On va utiliser le [`SSPCloud`](https://datalab.sspcloud.fr/home) 😍🐉☁�
 
 _(présentation tout à l'heure)_
 
-## Ressources complémentaires
+## Ressources complémentaires {.smaller}
 
 - [Introduction à `R` et au `tidyverse`](https://juba.github.io/tidyverse/) ;
 
 . . .
 
-- Documentation collaborative [`utilitR`](https://www.book.utilitr.org/) ;
+- Documentation collaborative [`utilitR`](https://www.book.utilitr.org/) 👶 ;
 
 . . .
 
@@ -130,6 +130,22 @@ _(présentation tout à l'heure)_
 . . .
 
 - [_Data science with `R`_](https://dswithr.netlify.app/) (Sciences Po) ;
+
+. . .
+
+- [Rzine](https://rzine.fr/), du CIST
+
+. . .
+
+- [Geocomputation with R](https://geocompr.robinlovelace.net/), de Lovelace, Nowosad et Muenchow
+
+. . .
+
+- [Data Visualization : A practical introduction](https://socviz.co/), de Kieran Healy
+
+
+
+
 
 # Panorama général
 
@@ -565,5 +581,100 @@ https://www.numerique.gouv.fr/uploads/RAPPORT-besoins-competences-donnee.pdf
 
 - Arribas-Bel, D, 2018. “[Geography and Computers: Past, Present, and Future](https://onlinelibrary.wiley.com/doi/abs/10.1111/gec3.12403)” _Geography Compass_.
 
+
+
+# Pourquoi faire du {{< fa brands r-project >}} ?
+
+## Principe d'un langage _open source_
+
+::: {layout-ncol=2}
+![Principe général](img/cartons.png)
+
+![Illustration avec `R`](img/cartons-r.png)
+:::
+
+
+
+## Qu'est-ce que `R` ?
+
+- Logiciel statistique _open source_:
+    + Langage de base
+    + _Packages_ étendent les fonctionnalités
+
+. . .
+
+- Adoption importante dans le monde académique et l'administration
+
+. . .
+
+- Beaucoup de ressources d'aide en ligne
+
+
+:::{.callout-note}
+- Naissance dans les années 1990 ;
+- Succès depuis les années 2010 (succès parallèle à `Python`)
+:::
+
+
+## Un logiciel couteau-suisse
+
+- Manipulation de données de tout type ;
+
+. . .
+
+- Visualisation de données (_dataviz_), cartographie & SIG ;
+
+. . .
+
+- Modélisation (_machine learning_, analyse de réseaux...) ;
+
+. . .
+
+- Rédaction de mémoires, de site web, de slides (comme celles-ci 🤓)...
+
+## Un logiciel couteau-suisse
+
+On peut tout faire en `R`:
+
+![Extrait de [_R for data science_ (la bible)](https://r4ds.had.co.nz/introduction.html)](img/data-science-workflow.png)
+
+## Transparence et reproductibilité {.smaller}
+
+- Traçabilité des statistiques et réalisations graphiques
+
+. . .
+
+- Partage de code `R` permet une transparence méthodologique:
+    + De plus en plus de journaux exigent les codes !
+    + Encore des progrès à faire dans le domaine
+
+. . .
+
+- L'utilisation de `R Markdown` rend plus efficace 🐢🔜🐇:
+    + Suppression des fichiers intermédiaires (texte, excel, images...)
+    + Gain de temps sur la mise en page (des millions d'heures économisées au bas mot)
+
+::: {.callout-note}
+Voir cours dédié sur le [sujet des bonnes pratiques](https://github.com/InseeFrLab/formation-bonnes-pratiques-git-R) (Insee très impliquée sur le sujet!)
+:::
+
+## Une communauté d'utilisateurs
+
+- Un logiciel _opensource_ :
+    + Gratuit, collaboratif 
+
+. . .
+
+- Beaucoup de packages:
+    - sur le `CRAN` (*The Comprehensive R Archive Network*)
+    - sur `Github`
+
+. . .
+
+- Une communauté d'idéalistes de la science ouverte
+
+. . .
+
+- Un pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques _etc_.
 
 
