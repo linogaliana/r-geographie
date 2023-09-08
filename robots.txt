@@ -1,1 +1,1 @@
-Sitemap: https://github.com/linogaliana/r-geographie/sitemap.xml
+Sitemap: https://rgeo.linogaliana.fr/sitemap.xml
