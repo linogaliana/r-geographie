@@ -32,7 +32,7 @@
     "href": "slides/introduction.html#modalités-pratiques",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Modalités pratiques",
-    "text": "Modalités pratiques\n\nDes slides et surtout des TP guidés\nInfrastructure informatique fournie par l’Insee pour éviter:\n\nles galères d’installation\nles galères de configuration\n\nModalités d’initialisation à venir\n\nOn va utiliser le SSPCloud 😍🐉☁️🇫🇷!"
+    "text": "Modalités pratiques\n\nDes slides et surtout des TP guidés ;\nInfrastructure informatique (SSPCloud) fournie par l’Insee pour éviter:\n\nles galères d’installation\nles galères de configuration\n\nModalités d’initialisation à venir ;\n\nOn va utiliser le SSPCloud 😍🐉☁️🇫🇷 !\n(présentation tout à l’heure)"
   },
   {
     "objectID": "slides/introduction.html#ressources-complémentaires",
@@ -110,6 +110,41 @@
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Data is everywhere",
     "text": "Data is everywhere"
+  },
+  {
+    "objectID": "slides/introduction.html#linsee",
+    "href": "slides/introduction.html#linsee",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "L’Insee",
+    "text": "L’Insee\n\nCollecte, produit, analyse et diffuse l’information statistique :\n\nProducteur de statistiques (enquêtes, données administratives) ;\nProducteur d’études pour le débat public (rare chez les instituts statistiques)\n\n\n\n\nPublie énormément d’informations:\n\nRecensement, taux de chômage, inflation, PIB, fichier des prénoms…\nCode officiel géographique (COG) et zonages d’études\n\n\n\n\n\nRôle de coordination du service statistique public:\n\nInstituts statistiques ministériels: DREES (Santé), DARES (Travail)…\n\n\n\n\n\nDiffusion données sur insee.fr\n\nUtilisateurs de : accès facilité via des packages"
+  },
+  {
+    "objectID": "slides/introduction.html#lign",
+    "href": "slides/introduction.html#lign",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "L’IGN",
+    "text": "L’IGN\n\nProduit et diffuse la géométrie du territoire national et l’occupation du sol:\n\nProducteur de cartes 🥾 (top25…)\nLIDAR\n\n\n\n\nProducteur des fonds de carte utiles pour nous:\n\nBDTopo, BD Forêt,\nAdminExpress\n\n\n\n\n\nDiffusion données depuis geoservices de l’IGN (en attendant la geoplateforme)\n\nUtilisateurs de : accès facilité à certaines sources via cartiflette"
+  },
+  {
+    "objectID": "slides/introduction.html#data.gouv",
+    "href": "slides/introduction.html#data.gouv",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "data.gouv",
+    "text": "data.gouv\n\nPlateforme de l’open data en France\n\nCrée par Etalab (DINUM) en 2011\n\n\n\n\nRecense des jeux de données produits par les acteurs publics:\n\nAdministrations centrales\nCollectivités locales\n\n\n\n\n\nMise à disposition directe de certains jeux de données\n\n\n\n\nRecense des réutilisations"
+  },
+  {
+    "objectID": "slides/introduction.html#github-fa-brands-github-là-où-on-trouve-du-code",
+    "href": "slides/introduction.html#github-fa-brands-github-là-où-on-trouve-du-code",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Github : là où on trouve du code",
+    "text": "Github : là où on trouve du code\n\nPlateforme de mise à disposition de code\n\n\n\nBeaucoup plus que seulement du code:\n\nDocumentation de projets\nSites web\n\n\n\n\n\nLieu de l’open source et de la recherche transparente"
+  },
+  {
+    "objectID": "slides/introduction.html#observable-the-new-place-to-be",
+    "href": "slides/introduction.html#observable-the-new-place-to-be",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Observable: the new place to be",
+    "text": "Observable: the new place to be\n\nPlateforme de dataviz web\n\nCréée par Mike Bostock (dieu dans la dataviz)\n\n\n\n\nEmergence récente mais forte dynamique\n\nTrès complémentaire à R\n\n\n\n\n\nInvestie par des cartographes qui font de super visualisations :\n\nNicolas Lambert\nEric Mauvière\nThomas Ansart"
   },
   {
     "objectID": "slides/introduction.html#des-métiers-multiples-dans-ladministration",
