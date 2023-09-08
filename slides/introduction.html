@@ -498,14 +498,14 @@
 <p><strong>On va utiliser le <a href="https://datalab.sspcloud.fr/home"><code>SSPCloud</code></a> 😍🐉☁️🇫🇷 !</strong></p>
 <p><em>(présentation tout à l’heure)</em></p>
 </section>
-<section id="ressources-complémentaires" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<section id="ressources-complémentaires" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
 <h2>Ressources complémentaires</h2>
 <ul>
 <li><a href="https://juba.github.io/tidyverse/">Introduction à <code>R</code> et au <code>tidyverse</code></a> ;</li>
 </ul>
 <div class="fragment">
 <ul>
-<li>Documentation collaborative <a href="https://www.book.utilitr.org/"><code>utilitR</code></a> ;</li>
+<li>Documentation collaborative <a href="https://www.book.utilitr.org/"><code>utilitR</code></a> 👶 ;</li>
 </ul>
 </div>
 <div class="fragment">
@@ -526,6 +526,21 @@
 <div class="fragment">
 <ul>
 <li><a href="https://dswithr.netlify.app/"><em>Data science with <code>R</code></em></a> (Sciences Po) ;</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><a href="https://rzine.fr/">Rzine</a>, du CIST</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><a href="https://geocompr.robinlovelace.net/">Geocomputation with R</a>, de Lovelace, Nowosad et Muenchow</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><a href="https://socviz.co/">Data Visualization : A practical introduction</a>, de Kieran Healy</li>
 </ul>
 </div>
 </section></section>
@@ -557,9 +572,9 @@
 <h2>Diversification des données (1/4)</h2>
 <h3 data-background-image="background.svg" data-background-size="contain" id="données-tabulaires-classiques">Données tabulaires classiques</h3>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="154" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 153;"><span id="cb1-154"><a href="#cb1-154"></a>viewof info_mutations <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
-<span id="cb1-155"><a href="#cb1-155"></a>  [<span class="st">"Tableau"</span><span class="op">,</span> <span class="st">"Graphique"</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"Tableau"</span>}</span>
-<span id="cb1-156"><a href="#cb1-156"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="170" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 169;"><span id="cb1-170"><a href="#cb1-170"></a>viewof info_mutations <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb1-171"><a href="#cb1-171"></a>  [<span class="st">"Tableau"</span><span class="op">,</span> <span class="st">"Graphique"</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"Tableau"</span>}</span>
+<span id="cb1-172"><a href="#cb1-172"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
 
@@ -567,7 +582,7 @@
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="160" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 159;"><span id="cb2-160"><a href="#cb2-160"></a>info_mutations <span class="op">==</span> <span class="st">"Tableau"</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>table_mutations1<span class="sc">}</span><span class="vs">&lt;div&gt;`</span> <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot_mutations<span class="sc">}</span><span class="vs">&lt;div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="176" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 175;"><span id="cb2-176"><a href="#cb2-176"></a>info_mutations <span class="op">==</span> <span class="st">"Tableau"</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>table_mutations1<span class="sc">}</span><span class="vs">&lt;div&gt;`</span> <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot_mutations<span class="sc">}</span><span class="vs">&lt;div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
 
@@ -575,9 +590,9 @@
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="166" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 165;"><span id="cb3-166"><a href="#cb3-166"></a>url <span class="op">=</span> <span class="st">"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv"</span></span>
-<span id="cb3-167"><a href="#cb3-167"></a>proxy <span class="op">=</span> <span class="st">"https://corsproxy.io/?"</span></span>
-<span id="cb3-168"><a href="#cb3-168"></a>dvf <span class="op">=</span> d3<span class="op">.</span><span class="fu">csv</span>(proxy <span class="op">+</span> url)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="182" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 181;"><span id="cb3-182"><a href="#cb3-182"></a>url <span class="op">=</span> <span class="st">"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv"</span></span>
+<span id="cb3-183"><a href="#cb3-183"></a>proxy <span class="op">=</span> <span class="st">"https://corsproxy.io/?"</span></span>
+<span id="cb3-184"><a href="#cb3-184"></a>dvf <span class="op">=</span> d3<span class="op">.</span><span class="fu">csv</span>(proxy <span class="op">+</span> url)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display hidden">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -601,28 +616,28 @@
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="173" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 172;"><span id="cb4-173"><a href="#cb4-173"></a>table_mutations1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(dvf<span class="op">,</span> {<span class="st">"columns"</span><span class="op">:</span> [<span class="st">'date_mutation'</span><span class="op">,</span> <span class="st">'valeur_fonciere'</span><span class="op">,</span> <span class="st">'adresse_nom_voie'</span>]})</span>
-<span id="cb4-174"><a href="#cb4-174"></a>plot_mutations <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb4-175"><a href="#cb4-175"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Nombre de transactions"</span>}<span class="op">,</span></span>
-<span id="cb4-176"><a href="#cb4-176"></a>  <span class="dt">x</span><span class="op">:</span> {</span>
-<span id="cb4-177"><a href="#cb4-177"></a>    <span class="dt">ticks</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span></span>
-<span id="cb4-178"><a href="#cb4-178"></a>    <span class="dt">transform</span><span class="op">:</span> (d) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">10</span><span class="op">,</span> d)<span class="op">,</span></span>
-<span id="cb4-179"><a href="#cb4-179"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span></span>
-<span id="cb4-180"><a href="#cb4-180"></a>    <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">"~s"</span><span class="op">,</span></span>
-<span id="cb4-181"><a href="#cb4-181"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Prix (échelle log) →"</span></span>
-<span id="cb4-182"><a href="#cb4-182"></a>  }<span class="op">,</span></span>
-<span id="cb4-183"><a href="#cb4-183"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb4-184"><a href="#cb4-184"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(</span>
-<span id="cb4-185"><a href="#cb4-185"></a>      dvf<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">valeur_fonciere</span> <span class="op">&gt;</span> <span class="dv">10000</span>)<span class="op">,</span></span>
-<span id="cb4-186"><a href="#cb4-186"></a>      Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span></span>
-<span id="cb4-187"><a href="#cb4-187"></a>      {</span>
-<span id="cb4-188"><a href="#cb4-188"></a>        <span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(d<span class="op">.</span><span class="at">valeur_fonciere</span>)<span class="op">,</span></span>
-<span id="cb4-189"><a href="#cb4-189"></a>        <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
-<span id="cb4-190"><a href="#cb4-190"></a>      })</span>
-<span id="cb4-191"><a href="#cb4-191"></a>    )<span class="op">,</span></span>
-<span id="cb4-192"><a href="#cb4-192"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb4-193"><a href="#cb4-193"></a>  ]</span>
-<span id="cb4-194"><a href="#cb4-194"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="189" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 188;"><span id="cb4-189"><a href="#cb4-189"></a>table_mutations1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(dvf<span class="op">,</span> {<span class="st">"columns"</span><span class="op">:</span> [<span class="st">'date_mutation'</span><span class="op">,</span> <span class="st">'valeur_fonciere'</span><span class="op">,</span> <span class="st">'adresse_nom_voie'</span>]})</span>
+<span id="cb4-190"><a href="#cb4-190"></a>plot_mutations <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb4-191"><a href="#cb4-191"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Nombre de transactions"</span>}<span class="op">,</span></span>
+<span id="cb4-192"><a href="#cb4-192"></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb4-193"><a href="#cb4-193"></a>    <span class="dt">ticks</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span></span>
+<span id="cb4-194"><a href="#cb4-194"></a>    <span class="dt">transform</span><span class="op">:</span> (d) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">10</span><span class="op">,</span> d)<span class="op">,</span></span>
+<span id="cb4-195"><a href="#cb4-195"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span></span>
+<span id="cb4-196"><a href="#cb4-196"></a>    <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">"~s"</span><span class="op">,</span></span>
+<span id="cb4-197"><a href="#cb4-197"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Prix (échelle log) →"</span></span>
+<span id="cb4-198"><a href="#cb4-198"></a>  }<span class="op">,</span></span>
+<span id="cb4-199"><a href="#cb4-199"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb4-200"><a href="#cb4-200"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(</span>
+<span id="cb4-201"><a href="#cb4-201"></a>      dvf<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">valeur_fonciere</span> <span class="op">&gt;</span> <span class="dv">10000</span>)<span class="op">,</span></span>
+<span id="cb4-202"><a href="#cb4-202"></a>      Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span></span>
+<span id="cb4-203"><a href="#cb4-203"></a>      {</span>
+<span id="cb4-204"><a href="#cb4-204"></a>        <span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(d<span class="op">.</span><span class="at">valeur_fonciere</span>)<span class="op">,</span></span>
+<span id="cb4-205"><a href="#cb4-205"></a>        <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb4-206"><a href="#cb4-206"></a>      })</span>
+<span id="cb4-207"><a href="#cb4-207"></a>    )<span class="op">,</span></span>
+<span id="cb4-208"><a href="#cb4-208"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb4-209"><a href="#cb4-209"></a>  ]</span>
+<span id="cb4-210"><a href="#cb4-210"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display hidden">
 <div>
 <div id="ojs-cell-4-1" data-nodetype="declaration">
@@ -639,7 +654,7 @@
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="197" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 196;"><span id="cb5-197"><a href="#cb5-197"></a>Plot <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="213" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 212;"><span id="cb5-213"><a href="#cb5-213"></a>Plot <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-5" data-nodetype="declaration">
 
@@ -664,9 +679,9 @@
 Données géolocalisées
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="218" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 217;"><span id="cb6-218"><a href="#cb6-218"></a>viewof info_power_plants <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
-<span id="cb6-219"><a href="#cb6-219"></a>  [<span class="st">"Tableau"</span><span class="op">,</span> <span class="st">"Carte"</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"Tableau"</span>}</span>
-<span id="cb6-220"><a href="#cb6-220"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="234" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 233;"><span id="cb6-234"><a href="#cb6-234"></a>viewof info_power_plants <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb6-235"><a href="#cb6-235"></a>  [<span class="st">"Tableau"</span><span class="op">,</span> <span class="st">"Carte"</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"Tableau"</span>}</span>
+<span id="cb6-236"><a href="#cb6-236"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-6" data-nodetype="declaration">
 
@@ -674,7 +689,7 @@ Données géolocalisées
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="224" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 223;"><span id="cb7-224"><a href="#cb7-224"></a>info_power_plants <span class="op">==</span> <span class="st">"Tableau"</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>table_power_plants<span class="sc">}</span><span class="vs">&lt;div&gt;`</span> <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot_power_plants<span class="sc">}</span><span class="vs">&lt;div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="240" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 239;"><span id="cb7-240"><a href="#cb7-240"></a>info_power_plants <span class="op">==</span> <span class="st">"Tableau"</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>table_power_plants<span class="sc">}</span><span class="vs">&lt;div&gt;`</span> <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>plot_power_plants<span class="sc">}</span><span class="vs">&lt;div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-7" data-nodetype="expression">
 
@@ -682,52 +697,52 @@ Données géolocalisées
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="231" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 230;"><span id="cb8-231"><a href="#cb8-231"></a><span class="im">import</span> {us_power_plants<span class="op">,</span> states} <span class="im">from</span> <span class="st">"@observablehq/build-your-first-map-with-observable-plot"</span></span>
-<span id="cb8-232"><a href="#cb8-232"></a></span>
-<span id="cb8-233"><a href="#cb8-233"></a>table_power_plants <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(</span>
-<span id="cb8-234"><a href="#cb8-234"></a>  us_power_plants</span>
-<span id="cb8-235"><a href="#cb8-235"></a>)</span>
-<span id="cb8-236"><a href="#cb8-236"></a></span>
-<span id="cb8-237"><a href="#cb8-237"></a></span>
-<span id="cb8-238"><a href="#cb8-238"></a>plot_power_plants <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb8-239"><a href="#cb8-239"></a>  <span class="dt">projection</span><span class="op">:</span> <span class="st">"albers-usa"</span><span class="op">,</span></span>
-<span id="cb8-240"><a href="#cb8-240"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb8-241"><a href="#cb8-241"></a>    Plot<span class="op">.</span><span class="fu">geo</span>(states<span class="op">,</span> { <span class="dt">fill</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#e2e2e2"</span>  })<span class="op">,</span></span>
-<span id="cb8-242"><a href="#cb8-242"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(us_power_plants<span class="op">,</span> {</span>
-<span id="cb8-243"><a href="#cb8-243"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span></span>
-<span id="cb8-244"><a href="#cb8-244"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span></span>
-<span id="cb8-245"><a href="#cb8-245"></a>      <span class="dt">r</span><span class="op">:</span> <span class="st">"Total_MW"</span><span class="op">,</span></span>
-<span id="cb8-246"><a href="#cb8-246"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"PrimSource"</span><span class="op">,</span></span>
-<span id="cb8-247"><a href="#cb8-247"></a>      <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.7</span><span class="op">,</span></span>
-<span id="cb8-248"><a href="#cb8-248"></a>      <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
-<span id="cb8-249"><a href="#cb8-249"></a>    })<span class="op">,</span></span>
-<span id="cb8-250"><a href="#cb8-250"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(us_power_plants<span class="op">,</span> { <span class="co">// Can you figure out what this additional Plot.dot layer adds?</span></span>
-<span id="cb8-251"><a href="#cb8-251"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span></span>
-<span id="cb8-252"><a href="#cb8-252"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span></span>
-<span id="cb8-253"><a href="#cb8-253"></a>      <span class="dt">r</span><span class="op">:</span> <span class="st">"Total_MW"</span><span class="op">,</span></span>
-<span id="cb8-254"><a href="#cb8-254"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"PrimSource"</span><span class="op">,</span></span>
-<span id="cb8-255"><a href="#cb8-255"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span></span>
-<span id="cb8-256"><a href="#cb8-256"></a>      <span class="dt">filter</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Total_MW</span> <span class="op">&gt;</span> <span class="dv">3500</span><span class="op">,</span></span>
-<span id="cb8-257"><a href="#cb8-257"></a>    })<span class="op">,</span></span>
-<span id="cb8-258"><a href="#cb8-258"></a>    Plot<span class="op">.</span><span class="fu">text</span>(us_power_plants<span class="op">,</span> { <span class="co">// Add text to the map using data from us_power_plants</span></span>
-<span id="cb8-259"><a href="#cb8-259"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span> <span class="co">// Place text horizontally at plant longitude</span></span>
-<span id="cb8-260"><a href="#cb8-260"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span> <span class="co">// Place text vertically at plant latitude</span></span>
-<span id="cb8-261"><a href="#cb8-261"></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"Plant_Name"</span><span class="op">,</span> <span class="co">// The text that appears is the value from the Plant_Name column,</span></span>
-<span id="cb8-262"><a href="#cb8-262"></a>      <span class="dt">filter</span><span class="op">:</span> (d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Total_MW</span> <span class="op">&gt;</span> <span class="dv">3500</span><span class="op">,</span> <span class="co">// Only add text for plants with capacity exceeding 3500 MW</span></span>
-<span id="cb8-263"><a href="#cb8-263"></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="co">// Increased font size</span></span>
-<span id="cb8-264"><a href="#cb8-264"></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="dv">600</span><span class="op">,</span> <span class="co">// Increased font weight</span></span>
-<span id="cb8-265"><a href="#cb8-265"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="co">// Adds white outer stroke to text (for readability)</span></span>
-<span id="cb8-266"><a href="#cb8-266"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="co">// Text fill color</span></span>
-<span id="cb8-267"><a href="#cb8-267"></a>      <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="co">// Left align text with the x- and y-coordinates</span></span>
-<span id="cb8-268"><a href="#cb8-268"></a>      <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span> <span class="co">// Shifts text to the right (starting from left alignment with coordinate)</span></span>
-<span id="cb8-269"><a href="#cb8-269"></a>    })</span>
-<span id="cb8-270"><a href="#cb8-270"></a>  ]<span class="op">,</span></span>
-<span id="cb8-271"><a href="#cb8-271"></a>  <span class="dt">r</span><span class="op">:</span> { <span class="dt">range</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">15</span>] }<span class="op">,</span></span>
-<span id="cb8-272"><a href="#cb8-272"></a>  <span class="dt">color</span><span class="op">:</span> { <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
-<span id="cb8-273"><a href="#cb8-273"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
-<span id="cb8-274"><a href="#cb8-274"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
-<span id="cb8-275"><a href="#cb8-275"></a>  <span class="dt">margin</span><span class="op">:</span> <span class="dv">50</span></span>
-<span id="cb8-276"><a href="#cb8-276"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="247" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 246;"><span id="cb8-247"><a href="#cb8-247"></a><span class="im">import</span> {us_power_plants<span class="op">,</span> states} <span class="im">from</span> <span class="st">"@observablehq/build-your-first-map-with-observable-plot"</span></span>
+<span id="cb8-248"><a href="#cb8-248"></a></span>
+<span id="cb8-249"><a href="#cb8-249"></a>table_power_plants <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(</span>
+<span id="cb8-250"><a href="#cb8-250"></a>  us_power_plants</span>
+<span id="cb8-251"><a href="#cb8-251"></a>)</span>
+<span id="cb8-252"><a href="#cb8-252"></a></span>
+<span id="cb8-253"><a href="#cb8-253"></a></span>
+<span id="cb8-254"><a href="#cb8-254"></a>plot_power_plants <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb8-255"><a href="#cb8-255"></a>  <span class="dt">projection</span><span class="op">:</span> <span class="st">"albers-usa"</span><span class="op">,</span></span>
+<span id="cb8-256"><a href="#cb8-256"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb8-257"><a href="#cb8-257"></a>    Plot<span class="op">.</span><span class="fu">geo</span>(states<span class="op">,</span> { <span class="dt">fill</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#e2e2e2"</span>  })<span class="op">,</span></span>
+<span id="cb8-258"><a href="#cb8-258"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(us_power_plants<span class="op">,</span> {</span>
+<span id="cb8-259"><a href="#cb8-259"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span></span>
+<span id="cb8-260"><a href="#cb8-260"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span></span>
+<span id="cb8-261"><a href="#cb8-261"></a>      <span class="dt">r</span><span class="op">:</span> <span class="st">"Total_MW"</span><span class="op">,</span></span>
+<span id="cb8-262"><a href="#cb8-262"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"PrimSource"</span><span class="op">,</span></span>
+<span id="cb8-263"><a href="#cb8-263"></a>      <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.7</span><span class="op">,</span></span>
+<span id="cb8-264"><a href="#cb8-264"></a>      <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb8-265"><a href="#cb8-265"></a>    })<span class="op">,</span></span>
+<span id="cb8-266"><a href="#cb8-266"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(us_power_plants<span class="op">,</span> { <span class="co">// Can you figure out what this additional Plot.dot layer adds?</span></span>
+<span id="cb8-267"><a href="#cb8-267"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span></span>
+<span id="cb8-268"><a href="#cb8-268"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span></span>
+<span id="cb8-269"><a href="#cb8-269"></a>      <span class="dt">r</span><span class="op">:</span> <span class="st">"Total_MW"</span><span class="op">,</span></span>
+<span id="cb8-270"><a href="#cb8-270"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"PrimSource"</span><span class="op">,</span></span>
+<span id="cb8-271"><a href="#cb8-271"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span></span>
+<span id="cb8-272"><a href="#cb8-272"></a>      <span class="dt">filter</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Total_MW</span> <span class="op">&gt;</span> <span class="dv">3500</span><span class="op">,</span></span>
+<span id="cb8-273"><a href="#cb8-273"></a>    })<span class="op">,</span></span>
+<span id="cb8-274"><a href="#cb8-274"></a>    Plot<span class="op">.</span><span class="fu">text</span>(us_power_plants<span class="op">,</span> { <span class="co">// Add text to the map using data from us_power_plants</span></span>
+<span id="cb8-275"><a href="#cb8-275"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"longitude"</span><span class="op">,</span> <span class="co">// Place text horizontally at plant longitude</span></span>
+<span id="cb8-276"><a href="#cb8-276"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"latitude"</span><span class="op">,</span> <span class="co">// Place text vertically at plant latitude</span></span>
+<span id="cb8-277"><a href="#cb8-277"></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"Plant_Name"</span><span class="op">,</span> <span class="co">// The text that appears is the value from the Plant_Name column,</span></span>
+<span id="cb8-278"><a href="#cb8-278"></a>      <span class="dt">filter</span><span class="op">:</span> (d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Total_MW</span> <span class="op">&gt;</span> <span class="dv">3500</span><span class="op">,</span> <span class="co">// Only add text for plants with capacity exceeding 3500 MW</span></span>
+<span id="cb8-279"><a href="#cb8-279"></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="co">// Increased font size</span></span>
+<span id="cb8-280"><a href="#cb8-280"></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="dv">600</span><span class="op">,</span> <span class="co">// Increased font weight</span></span>
+<span id="cb8-281"><a href="#cb8-281"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="co">// Adds white outer stroke to text (for readability)</span></span>
+<span id="cb8-282"><a href="#cb8-282"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="co">// Text fill color</span></span>
+<span id="cb8-283"><a href="#cb8-283"></a>      <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="co">// Left align text with the x- and y-coordinates</span></span>
+<span id="cb8-284"><a href="#cb8-284"></a>      <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span> <span class="co">// Shifts text to the right (starting from left alignment with coordinate)</span></span>
+<span id="cb8-285"><a href="#cb8-285"></a>    })</span>
+<span id="cb8-286"><a href="#cb8-286"></a>  ]<span class="op">,</span></span>
+<span id="cb8-287"><a href="#cb8-287"></a>  <span class="dt">r</span><span class="op">:</span> { <span class="dt">range</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">15</span>] }<span class="op">,</span></span>
+<span id="cb8-288"><a href="#cb8-288"></a>  <span class="dt">color</span><span class="op">:</span> { <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb8-289"><a href="#cb8-289"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
+<span id="cb8-290"><a href="#cb8-290"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
+<span id="cb8-291"><a href="#cb8-291"></a>  <span class="dt">margin</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb8-292"><a href="#cb8-292"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display hidden">
 <div>
 <div id="ojs-cell-8-1" data-nodetype="declaration">
@@ -1118,9 +1133,164 @@ Références
 <ul>
 <li>Arribas-Bel, D, 2018. “<a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/gec3.12403">Geography and Computers: Past, Present, and Future</a>” <em>Geography Compass</em>.</li>
 </ul>
+</div>
+</section></section>
+<section>
+<section id="pourquoi-faire-du-fa-brands-r-project" class="title-slide slide level1 center" data-background-image="background.svg" data-background-size="contain">
+<h1>Pourquoi faire du <i class="fa-brands fa-r-project" aria-label="r-project"></i> ?</h1>
+
+</section>
+<section id="principe-dun-langage-open-source" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Principe d’un langage <em>open source</em></h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/cartons.png"></p>
+<figcaption>Principe général</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/cartons-r.png"></p>
+<figcaption>Illustration avec <code>R</code></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="quest-ce-que-r" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Qu’est-ce que <code>R</code> ?</h2>
+<ul>
+<li>Logiciel statistique <em>open source</em>:
+<ul>
+<li>Langage de base</li>
+<li><em>Packages</em> étendent les fonctionnalités</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Adoption importante dans le monde académique et l’administration</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Beaucoup de ressources d’aide en ligne</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Naissance dans les années 1990 ;</li>
+<li>Succès depuis les années 2010 (succès parallèle à <code>Python</code>)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="un-logiciel-couteau-suisse" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Un logiciel couteau-suisse</h2>
+<ul>
+<li>Manipulation de données de tout type ;</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Visualisation de données (<em>dataviz</em>), cartographie &amp; SIG ;</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Modélisation (<em>machine learning</em>, analyse de réseaux…) ;</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Rédaction de mémoires, de site web, de slides (comme celles-ci 🤓)…</li>
+</ul>
+</div>
+</section>
+<section id="un-logiciel-couteau-suisse-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Un logiciel couteau-suisse</h2>
+<p>On peut tout faire en <code>R</code>:</p>
+
+<img data-src="img/data-science-workflow.png" class="r-stretch quarto-figure-center"><p class="caption">Extrait de <a href="https://r4ds.had.co.nz/introduction.html"><em>R for data science</em> (la bible)</a></p></section>
+<section id="transparence-et-reproductibilité" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Transparence et reproductibilité</h2>
+<ul>
+<li>Traçabilité des statistiques et réalisations graphiques</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Partage de code <code>R</code> permet une transparence méthodologique:
+<ul>
+<li>De plus en plus de journaux exigent les codes !</li>
+<li>Encore des progrès à faire dans le domaine</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>L’utilisation de <code>R Markdown</code> rend plus efficace 🐢🔜🐇:
+<ul>
+<li>Suppression des fichiers intermédiaires (texte, excel, images…)</li>
+<li>Gain de temps sur la mise en page (des millions d’heures économisées au bas mot)</li>
+</ul></li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Voir cours dédié sur le <a href="https://github.com/InseeFrLab/formation-bonnes-pratiques-git-R">sujet des bonnes pratiques</a> (Insee très impliquée sur le sujet!)</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="une-communauté-dutilisateurs" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Une communauté d’utilisateurs</h2>
+<ul>
+<li>Un logiciel <em>opensource</em> :
+<ul>
+<li>Gratuit, collaboratif</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Beaucoup de packages:
+<ul>
+<li>sur le <code>CRAN</code> (<em>The Comprehensive R Archive Network</em>)</li>
+<li>sur <code>Github</code></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Une communauté d’idéalistes de la science ouverte</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Un pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques <em>etc</em>.</li>
+</ul>
 
 <div class="footer footer-default">
-<p>Ecole Normale Supérieure</p>
+<p>École Normale Supérieure</p>
 </div>
 </div>
 </section></section>

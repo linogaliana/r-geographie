@@ -39,7 +39,7 @@
     "href": "slides/introduction.html#ressources-complémentaires",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Ressources complémentaires",
-    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n\n\nDocumentation collaborative utilitR ;\n\n\n\n\nPortail de formation du SSPCloud\n\n\n\n\nFormation au lissage spatial ;\n\n\n\n\nR for Data Science (la bible !)\n\n\n\n\nData science with R (Sciences Po) ;"
+    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n\n\nDocumentation collaborative utilitR 👶 ;\n\n\n\n\nPortail de formation du SSPCloud\n\n\n\n\nFormation au lissage spatial ;\n\n\n\n\nR for Data Science (la bible !)\n\n\n\n\nData science with R (Sciences Po) ;\n\n\n\n\nRzine, du CIST\n\n\n\n\nGeocomputation with R, de Lovelace, Nowosad et Muenchow\n\n\n\n\nData Visualization : A practical introduction, de Kieran Healy"
   },
   {
     "objectID": "slides/introduction.html#prolifération-des-données",
@@ -193,7 +193,49 @@
     "href": "slides/introduction.html#années-2010-tournant-digital-de-la-géographie-quantitative",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Années 2010 : tournant “digital” de la géographie quantitative",
-    "text": "Années 2010 : tournant “digital” de la géographie quantitative\n\nQuantification de masse de phénomènes spatiaux sociaux:\n\nDéplacements, lieux fréquentés…\n\n\n\n\nIntersection avec d’autres sciences : data science, CSS\n\nExemple: le RIATE\n\n\n\n\n\nArribas-Bel, D, 2018. “Geography and Computers: Past, Present, and Future” Geography Compass.\n\n\n\nEcole Normale Supérieure"
+    "text": "Années 2010 : tournant “digital” de la géographie quantitative\n\nQuantification de masse de phénomènes spatiaux sociaux:\n\nDéplacements, lieux fréquentés…\n\n\n\n\nIntersection avec d’autres sciences : data science, CSS\n\nExemple: le RIATE\n\n\n\n\n\nArribas-Bel, D, 2018. “Geography and Computers: Past, Present, and Future” Geography Compass."
+  },
+  {
+    "objectID": "slides/introduction.html#principe-dun-langage-open-source",
+    "href": "slides/introduction.html#principe-dun-langage-open-source",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Principe d’un langage open source",
+    "text": "Principe d’un langage open source\n\n\n\n\n\n\nPrincipe général\n\n\n\n\n\n\n\nIllustration avec R"
+  },
+  {
+    "objectID": "slides/introduction.html#quest-ce-que-r",
+    "href": "slides/introduction.html#quest-ce-que-r",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Qu’est-ce que R ?",
+    "text": "Qu’est-ce que R ?\n\nLogiciel statistique open source:\n\nLangage de base\nPackages étendent les fonctionnalités\n\n\n\n\nAdoption importante dans le monde académique et l’administration\n\n\n\n\nBeaucoup de ressources d’aide en ligne\n\n\n\n\n\n\n\nNote\n\n\n\nNaissance dans les années 1990 ;\nSuccès depuis les années 2010 (succès parallèle à Python)"
+  },
+  {
+    "objectID": "slides/introduction.html#un-logiciel-couteau-suisse",
+    "href": "slides/introduction.html#un-logiciel-couteau-suisse",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Un logiciel couteau-suisse",
+    "text": "Un logiciel couteau-suisse\n\nManipulation de données de tout type ;\n\n\n\nVisualisation de données (dataviz), cartographie & SIG ;\n\n\n\n\nModélisation (machine learning, analyse de réseaux…) ;\n\n\n\n\nRédaction de mémoires, de site web, de slides (comme celles-ci 🤓)…"
+  },
+  {
+    "objectID": "slides/introduction.html#un-logiciel-couteau-suisse-1",
+    "href": "slides/introduction.html#un-logiciel-couteau-suisse-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Un logiciel couteau-suisse",
+    "text": "Un logiciel couteau-suisse\nOn peut tout faire en R:\n\nExtrait de R for data science (la bible)"
+  },
+  {
+    "objectID": "slides/introduction.html#transparence-et-reproductibilité",
+    "href": "slides/introduction.html#transparence-et-reproductibilité",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Transparence et reproductibilité",
+    "text": "Transparence et reproductibilité\n\nTraçabilité des statistiques et réalisations graphiques\n\n\n\nPartage de code R permet une transparence méthodologique:\n\nDe plus en plus de journaux exigent les codes !\nEncore des progrès à faire dans le domaine\n\n\n\n\n\nL’utilisation de R Markdown rend plus efficace 🐢🔜🐇:\n\nSuppression des fichiers intermédiaires (texte, excel, images…)\nGain de temps sur la mise en page (des millions d’heures économisées au bas mot)\n\n\n\n\n\n\n\n\nNote\n\n\nVoir cours dédié sur le sujet des bonnes pratiques (Insee très impliquée sur le sujet!)"
+  },
+  {
+    "objectID": "slides/introduction.html#une-communauté-dutilisateurs",
+    "href": "slides/introduction.html#une-communauté-dutilisateurs",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Une communauté d’utilisateurs",
+    "text": "Une communauté d’utilisateurs\n\nUn logiciel opensource :\n\nGratuit, collaboratif\n\n\n\n\nBeaucoup de packages:\n\nsur le CRAN (The Comprehensive R Archive Network)\nsur Github\n\n\n\n\n\nUne communauté d’idéalistes de la science ouverte\n\n\n\n\nUn pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques etc.\n\n\n\nÉcole Normale Supérieure"
   },
   {
     "objectID": "index.html",
