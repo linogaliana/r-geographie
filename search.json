@@ -39,7 +39,7 @@
     "href": "slides/introduction.html#ressources-complémentaires",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Ressources complémentaires",
-    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n\n\nDocumentation collaborative utilitR 👶 ;\n\n\n\n\nPortail de formation du SSPCloud\n\n\n\n\nFormation au lissage spatial ;\n\n\n\n\nR for Data Science (la bible !)\n\n\n\n\nData science with R (Sciences Po) ;\n\n\n\n\nRzine, du CIST\n\n\n\n\nGeocomputation with R, de Lovelace, Nowosad et Muenchow\n\n\n\n\nData Visualization : A practical introduction, de Kieran Healy"
+    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n\n\nDocumentation collaborative utilitR 👶 ;\n\n\n\n\nPortail de formation du SSPCloud ;\n\n\n\n\nFunathon organisé par l’Insee ;\n\n\n\n\nR for Data Science (la bible !) ;\n\n\n\n\nData science with R (Sciences Po) ;\n\n\n\n\nRzine, du CIST\n\n\n\n\nGeocomputation with R, de Lovelace, Nowosad et Muenchow\n\n\n\n\nData Visualization : A practical introduction, de Kieran Healy"
   },
   {
     "objectID": "slides/introduction.html#prolifération-des-données",
@@ -235,7 +235,77 @@
     "href": "slides/introduction.html#une-communauté-dutilisateurs",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Une communauté d’utilisateurs",
-    "text": "Une communauté d’utilisateurs\n\nUn logiciel opensource :\n\nGratuit, collaboratif\n\n\n\n\nBeaucoup de packages:\n\nsur le CRAN (The Comprehensive R Archive Network)\nsur Github\n\n\n\n\n\nUne communauté d’idéalistes de la science ouverte\n\n\n\n\nUn pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques etc.\n\n\n\nÉcole Normale Supérieure"
+    "text": "Une communauté d’utilisateurs\n\nUn logiciel opensource :\n\nGratuit, collaboratif\n\n\n\n\nBeaucoup de packages:\n\nsur le CRAN (The Comprehensive R Archive Network)\nsur Github\n\n\n\n\n\nUne communauté d’idéalistes de la science ouverte\n\n\n\n\nUn pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques etc."
+  },
+  {
+    "objectID": "slides/introduction.html#le-ssp-cloud-cest-quoi",
+    "href": "slides/introduction.html#le-ssp-cloud-cest-quoi",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le SSP Cloud, c’est quoi ?",
+    "text": "Le SSP Cloud, c’est quoi ?"
+  },
+  {
+    "objectID": "slides/introduction.html#le-ssp-cloud-cest-quoi-1",
+    "href": "slides/introduction.html#le-ssp-cloud-cest-quoi-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le SSP Cloud, c’est quoi ?",
+    "text": "Le SSP Cloud, c’est quoi ?\n\nDes serveurs hébergés à l’Insee avec de nombreux logiciels statistiques (dont R) dessus\nEnvironnement ouvert aux agents de l’Etat et à des formations en data science pour découvrir et expérimenter\nSeulement avec des données en open data\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans la documentation du SSP Cloud ou dans utilitR"
+  },
+  {
+    "objectID": "slides/introduction.html#pourquoi-utiliser-le-ssp-cloud",
+    "href": "slides/introduction.html#pourquoi-utiliser-le-ssp-cloud",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Pourquoi utiliser le SSP Cloud ?",
+    "text": "Pourquoi utiliser le SSP Cloud ?\n\nPénible d’installer R, RStudio et une ribambelle de packages\nMise à disposition d’un environnement standardisé:\n\nTP parfaitement reproductibles\n\nUn TP peut être lancé en un clic-bouton:\n\nExemple bouton TO DO"
+  },
+  {
+    "objectID": "slides/introduction.html#créer-un-compte",
+    "href": "slides/introduction.html#créer-un-compte",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Créer un compte",
+    "text": "Créer un compte\n\nUtiliser votre adresse @ens.fr pour créer un compte sur https://datalab.sspcloud.fr/\nVotre nom d’utilisateur ne doit contenir ni caractères accentués, ni caractère spécial, ni signe de ponctuation:\n\n\nVous pouvez adopter le format prenomnom en faisant attention aux règles précédentes. Par exemple, si vous vous appelez Jérôme-Gérard L’Hâltère, votre nom d’utilisateur pourra être jeromegerardlhaltere."
+  },
+  {
+    "objectID": "slides/introduction.html#lancer-un-service-rstudio",
+    "href": "slides/introduction.html#lancer-un-service-rstudio",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Lancer un service RStudio",
+    "text": "Lancer un service RStudio\nAide-mémoire\n\nCliquer à gauche sur Catalogue de service"
+  },
+  {
+    "objectID": "slides/introduction.html#lancer-un-service-rstudio-1",
+    "href": "slides/introduction.html#lancer-un-service-rstudio-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Lancer un service RStudio",
+    "text": "Lancer un service RStudio\nAide-mémoire\n\nLaisser les options par défaut de RStudio"
+  },
+  {
+    "objectID": "slides/introduction.html#lancer-un-service-rstudio-2",
+    "href": "slides/introduction.html#lancer-un-service-rstudio-2",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Lancer un service RStudio",
+    "text": "Lancer un service RStudio\nAide-mémoire\n\nRécupérer le mot de passe des services RStudio"
+  },
+  {
+    "objectID": "slides/introduction.html#lancer-un-service-rstudio-3",
+    "href": "slides/introduction.html#lancer-un-service-rstudio-3",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Lancer un service RStudio",
+    "text": "Lancer un service RStudio\nAide-mémoire\n\nAutre manière de récupérer le mot de passe des services RStudio"
+  },
+  {
+    "objectID": "slides/introduction.html#lancer-un-service-rstudio-4",
+    "href": "slides/introduction.html#lancer-un-service-rstudio-4",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Lancer un service RStudio",
+    "text": "Lancer un service RStudio\nAide-mémoire\n\nS’authentifier sur le service"
+  },
+  {
+    "objectID": "slides/introduction.html#linterface-rstudio",
+    "href": "slides/introduction.html#linterface-rstudio",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "L’interface RStudio",
+    "text": "L’interface RStudio\n\nIllustration empruntée à ce livre"
   },
   {
     "objectID": "index.html",

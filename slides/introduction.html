@@ -510,17 +510,17 @@
 </div>
 <div class="fragment">
 <ul>
-<li><a href="https://www.sspcloud.fr/formation">Portail de formation du <code>SSPCloud</code></a></li>
+<li><a href="https://www.sspcloud.fr/formation">Portail de formation du <code>SSPCloud</code></a> ;</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li><a href="https://inseefrlab.github.io/formation-r-lissage-spatial/tuto.html#introduction">Formation au lissage spatial</a> ;</li>
+<li><a href="https://inseefrlab.github.io/funathon2023/">Funathon organisé par l’Insee</a> ;</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li><a href="https://r4ds.had.co.nz/"><em><code>R</code> for Data Science</em></a> (la bible !)</li>
+<li><a href="https://r4ds.had.co.nz/"><em><code>R</code> for Data Science</em></a> (la bible !) ;</li>
 </ul>
 </div>
 <div class="fragment">
@@ -1288,12 +1288,99 @@ Références
 <ul>
 <li>Un pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques <em>etc</em>.</li>
 </ul>
+</div>
+</section></section>
+<section>
+<section id="prise-en-main-du-ssp-cloud" class="title-slide slide level1 center" data-background-image="background.svg" data-background-size="contain">
+<h1>Prise en main du <code>SSP Cloud</code></h1>
+
+<img data-src="https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/DragonHoldingComputer.svg" class="r-stretch"></section>
+<section id="le-ssp-cloud-cest-quoi" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Le SSP Cloud, c’est quoi ?</h2>
+
+<img data-src="https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/macbook_onyxia.png" class="r-stretch"></section>
+<section id="le-ssp-cloud-cest-quoi-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Le SSP Cloud, c’est quoi ?</h2>
+<ul>
+<li>Des serveurs hébergés à l’Insee avec de nombreux logiciels statistiques (dont <code>R</code>) dessus</li>
+<li>Environnement ouvert aux agents de l’Etat et à des formations en data science pour découvrir et expérimenter</li>
+<li><strong>Seulement avec des données en open data</strong></li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Plus de détails dans la <a href="https://www.sspcloud.fr/formation">documentation du <code>SSP Cloud</code></a> ou dans <a href="https://www.book.utilitr.org/01_r_insee/fiche_utiliser_rstudio_sspcloud"><code>utilitR</code></a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="pourquoi-utiliser-le-ssp-cloud" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Pourquoi utiliser le SSP Cloud ?</h2>
+<ul>
+<li>Pénible d’installer <code>R</code>, <code>RStudio</code> et une ribambelle de <em>packages</em></li>
+<li>Mise à disposition d’un environnement standardisé:
+<ul>
+<li>TP parfaitement reproductibles</li>
+</ul></li>
+<li>Un TP peut être lancé en un clic-bouton:
+<ul>
+<li><strong>Exemple bouton TO DO</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="créer-un-compte" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Créer un compte</h2>
+<ul>
+<li>Utiliser votre adresse <code>@ens.fr</code> pour créer un compte sur https://datalab.sspcloud.fr/</li>
+<li>Votre nom d’utilisateur ne doit contenir ni caractères accentués, ni caractère spécial, ni signe de ponctuation:</li>
+</ul>
+<blockquote>
+<p>Vous pouvez adopter le format prenomnom en faisant attention aux règles précédentes. Par exemple, si vous vous appelez Jérôme-Gérard L’Hâltère, votre nom d’utilisateur pourra être <strong>jeromegerardlhaltere</strong>.</p>
+</blockquote>
+</section>
+<section id="lancer-un-service-rstudio" class="slide level2" data-transition="fade-in slide-out" data-transition-speed="slow" data-background-image="background.svg" data-background-size="contain">
+<h2>Lancer un service <code>RStudio</code></h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="aide-mémoire">Aide-mémoire</h3>
+
+<img data-src="https://www.book.utilitr.org/pics/SSPCloud/01_catalogue_services.png" class="r-stretch quarto-figure-center"><p class="caption">Cliquer à gauche sur <code>Catalogue de service</code></p></section>
+<section id="lancer-un-service-rstudio-1" class="slide level2" data-transition="fade-in slide-out" data-transition-speed="slow" data-background-image="background.svg" data-background-size="contain">
+<h2>Lancer un service <code>RStudio</code></h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="aide-mémoire-1">Aide-mémoire</h3>
+
+<img data-src="https://www.book.utilitr.org/pics/SSPCloud/02b_lancer_rstudio_options.png" class="r-stretch quarto-figure-center"><p class="caption">Laisser les options par défaut de <code>RStudio</code></p></section>
+<section id="lancer-un-service-rstudio-2" class="slide level2" data-transition="fade-in slide-out" data-transition-speed="slow" data-background-image="background.svg" data-background-size="contain">
+<h2>Lancer un service <code>RStudio</code></h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="aide-mémoire-2">Aide-mémoire</h3>
+
+<img data-src="img/auth-onyxia-1.png" class="r-stretch quarto-figure-center"><p class="caption">Récupérer le mot de passe des services <code>RStudio</code></p></section>
+<section id="lancer-un-service-rstudio-3" class="slide level2" data-transition="fade-in slide-out" data-transition-speed="slow" data-background-image="background.svg" data-background-size="contain">
+<h2>Lancer un service <code>RStudio</code></h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="aide-mémoire-3">Aide-mémoire</h3>
+
+<img data-src="https://www.book.utilitr.org/pics_resized/SSPCloud/99_SSPCloud_4bis.png" class="r-stretch quarto-figure-center"><p class="caption">Autre manière de récupérer le mot de passe des services <code>RStudio</code></p></section>
+<section id="lancer-un-service-rstudio-4" class="slide level2" data-transition="fade-in slide-out" data-transition-speed="slow" data-background-image="background.svg" data-background-size="contain">
+<h2>Lancer un service <code>RStudio</code></h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="aide-mémoire-4">Aide-mémoire</h3>
+
+<img data-src="img/auth-onyxia-2.png" class="r-stretch quarto-figure-center"><p class="caption">S’authentifier sur le service</p></section>
+<section id="linterface-rstudio" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>L’interface <code>RStudio</code></h2>
+
+<img data-src="https://bookdown.org/ageraci/STAT160Companion/images/rstudiopanes.png" class="r-stretch quarto-figure-center"><p class="caption">Illustration empruntée à <a href="https://bookdown.org/ageraci/STAT160Companion/intro.html">ce livre</a></p></section></section>
+<section id="premier-tp-se-familiariser-au-langage-de-base" class="title-slide slide level1 center" data-background-image="background.svg" data-background-size="contain">
+<h1>Premier TP: se familiariser au langage de base</h1>
 
 <div class="footer footer-default">
 <p>École Normale Supérieure</p>
 </div>
-</div>
-</section></section>
+</section>
+
 
     </div>
   </div>
