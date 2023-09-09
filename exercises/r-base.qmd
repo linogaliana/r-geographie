@@ -11,10 +11,11 @@ les listes de valeurs de même type comme "ENS Ulm", "ENS Lyon", "ENS Paris-Sacl
 ou 4 8 15 16 23 42.
 
 Ces listes de valeurs en une dimension peuvent être représentées
-par des vecteurs. Les trois types les plus pratiques en `R` sont :
+par des vecteurs. Les quatre types les plus pratiques en `R` sont :
 
 - Les vecteurs numériques ;
 - Les chaines de caractères ;
+- Les vecteurs logiques ;
 - Les facteurs.
 
 
@@ -296,7 +297,42 @@ sprintf("La première fois qu'%s vit %s", "Aurélien", "Bérénice")
 sprintf("%s et %s font %s", 2, 2, 2+2)
 ```
 
+## Vecteurs logiques
 
+En R, les vecteurs logiques sont utilisés pour stocker des valeurs booléennes, c'est-à-dire des valeurs vraies (TRUE) ou fausses (FALSE).
+Les vecteurs logiques sont couramment utilisés pour effectuer des opérations de logique, des filtres de données et des sélections conditionnelles. 
+Nous y reviendrons par la suite, nous les utiliserons fréquemment mais de manière indirecte.
+
+
+```{r}
+5 > 3  # TRUE, car 5 est supérieur à 3
+2 == 2 # TRUE, car 2 est égal à 2
+0 == (2 - 2) # TRUE, le chainage des opérations est respecté
+1 < 0  # FALSE, car 1 n'est pas inférieur à 0
+```
+
+On peut généraliser les comparaisons pour obtenir des vecteurs:
+
+```{r}
+c(2, 4, 6, 8, 10, 1, 3) %% 2 == 0 # TRUE pour les nombres pairs, FALSE pour les impairs
+```
+
+Ceci nous permettra de sélectionner des données. Par exemple si on a des données d'âge, on
+peut ne vouloir garder que les adultes (valeurs supérieures à 18)
+
+```{r}
+c(25, 3, 69) > 18
+```
+
+
+## Les facteurs
+
+
+
+
+# Créer des variables
+
+# Les valeurs manquantes
 
 
 ## Exercice création variables
