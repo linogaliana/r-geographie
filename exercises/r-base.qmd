@@ -1,0 +1,324 @@
+ 
+
+Dans ce premier TP, nous allons découvrir les objets les plus fondamentaux en R : les **nombres** et les **chaînes de caractères**.
+
+Nous allons également voir comment on peut assigner des objets à des **variables** pour réaliser des opérations avec ces objets.
+
+# Principaux types d'objets en `R`
+
+Nous allons commencer par les objets en une dimension, c'est-à-dire
+les listes de valeurs de même type comme "ENS Ulm", "ENS Lyon", "ENS Paris-Saclay"
+ou 4 8 15 16 23 42.
+
+Ces listes de valeurs en une dimension peuvent être représentées
+par des vecteurs. Les trois types les plus pratiques en `R` sont :
+
+- Les vecteurs numériques ;
+- Les chaines de caractères ;
+- Les facteurs.
+
+
+## Vecteurs numériques
+
+`R` propose différents types d'objets numériques. Pour l'analyse de données, nous allons principalement
+nous intéresser principalement à deux types :
+
+- les entiers (type `int` pour *integer*)
+- les nombres réels (type `double` pour nombres à virgule flottante)
+
+En pratique, les premiers sont un cas spécial des seconds. Contrairement à d'autres langages,
+`R` ne tente pas de contraindre de manière automatique les nombres sans virgules à être
+des entiers (_integers_). C'est pratique mais sur de gros volumes de données ça peut
+poser problème car les _double_ sont plus lourds que les _int_. 
+
+En général, on utilise la fonction `class` pour afficher le type d'un objet `R` et
+si on veut être plus précis on peut utiliser `typeof`
+
+```{r}
+class(3)
+typeof(3)
+class(3.14)
+typeof(3.14)
+```
+
+Les fonctions `as.numeric` et `as.integer` peuvent être utilisées pour convertir d'un type à l'autre:
+
+```{r}
+# Conversion en int
+as.integer(3.79)
+```
+
+::: {.callout-danger}
+Attention à la conversion *double* -> *int*, qui tronque la partie décimale.
+
+```{r}
+# double -> int -> double
+as.numeric(
+    as.integer(3.79)
+)
+```
+:::
+
+Les floats peuvent également être écrits en notation scientifique :
+
+```{r}
+2e3
+class(2e3)
+```
+
+
+### Opérations arithmétiques de base
+
+```{r}
+# Addition
+8 + 9
+```
+
+::: {.callout-note}
+`R` est bien fait, il adapte le type des variables pour les mettre en cohérence lorsqu'elles
+peuvent l'être:
+
+```{r}
+# Addition
+8.1 + as.integer(9)
+```
+
+:::
+
+```{r}
+# Soustraction
+5 - 2
+```
+
+```{r}
+# Multiplication
+2 * 6
+```
+
+```{python}
+# Division
+9 / 4
+```
+
+```{python}
+# Division par 0
+3 / 0
+-5 / 0
+```
+
+::: {.callout-note}
+Certains langages, comme `Python`, ne permettent pas la division par 0, ils renvoient 
+une erreur plutôt qu'`Inf`. C'est un peu piégeux en `R` car cela peut arriver
+d'avoir des divisions par 0 sans qu'on s'en rende compte...
+:::
+
+
+```{r}
+# Division euclidienne : quotient
+9 %/% 4
+# Division euclidienne : reste
+9 %% 4
+```
+
+```{r}
+# Puissance
+2 ^ 5
+# Racine carrée
+sqrt(5)
+# Log
+log(2)
+# Exponentielle
+exp(2)
+```
+
+```{r}
+# Ordre des opérations : convention usuelle
+2 + 5 * (10 - 4)
+```
+
+Si on ne pouvait utiliser `R` qu'en mode calculette de base,
+ça ne serait pas un langage très intéressant pour l'analyse
+de données. L'avantage principal de `R` est qu'on va pouvoir
+manipuler des vecteurs, c'est à dire des suites de nombres.
+On va considérer que les vecteurs sont des suites de nombres
+ordonnés en une seule colonne:
+
+$$
+\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}
+$$
+
+et appliquer des opérations sur chaque ligne de ces vecteurs. 
+On parle de vectorisation des opérations pour désigner une opération
+qui s'appliquera de manière automatique à chaque élément de notre
+vecteur.
+
+Par exemple, la multiplication est vectorielle par défaut:
+
+```{r}
+5*c(1,20,2)
+```
+
+De même l'addition, à condition de mettre des vecteurs de taille cohérente:
+
+```{r}
+c(1,20,2) + c(21,2,20)
+c(1,20,2) - 3 
+```
+
+## Chaînes de caractères
+
+Les chaînes de caractères (ou *strings*) sont utilisées pour stocker de l'information textuelle.
+Plus précisément, elles peuvent stocker tout caractère de type [Unicode](https://fr.wikipedia.org/wiki/Unicode), ce qui inclut les lettres des différentes langues, mais également la ponctuation, les chiffres, les smileys, etc.
+
+Un *string* se définit en mettant l'information entre apostrophes ou entre guillemets (anglais). 
+
+### Créer un _string_
+
+```{r}
+# Première manière 
+'mot'
+```
+
+```{r}
+# Deuxième manière
+"ça fonctionne aussi"
+```
+
+:::{.callout-danger}
+Attention au mélange des deux !
+
+```{r}
+#| error: true
+print('l'apostrophe, quelle catastrophe')
+```
+
+La seconde apostrophe est comprise comme la fin du _string_, et R ne sait pas interpréter le reste de la séquence.
+
+Il faut donc varier en cas de besoin :
+
+```{r}
+"l'apostrophe, aucun problème"
+```
+
+Même chose en sens inverse
+
+```{r}
+'les guillemets, "aucun problème"'
+```
+
+
+:::
+
+### Quelques fonctions utiles
+
+`R` propose par défaut un certain nombre de fonctions utiles pour 
+extraire ou transformer des vecteurs textuels. On en découvrira
+des plus pratiques et plus générales lorsqu'on se focalisera sur
+les données textuelles et le package [`stringr`](https://stringr.tidyverse.org/)
+
+La fonction `nchar` permet de compter le nombre de caractères d'un *string*, tous caractères inclus (lettres, chiffres, espaces, ponctuation...).
+
+```{r}
+nchar("J'ai 19 charactères")
+```
+
+Il ne faut pas la confondre avec la fonction `length`. Celle-ci
+nous donne la longueur du vecteur. Par exemple, 
+
+```{r}
+length("J'ai 19 charactères")
+```
+
+est de taille 1 puisqu'on a un seul élément dans notre vecteur. 
+
+```{r}
+length(c("J'ai 19 charactères", "pas moi"))
+```
+
+D'ailleurs `nchar` est également une opération vectorielle:
+
+```{r}
+nchar(c("J'ai 19 charactères", "pas moi"))
+```
+
+```{r}
+# Mettre en majuscules
+toupper(c("sequence 850", "Sequence 850"))
+```
+
+```{r}
+# Mettre en minuscules
+tolower(c("SEQuEnce 850", "SEQUENCE 850"))
+```
+
+```{r}
+strsplit(c("une séquence    à séparer", "uneautreàséparer"), split = " ")
+```
+
+A ce stade, la sortie obtenue peut paraître étrange car nous n'avons pas
+encore découvert le type `list`. Ce dernier n'étant pas forcément pratique
+pour l'analyse statistique, ce sera beaucoup plus pratique d'utiliser
+le _package_ `stringr` pour faire un _split`
+
+```{r}
+strsplit(c("une séquence    à séparer", "uneautreàséparer"), split = "à")
+```
+
+On peut concaténer des chaines de caractère ensemble, c'est très pratique. 
+Malheureusement le `+` ne fonctionne pas en `R` pour les chaines de 
+caractères (contrairement à `Python`). Pour effectuer cela on 
+utilise `paste` ou `paste0` (une version moins générale mais qui est
+pensée pour les concaténations simples):
+
+
+```{r}
+paste0(
+    "La première fois qu'Aurélien vit Bérénice, ",
+    "il la trouva franchement laide. Elle lui déplut, enfin. ",
+    "Il n'aima pas comment elle était habillée."
+)
+
+paste(
+    "La première fois qu'Aurélien vit Bérénice,",
+    "il la trouva franchement laide. Elle lui déplut, enfin.",
+    "Il n'aima pas comment elle était habillée.",
+    sep = " "
+)
+```
+
+
+On peut utiliser les strings comme _templates_. C'est particulièrement
+pratique pour automatiquement créer du texte à partir de valeurs 
+issues de nos données. Pour cela on utilise `sprintf`:
+
+```{r}
+sprintf("La première fois qu'%s vit %s", "Aurélien", "Bérénice")
+sprintf("%s et %s font %s", 2, 2, 2+2)
+```
+
+
+
+
+## Exercice création variables
+
+    Dans la console, créer deux variables numériques a et b de valeur 5 et 4 par assignation : a <- 5 et b <- 4
+    Que se passe-t-il dans le panneau Environnement (en haut à droite) ?
+    Faites maintenant un calcul avec ces variables comme a+b et a*b.
+    Vous allez ensuite créer une troisième variable à partir d’un calcul sur les deux premières : c <- a + 3 * b
+    Vous pouvez afficher la liste des variables avec la fonction ls().
+    Modifiez maintenant la valeur de a en lui donnant la valeur 10. Vérifiez votre ré-assignation dans la panneau Environement.
+    Créez une variable chaîne de caractère : t <- 'texte' (vous pouvez également utiliser les doubles quotes comme “texte” mais ne les mélangez pas).
+    Concaténez (mettez bout à bout) a et t avec la fonction paste(a, t). Que constatez-vous ?
+    Pour plus de renseignements sur la fonction paste(), pensez à utiliser l’aide de R avec help(paste).
+    Créez maintenant les variables A <- 15 et B <- 12. Que voyez-vous dans la panneau Environement ?
+    Vous pouvez supprimer la variables A et B en utilisant la fonction rm() (utilisez l’aide de R pour avoir plus de renseignements sur la fonction rm).
+
+## Exercice filesystem & R
+
+    Observer la structure du dossier existant
+
+    Sur le poste de travail, créer un dossier ‘premiers_pas’ à partir du menu ‘New Folder’ (cadran droite bas)
+
+    Faire une recherche dans la partie Help de RStudio pour la fonction `list.files`
+
+    Créer un script à partir du menu ‘File/New File/R script’ et l’enregistrer sous ‘script1.R’
