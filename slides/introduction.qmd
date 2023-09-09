@@ -117,15 +117,15 @@ _(présentation tout à l'heure)_
 
 . . .
 
-- [Portail de formation du `SSPCloud`](https://www.sspcloud.fr/formation)
+- [Portail de formation du `SSPCloud`](https://www.sspcloud.fr/formation) ;
 
 . . .
 
-- [Formation au lissage spatial](https://inseefrlab.github.io/formation-r-lissage-spatial/tuto.html#introduction) ;
+- [Funathon organisé par l'Insee](https://inseefrlab.github.io/funathon2023/) ;
 
 . . .
 
-- [_`R` for Data Science_](https://r4ds.had.co.nz/) (la bible !)
+- [_`R` for Data Science_](https://r4ds.had.co.nz/) (la bible !) ;
 
 . . .
 
@@ -676,5 +676,77 @@ Voir cours dédié sur le [sujet des bonnes pratiques](https://github.com/InseeF
 . . .
 
 - Un pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques _etc_.
+
+# Prise en main du `SSP Cloud`
+
+![](https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/DragonHoldingComputer.svg)
+
+## Le SSP Cloud, c'est quoi ?
+
+![](https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/macbook_onyxia.png)
+
+## Le SSP Cloud, c'est quoi ?
+
+- Des serveurs hébergés à l'Insee avec de nombreux logiciels statistiques (dont `R`) dessus
+- Environnement ouvert aux agents de l'Etat et à des formations en data science
+pour découvrir et expérimenter
+- __Seulement avec des données en open data__
+
+
+:::{.callout-note}
+Plus de détails dans la [documentation du `SSP Cloud`](https://www.sspcloud.fr/formation) ou dans [`utilitR`](https://www.book.utilitr.org/01_r_insee/fiche_utiliser_rstudio_sspcloud)
+:::
+
+## Pourquoi utiliser le SSP Cloud ?
+
+- Pénible d'installer `R`, `RStudio` et une ribambelle de _packages_
+- Mise à disposition d'un environnement standardisé:
+    + TP parfaitement reproductibles
+- Un TP peut être lancé en un clic-bouton:
+    + __Exemple bouton TO DO__
+
+## Créer un compte
+
+- Utiliser votre adresse `@ens.fr` pour créer un compte sur https://datalab.sspcloud.fr/
+- Votre nom d’utilisateur ne doit contenir ni caractères accentués, ni caractère spécial, ni signe de ponctuation:
+
+> Vous pouvez adopter le format prenomnom en faisant attention aux règles précédentes. Par exemple, si vous vous appelez Jérôme-Gérard L’Hâltère, votre nom d’utilisateur pourra être __jeromegerardlhaltere__.
+
+## Lancer un service `RStudio`  {transition="fade-in slide-out" transition-speed="slow"}
+### Aide-mémoire
+
+![Cliquer à gauche sur `Catalogue de service`](https://www.book.utilitr.org/pics/SSPCloud/01_catalogue_services.png)
+
+
+## Lancer un service `RStudio`  {transition="fade-in slide-out" transition-speed="slow"}
+### Aide-mémoire
+
+![Laisser les options par défaut de `RStudio`](https://www.book.utilitr.org/pics/SSPCloud/02b_lancer_rstudio_options.png)
+
+
+## Lancer un service `RStudio`  {transition="fade-in slide-out" transition-speed="slow"}
+### Aide-mémoire
+
+![Récupérer le mot de passe des services `RStudio`](img/auth-onyxia-1.png)
+
+## Lancer un service `RStudio`  {transition="fade-in slide-out" transition-speed="slow"}
+### Aide-mémoire
+
+![Autre manière de récupérer le mot de passe des services `RStudio`](https://www.book.utilitr.org/pics_resized/SSPCloud/99_SSPCloud_4bis.png)
+
+## Lancer un service `RStudio`  {transition="fade-in slide-out" transition-speed="slow"}
+### Aide-mémoire
+
+![S'authentifier sur le service](img/auth-onyxia-2.png)
+
+
+## L'interface `RStudio` 
+
+
+![Illustration empruntée à [ce livre](https://bookdown.org/ageraci/STAT160Companion/intro.html)](https://bookdown.org/ageraci/STAT160Companion/images/rstudiopanes.png)
+
+# Premier TP: se familiariser au langage de base
+
+
 
 
