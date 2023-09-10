@@ -318,16 +318,55 @@ c(2, 4, 6, 8, 10, 1, 3) %% 2 == 0 # TRUE pour les nombres pairs, FALSE pour les 
 ```
 
 Ceci nous permettra de sélectionner des données. Par exemple si on a des données d'âge, on
-peut ne vouloir garder que les adultes (valeurs supérieures à 18)
+peut ne vouloir garder que les prénoms des adultes. Cela pourra être fait
+sur le modèle suivant:
 
 ```{r}
-c(25, 3, 69) > 18
+c('Pierre', 'Paul', 'François', 'et les autres')[
+    c(25, 3, 61, 17) >= 18
+]
 ```
+
+
+Néanmoins nous verrons comment intégrer ce principe dans
+une séquence plus générale d'opérations.
 
 
 ## Les facteurs
 
+Les facteurs (_factors_) sont utilisés pour représenter des variables catégorielles,
+c'est-à-dire des variables qui prennent un nombre fini et prédéterminé de niveaux ou de catégories.
 
+Pour convertir un vecteur numérique ou textuel en vecteur, on utilise
+la fonction `factor`:
+
+```{r}
+factor(
+    c("capitale","préfecture","sous-préfecture","préfecture")
+)
+factor(c(1,10,3))
+```
+
+Les niveaux d'un facteur sont les différentes catégories ou valeurs possibles que la variable peut prendre. 
+On peut les lister avec la fonction `levels`
+
+```{r}
+levels(
+    factor(
+        c("capitale","préfecture","sous-préfecture","préfecture")
+    )
+)
+```
+
+On peut aussi ordonner les niveaux si cela a un sens:
+
+```{r}
+factor(
+    c("capitale","préfecture","sous-préfecture","préfecture"),
+    levels = c("capitale","préfecture","sous-préfecture"),
+    ordered = TRUE
+)
+```
 
 
 # Créer des variables
