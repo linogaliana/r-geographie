@@ -4,6 +4,20 @@ Dans ce premier TP, nous allons découvrir les objets les plus fondamentaux en R
 
 Nous allons également voir comment on peut assigner des objets à des **variables** pour réaliser des opérations avec ces objets.
 
+Avant cela, un exercice préparatoire pour se familiariser avec `R` et `RStudio`:
+
+:::{.callout-exercice}
+## Exercice 1
+
+- Observer la structure de votre dossier de travail en bas à droite de `RStudio`
+- Créer un script à partir du menu `File/New File/R script` et l’enregistrer sous le nom `script1.R`
+- Observer la mise à jour de votre dossier en bas à droite
+- Faire une recherche dans la partie Help de RStudio pour la fonction `list.files`
+- Ecrire dans `script1.R` le code qui permet de faire la liste des fichiers de votre dossier de travail
+- Utiliser le raccourci `RStudio` <kbd>CTRL</kbd> + <kbd>ENTREE</kbd> pour exécuter ce code dans la console
+
+::: 
+
 # Principaux types d'objets en `R`
 
 Nous allons commencer par les objets en une dimension, c'est-à-dire
@@ -371,29 +385,265 @@ factor(
 
 # Créer des variables
 
+Jusqu'ici, nous avons dû définir à chaque fois notre objet avant de pouvoir lui appliquer une transformation. Comment faire si l'on veut réutiliser un objet et lui appliquer plusieurs transformations ? Ou faire des opérations à partir de différents objets ?
+
+Pour cela, on va assigner les objets à des variables.
+Cela permet ensuite de réaliser des opérations à partir de ces variables.
+
+L'assignation se fait suivant le format :
+
+```r
+nom_de_la_variable <- objet
+```
+
+Le sens de la flèche a une importance et il
+est conventionnel de mettre à gauche le nom
+de la variable (et donc
+d'utiliser `nom_de_la_variable <- objet` plutôt que `objet -> nom_de_la_variable`).
+
+::: {.callout-note}
+
+L'assignation sous la forme `<-` est une spécificité de `R` par rapport
+à beaucoup de langages. Dans la plupart des langages informatiques,
+comme en `Python` par exemple,
+l'assignation se fait avec `=`:
+
+```r
+nom_de_la_variable = objet
+```
+
+C'est également possible en `R` mais il
+est plus conventionnel d'utiliser `<-`.
+
+:::
+
+
+
+```{python}
+x <- 5
+x
+```
+
+```{python}
+class(x)
+```
+
+```{python}
+x <- c(5, 10)
+```
+
+```{python}
+y <- x + 2*x
+y
+```
+
+Contrairement à d'autres langages de programmation, `R` est dit *dynamiquement* typé : il est possible de réassigner une variable à un objet de type différent. Cela facilite la lecture et le développement, mais peut parfois générer des problèmes difficiles à débugger...
+Il faut donc toujours bien faire attention que le type de la variable est bien celui que l'on s'imagine manipuler.
+
+```{python}
+x <- 3
+x <- "blabla"
+class(x)
+```
+
+Il y a naturellement certaines contraintes sur les opérations selon les types des objets.
+
+```{python}
+#| error: true
+x <- "test"
+y <- 3
+x + y
+```
+
+Il est par contre possible d'harmoniser les types en amont :
+
+```{python}
+x <- "5"
+y <- 3
+z <- as.numeric(x)
+x + z
+```
+
+# Indexation
+
+En `R`, les indices de position dans les vecteurs permettent d'accéder à des éléments spécifiques en utilisant leur position dans le vecteur. 
+Les indices commencent à 1, ce qui signifie que le premier élément a un indice de 1, le deuxième a un indice de 2, et ainsi de suite.
+
+```{r}
+x <- 2*seq(1,10)
+```
+
+Pour accéder à un élément spécifique du vecteur en utilisant son indice de position, on utilise la notation `[ ]`. 
+Par exemple, pour obtenir le deuxième élément de `x`, vous pouvez faire ceci :
+
+```{r}
+# Accéder au deuxième élément du vecteur
+deuxieme_position <- x[2]
+deuxieme_position
+```
+
+Maintenant, la variable `deuxieme_position` contient la valeur 4.
+
+::: {.callout-note}
+On peut d'ailleurs mettre à jour le vecteur `x`, cela ne changera
+pas la valeur de la variable `deuxieme_position` :
+
+```{r}
+x <- seq(5,9)
+print(deuxieme_position)
+deuxieme_position == x[2]
+```
+
+En `R`, une valeur de variable n'est changée que s'il y a,
+d'une manière ou d'une autre, réassignation. 
+:::
+
+On peut aussi utiliser une séquence de valeurs pour récupérer
+un sous-ensemble de notre vecteur (on appelle cette opération _slice_)
+
+```{r}
+x <- seq(5,15)
+x[1:5]
+x[c(2,3,8)]
+```
+
+Il est également possible de faire des sélections négatives, c'est-à-dire
+toutes les valeurs sauf certaines. Pour cela, on utilise les indices négatifs
+
+```{r}
+x[-3]
+x[c(-3, -1)]
+```
+
+Cependant, ce n'est pas une bonne pratique d'utiliser de manière 
+brute les nombres. En effet, imaginons que vous transformiez
+dans une longue chaine d'opérations votre vecteur: vous ne savez
+plus forcément quelles positions stockent quelles valeurs (et sur 
+les vrais jeux de données vous ne savez même pas exactement quelles
+lignes de votre jeu de données stockent quelles valeurs). 
+
+C'est pour cette raison qu'on privilégie les sélections à partir de conditions
+logiques. On l'avait vu précédemment sous cette forme :
+
+```{r}
+c('Pierre', 'Paul', 'François', 'et les autres')[
+    c(25, 3, 61, 17) >= 18
+]
+```
+
+Maintenant que nous connaissons l'assignation de variables intermédiaires, 
+la syntaxe se simplifie.
+
+```{r}
+villes <- c("Paris", "Toulouse", "Narbonne", "Foix")
+statut <- c("capitale","préfecture","sous-préfecture","préfecture")
+villes[statut == "préfecture"]
+```
+
+Nous découvrirons lors du prochain chapitre une généralisation de cette
+approche avec les __filtres__ de données. 
+
 # Les valeurs manquantes
 
+Les vrais jeux de données ne sont pas toujours complets et le sont
+même rarement. Par exemple, 
+dans des séries longues de PIB, les valeurs rétrospectives peuvent
+manquer pour des pays qui n'existaient pas avant une certaine date. 
 
-## Exercice création variables
+Les valeurs manquantes, souvent représentées par `NA` (Not Available) en `R`,
+sont un aspect essentiel de la gestion des données et l'une des forces de `R`
+est de proposer une gestion cohérente de celles-ci. Par exemple, si on désire
+faire la moyenne mondiale des PIB sur une année passée: faut-il exclure ou non les
+pays pour lesquels on a pas d'information cette année-là ou renvoyer une erreur ?
+La gestion appropriée des valeurs manquantes est cruciale lors de l'analyse de données et de la création de modèles statistiques.
 
-    Dans la console, créer deux variables numériques a et b de valeur 5 et 4 par assignation : a <- 5 et b <- 4
-    Que se passe-t-il dans le panneau Environnement (en haut à droite) ?
-    Faites maintenant un calcul avec ces variables comme a+b et a*b.
-    Vous allez ensuite créer une troisième variable à partir d’un calcul sur les deux premières : c <- a + 3 * b
-    Vous pouvez afficher la liste des variables avec la fonction ls().
-    Modifiez maintenant la valeur de a en lui donnant la valeur 10. Vérifiez votre ré-assignation dans la panneau Environement.
-    Créez une variable chaîne de caractère : t <- 'texte' (vous pouvez également utiliser les doubles quotes comme “texte” mais ne les mélangez pas).
-    Concaténez (mettez bout à bout) a et t avec la fonction paste(a, t). Que constatez-vous ?
-    Pour plus de renseignements sur la fonction paste(), pensez à utiliser l’aide de R avec help(paste).
-    Créez maintenant les variables A <- 15 et B <- 12. Que voyez-vous dans la panneau Environement ?
-    Vous pouvez supprimer la variables A et B en utilisant la fonction rm() (utilisez l’aide de R pour avoir plus de renseignements sur la fonction rm).
+La fonction `is.na()` permet de vérifier si une valeur est manquante dans un vecteur:
 
-## Exercice filesystem & R
+```{r}
+# Créer un vecteur avec des valeurs manquantes
+donnees <- c(10, NA, 30, NA, 50)
 
-    Observer la structure du dossier existant
+is.na(donnees) # Renvoie TRUE pour les valeurs manquantes, FALSE sinon
+```
 
-    Sur le poste de travail, créer un dossier ‘premiers_pas’ à partir du menu ‘New Folder’ (cadran droite bas)
+La gestion appropriée des valeurs manquantes est cruciale pour éviter des biais dans les analyses statistiques et pour obtenir des résultats fiables
+car les valeurs manquantes sont rarement un hasard: il existe souvent une raison pour lesquelles une valeur est manquante
+et l'hypothèse de [_missing at randomn_](https://stefvanbuuren.name/fimd/sec-MCAR.html) est souvent fausse. 
 
-    Faire une recherche dans la partie Help de RStudio pour la fonction `list.files`
+Il existe plusieurs approches pour traiter les valeurs manquantes en fonction de l'objectif d'une analyse. Les trois stratégies les plus courantes sont :
 
-    Créer un script à partir du menu ‘File/New File/R script’ et l’enregistrer sous ‘script1.R’
+- Suppression des valeurs manquantes : supprimer les lignes contenant des valeurs manquantes à l'aide de la fonction `na.omit()` ou `complete.cases()` (c'est par exemple ce que fait la régression linéaire par défaut dans `R`). Cependant, cette approche peut entraîner une perte d'informations et l'introduction de biais, elle n'est donc pas à faire à la légère.
+- Imputation des valeurs manquantes : En faisant des hypothèses sur la distribution sous-jacente des valeurs manquantes, les valeurs de ces dernières peuvent être estimées. La méthode la plus simple est d'imputer à la moyenne ou à la médiane mais il existe des méthodes moins frustres comme la régression ou les méthodes basées sur les voisins les plus proches. Néanmoins cette imputation n'est pas à prendre à la légère car elle change la distribution de la variable observée, ce qui peut avoir un
+impact sur les analyses ultérieures, et elle est très dépendante du choix de modélisation. 
+- Traiter les valeurs manquantes comme un groupe à part : Dans les statistiques descriptives, il est possible de réaliser des analyses en mettant un groupe où les valeurs manquantes sont fréquentes à part.
+
+
+# Exercices
+
+:::{.callout-exercice}
+## Exercice 2
+Afficher le type de `x` lorsque : 
+
+```{r}
+#| output: false
+x <- 3
+x <- "test"
+x <- 3.5
+```
+:::
+
+
+:::{.callout-exercice}
+## Exercice 3
+
+Calculer la somme des longueurs de chacune des chaînes de caractères suivantes : 
+
+- "une première chaîne"
+- "et une deuxième"
+- "jamais deux sans trois"
+
+```{r}
+#| echo: false
+#| output: false
+
+x1 <- "une première chaîne"
+x2 <- "et une deuxième"
+x3 <- "jamais deux sans trois"
+nchar(paste(x1, x2, x3, sep = ""))
+```
+:::
+
+
+:::{.callout-exercice}
+## Exercice 4
+
+Quel est le type adapté pour définir un code postal ?
+
+<details>
+<summary>
+Aide si vous ne voyez pas où est le problème
+</summary>
+Faire un test sur les premiers départements, par exemple 02350.
+</details>
+:::
+
+:::{.callout-exercice}
+## Exercice 5
+Supprimer les espaces superflus au début et à la fin de la chaîne suivante :
+
+<details>
+<summary>Aide, si vous êtes bloqués</summary>
+Taper `?trimws()` dans la console pour afficher l'aide de la fonction `trimws()` 
+</details>
+
+```{python}
+a <- "    Un string très mal formatté.         "
+trimws(a)
+```
+:::
+
+Les fonctions de base de manipulation de données textuelles étant parfois
+un peu difficiles d'usage avec `R`, on pourra aller beaucoup plus loin 
+lorsqu'on découvrira le package `stringr`.
+
+
