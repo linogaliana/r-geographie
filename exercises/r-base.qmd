@@ -32,6 +32,11 @@ par des vecteurs. Les quatre types les plus pratiques en `R` sont :
 - Les vecteurs logiques ;
 - Les facteurs.
 
+Nous irons ensuite à des structures de données plus complexes
+mais qui sont en fait celles que nous manipulons plus 
+couramment: les listes et les _dataframes_. 
+
+# Les objets uni-dimensionnels
 
 ## Vecteurs numériques
 
@@ -647,3 +652,7 @@ un peu difficiles d'usage avec `R`, on pourra aller beaucoup plus loin
 lorsqu'on découvrira le package `stringr`.
 
 
+# Les structures plus complexes
+
+- Listes
+- Dataframes
