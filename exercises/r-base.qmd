@@ -1,5 +1,10 @@
  
 
+---
+title: "Découverte des objets de base de `R`"
+echo: false
+---
+
 Dans ce premier TP, nous allons découvrir les objets les plus fondamentaux en R : les **nombres** et les **chaînes de caractères**.
 
 Nous allons également voir comment on peut assigner des objets à des **variables** pour réaliser des opérations avec ces objets.
@@ -622,7 +627,7 @@ nchar(paste(x1, x2, x3, sep = ""))
 :::{.callout-exercice}
 ## Exercice 4
 
-Quel est le type adapté pour définir un code postal ?
+Quel est le type adapté pour définir un [code commune](https://www.insee.fr/fr/information/6800675) ?
 
 <details>
 <summary>
@@ -634,6 +639,39 @@ Faire un test sur les premiers départements, par exemple 02350.
 
 :::{.callout-exercice}
 ## Exercice 5
+
+Voici une liste de codes communes issus du COG
+
+```{r}
+#| echo: true
+liste_communes <- c(
+  '01363', '02644', '03137', '11311', '12269', '13018', '14458', '15008',
+  '23103', '2A119', '2B352', '34005', '2B015', '2A015',
+  '38188', '39574', '40223', '41223', '42064',
+  '63117', '64218', '65209', '66036', '67515', '68266', 
+  '77440', '78372', '79339', '80810', '81295', '82067',
+  '93039', '94054', '95061', '97119', '97219', '97356', '97421', '97611'
+)
+```
+
+1. Extraire le département (deux premiers caractères) pour chaque commune
+2. Compter le nombre de départements uniques dans nos données
+
+```{r}
+#| output: false
+# Question 1
+dep <- substr(liste_communes, start = 1, stop = 2)
+# Question 2
+length(
+  unique(dep)
+)
+```
+
+:::
+
+
+:::{.callout-exercice}
+## Exercice 6
 Supprimer les espaces superflus au début et à la fin de la chaîne suivante :
 
 <details>
@@ -647,6 +685,8 @@ trimws(a)
 ```
 :::
 
+
+
 Les fonctions de base de manipulation de données textuelles étant parfois
 un peu difficiles d'usage avec `R`, on pourra aller beaucoup plus loin 
 lorsqu'on découvrira le package `stringr`.
@@ -654,5 +694,138 @@ lorsqu'on découvrira le package `stringr`.
 
 # Les structures plus complexes
 
-- Listes
-- Dataframes
+Le prolongement naturel des vecteurs sont les matrices. 
+
+Les matrices peuvent être vues comme le prolongement en deux dimensions des vecteurs : au lieu
+d'avoir des données sur une seule dimension, on empile des colonnes côte à côte.
+
+$$
+X = \begin{bmatrix}
+x_{11} & x_{12} \\
+x_{21} & x_{22} \\
+\end{bmatrix}
+$$
+
+Néanmoins, les matrices présentent une limite fondamentale: on ne peut stocker dans
+une matrice que des éléments de même type. Autrement dit, on aura exclusivement
+des matrices numériques, des matrices de caractères ou des matrices logiques. 
+Il est impossible de construire une matrice dont certaines variables sont de type numérique (par exemple l’âge des personnes enquêtées) et d’autres de type caractère (par exemple leur secteur d’activité). Les matrices ne constituent donc pas un type d’objet susceptible de stocker l’information statistique habituellement mobilisée dans les enquêtes sociales.
+Le
+_mix_ des types n'est pas pratique, c'est pour cette raison qu'en fait on utilise
+peu les matrices (sauf si on fait de la statistique mathématique ou de l'algorithmique). 
+
+
+On propose donc un exercice sur les matrices mais on va rapidement passer
+à des types plus flexibles, plus utiles pour l'analyse de données où les 
+variables sont de type diverses. 
+
+:::{.callout-exercice}
+## Exercice 7
+X <- matrix(letters[1:20], nrow = 4, ncol = 5)
+
+1. Sélectionner l'élement le plus à gauche de notre matrice (première ligne, première colonne)
+2. Sélectionner l'ensemble de la première ligne
+3. Sélectionner l'ensemble de la première colonne
+4. Sélectionner les éléments à l'intersection :
+    + Des 2e et 3e ligne
+    + Des 1ères et 3e colonne
+
+<details>
+<summary>
+Indice si vous êtes bloqués
+</summary>
+Avec un vecteur, on accédait aux positions d'un élément avec `x[*]`.
+Avec les matrices le principe est le même mais on ajoute une dimension `x[*,*]`
+</details>
+:::
+
+
+## Listes
+
+Les listes constituent un type d’objet beaucoup plus riche qui permet précisément de rassembler des types d’objets très différents : une liste peut contenir tous les types d’objet (vecteurs numériques, caractères, logiques, matrices, etc.), y compris d’autres listes.
+
+Cette très grande souplesse fait de la liste l’objet de prédilection pour stocker une information complexe et structurée, en particulier les résultats de procédures statistiques complexes (régression, classification, etc.).
+Pour des données plus structurées, comme le sont les jeux de données, nous allons voir ensuite que nous
+allons utiliser un type spécial de liste: le _dataframe_. 
+
+:::{.callout-exercice}
+## Exercice 8
+
+Voici une liste illustrant le principe de stockage
+de données hétérogènes dans un même objet:
+
+```{r}
+ma_liste <- list(
+    1,
+    "texte",
+    matrix(letters[1:20], nrow = 4, ncol = 5),
+    c(2, 3, 4)
+)
+```
+
+1. Afficher la liste et observer la différence avec l'affichage
+des objets précédents
+2. Utiliser la notation `[[]]` pour accéder au 2e élément de notre
+liste pour au 2e nombre au sein du dernier élément de notre matrice
+3. On peut utiliser des noms pour les éléments de notre liste (c'est
+d'ailleurs une bonne pratique). Créer un élément nommé `communes`
+dans votre liste stockant les données suivantes `c('01363', '02644', '03137', '11311')`
+4. Créer un élément `departements` en extrayant les deux premiers chiffres
+de votre élément `communes`
+
+```{r}
+# Question 1: afficher la liste
+ma_liste
+# Question 2: Accéder au deuxième élément de la liste
+ma_liste[[2]]
+ma_liste[[4]][2]
+# Question 3: mettre à jour la liste avec un élément nommé et y accéder
+ma_liste[['communes']] <- c(
+  '01363', '02644', '03137', '11311'
+  )
+ma_liste[['communes']]  
+# Question 4: effectuer une opération 
+ma_liste[['departements']] <- substr(ma_liste[['communes']] , start = 1, stop = 2)
+```
+:::
+
+Lorsqu'on utilise des listes, on peut effectuer
+des opérations sur chaque élément de notre liste.
+On appelle cela boucler sur notre liste.
+
+<!----
+Les boucles
+sont un élément fondamental en informatique et `R`
+comme tous les autres langages, permet de faire
+ce type d'itérations (boucles `for`, `while`...).
+Cela va être illustré dans le prochain exercice. Il
+convient néanmoins de garder en tête que c'est souvent
+une mauvaise pratique d'effectuer une boucle: il existe
+généralement des opérations vectorisées développées
+par
+des experts qui permettent
+d'éviter de faire soi-même une boucle inefficiente.
+----->
+
+:::{.callout-exercice}
+## Exercice 9
+
+1. Combien d'éléments comporte le premier niveau de notre liste ? 
+2. Combien d'éléments comportent chaque niveaux de notre liste ?
+3. Créer un vecteur numérique qui est égal à 1 si `typeof` de l'élément est "double" et 0 sinon 
+
+```{r}
+longueur_liste <- length(ma_liste)
+lapply(ma_liste, length)
+for (i in seq_along(ma_liste)) length(ma_liste[[i]])
+as.numeric(
+    lapply(ma_liste, function(l) typeof(l) == "double")
+)
+```
+
+
+
+:::
+
+
+## Dataframes
