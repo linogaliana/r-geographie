@@ -86,6 +86,8 @@ couramment: les [listes](#lists) et les [_dataframes_](#dataframes).
 
 ## Les vecteurs numériques (_numeric_) {#numeric}
 
+### Les deux types de vecteurs numériques
+
 {{< fa brands r-project >}} propose différents types d'objets numériques. Pour l'analyse de données, nous allons principalement
 nous intéresser principalement à deux types :
 
@@ -96,6 +98,7 @@ En pratique, les premiers sont un cas spécial des seconds. Contrairement à d'a
 {{< fa brands r-project >}} ne tente pas de contraindre de manière automatique les nombres sans virgules à être
 des entiers (_integers_). C'est pratique mais sur de gros volumes de données ça peut
 poser problème car les _double_ sont plus lourds que les _int_. 
+
 
 En général, on utilise la fonction `class` pour afficher le type d'un objet {{< fa brands r-project >}} et
 si on veut être plus précis on peut utiliser `typeof`:
@@ -112,14 +115,16 @@ typeof(3.14)
 Les fonctions `as.numeric` et `as.integer` peuvent être utilisées pour convertir d'un type à l'autre:
 
 ```{r}
+#| echo: true
 # Conversion en int
 as.integer(3.79)
 ```
 
-::: {.callout-danger}
-Attention à la conversion *double* -> *int*, qui tronque la partie décimale.
+::: {.callout-warning}
+Attention à la conversion *double* $\to$ *int*, qui tronque la partie décimale.
 
 ```{r}
+#| echo: true
 # double -> int -> double
 as.numeric(
     as.integer(3.79)
@@ -127,9 +132,10 @@ as.numeric(
 ```
 :::
 
-Les floats peuvent également être écrits en notation scientifique :
+Les _floats_ peuvent également être écrits en notation scientifique :
 
 ```{r}
+#| echo: true
 2e3
 class(2e3)
 ```
@@ -137,51 +143,59 @@ class(2e3)
 
 ### Opérations arithmétiques de base
 
+Comme tout langage informatique,  {{< fa brands r-project >}} est avant tout
+une calculette. On est sauvé, on peut donc faire des additions:
+
 ```{r}
+#| echo: true
 # Addition
 8 + 9
 ```
 
 ::: {.callout-note}
-`R` est bien fait, il adapte le type des variables pour les mettre en cohérence lorsqu'elles
+{{< fa brands r-project >}} est bien fait, il adapte le type des variables pour les mettre en cohérence lorsqu'elles
 peuvent l'être:
 
 ```{r}
+#| echo: true
 # Addition
 8.1 + as.integer(9)
 ```
 
 :::
 
+On a bien-sûr accès à d'autres opérations standards:
+
 ```{r}
+#| echo: true
 # Soustraction
 5 - 2
-```
-
-```{r}
 # Multiplication
 2 * 6
-```
-
-```{r}
 # Division
 9 / 4
 ```
 
+Il faut tout de même faire attention à la division par 0
+
 ```{r}
+#| echo: true
 # Division par 0
 3 / 0
 -5 / 0
 ```
 
-::: {.callout-note}
+::: {.callout-warning}
 Certains langages, comme `Python`, ne permettent pas la division par 0, ils renvoient 
 une erreur plutôt qu'`Inf`. C'est un peu piégeux en `R` car cela peut arriver
 d'avoir des divisions par 0 sans qu'on s'en rende compte...
 :::
 
+Comme toute calculette, on peut appliquer d'autres types d'opérations
+
 
 ```{r}
+#| echo: true
 #| label: division-euclidienne
 # Division euclidienne : quotient
 9 %/% 4
@@ -190,6 +204,7 @@ d'avoir des divisions par 0 sans qu'on s'en rende compte...
 ```
 
 ```{r}
+#| echo: true
 # Puissance
 2 ^ 5
 # Racine carrée
@@ -200,14 +215,20 @@ log(2)
 exp(2)
 ```
 
+L'ordre des opérations suit la convention usuelle:
+
 ```{r}
-# Ordre des opérations : convention usuelle
+#| echo: true
 2 + 5 * (10 - 4)
 ```
 
-Si on ne pouvait utiliser `R` qu'en mode calculette de base,
+### Vectorisation
+
+Si on ne pouvait utiliser {{< fa brands r-project >}}
+qu'en mode calculette peu raffinée,
 ça ne serait pas un langage très intéressant pour l'analyse
-de données. L'avantage principal de `R` est qu'on va pouvoir
+de données. L'avantage principal de {{< fa brands r-project >}}
+est qu'on va pouvoir
 manipuler des vecteurs, c'est à dire des suites de nombres.
 On va considérer que les vecteurs sont des suites de nombres
 ordonnés en une seule colonne:
@@ -216,25 +237,38 @@ $$
 \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}
 $$
 
-et appliquer des opérations sur chaque ligne de ces vecteurs. 
-On parle de vectorisation des opérations pour désigner une opération
+et on va appliquer des opérations sur chaque ligne de ces vecteurs. 
+On parle de __vectorisation__ des opérations pour désigner une opération
 qui s'appliquera de manière automatique à chaque élément de notre
 vecteur.
 
 Par exemple, la multiplication est vectorielle par défaut:
 
 ```{r}
+#| echo: true
 5*c(1,20,2)
 ```
 
 De même l'addition, à condition de mettre des vecteurs de taille cohérente:
 
 ```{r}
+#| echo: true
 c(1,20,2) + c(21,2,20)
-c(1,20,2) - 3 
+c(1,20,2) - 3
 ```
 
-## Chaînes de caractères
+::: {.callout-warning}
+Si la taille des vecteurs n'est pas cohérente, {{< fa brands r-project >}}
+recycle le vecteur le plus petit jusqu'à atteindre la bonne taille
+
+```{r}
+#| echo: true
+c(1,20,2) - c(1,20)
+```
+
+:::
+
+## Les chaînes de caractères (_characters_) {#characters}
 
 Les chaînes de caractères (ou *strings*) sont utilisées pour stocker de l'information textuelle.
 Plus précisément, elles peuvent stocker tout caractère de type [Unicode](https://fr.wikipedia.org/wiki/Unicode), ce qui inclut les lettres des différentes langues, mais également la ponctuation, les chiffres, les smileys, etc.
