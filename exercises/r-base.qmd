@@ -29,24 +29,36 @@ accès au même environnement.
 
 Pour lancer un service `RStudio` sur des serveurs préconfigurés, nous allons
 utiliser une infrastructure nommée le [`SSPCloud`](https://datalab.sspcloud.fr/)
+qui est développée par l'équipe innovation de l'Insee pour des projets
+d'enseignement ou de _data science_.
 
 ![](https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/macbook_onyxia.png){width=50% fig-align="center"}
 
+<br>
 Après avoir créé un compte sur [datalab.sspcloud.fr/](https://datalab.sspcloud.fr/),
-cliqué sur ce bouton 
+cliquez sur ce bouton :
+
+::: {.badge}
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
+:::
+
+Après quelques instants de lancement du service sur les serveurs de l'Insee, 
+vous pourrez accéder à votre `RStudio` prêt à l'emploi (démonstration
+en _live_ ou [aide mémoire](/slides/introduction.html#/prise-en-main-du-ssp-cloud))
 
 
-
-
-:::{.callout-tip}
+:::{.callout-tip collapsable="true"}
 ## Exercice 1: se familiariser avec `RStudio`
 
-- Observer la structure de votre dossier de travail en bas à droite de `RStudio`
-- Créer un script à partir du menu `File/New File/R script` et l’enregistrer sous le nom `script1.R`
-- Observer la mise à jour de votre dossier en bas à droite
-- Faire une recherche dans la partie Help de RStudio pour la fonction `list.files`
-- Ecrire dans `script1.R` le code qui permet de faire la liste des fichiers de votre dossier de travail
-- Utiliser le raccourci `RStudio` <kbd>CTRL</kbd> + <kbd>ENTREE</kbd> pour exécuter ce code dans la console
+Ce premier exercice vise, après avoir observé la structure des fenêtres
+de `RStudio`, à prendre en main l'interface:
+
+1. Observer la structure de votre dossier de travail en bas à droite de `RStudio` ;
+2. Créer un script à partir du menu `File/New File/R script` et l’enregistrer sous le nom `script1.R` ;
+3. Observer la mise à jour de votre dossier en bas à droite ;
+4. Faire une recherche dans la partie Help de RStudio pour la fonction `list.files` ;
+5. Ecrire dans `script1.R` le code qui permet de faire la liste des fichiers de votre dossier de travail ;
+6. Utiliser le raccourci `RStudio` <kbd>CTRL</kbd> + <kbd>ENTREE</kbd> pour exécuter ce code dans la console.
 
 ::: 
 
@@ -55,39 +67,42 @@ cliqué sur ce bouton
 # Les objets uni-dimensionnels
 
 Nous allons commencer par les objets en une dimension, c'est-à-dire
-les listes de valeurs de même type comme "ENS Ulm", "ENS Lyon", "ENS Paris-Saclay"
-ou 4 8 15 16 23 42.
+les listes de valeurs de même type. Par exemple, `["ENS Ulm", "ENS Lyon", "ENS Paris-Saclay"]`
+ou `[4 8 15 16 23 42]`. 
 
 Ces listes de valeurs en une dimension peuvent être représentées
-par des vecteurs. Les quatre types les plus pratiques en `R` sont :
+par des __vecteurs__. Les quatre types les plus pratiques
+en  {{< fa brands r-project >}} sont :
 
-- Les vecteurs numériques ;
-- Les chaines de caractères ;
-- Les vecteurs logiques ;
-- Les facteurs.
+- Les [vecteurs numériques](#numeric) ;
+- Les [chaines de caractères](#characters) ;
+- Les [vecteurs logiques](#logical) ;
+- Les [facteurs](#factors).
 
 Nous irons ensuite à des structures de données plus complexes
 mais qui sont en fait celles que nous manipulons plus 
-couramment: les listes et les _dataframes_. 
+couramment: les [listes](#lists) et les [_dataframes_](#dataframes). 
 
 
-## Vecteurs numériques
+## Les vecteurs numériques (_numeric_) {#numeric}
 
-`R` propose différents types d'objets numériques. Pour l'analyse de données, nous allons principalement
+{{< fa brands r-project >}} propose différents types d'objets numériques. Pour l'analyse de données, nous allons principalement
 nous intéresser principalement à deux types :
 
 - les entiers (type `int` pour *integer*)
 - les nombres réels (type `double` pour nombres à virgule flottante)
 
 En pratique, les premiers sont un cas spécial des seconds. Contrairement à d'autres langages,
-`R` ne tente pas de contraindre de manière automatique les nombres sans virgules à être
+{{< fa brands r-project >}} ne tente pas de contraindre de manière automatique les nombres sans virgules à être
 des entiers (_integers_). C'est pratique mais sur de gros volumes de données ça peut
 poser problème car les _double_ sont plus lourds que les _int_. 
 
-En général, on utilise la fonction `class` pour afficher le type d'un objet `R` et
-si on veut être plus précis on peut utiliser `typeof`
+En général, on utilise la fonction `class` pour afficher le type d'un objet {{< fa brands r-project >}} et
+si on veut être plus précis on peut utiliser `typeof`:
 
 ```{r}
+#| echo: true
+#| output: false
 class(3)
 typeof(3)
 class(3.14)
