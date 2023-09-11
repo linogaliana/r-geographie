@@ -14,10 +14,12 @@ const hideBorders = false;
 const imgHeight = "100%";
 %>
 
+<link href="/assets/css/all.css" rel="stylesheet">
+
 <div class="list grid quarto-listing-cols-<%=cols%>">
 <% for (const item of items) { %>
   <div class="g-col-1" <%= metadataAttrs(item) %>>
-    <a href="<%= item.slides.url %>" target="_blank" rel="noopener" class="grid-item-link"> <!-- Added link wrapper -->
+    <a href="<%= item.website %>" target="_blank" rel="noopener" class="grid-item-link"> <!-- Added link wrapper -->
       <div class="quarto-grid-item card h-100 <%-`card-${align}`%><%= hideBorders ? ' borderless' : '' %>">
         <% if (item.image) { %>
           <p class="card-img-top">
@@ -41,30 +43,26 @@ const imgHeight = "100%";
             <% if ('author' || 'date') { %>
               <div class="card-attribution card-text-small <%-flexJustify%>">
                 <% if ('author') { %><div class="listing-author"><%= item.author %></div><% } %>
+                <% if ('date') { %><div class="listing-date"><%= item.date %></div><% } %>
               </div>
             <% } %>
             <style>
               .listing-categories .listing-category .listing-href {
                 color: inherit; /* blue colors for links too */
-                text-decoration: none; /* Remove underline */
+                text-decoration: inherit; /* no underline */
               }
             </style>
             <div class="listing-categories" style="padding-top: 1em;">
-              <% if ('slides') { %>
+              <% if (item.exercise) { %>
                 <div class="listing-category">
-                  <% if (item.slides.url) { %>
-                    <a class="listing-href" href="<%= item.slides.url %>" target="_blank" rel="noopener">
-                      <% if (item.slides.text) { %>
-                        <%= item.slides.text %>
-                      <% } else { %>
-                        Slides
-                      <% } %>
-                    </a>
-                  <% } else { %>
-                    <a class="listing-href" href="<%= item.code %>" target="_blank" rel="noopener">Slides</a>
-                  <% } %>
+                  <a class="listing-href" href="<%= item.exercise %>" target="_blank" rel="noopener">Exercice ✏️</a>
                 </div>
               <% } %>
+              <% if (item.website) { %>
+                <div class="listing-category">
+                  <a class="listing-href" href="<%= item.website %>" target="_blank" rel="noopener">Slides 🧑‍🏫</a>
+                </div>
+              <% }  %>            
             </div>
           </div>
         <% } %>
@@ -83,5 +81,6 @@ const imgHeight = "100%";
   </div>
 <% } %>
 </div>
+
 
 ```

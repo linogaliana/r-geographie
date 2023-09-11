@@ -8,7 +8,8 @@ page-layout: full
 toc: false
 ---
 
-## Cours ENS
+# Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}
+
 
 détails prochainement
 

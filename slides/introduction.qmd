@@ -6,8 +6,10 @@ authors: |
   [Lino Galiana](https://www.linogaliana.fr/),
 # date: 
 slide-number: true
+header: |
+  [Retour à la page principale du cours](https://rgeo.linogaliana.fr/)
 footer: |
-  École Normale Supérieure
+  Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}, École Normale Supérieure ([retour page principale](/))
 # uncomment for French presentations:
 lang: fr-FR
 # for blind readers:
@@ -29,7 +31,19 @@ listing:
   contents: teaching
   sort: "date desc"
   type: table
+#filters:
+#  - reveal-header
 ---
+
+## Chapitre introductif
+
+::: {.callout-note}
+- Exercices associés à ce chapitre [ici](exercises/r-base.html)
+:::
+
+![](../cards/introduction/baby.png){fig-align="center"}
+
+- [Retour à la page principale](/)
 
 # Introduction
 

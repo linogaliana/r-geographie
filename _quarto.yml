@@ -4,6 +4,7 @@ project:
     - /slides/introduction.qmd
     - index.qmd
     - "/cards/**/*.qmd"
+    - "/exercises/**/*.qmd"
 
 website:
   title: "Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}"

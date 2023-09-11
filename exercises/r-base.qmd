@@ -1,18 +1,45 @@
- 
-
 ---
-title: "Découverte des objets de base de `R`"
+title: "Découverte des objets de base de {{< fa brands r-project >}}"
 echo: false
+number-sections: true
 ---
 
-Dans ce premier TP, nous allons découvrir les objets les plus fondamentaux en R : les **nombres** et les **chaînes de caractères**.
+Dans ce premier TP,
+nous allons rentrer tranquillement
+dans notre parcours de découverte de 
+{{< fa brands r-project >}}. 
 
-Nous allons également voir comment on peut assigner des objets à des **variables** pour réaliser des opérations avec ces objets.
+Cela se fera par les étapes suivantes:
 
-Avant cela, un exercice préparatoire pour se familiariser avec `R` et `RStudio`:
+1. Familiarisation avec `RStudio`, le logiciel qui nous permettra d'utiliser le langage {{< fa brands r-project >}} ;
+2. Découverte des objets de base de {{< fa brands r-project >}}: les vecteurs de **nombres**, de **chaînes de caractères** et de conditions logiques, les **listes** et les _**dataframes**_ ;
+3. Découverte de l'**assignation** des objets à des **variables** pour réaliser des opérations avec ces dernières.
 
-:::{.callout-exercice}
-## Exercice 1
+# Familiarisation avec `RStudio`
+
+Habituellement, pour pouvoir faire du {{< fa brands r-project >}}, on 
+utilise le logiciel `RStudio`[^rstudio] qui offre un environnement un peu moins
+rudimentaire que l'interface graphique par défaut fournie lors de l'installation
+de {{< fa brands r-project >}}.
+
+[^rstudio]: Pour installer soi-même `RStudio`, les instructions sont [ici](https://posit.co/download/rstudio-desktop/). Néanmoins, dans le cadre
+de ce cours, vous n'aurez pas besoin de faire l'installation, nous allons
+utiliser une infrastructure préconfigurée. De cette manière, nous aurons 
+accès au même environnement.
+
+Pour lancer un service `RStudio` sur des serveurs préconfigurés, nous allons
+utiliser une infrastructure nommée le [`SSPCloud`](https://datalab.sspcloud.fr/)
+
+![](https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/macbook_onyxia.png){width=50% fig-align="center"}
+
+Après avoir créé un compte sur [datalab.sspcloud.fr/](https://datalab.sspcloud.fr/),
+cliqué sur ce bouton 
+
+
+
+
+:::{.callout-tip}
+## Exercice 1: se familiariser avec `RStudio`
 
 - Observer la structure de votre dossier de travail en bas à droite de `RStudio`
 - Créer un script à partir du menu `File/New File/R script` et l’enregistrer sous le nom `script1.R`
@@ -23,7 +50,9 @@ Avant cela, un exercice préparatoire pour se familiariser avec `R` et `RStudio`
 
 ::: 
 
-# Principaux types d'objets en `R`
+
+
+# Les objets uni-dimensionnels
 
 Nous allons commencer par les objets en une dimension, c'est-à-dire
 les listes de valeurs de même type comme "ENS Ulm", "ENS Lyon", "ENS Paris-Saclay"
@@ -41,7 +70,6 @@ Nous irons ensuite à des structures de données plus complexes
 mais qui sont en fait celles que nous manipulons plus 
 couramment: les listes et les _dataframes_. 
 
-# Les objets uni-dimensionnels
 
 ## Vecteurs numériques
 
@@ -120,12 +148,12 @@ peuvent l'être:
 2 * 6
 ```
 
-```{python}
+```{r}
 # Division
 9 / 4
 ```
 
-```{python}
+```{r}
 # Division par 0
 3 / 0
 -5 / 0
@@ -139,6 +167,7 @@ d'avoir des divisions par 0 sans qu'on s'en rende compte...
 
 
 ```{r}
+#| label: division-euclidienne
 # Division euclidienne : quotient
 9 %/% 4
 # Division euclidienne : reste
@@ -297,6 +326,7 @@ pensée pour les concaténations simples):
 
 
 ```{r}
+#| label: paste
 paste0(
     "La première fois qu'Aurélien vit Bérénice, ",
     "il la trouva franchement laide. Elle lui déplut, enfin. ",
@@ -429,20 +459,20 @@ est plus conventionnel d'utiliser `<-`.
 
 
 
-```{python}
+```{r}
 x <- 5
 x
 ```
 
-```{python}
+```{r}
 class(x)
 ```
 
-```{python}
+```{r}
 x <- c(5, 10)
 ```
 
-```{python}
+```{r}
 y <- x + 2*x
 y
 ```
@@ -450,7 +480,7 @@ y
 Contrairement à d'autres langages de programmation, `R` est dit *dynamiquement* typé : il est possible de réassigner une variable à un objet de type différent. Cela facilite la lecture et le développement, mais peut parfois générer des problèmes difficiles à débugger...
 Il faut donc toujours bien faire attention que le type de la variable est bien celui que l'on s'imagine manipuler.
 
-```{python}
+```{r}
 x <- 3
 x <- "blabla"
 class(x)
@@ -458,7 +488,7 @@ class(x)
 
 Il y a naturellement certaines contraintes sur les opérations selon les types des objets.
 
-```{python}
+```{r}
 #| error: true
 x <- "test"
 y <- 3
@@ -467,11 +497,11 @@ x + y
 
 Il est par contre possible d'harmoniser les types en amont :
 
-```{python}
+```{r}
 x <- "5"
 y <- 3
 z <- as.numeric(x)
-x + z
+y + z
 ```
 
 # Indexation
@@ -679,7 +709,7 @@ Supprimer les espaces superflus au début et à la fin de la chaîne suivante :
 Taper `?trimws()` dans la console pour afficher l'aide de la fonction `trimws()` 
 </details>
 
-```{python}
+```{r}
 a <- "    Un string très mal formatté.         "
 trimws(a)
 ```
