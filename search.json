@@ -35,41 +35,6 @@
     "text": "2.4 Les facteurs (factors)\nLes facteurs (factors) sont utilisés pour représenter des variables catégorielles, c’est-à-dire des variables qui prennent un nombre fini et prédéterminé de niveaux ou de catégories.\nPour convertir un vecteur numérique ou textuel en vecteur, on utilise la fonction factor:\n\nfactor(\n    c(\"capitale\",\"préfecture\",\"sous-préfecture\",\"préfecture\")\n)\n\n[1] capitale        préfecture      sous-préfecture préfecture     \nLevels: capitale préfecture sous-préfecture\n\nfactor(c(1,10,3))\n\n[1] 1  10 3 \nLevels: 1 3 10\n\n\nLes niveaux d’un facteur sont les différentes catégories ou valeurs possibles que la variable peut prendre. On peut les lister avec la fonction levels\n\n\n[1] \"capitale\"        \"préfecture\"      \"sous-préfecture\"\n\n\nOn peut aussi ordonner ces niveaux si cela a un sens lors de la définition du facteur. Cela implique néanmoins de connaître, a priori nos différents niveaux et les renseigner à  dans l’ordre:\n\n\n[1] capitale        préfecture      sous-préfecture préfecture     \nLevels: capitale &lt; préfecture &lt; sous-préfecture"
   },
   {
-    "objectID": "exercises/r-base.html#exercice-2",
-    "href": "exercises/r-base.html#exercice-2",
-    "title": "Découverte des objets de base de ",
-    "section": "6.1 Exercice 2",
-    "text": "6.1 Exercice 2\nAfficher le type de x lorsque :"
-  },
-  {
-    "objectID": "exercises/r-base.html#exercice-3",
-    "href": "exercises/r-base.html#exercice-3",
-    "title": "Découverte des objets de base de ",
-    "section": "6.2 Exercice 3",
-    "text": "6.2 Exercice 3\nCalculer la somme des longueurs de chacune des chaînes de caractères suivantes :\n\n“une première chaîne”\n“et une deuxième”\n“jamais deux sans trois”"
-  },
-  {
-    "objectID": "exercises/r-base.html#exercice-4",
-    "href": "exercises/r-base.html#exercice-4",
-    "title": "Découverte des objets de base de ",
-    "section": "6.3 Exercice 4",
-    "text": "6.3 Exercice 4\nQuel est le type adapté pour définir un code commune ?\n\n\nAide si vous ne voyez pas où est le problème\n\nFaire un test sur les premiers départements, par exemple 02350."
-  },
-  {
-    "objectID": "exercises/r-base.html#exercice-5",
-    "href": "exercises/r-base.html#exercice-5",
-    "title": "Découverte des objets de base de ",
-    "section": "6.4 Exercice 5",
-    "text": "6.4 Exercice 5\nVoici une liste de codes communes issus du COG\n\nliste_communes &lt;- c(\n  '01363', '02644', '03137', '11311', '12269', '13018', '14458', '15008',\n  '23103', '2A119', '2B352', '34005', '2B015', '2A015',\n  '38188', '39574', '40223', '41223', '42064',\n  '63117', '64218', '65209', '66036', '67515', '68266', \n  '77440', '78372', '79339', '80810', '81295', '82067',\n  '93039', '94054', '95061', '97119', '97219', '97356', '97421', '97611'\n)\n\n\nExtraire le département (deux premiers caractères) pour chaque commune\nCompter le nombre de départements uniques dans nos données"
-  },
-  {
-    "objectID": "exercises/r-base.html#exercice-6",
-    "href": "exercises/r-base.html#exercice-6",
-    "title": "Découverte des objets de base de ",
-    "section": "6.5 Exercice 6",
-    "text": "6.5 Exercice 6\nSupprimer les espaces superflus au début et à la fin de la chaîne suivante :\n\n\nAide, si vous êtes bloqués\n\nTaper ?trimws() dans la console pour afficher l’aide de la fonction trimws()\n\n\n\n[1] \"Un string très mal formatté.\""
-  },
-  {
     "objectID": "exercises/r-base.html#exercice-7",
     "href": "exercises/r-base.html#exercice-7",
     "title": "Découverte des objets de base de ",
@@ -109,7 +74,7 @@
     "href": "exercises/r-base.html#footnotes",
     "title": "Découverte des objets de base de ",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nPour installer soi-même RStudio, les instructions sont ici. Néanmoins, dans le cadre de ce cours, vous n’aurez pas besoin de faire l’installation, nous allons utiliser une infrastructure préconfigurée. De cette manière, nous aurons accès au même environnement.↩︎\nCette remarque peut paraître triviale mais, en informatique, elle ne l’est pas. Beaucoup de langages (Python, C) ont une indexation qui commence à 0, comme c’est la convention en algèbre. Cela signifie que le premier élément a un indice 0, le deuxième indice 1 et le dernier un indice \\(n-1\\).↩︎"
+    "text": "Footnotes\n\n\nPour installer soi-même RStudio, les instructions sont ici. Néanmoins, dans le cadre de ce cours, vous n’aurez pas besoin de faire l’installation, nous allons utiliser une infrastructure préconfigurée. De cette manière, nous aurons accès au même environnement.↩︎\nCette remarque peut paraître triviale mais, en informatique, elle ne l’est pas. Beaucoup de langages (Python, C) ont une indexation qui commence à 0, comme c’est la convention en algèbre. Cela signifie que le premier élément a un indice 0, le deuxième indice 1 et le dernier un indice \\(n-1\\).↩︎\nLa suite du cours sera l’occasion d’amplement utiliser ce jeu de données.↩︎"
   },
   {
     "objectID": "index.html",
