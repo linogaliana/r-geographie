@@ -1236,3 +1236,9 @@ variables en généralisant le schéma `1=a`.
 - Créer un dataframe `df_small1` pour les lignes où la condition logique `var3` est vérifiée
 - Créer un dataframe `df_small2` pour les lignes où `var1` est paire (voir plus haut l'exemple sur la division euclidienne pour le modèle)
 :::
+
+Le prochain chapitre va nous permettre d'aller beaucoup plus loin grâce
+à l'écosystème du `tidyverse` et notamment son _package_ phare `dplyr`.
+Sans cet ensemble de _packages_ facilitant grandement l'analyse statistique,
+{{< fa brands r-project >}} ne serait pas devenu l'un des deux langages
+phares de la statistique. 
