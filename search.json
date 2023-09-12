@@ -1,5 +1,131 @@
 [
   {
+    "objectID": "exercises/r-base.html",
+    "href": "exercises/r-base.html",
+    "title": "Découverte des objets de base de ",
+    "section": "",
+    "text": "Dans ce premier TP, nous allons rentrer tranquillement dans notre parcours de découverte de .\nCela se fera par les étapes suivantes:\nCertains exemples de code présentent des annotations sur le côté, passez votre souris dessus pour les afficher, comme ci-dessous\n1\"une annotation explicative m'accompagne à droite\"\n\n\n1\n\nJe m’affiche quand on passe la souris sur moi 🐭 !"
+  },
+  {
+    "objectID": "exercises/r-base.html#numeric",
+    "href": "exercises/r-base.html#numeric",
+    "title": "Découverte des objets de base de ",
+    "section": "2.1 Les vecteurs numériques (numeric)",
+    "text": "2.1 Les vecteurs numériques (numeric)\n\n2.1.1 Les deux types de vecteurs numériques\n propose différents types d’objets numériques. Pour l’analyse de données, nous allons principalement nous intéresser principalement à deux types :\n\nles entiers (type int pour integer)\nles nombres réels (type double pour nombres à virgule flottante)\n\nEn pratique, les premiers sont un cas spécial des seconds. Contrairement à d’autres langages,  ne tente pas de contraindre de manière automatique les nombres sans virgules à être des entiers (integers). C’est pratique mais sur de gros volumes de données ça peut poser problème car les double sont plus lourds que les int.\nEn général, on utilise la fonction class pour afficher le type d’un objet  et si on veut être plus précis on peut utiliser typeof:\n\nclass(3)\ntypeof(3)\nclass(3.14)\ntypeof(3.14)\n\nLes fonctions as.numeric et as.integer peuvent être utilisées pour convertir d’un type à l’autre:\n\n# Conversion en int\nas.integer(3.79)\n\n[1] 3\n\n\n\n\n\n\n\n\nWarning\n\n\n\nAttention à la conversion double \\(\\to\\) int, qui tronque la partie décimale.\n\n# double -&gt; int -&gt; double\nas.numeric(\n    as.integer(3.79)\n)\n\n[1] 3\n\n\n\n\nLes floats peuvent également être écrits en notation scientifique :\n\n2e3\n\n[1] 2000\n\nclass(2e3)\n\n[1] \"numeric\"\n\n\n\n\n2.1.2 Opérations arithmétiques de base\n\n\n\n\n\nComme tout langage informatique,  est avant tout une calculette. On est sauvé, on peut donc faire des additions:\n\n# Addition\n8 + 9\n\n[1] 17\n\n\n\n\n\n\n\n\nNote\n\n\n\n est bien fait, il adapte le type des variables pour les mettre en cohérence lorsqu’elles peuvent l’être:\n\n# Addition\n8.1 + as.integer(9)\n\n[1] 17.1\n\n\n\n\nOn a bien-sûr accès à d’autres opérations standards:\n\n# Soustraction\n5 - 2\n\n[1] 3\n\n# Multiplication\n2 * 6\n\n[1] 12\n\n# Division\n9 / 4\n\n[1] 2.25\n\n\nIl faut tout de même faire attention à la division par 0\n\n# Division par 0\n3 / 0\n\n[1] Inf\n\n-5 / 0\n\n[1] -Inf\n\n\n\n\n\n\n\n\nWarning\n\n\n\nCertains langages, comme Python, ne permettent pas la division par 0, ils renvoient une erreur plutôt qu’Inf. C’est un peu piégeux en R car cela peut arriver d’avoir des divisions par 0 sans qu’on s’en rende compte…\n\n\nComme toute calculette, on peut appliquer d’autres types d’opérations\n\n# Division euclidienne : quotient\n9 %/% 4\n\n[1] 2\n\n# Division euclidienne : reste\n9 %% 4\n\n[1] 1\n\n\n\n# Puissance\n2 ^ 5\n\n[1] 32\n\n# Racine carrée\nsqrt(5)\n\n[1] 2.236068\n\n# Log\nlog(2)\n\n[1] 0.6931472\n\n# Exponentielle\nexp(2)\n\n[1] 7.389056\n\n\nL’ordre des opérations suit la convention usuelle:\n\n2 + 5 * (10 - 4)\n\n[1] 32\n\n\n\n\n2.1.3 Vectorisation\nSi on ne pouvait utiliser  qu’en mode calculette peu raffinée, ça ne serait pas un langage très intéressant pour l’analyse de données. L’avantage principal de  est qu’on va pouvoir manipuler des vecteurs, c’est à dire des suites de nombres. On va considérer que les vecteurs sont des suites de nombres ordonnés en une seule colonne:\n\\[\n\\begin{bmatrix} x_1 \\\\ x_2 \\\\ \\vdots \\\\ x_n \\end{bmatrix}\n\\]\net on va appliquer des opérations sur chaque ligne de ces vecteurs. On parle de vectorisation des opérations pour désigner une opération qui s’appliquera de manière automatique à chaque élément de notre vecteur.\nPar exemple, la multiplication est vectorielle par défaut:\n\n5*c(1,20,2)\n\n[1]   5 100  10\n\n\nDe même l’addition, à condition de mettre des vecteurs de taille cohérente:\n\nc(1,20,2) + c(21,2,20)\n\n[1] 22 22 22\n\nc(1,20,2) - 3\n\n[1] -2 17 -1\n\n\n\n\n\n\n\n\nWarning\n\n\n\nSi la taille des vecteurs n’est pas cohérente,  recycle le vecteur le plus petit jusqu’à atteindre la bonne taille\n\nc(1,20,2) - c(1,20)\n\nWarning in c(1, 20, 2) - c(1, 20): longer object length is not a multiple of\nshorter object length\n\n\n[1] 0 0 1"
+  },
+  {
+    "objectID": "exercises/r-base.html#characters",
+    "href": "exercises/r-base.html#characters",
+    "title": "Découverte des objets de base de ",
+    "section": "2.2 Les chaînes de caractères (characters)",
+    "text": "2.2 Les chaînes de caractères (characters)\nLes chaînes de caractères (ou strings) sont utilisées pour stocker de l’information textuelle. Plus précisément, elles peuvent stocker tout caractère de type Unicode, ce qui inclut les lettres des différentes langues, mais également la ponctuation, les chiffres, les smileys, etc.\n\n2.2.1 Créer un string\nPour créer une chaine de caractères (string), on peut utiliser de manière indifférente les guillemets ou les apostrophes.\n\n1'mot'\n2\"ça fonctionne aussi\"\n\n\n1\n\nPremière méthode: '\n\n2\n\nDeuxième méthode (préférable): \"\n\n\n\n\n[1] \"mot\"\n[1] \"ça fonctionne aussi\"\n\n\n\n\n\n\n\n\nWarning\n\n\n\nAttention au mélange des deux !\n\nprint('l'apostrophe, quelle catastrophe')\n\nError: &lt;text&gt;:1:10: unexpected symbol\n1: print('l'apostrophe\n             ^\n\n\nLa deuxième apostrophe est comprise comme la fin du string, et  ne sait pas interpréter le reste de la séquence.\nIl faut donc varier en cas de besoin :\n\n1\"l'apostrophe, aucun problème\"\n\n\n1\n\nCette fois, l’apostrophe ' est bien enchassée au sein des guillemets qui délimitent notre string.\n\n\n\n\n[1] \"l'apostrophe, aucun problème\"\n\n\nCela fonctionne également en sens inverse: les guillements sont bien interprétés lorsqu’ils sont entre apostrophes.\n\n'les guillemets, \"aucun problème\"'\n\n[1] \"les guillemets, \\\"aucun problème\\\"\"\n\n\nComme l’illustre la sortie ci-dessus, il est possible de bien définir les caractères spéciaux de cette sorte en les échappant avec des antislashs \\:\n\n1\"les guillemets, \\\"aucun problème\\\"\"\n'l\\'apostrophe, aucun problème'\n\n\n1\n\n\\ permet à  de comprendre que l’apostrophe ou le guillemet fait partie de la chaine de caractère et non de sa délimitation.\n\n\n\n\n[1] \"les guillemets, \\\"aucun problème\\\"\"\n[1] \"l'apostrophe, aucun problème\"\n\n\n\n\n\n\n2.2.2 Quelques fonctions utiles\n propose par défaut un certain nombre de fonctions utiles pour extraire ou transformer des vecteurs textuels. On en découvrira des plus pratiques et plus générales lorsqu’on se focalisera sur les données textuelles et le package stringr.\nLa fonction nchar permet de compter le nombre de caractères d’un string, tous caractères inclus (lettres, chiffres, espaces, ponctuation…).\n\nnchar(\"J'ai 19 charactères\")\n\n[1] 19\n\n\nIl ne faut pas la confondre avec la fonction length. Celle-ci nous donne la longueur du vecteur. Par exemple,\n\nlength(\"J'ai 19 charactères\")\n\n[1] 1\n\n\nest de taille 1 puisqu’on a un seul élément dans notre vecteur. Si on prend un vecteur de plus grande dimension:\n\nlength(c(\"J'ai 19 charactères\", \"pas moi\"))\n\n[1] 2\n\n\nOn retrouve bien le nombre d’éléments de notre vecteur en sortie de length.\nnchar est une opération vectorielle, on peut donc compter la longueur de chaque ligne de notre jeu de données:\n\nnchar(c(\"J'ai 19 charactères\", \"pas moi\"))\n\n[1] 19  7\n\n\nL’un des intérêts des fonctions de base de traitement des données textuelles est la possibilité de remettre en forme nos chaînes de caractères de manière automatique. Par exemple, l’opération la plus simple est de changer la capitalisation de notre texte:\n\n1toupper(c(\"sequence 850\", \"Sequence 850\"))\n2tolower(c(\"SEQuEnce 850\", \"SEQUENCE 850\"))\n\n\n1\n\nMettre en majuscules tout le texte.\n\n2\n\nMettre en minuscules.\n\n\n\n\n[1] \"SEQUENCE 850\" \"SEQUENCE 850\"\n[1] \"sequence 850\" \"sequence 850\"\n\n\nMais on peut aussi nettoyer des chaines textuelles avec quelques fonctions de base :\n\nstrsplit(c(\"une séquence    à séparer\", \"uneautreàséparer\"), split = \" \")\n\n[[1]]\n[1] \"une\"      \"séquence\" \"\"         \"\"         \"\"         \"à\"        \"séparer\" \n\n[[2]]\n[1] \"uneautreàséparer\"\n\n\nA ce stade, la sortie obtenue, avec des [[]] peut vous paraître étrange car nous n’avons pas encore découvert le type list.\nCe type de données n’étant pas forcément pratique pour l’analyse statistique, pour laquelle on préfère des formats comme le vecteur, ce sera beaucoup plus pratique d’utiliser le package stringr pour faire un split.\nOn peut tout à fait découper notre string sur autre chose que les espaces!\n\nstrsplit(c(\"une séquence    à séparer\", \"uneautreàséparer\"), split = \"à\")\n\n[[1]]\n[1] \"une séquence    \" \" séparer\"        \n\n[[2]]\n[1] \"uneautre\" \"séparer\" \n\n\nOn peut concaténer des chaines de caractère ensemble, c’est très pratique. Malheureusement le + ne fonctionne pas en R pour les chaines de caractères (contrairement à Python). Pour effectuer cela on utilise paste ou paste0 (une version moins générale mais qui est pensée pour les concaténations simples):\n\npaste0(\n    \"La première fois qu'Aurélien vit Bérénice,\",\n    \" \",\n    \"il la trouva franchement laide. Elle lui déplut, enfin.\",\n    \" \",\n    \"Il n'aima pas comment elle était habillée.\"\n1)\n\npaste(\n    \"La première fois qu'Aurélien vit Bérénice,\",\n    \"il la trouva franchement laide. Elle lui déplut, enfin.\",\n    \"Il n'aima pas comment elle était habillée.\",\n    sep = \" \"\n2)\n\n\n1\n\nAvec paste0, on concatène en accolant les strings, sans espace.\n\n2\n\nAvec paste, on peut choisir la manière d’accoler les strings, ici en mettant des espaces.\n\n\n\n\n[1] \"La première fois qu'Aurélien vit Bérénice, il la trouva franchement laide. Elle lui déplut, enfin. Il n'aima pas comment elle était habillée.\"\n[1] \"La première fois qu'Aurélien vit Bérénice, il la trouva franchement laide. Elle lui déplut, enfin. Il n'aima pas comment elle était habillée.\"\n\n\nOn peut utiliser les strings comme templates. C’est particulièrement pratique pour automatiquement créer du texte à partir de valeurs issues de nos données. Pour cela on utilise sprintf:\n\nsprintf(\"La première fois qu'%s vit %s\", \"Aurélien\", \"Bérénice\")\n\n[1] \"La première fois qu'Aurélien vit Bérénice\"\n\nsprintf(\"%s et %s font %s\", 2, 2, 2+2)\n\n[1] \"2 et 2 font 4\"\n\n\n%s sert à définir l’endroit où sera collé le texte voulu."
+  },
+  {
+    "objectID": "exercises/r-base.html#logicals",
+    "href": "exercises/r-base.html#logicals",
+    "title": "Découverte des objets de base de ",
+    "section": "2.3 Vecteurs logiques (logicals)",
+    "text": "2.3 Vecteurs logiques (logicals)\nEn , les vecteurs logiques sont utilisés pour stocker des valeurs booléennes, c’est-à-dire des valeurs vraies (TRUE) ou fausses (FALSE).\nLes vecteurs logiques sont couramment utilisés pour effectuer des opérations de logique, des filtres de données et des sélections conditionnelles. Nous y reviendrons par la suite, nous les utiliserons fréquemment mais de manière indirecte.\n\n15 &gt; 3\n22 == 2\n30 == (2 - 2)\n41 &lt; 0\n\n\n1\n\nTRUE, car 5 est supérieur à 3.\n\n2\n\nTRUE, car 2 est égal à 2.\n\n3\n\nTRUE, le chainage des opérations est respecté.\n\n4\n\nFALSE, car 1 n’est pas inférieur à 0.\n\n\n\n\n[1] TRUE\n[1] TRUE\n[1] TRUE\n[1] FALSE\n\n\nOn peut généraliser les comparaisons pour obtenir des vecteurs:\n\nc(2, 4, 6, 8, 10, 1, 3) %% 2 == 0\n\n[1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE\n\n\nOn obtient TRUE pour les nombres pairs, FALSE pour les impairs.\nUtiliser des vecteurs logiques nous permettra, au quotidien, sélectionner des données. Par exemple si on a des données d’âge, on peut ne vouloir garder que les prénoms des adultes. Cela pourra être fait sur le modèle suivant:\n\nc('Pierre', 'Paul', 'François', 'et les autres')[\n    c(25, 3, 61, 17) &gt;= 18\n]\n\n[1] \"Pierre\"   \"François\"\n\n\nNéanmoins nous verrons dans les prochains chapitres comment intégrer ce principe dans une séquence plus générale d’opérations grâce au package dplyr."
+  },
+  {
+    "objectID": "exercises/r-base.html#factors",
+    "href": "exercises/r-base.html#factors",
+    "title": "Découverte des objets de base de ",
+    "section": "2.4 Les facteurs (factors)",
+    "text": "2.4 Les facteurs (factors)\nLes facteurs (factors) sont utilisés pour représenter des variables catégorielles, c’est-à-dire des variables qui prennent un nombre fini et prédéterminé de niveaux ou de catégories.\nPour convertir un vecteur numérique ou textuel en vecteur, on utilise la fonction factor:\n\nfactor(\n    c(\"capitale\",\"préfecture\",\"sous-préfecture\",\"préfecture\")\n)\n\n[1] capitale        préfecture      sous-préfecture préfecture     \nLevels: capitale préfecture sous-préfecture\n\nfactor(c(1,10,3))\n\n[1] 1  10 3 \nLevels: 1 3 10\n\n\nLes niveaux d’un facteur sont les différentes catégories ou valeurs possibles que la variable peut prendre. On peut les lister avec la fonction levels\n\n\n[1] \"capitale\"        \"préfecture\"      \"sous-préfecture\"\n\n\nOn peut aussi ordonner ces niveaux si cela a un sens lors de la définition du facteur. Cela implique néanmoins de connaître, a priori nos différents niveaux et les renseigner à  dans l’ordre:\n\n\n[1] capitale        préfecture      sous-préfecture préfecture     \nLevels: capitale &lt; préfecture &lt; sous-préfecture"
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-2",
+    "href": "exercises/r-base.html#exercice-2",
+    "title": "Découverte des objets de base de ",
+    "section": "6.1 Exercice 2",
+    "text": "6.1 Exercice 2\nAfficher le type de x lorsque :"
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-3",
+    "href": "exercises/r-base.html#exercice-3",
+    "title": "Découverte des objets de base de ",
+    "section": "6.2 Exercice 3",
+    "text": "6.2 Exercice 3\nCalculer la somme des longueurs de chacune des chaînes de caractères suivantes :\n\n“une première chaîne”\n“et une deuxième”\n“jamais deux sans trois”"
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-4",
+    "href": "exercises/r-base.html#exercice-4",
+    "title": "Découverte des objets de base de ",
+    "section": "6.3 Exercice 4",
+    "text": "6.3 Exercice 4\nQuel est le type adapté pour définir un code commune ?\n\n\nAide si vous ne voyez pas où est le problème\n\nFaire un test sur les premiers départements, par exemple 02350."
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-5",
+    "href": "exercises/r-base.html#exercice-5",
+    "title": "Découverte des objets de base de ",
+    "section": "6.4 Exercice 5",
+    "text": "6.4 Exercice 5\nVoici une liste de codes communes issus du COG\n\nliste_communes &lt;- c(\n  '01363', '02644', '03137', '11311', '12269', '13018', '14458', '15008',\n  '23103', '2A119', '2B352', '34005', '2B015', '2A015',\n  '38188', '39574', '40223', '41223', '42064',\n  '63117', '64218', '65209', '66036', '67515', '68266', \n  '77440', '78372', '79339', '80810', '81295', '82067',\n  '93039', '94054', '95061', '97119', '97219', '97356', '97421', '97611'\n)\n\n\nExtraire le département (deux premiers caractères) pour chaque commune\nCompter le nombre de départements uniques dans nos données"
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-6",
+    "href": "exercises/r-base.html#exercice-6",
+    "title": "Découverte des objets de base de ",
+    "section": "6.5 Exercice 6",
+    "text": "6.5 Exercice 6\nSupprimer les espaces superflus au début et à la fin de la chaîne suivante :\n\n\nAide, si vous êtes bloqués\n\nTaper ?trimws() dans la console pour afficher l’aide de la fonction trimws()\n\n\n\n[1] \"Un string très mal formatté.\""
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-7",
+    "href": "exercises/r-base.html#exercice-7",
+    "title": "Découverte des objets de base de ",
+    "section": "7.1 Exercice 7",
+    "text": "7.1 Exercice 7\nX &lt;- matrix(letters[1:20], nrow = 4, ncol = 5)\n\nSélectionner l’élement le plus à gauche de notre matrice (première ligne, première colonne)\nSélectionner l’ensemble de la première ligne\nSélectionner l’ensemble de la première colonne\nSélectionner les éléments à l’intersection :\n\nDes 2e et 3e ligne\nDes 1ères et 3e colonne\n\n\n\n\nIndice si vous êtes bloqués\n\nAvec un vecteur, on accédait aux positions d’un élément avec x[*]. Avec les matrices le principe est le même mais on ajoute une dimension x[*,*]"
+  },
+  {
+    "objectID": "exercises/r-base.html#listes",
+    "href": "exercises/r-base.html#listes",
+    "title": "Découverte des objets de base de ",
+    "section": "7.2 Listes",
+    "text": "7.2 Listes\nLes listes constituent un type d’objet beaucoup plus riche qui permet précisément de rassembler des types d’objets très différents : une liste peut contenir tous les types d’objet (vecteurs numériques, caractères, logiques, matrices, etc.), y compris d’autres listes.\nCette très grande souplesse fait de la liste l’objet de prédilection pour stocker une information complexe et structurée, en particulier les résultats de procédures statistiques complexes (régression, classification, etc.). Pour des données plus structurées, comme le sont les jeux de données, nous allons voir ensuite que nous allons utiliser un type spécial de liste: le dataframe."
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-8",
+    "href": "exercises/r-base.html#exercice-8",
+    "title": "Découverte des objets de base de ",
+    "section": "7.3 Exercice 8",
+    "text": "7.3 Exercice 8\nVoici une liste illustrant le principe de stockage de données hétérogènes dans un même objet:\n\nAfficher la liste et observer la différence avec l’affichage des objets précédents\nUtiliser la notation [[]] pour accéder au 2e élément de notre liste pour au 2e nombre au sein du dernier élément de notre matrice\nOn peut utiliser des noms pour les éléments de notre liste (c’est d’ailleurs une bonne pratique). Créer un élément nommé communes dans votre liste stockant les données suivantes c('01363', '02644', '03137', '11311')\nCréer un élément departements en extrayant les deux premiers chiffres de votre élément communes\n\n\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] \"texte\"\n\n[[3]]\n     [,1] [,2] [,3] [,4] [,5]\n[1,] \"a\"  \"e\"  \"i\"  \"m\"  \"q\" \n[2,] \"b\"  \"f\"  \"j\"  \"n\"  \"r\" \n[3,] \"c\"  \"g\"  \"k\"  \"o\"  \"s\" \n[4,] \"d\"  \"h\"  \"l\"  \"p\"  \"t\" \n\n[[4]]\n[1] 2 3 4\n\n\n[1] \"texte\"\n\n\n[1] 3\n\n\n[1] \"01363\" \"02644\" \"03137\" \"11311\""
+  },
+  {
+    "objectID": "exercises/r-base.html#exercice-9",
+    "href": "exercises/r-base.html#exercice-9",
+    "title": "Découverte des objets de base de ",
+    "section": "7.4 Exercice 9",
+    "text": "7.4 Exercice 9\n\nCombien d’éléments comporte le premier niveau de notre liste ?\nCombien d’éléments comportent chaque niveaux de notre liste ?\nCréer un vecteur numérique qui est égal à 1 si typeof de l’élément est “double” et 0 sinon\n\n\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 1\n\n[[3]]\n[1] 20\n\n[[4]]\n[1] 3\n\n$communes\n[1] 4\n\n$departements\n[1] 4\n\n\n[1] 1 0 0 1 0 0"
+  },
+  {
+    "objectID": "exercises/r-base.html#dataframes",
+    "href": "exercises/r-base.html#dataframes",
+    "title": "Découverte des objets de base de ",
+    "section": "7.5 Dataframes",
+    "text": "7.5 Dataframes"
+  },
+  {
+    "objectID": "exercises/r-base.html#footnotes",
+    "href": "exercises/r-base.html#footnotes",
+    "title": "Découverte des objets de base de ",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nPour installer soi-même RStudio, les instructions sont ici. Néanmoins, dans le cadre de ce cours, vous n’aurez pas besoin de faire l’installation, nous allons utiliser une infrastructure préconfigurée. De cette manière, nous aurons accès au même environnement.↩︎\nCette remarque peut paraître triviale mais, en informatique, elle ne l’est pas. Beaucoup de langages (Python, C) ont une indexation qui commence à 0, comme c’est la convention en algèbre. Cela signifie que le premier élément a un indice 0, le deuxième indice 1 et le dernier un indice \\(n-1\\).↩︎"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "",
+    "text": "Introduction aux méthodes quantitatives avec \ndétails prochainement\n\n\n\n  \n     \n      \n          \n            \n          \n          \n            Introduction aux objets de base \n            \n              \nIntroduction aux objets basiques de \net à RStudio\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
+  },
+  {
+    "objectID": "slides/introduction.html#chapitre-introductif",
+    "href": "slides/introduction.html#chapitre-introductif",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Chapitre introductif",
+    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+  },
+  {
     "objectID": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
     "href": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
     "title": "Introduction aux méthodes quantitatives avec ",
@@ -306,19 +432,5 @@
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "L’interface RStudio",
     "text": "L’interface RStudio\n\nIllustration empruntée à ce livre"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}",
-    "section": "",
-    "text": "détails prochainement\n\n\n  \n     \n      \n          \n            \n          \n          \n            \n            \n              \nIntroduction à R\n\n\n              \n                Lino Galiana\n              \n            \n            \n                \n                    \n                        Slides\n                    \n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#cours-ens",
-    "href": "index.html#cours-ens",
-    "title": "Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}",
-    "section": "",
-    "text": "détails prochainement\n\n\n  \n     \n      \n          \n            \n          \n          \n            \n            \n              \nIntroduction à R\n\n\n              \n                Lino Galiana\n              \n            \n            \n                \n                    \n                        Slides\n                    \n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
   }
 ]

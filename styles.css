@@ -1,3 +1,4 @@
+
 .no-anchor.card-title.listing-title {
     font-weight: bolder !important;
     color: #ff562c !important;
@@ -22,5 +23,9 @@
 
 .observable-logo path {
     fill: #ff562c;
+}
+
+.badge{
+  text-justify: center;
 }
   

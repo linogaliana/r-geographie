@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lino Galiana">
+
+<title>Introduction aux méthodes quantitatives avec  - Découverte des objets de base de </title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Découverte des objets de base de ">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://rgeo.linogaliana.fr/cards/version-light/baby.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../slides/introduction.html" rel="" target="">
+ <span class="menu-text">Introduction</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/linogaliana/r-geographie" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#familiarisation-avec-rstudio" id="toc-familiarisation-avec-rstudio" class="nav-link active" data-scroll-target="#familiarisation-avec-rstudio"><span class="header-section-number">1</span> Familiarisation avec <code>RStudio</code></a></li>
+  <li><a href="#les-objets-uni-dimensionnels" id="toc-les-objets-uni-dimensionnels" class="nav-link" data-scroll-target="#les-objets-uni-dimensionnels"><span class="header-section-number">2</span> Les objets uni-dimensionnels</a>
+  <ul class="collapse">
+  <li><a href="#numeric" id="toc-numeric" class="nav-link" data-scroll-target="#numeric"><span class="header-section-number">2.1</span> Les vecteurs numériques (<em>numeric</em>)</a>
+  <ul class="collapse">
+  <li><a href="#les-deux-types-de-vecteurs-numériques" id="toc-les-deux-types-de-vecteurs-numériques" class="nav-link" data-scroll-target="#les-deux-types-de-vecteurs-numériques"><span class="header-section-number">2.1.1</span> Les deux types de vecteurs numériques</a></li>
+  <li><a href="#opérations-arithmétiques-de-base" id="toc-opérations-arithmétiques-de-base" class="nav-link" data-scroll-target="#opérations-arithmétiques-de-base"><span class="header-section-number">2.1.2</span> Opérations arithmétiques de base</a></li>
+  <li><a href="#vectorisation" id="toc-vectorisation" class="nav-link" data-scroll-target="#vectorisation"><span class="header-section-number">2.1.3</span> Vectorisation</a></li>
+  </ul></li>
+  <li><a href="#characters" id="toc-characters" class="nav-link" data-scroll-target="#characters"><span class="header-section-number">2.2</span> Les chaînes de caractères (<em>characters</em>)</a>
+  <ul class="collapse">
+  <li><a href="#créer-un-string" id="toc-créer-un-string" class="nav-link" data-scroll-target="#créer-un-string"><span class="header-section-number">2.2.1</span> Créer un <em>string</em></a></li>
+  <li><a href="#quelques-fonctions-utiles" id="toc-quelques-fonctions-utiles" class="nav-link" data-scroll-target="#quelques-fonctions-utiles"><span class="header-section-number">2.2.2</span> Quelques fonctions utiles</a></li>
+  </ul></li>
+  <li><a href="#logicals" id="toc-logicals" class="nav-link" data-scroll-target="#logicals"><span class="header-section-number">2.3</span> Vecteurs logiques (<em>logicals</em>)</a></li>
+  <li><a href="#factors" id="toc-factors" class="nav-link" data-scroll-target="#factors"><span class="header-section-number">2.4</span> Les facteurs (<em>factors</em>)</a></li>
+  </ul></li>
+  <li><a href="#créer-des-variables" id="toc-créer-des-variables" class="nav-link" data-scroll-target="#créer-des-variables"><span class="header-section-number">3</span> Créer des variables</a></li>
+  <li><a href="#indexation" id="toc-indexation" class="nav-link" data-scroll-target="#indexation"><span class="header-section-number">4</span> Indexation</a></li>
+  <li><a href="#les-valeurs-manquantes" id="toc-les-valeurs-manquantes" class="nav-link" data-scroll-target="#les-valeurs-manquantes"><span class="header-section-number">5</span> Les valeurs manquantes</a></li>
+  <li><a href="#exercices" id="toc-exercices" class="nav-link" data-scroll-target="#exercices"><span class="header-section-number">6</span> Exercices</a>
+  <ul class="collapse">
+  <li><a href="#exercice-2" id="toc-exercice-2" class="nav-link" data-scroll-target="#exercice-2"><span class="header-section-number">6.1</span> Exercice 2</a></li>
+  <li><a href="#exercice-3" id="toc-exercice-3" class="nav-link" data-scroll-target="#exercice-3"><span class="header-section-number">6.2</span> Exercice 3</a></li>
+  <li><a href="#exercice-4" id="toc-exercice-4" class="nav-link" data-scroll-target="#exercice-4"><span class="header-section-number">6.3</span> Exercice 4</a></li>
+  <li><a href="#exercice-5" id="toc-exercice-5" class="nav-link" data-scroll-target="#exercice-5"><span class="header-section-number">6.4</span> Exercice 5</a></li>
+  <li><a href="#exercice-6" id="toc-exercice-6" class="nav-link" data-scroll-target="#exercice-6"><span class="header-section-number">6.5</span> Exercice 6</a></li>
+  </ul></li>
+  <li><a href="#les-structures-plus-complexes" id="toc-les-structures-plus-complexes" class="nav-link" data-scroll-target="#les-structures-plus-complexes"><span class="header-section-number">7</span> Les structures plus complexes</a>
+  <ul class="collapse">
+  <li><a href="#exercice-7" id="toc-exercice-7" class="nav-link" data-scroll-target="#exercice-7"><span class="header-section-number">7.1</span> Exercice 7</a></li>
+  <li><a href="#listes" id="toc-listes" class="nav-link" data-scroll-target="#listes"><span class="header-section-number">7.2</span> Listes</a></li>
+  <li><a href="#exercice-8" id="toc-exercice-8" class="nav-link" data-scroll-target="#exercice-8"><span class="header-section-number">7.3</span> Exercice 8</a></li>
+  <li><a href="#exercice-9" id="toc-exercice-9" class="nav-link" data-scroll-target="#exercice-9"><span class="header-section-number">7.4</span> Exercice 9</a></li>
+  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="header-section-number">7.5</span> Dataframes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Découverte des objets de base de <i class="fa-brands fa-r-project" aria-label="r-project"></i></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lino Galiana </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Dans ce premier TP, nous allons rentrer tranquillement dans notre parcours de découverte de <i class="fa-brands fa-r-project" aria-label="r-project"></i>.</p>
+<p>Cela se fera par les étapes suivantes:</p>
+<ol type="1">
+<li>Familiarisation avec <code>RStudio</code>, le logiciel qui nous permettra d’utiliser le langage <i class="fa-brands fa-r-project" aria-label="r-project"></i> ;</li>
+<li>Découverte des objets de base de <i class="fa-brands fa-r-project" aria-label="r-project"></i>: les vecteurs de <strong>nombres</strong>, de <strong>chaînes de caractères</strong> et de conditions logiques, les <strong>listes</strong> et les <em><strong>dataframes</strong></em> ;</li>
+<li>Découverte de l’<strong>assignation</strong> des objets à des <strong>variables</strong> pour réaliser des opérations avec ces dernières.</li>
+</ol>
+<p>Certains exemples de code présentent des annotations sur le côté, passez votre souris dessus pour les afficher, comme ci-dessous</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="st">"une annotation explicative m'accompagne à droite"</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-annotation="1" data-code-lines="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
+</dd>
+</dl>
+</div>
+</div>
+<section id="familiarisation-avec-rstudio" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Familiarisation avec <code>RStudio</code></h1>
+<p>Habituellement, pour pouvoir faire du <i class="fa-brands fa-r-project" aria-label="r-project"></i>, on utilise le logiciel <code>RStudio</code><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> qui offre un environnement un peu moins rudimentaire que l’interface graphique par défaut fournie lors de l’installation de <i class="fa-brands fa-r-project" aria-label="r-project"></i>.</p>
+<p>Pour lancer un service <code>RStudio</code> sur des serveurs préconfigurés, nous allons utiliser une infrastructure nommée le <a href="https://datalab.sspcloud.fr/"><code>SSPCloud</code></a> qui est développée par l’équipe innovation de l’Insee pour des projets d’enseignement ou de <em>data science</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://git.lab.sspcloud.fr/diit/presentation/energy-data-hack-2022/20220523-day_1-onyxia_onboarding/-/raw/main/slideshow/macbook_onyxia.png" class="img-fluid figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<p><br> Après avoir créé un compte sur <a href="https://datalab.sspcloud.fr/">datalab.sspcloud.fr/</a>, cliquez sur ce bouton :</p>
+<div class="badge">
+<p><a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&amp;init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&amp;networking.user.enabled=true&amp;onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&amp;labelColor=black&amp;color=%231965b8" alt="Onyxia"></a><br></p>
+</div>
+<p>Après quelques instants de lancement du service sur les serveurs de l’Insee, vous pourrez accéder à votre <code>RStudio</code> prêt à l’emploi (démonstration en <em>live</em> ou <a href="../slides/introduction.html#/prise-en-main-du-ssp-cloud">aide mémoire</a>)</p>
+<div class="callout callout-style-default callout-tip callout-titled" data-collapsable="true">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 1: se familiariser avec <code>RStudio</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ce premier exercice vise, après avoir observé la structure des fenêtres de <code>RStudio</code>, à prendre en main l’interface:</p>
+<ol type="1">
+<li>Observer la structure de votre dossier de travail en bas à droite de <code>RStudio</code> ;</li>
+<li>Créer un script à partir du menu <code>File/New File/R script</code> et l’enregistrer sous le nom <code>script1.R</code> ;</li>
+<li>Observer la mise à jour de votre dossier en bas à droite ;</li>
+<li>Faire une recherche dans la partie Help de RStudio pour la fonction <code>list.files</code> ;</li>
+<li>Ecrire dans <code>script1.R</code> le code qui permet de faire la liste des fichiers de votre dossier de travail ;</li>
+<li>Utiliser le raccourci <code>RStudio</code> <kbd>CTRL</kbd> + <kbd>ENTREE</kbd> pour exécuter ce code dans la console.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="les-objets-uni-dimensionnels" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Les objets uni-dimensionnels</h1>
+<p>Nous allons commencer par les objets en une dimension, c’est-à-dire les listes de valeurs de même type. Par exemple, <code>["ENS Ulm", "ENS Lyon", "ENS Paris-Saclay"]</code> ou <code>[4 8 15 16 23 42]</code>.</p>
+<p>Ces listes de valeurs en une dimension peuvent être représentées par des <strong>vecteurs</strong>. Les quatre types les plus pratiques en <i class="fa-brands fa-r-project" aria-label="r-project"></i> sont :</p>
+<ul>
+<li>Les <a href="#numeric">vecteurs numériques</a> ;</li>
+<li>Les <a href="#characters">chaines de caractères</a> ;</li>
+<li>Les <a href="#logical">vecteurs logiques</a> ;</li>
+<li>Les <a href="#factors">facteurs</a>.</li>
+</ul>
+<p>Nous irons ensuite à des structures de données plus complexes mais qui sont en fait celles que nous manipulons plus couramment: les <a href="#lists">listes</a> et les <a href="#dataframes"><em>dataframes</em></a>.</p>
+<section id="numeric" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="numeric"><span class="header-section-number">2.1</span> Les vecteurs numériques (<em>numeric</em>)</h2>
+<section id="les-deux-types-de-vecteurs-numériques" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="les-deux-types-de-vecteurs-numériques"><span class="header-section-number">2.1.1</span> Les deux types de vecteurs numériques</h3>
+<p><i class="fa-brands fa-r-project" aria-label="r-project"></i> propose différents types d’objets numériques. Pour l’analyse de données, nous allons principalement nous intéresser principalement à deux types :</p>
+<ul>
+<li>les entiers (type <code>int</code> pour <em>integer</em>)</li>
+<li>les nombres réels (type <code>double</code> pour nombres à virgule flottante)</li>
+</ul>
+<p>En pratique, les premiers sont un cas spécial des seconds. Contrairement à d’autres langages, <i class="fa-brands fa-r-project" aria-label="r-project"></i> ne tente pas de contraindre de manière automatique les nombres sans virgules à être des entiers (<em>integers</em>). C’est pratique mais sur de gros volumes de données ça peut poser problème car les <em>double</em> sont plus lourds que les <em>int</em>.</p>
+<p>En général, on utilise la fonction <code>class</code> pour afficher le type d’un objet <i class="fa-brands fa-r-project" aria-label="r-project"></i> et si on veut être plus précis on peut utiliser <code>typeof</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">3</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">3</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fl">3.14</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fl">3.14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les fonctions <code>as.numeric</code> et <code>as.integer</code> peuvent être utilisées pour convertir d’un type à l’autre:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion en int</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="fl">3.79</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Attention à la conversion <em>double</em> <span class="math inline">\(\to\)</span> <em>int</em>, qui tronque la partie décimale.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># double -&gt; int -&gt; double</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.integer</span>(<span class="fl">3.79</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Les <em>floats</em> peuvent également être écrits en notation scientifique :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fl">2e3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fl">2e3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+</section>
+<section id="opérations-arithmétiques-de-base" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="opérations-arithmétiques-de-base"><span class="header-section-number">2.1.2</span> Opérations arithmétiques de base</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/verybadtrip.gif" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Comme tout langage informatique, <i class="fa-brands fa-r-project" aria-label="r-project"></i> est avant tout une calculette. On est sauvé, on peut donc faire des additions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Addition</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span> <span class="sc">+</span> <span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><i class="fa-brands fa-r-project" aria-label="r-project"></i> est bien fait, il adapte le type des variables pour les mettre en cohérence lorsqu’elles peuvent l’être:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Addition</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fl">8.1</span> <span class="sc">+</span> <span class="fu">as.integer</span>(<span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17.1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>On a bien-sûr accès à d’autres opérations standards:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Soustraction</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">-</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplication</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Division</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span> <span class="sc">/</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.25</code></pre>
+</div>
+</div>
+<p>Il faut tout de même faire attention à la division par 0</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Division par 0</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">/</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Inf</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">5</span> <span class="sc">/</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -Inf</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Certains langages, comme <code>Python</code>, ne permettent pas la division par 0, ils renvoient une erreur plutôt qu’<code>Inf</code>. C’est un peu piégeux en <code>R</code> car cela peut arriver d’avoir des divisions par 0 sans qu’on s’en rende compte…</p>
+</div>
+</div>
+<p>Comme toute calculette, on peut appliquer d’autres types d’opérations</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Division euclidienne : quotient</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span> <span class="sc">%/%</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Division euclidienne : reste</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span> <span class="sc">%%</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Puissance</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">^</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Racine carrée</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.236068</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6931472</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponentielle</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.389056</code></pre>
+</div>
+</div>
+<p>L’ordre des opérations suit la convention usuelle:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> (<span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32</code></pre>
+</div>
+</div>
+</section>
+<section id="vectorisation" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="vectorisation"><span class="header-section-number">2.1.3</span> Vectorisation</h3>
+<p>Si on ne pouvait utiliser <i class="fa-brands fa-r-project" aria-label="r-project"></i> qu’en mode calculette peu raffinée, ça ne serait pas un langage très intéressant pour l’analyse de données. L’avantage principal de <i class="fa-brands fa-r-project" aria-label="r-project"></i> est qu’on va pouvoir manipuler des vecteurs, c’est à dire des suites de nombres. On va considérer que les vecteurs sont des suites de nombres ordonnés en une seule colonne:</p>
+<p><span class="math display">\[
+\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}
+\]</span></p>
+<p>et on va appliquer des opérations sur chaque ligne de ces vecteurs. On parle de <strong>vectorisation</strong> des opérations pour désigner une opération qui s’appliquera de manière automatique à chaque élément de notre vecteur.</p>
+<p>Par exemple, la multiplication est vectorielle par défaut:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">*</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">20</span>,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   5 100  10</code></pre>
+</div>
+</div>
+<p>De même l’addition, à condition de mettre des vecteurs de taille cohérente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">20</span>,<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">2</span>,<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22 22 22</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">20</span>,<span class="dv">2</span>) <span class="sc">-</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2 17 -1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si la taille des vecteurs n’est pas cohérente, <i class="fa-brands fa-r-project" aria-label="r-project"></i> recycle le vecteur le plus petit jusqu’à atteindre la bonne taille</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">20</span>,<span class="dv">2</span>) <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in c(1, 20, 2) - c(1, 20): longer object length is not a multiple of
+shorter object length</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 0 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="characters" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="characters"><span class="header-section-number">2.2</span> Les chaînes de caractères (<em>characters</em>)</h2>
+<p>Les chaînes de caractères (ou <em>strings</em>) sont utilisées pour stocker de l’information textuelle. Plus précisément, elles peuvent stocker tout caractère de type <a href="https://fr.wikipedia.org/wiki/Unicode">Unicode</a>, ce qui inclut les lettres des différentes langues, mais également la ponctuation, les chiffres, les smileys, etc.</p>
+<section id="créer-un-string" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="créer-un-string"><span class="header-section-number">2.2.1</span> Créer un <em>string</em></h3>
+<p>Pour créer une chaine de caractères (<em>string</em>), on peut utiliser de manière indifférente les guillemets ou les apostrophes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-22"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="1">1</button><span id="annotated-cell-22-1" class="code-annotation-target"><a href="#annotated-cell-22-1" aria-hidden="true" tabindex="-1"></a><span class="st">'mot'</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="2">2</button><span id="annotated-cell-22-2" class="code-annotation-target"><a href="#annotated-cell-22-2" aria-hidden="true" tabindex="-1"></a><span class="st">"ça fonctionne aussi"</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-22" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-22" data-code-annotation="1" data-code-lines="1">Première méthode: <code>'</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-22" data-code-annotation="2" data-code-lines="2">Deuxième méthode (préférable): <code>"</code></span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "mot"
+[1] "ça fonctionne aussi"</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Attention au mélange des deux !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'l'</span>apostrophe, quelle catastrophe<span class="st">')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error: &lt;text&gt;:1:10: unexpected symbol
+1: print('l'apostrophe
+             ^</code></pre>
+</div>
+</div>
+<p>La deuxième apostrophe est comprise comme la fin du <em>string</em>, et <i class="fa-brands fa-r-project" aria-label="r-project"></i> ne sait pas interpréter le reste de la séquence.</p>
+<p>Il faut donc varier en cas de besoin :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="st">"l'apostrophe, aucun problème"</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-annotation="1" data-code-lines="1">Cette fois, l’apostrophe <code>'</code> est bien enchassée au sein des guillemets qui délimitent notre <em>string</em>.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "l'apostrophe, aucun problème"</code></pre>
+</div>
+</div>
+<p>Cela fonctionne également en sens inverse: les guillements sont bien interprétés lorsqu’ils sont entre apostrophes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="st">'les guillemets, "aucun problème"'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "les guillemets, \"aucun problème\""</code></pre>
+</div>
+</div>
+<p>Comme l’illustre la sortie ci-dessus, il est possible de bien définir les caractères spéciaux de cette sorte en les échappant avec des antislashs <code>\</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="st">"les guillemets, </span><span class="sc">\"</span><span class="st">aucun problème</span><span class="sc">\"</span><span class="st">"</span></span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="st">'l</span><span class="sc">\'</span><span class="st">apostrophe, aucun problème'</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-annotation="1" data-code-lines="1,2"><code>\</code> permet à <i class="fa-brands fa-r-project" aria-label="r-project"></i> de comprendre que l’apostrophe ou le guillemet fait partie de la chaine de caractère et non de sa délimitation.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "les guillemets, \"aucun problème\""
+[1] "l'apostrophe, aucun problème"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="quelques-fonctions-utiles" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="quelques-fonctions-utiles"><span class="header-section-number">2.2.2</span> Quelques fonctions utiles</h3>
+<p><i class="fa-brands fa-r-project" aria-label="r-project"></i> propose par défaut un certain nombre de fonctions utiles pour extraire ou transformer des vecteurs textuels. On en découvrira des plus pratiques et plus générales lorsqu’on se focalisera sur les données textuelles et le package <a href="https://stringr.tidyverse.org/"><code>stringr</code></a>.</p>
+<p>La fonction <code>nchar</code> permet de compter le nombre de caractères d’un <em>string</em>, tous caractères inclus (lettres, chiffres, espaces, ponctuation…).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nchar</span>(<span class="st">"J'ai 19 charactères"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19</code></pre>
+</div>
+</div>
+<p>Il ne faut pas la confondre avec la fonction <code>length</code>. Celle-ci nous donne la longueur du vecteur. Par exemple,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="st">"J'ai 19 charactères"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>est de taille 1 puisqu’on a un seul élément dans notre vecteur. Si on prend un vecteur de plus grande dimension:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">c</span>(<span class="st">"J'ai 19 charactères"</span>, <span class="st">"pas moi"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>On retrouve bien le nombre d’éléments de notre vecteur en sortie de <code>length</code>.</p>
+<p><code>nchar</code> est une opération vectorielle, on peut donc compter la longueur de chaque ligne de notre jeu de données:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nchar</span>(<span class="fu">c</span>(<span class="st">"J'ai 19 charactères"</span>, <span class="st">"pas moi"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19  7</code></pre>
+</div>
+</div>
+<p>L’un des intérêts des fonctions de base de traitement des données textuelles est la possibilité de remettre en forme nos chaînes de caractères de manière automatique. Par exemple, l’opération la plus simple est de changer la capitalisation de notre texte:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-27"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="1">1</button><span id="annotated-cell-27-1" class="code-annotation-target"><a href="#annotated-cell-27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toupper</span>(<span class="fu">c</span>(<span class="st">"sequence 850"</span>, <span class="st">"Sequence 850"</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="2">2</button><span id="annotated-cell-27-2" class="code-annotation-target"><a href="#annotated-cell-27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tolower</span>(<span class="fu">c</span>(<span class="st">"SEQuEnce 850"</span>, <span class="st">"SEQUENCE 850"</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-27" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-27" data-code-annotation="1" data-code-lines="1">Mettre en majuscules tout le texte.</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-27" data-code-annotation="2" data-code-lines="2">Mettre en minuscules.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SEQUENCE 850" "SEQUENCE 850"
+[1] "sequence 850" "sequence 850"</code></pre>
+</div>
+</div>
+<p>Mais on peut aussi nettoyer des chaines textuelles avec quelques fonctions de base :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strsplit</span>(<span class="fu">c</span>(<span class="st">"une séquence    à séparer"</span>, <span class="st">"uneautreàséparer"</span>), <span class="at">split =</span> <span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] "une"      "séquence" ""         ""         ""         "à"        "séparer" 
+
+[[2]]
+[1] "uneautreàséparer"</code></pre>
+</div>
+</div>
+<p>A ce stade, la sortie obtenue, avec des <code>[[]]</code> peut vous paraître étrange car nous n’avons pas encore découvert le type <code>list</code>.</p>
+<p>Ce type de données n’étant pas forcément pratique pour l’analyse statistique, pour laquelle on préfère des formats comme le vecteur, ce sera beaucoup plus pratique d’utiliser le <em>package</em> <code>stringr</code> pour faire un <em>split</em>.</p>
+<p>On peut tout à fait découper notre <em>string</em> sur autre chose que les espaces!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strsplit</span>(<span class="fu">c</span>(<span class="st">"une séquence    à séparer"</span>, <span class="st">"uneautreàséparer"</span>), <span class="at">split =</span> <span class="st">"à"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] "une séquence    " " séparer"        
+
+[[2]]
+[1] "uneautre" "séparer" </code></pre>
+</div>
+</div>
+<p>On peut concaténer des chaines de caractère ensemble, c’est très pratique. Malheureusement le <code>+</code> ne fonctionne pas en <code>R</code> pour les chaines de caractères (contrairement à <code>Python</code>). Pour effectuer cela on utilise <code>paste</code> ou <code>paste0</code> (une version moins générale mais qui est pensée pour les concaténations simples):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-30"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-30-1"><a href="#annotated-cell-30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(</span>
+<span id="annotated-cell-30-2"><a href="#annotated-cell-30-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"La première fois qu'Aurélien vit Bérénice,"</span>,</span>
+<span id="annotated-cell-30-3"><a href="#annotated-cell-30-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">" "</span>,</span>
+<span id="annotated-cell-30-4"><a href="#annotated-cell-30-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"il la trouva franchement laide. Elle lui déplut, enfin."</span>,</span>
+<span id="annotated-cell-30-5"><a href="#annotated-cell-30-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">" "</span>,</span>
+<span id="annotated-cell-30-6"><a href="#annotated-cell-30-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Il n'aima pas comment elle était habillée."</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-30" data-target-annotation="1">1</button><span id="annotated-cell-30-7" class="code-annotation-target"><a href="#annotated-cell-30-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-30-8"><a href="#annotated-cell-30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-30-9"><a href="#annotated-cell-30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(</span>
+<span id="annotated-cell-30-10"><a href="#annotated-cell-30-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"La première fois qu'Aurélien vit Bérénice,"</span>,</span>
+<span id="annotated-cell-30-11"><a href="#annotated-cell-30-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"il la trouva franchement laide. Elle lui déplut, enfin."</span>,</span>
+<span id="annotated-cell-30-12"><a href="#annotated-cell-30-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Il n'aima pas comment elle était habillée."</span>,</span>
+<span id="annotated-cell-30-13"><a href="#annotated-cell-30-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">" "</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-30" data-target-annotation="2">2</button><span id="annotated-cell-30-14" class="code-annotation-target"><a href="#annotated-cell-30-14" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-30" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-30" data-code-annotation="1" data-code-lines="7">Avec <code>paste0</code>, on concatène en accolant les <em>strings</em>, sans espace.</span>
+</dd>
+<dt data-target-cell="annotated-cell-30" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-30" data-code-annotation="2" data-code-lines="14">Avec <code>paste</code>, on peut choisir la manière d’accoler les <em>strings</em>, ici en mettant des espaces.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "La première fois qu'Aurélien vit Bérénice, il la trouva franchement laide. Elle lui déplut, enfin. Il n'aima pas comment elle était habillée."
+[1] "La première fois qu'Aurélien vit Bérénice, il la trouva franchement laide. Elle lui déplut, enfin. Il n'aima pas comment elle était habillée."</code></pre>
+</div>
+</div>
+<p>On peut utiliser les strings comme <em>templates</em>. C’est particulièrement pratique pour automatiquement créer du texte à partir de valeurs issues de nos données. Pour cela on utilise <code>sprintf</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">"La première fois qu'%s vit %s"</span>, <span class="st">"Aurélien"</span>, <span class="st">"Bérénice"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "La première fois qu'Aurélien vit Bérénice"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">"%s et %s font %s"</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span><span class="sc">+</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2 et 2 font 4"</code></pre>
+</div>
+</div>
+<p><code>%s</code> sert à définir l’endroit où sera collé le texte voulu.</p>
+</section>
+</section>
+<section id="logicals" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="logicals"><span class="header-section-number">2.3</span> Vecteurs logiques (<em>logicals</em>)</h2>
+<p>En <i class="fa-brands fa-r-project" aria-label="r-project"></i>, les vecteurs logiques sont utilisés pour stocker des valeurs booléennes, c’est-à-dire des valeurs vraies (<code>TRUE</code>) ou fausses (<code>FALSE</code>).</p>
+<p>Les vecteurs logiques sont couramment utilisés pour effectuer des opérations de logique, des filtres de données et des sélections conditionnelles. Nous y reviendrons par la suite, nous les utiliserons fréquemment mais de manière indirecte.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-33"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-33" data-target-annotation="1">1</button><span id="annotated-cell-33-1" class="code-annotation-target"><a href="#annotated-cell-33-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-33" data-target-annotation="2">2</button><span id="annotated-cell-33-2" class="code-annotation-target"><a href="#annotated-cell-33-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">==</span> <span class="dv">2</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-33" data-target-annotation="3">3</button><span id="annotated-cell-33-3" class="code-annotation-target"><a href="#annotated-cell-33-3" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">==</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-33" data-target-annotation="4">4</button><span id="annotated-cell-33-4" class="code-annotation-target"><a href="#annotated-cell-33-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">&lt;</span> <span class="dv">0</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-33" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-33" data-code-annotation="1" data-code-lines="1"><code>TRUE</code>, car 5 est supérieur à 3.</span>
+</dd>
+<dt data-target-cell="annotated-cell-33" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-33" data-code-annotation="2" data-code-lines="2"><code>TRUE</code>, car 2 est égal à 2.</span>
+</dd>
+<dt data-target-cell="annotated-cell-33" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-33" data-code-annotation="3" data-code-lines="3"><code>TRUE</code>, le chainage des opérations est respecté.</span>
+</dd>
+<dt data-target-cell="annotated-cell-33" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-33" data-code-annotation="4" data-code-lines="4"><code>FALSE</code>, car 1 n’est pas inférieur à 0.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE
+[1] TRUE
+[1] TRUE
+[1] FALSE</code></pre>
+</div>
+</div>
+<p>On peut généraliser les comparaisons pour obtenir des vecteurs:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">3</span>) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</code></pre>
+</div>
+</div>
+<p>On obtient <code>TRUE</code> pour les nombres pairs, <code>FALSE</code> pour les impairs.</p>
+<p>Utiliser des vecteurs logiques nous permettra, au quotidien, sélectionner des données. Par exemple si on a des données d’âge, on peut ne vouloir garder que les prénoms des adultes. Cela pourra être fait sur le modèle suivant:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">'Pierre'</span>, <span class="st">'Paul'</span>, <span class="st">'François'</span>, <span class="st">'et les autres'</span>)[</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">3</span>, <span class="dv">61</span>, <span class="dv">17</span>) <span class="sc">&gt;=</span> <span class="dv">18</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Pierre"   "François"</code></pre>
+</div>
+</div>
+<p>Néanmoins nous verrons dans les prochains chapitres comment intégrer ce principe dans une séquence plus générale d’opérations grâce au package <a href="https://dplyr.tidyverse.org/reference/filter.html"><code>dplyr</code></a>.</p>
+</section>
+<section id="factors" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="factors"><span class="header-section-number">2.4</span> Les facteurs (<em>factors</em>)</h2>
+<p>Les facteurs (<em>factors</em>) sont utilisés pour représenter des <strong>variables catégorielles</strong>, c’est-à-dire des variables qui prennent un nombre fini et prédéterminé de niveaux ou de catégories.</p>
+<p>Pour convertir un vecteur numérique ou textuel en vecteur, on utilise la fonction <code>factor</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"capitale"</span>,<span class="st">"préfecture"</span>,<span class="st">"sous-préfecture"</span>,<span class="st">"préfecture"</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] capitale        préfecture      sous-préfecture préfecture     
+Levels: capitale préfecture sous-préfecture</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1  10 3 
+Levels: 1 3 10</code></pre>
+</div>
+</div>
+<p>Les niveaux d’un facteur sont les différentes catégories ou valeurs possibles que la variable peut prendre. On peut les lister avec la fonction <code>levels</code></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "capitale"        "préfecture"      "sous-préfecture"</code></pre>
+</div>
+</div>
+<p>On peut aussi ordonner ces niveaux si cela a un sens lors de la définition du facteur. Cela implique néanmoins de connaître, <em>a priori</em> nos différents niveaux et les renseigner à <i class="fa-brands fa-r-project" aria-label="r-project"></i> dans l’ordre:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] capitale        préfecture      sous-préfecture préfecture     
+Levels: capitale &lt; préfecture &lt; sous-préfecture</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="créer-des-variables" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Créer des variables</h1>
+<p>Jusqu’ici, nous avons dû définir à chaque fois notre objet avant de pouvoir lui appliquer une transformation. Comment faire si l’on veut réutiliser un objet et lui appliquer plusieurs transformations ? Ou faire des opérations à partir de différents objets ?</p>
+<p>Pour cela, on va <strong>assigner</strong> les objets à des variables. Cela permet ensuite de réaliser des opérations à partir de ces variables.</p>
+<p>En <i class="fa-brands fa-r-project" aria-label="r-project"></i>, l’assignation se fait suivant le format :</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>nom_de_la_variable <span class="ot">&lt;-</span> objet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Le sens de la flèche a une importance et il est conventionnel de mettre à gauche le nom de la variable (et donc d’utiliser <code>nom_de_la_variable &lt;- objet</code> plutôt que <code>objet -&gt; nom_de_la_variable</code>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>L’assignation sous la forme <code>&lt;-</code> est une spécificité de <i class="fa-brands fa-r-project" aria-label="r-project"></i> par rapport à beaucoup de langages. Dans la plupart des langages informatiques, comme en <code>Python</code> par exemple, l’assignation se fait avec <code>=</code>:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>nom_de_la_variable <span class="ot">=</span> objet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>C’est également possible en <i class="fa-brands fa-r-project" aria-label="r-project"></i> mais il est plus conventionnel d’utiliser <code>&lt;-</code>.</p>
+</div>
+</div>
+<p>Voici par exemple comment créer un vecteur <code>x</code> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<p>Celui-ci peut alors être réutilisé ultérieurement dans le code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<p>Les variables peuvent être n’importe quel type d’objet <i class="fa-brands fa-r-project" aria-label="r-project"></i> et on peut créer une variable à partir d’une autre:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15 30</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Contrairement à d’autres langages de programmation, <i class="fa-brands fa-r-project" aria-label="r-project"></i> est dit <em>dynamiquement</em> typé : il est possible de réassigner une variable à un objet de type différent. Cela facilite la lecture et le développement, mais peut parfois générer des problèmes difficiles à débugger…</p>
+<p>Il faut donc toujours bien faire attention que le type de la variable est bien celui que l’on s’imagine manipuler.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"blabla"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-annotation="1" data-code-lines="3"><code>x</code> n’est plus un <em>numeric</em> mais un <em>character</em>. Gare aux opérations à venir sur <code>x</code> !</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Il y a naturellement certaines contraintes sur les opérations selon les types des objets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-42"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-42-1"><a href="#annotated-cell-42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"test"</span></span>
+<span id="annotated-cell-42-2"><a href="#annotated-cell-42-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-42" data-target-annotation="1">1</button><span id="annotated-cell-42-3" class="code-annotation-target"><a href="#annotated-cell-42-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-42" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-42" data-code-annotation="1" data-code-lines="3">L’addition <code>+</code> n’existe pas pour les <em>strings</em> comme on l’a vu précédemment</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in x + y: non-numeric argument to binary operator</code></pre>
+</div>
+</div>
+<p>Il est par contre possible d’harmoniser les types en amont :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"5"</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(x)</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>y <span class="sc">+</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+</section>
+<section id="indexation" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Indexation</h1>
+<p>En <i class="fa-brands fa-r-project" aria-label="r-project"></i>, les indices de position dans les vecteurs permettent d’accéder à des éléments spécifiques en utilisant leur position dans le vecteur. Les indices commencent à <code>1</code>, ce qui signifie que le premier élément a un indice de 1, le deuxième a un indice de 2, et ainsi de suite<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>Pour accéder à un élément spécifique du vecteur en utilisant son indice de position, on utilise la notation <code>[ ]</code>. Par exemple, pour obtenir le deuxième élément de <code>x</code>, vous pouvez faire ceci :</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Maintenant, la variable <code>deuxieme_position</code> contient la valeur 4.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On peut d’ailleurs mettre à jour le vecteur <code>x</code>, cela ne changera pas la valeur de la variable <code>deuxieme_position</code> :</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>En <code>R</code>, une valeur de variable n’est changée que s’il y a, d’une manière ou d’une autre, réassignation.</p>
+</div>
+</div>
+<p>On peut aussi utiliser une séquence de valeurs pour récupérer un sous-ensemble de notre vecteur (on appelle cette opération <em>slice</em>)</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5 6 7 8 9</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6  7 12</code></pre>
+</div>
+</div>
+<p>Il est également possible de faire des sélections négatives, c’est-à-dire toutes les valeurs sauf certaines. Pour cela, on utilise les indices négatifs</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  5  6  8  9 10 11 12 13 14 15</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6  8  9 10 11 12 13 14 15</code></pre>
+</div>
+</div>
+<p>Cependant, ce n’est pas une bonne pratique d’utiliser de manière brute les nombres. En effet, imaginons que vous transformiez dans une longue chaine d’opérations votre vecteur: vous ne savez plus forcément quelles positions stockent quelles valeurs (et sur les vrais jeux de données vous ne savez même pas exactement quelles lignes de votre jeu de données stockent quelles valeurs).</p>
+<p>C’est pour cette raison qu’on privilégie les sélections à partir de conditions logiques. On l’avait vu précédemment sous cette forme :</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Pierre"   "François"</code></pre>
+</div>
+</div>
+<p>Maintenant que nous connaissons l’assignation de variables intermédiaires, la syntaxe se simplifie.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Toulouse" "Foix"    </code></pre>
+</div>
+</div>
+<p>Nous découvrirons lors du prochain chapitre une généralisation de cette approche avec les <strong>filtres</strong> de données.</p>
+</section>
+<section id="les-valeurs-manquantes" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Les valeurs manquantes</h1>
+<p>Les vrais jeux de données ne sont pas toujours complets et le sont même rarement. Par exemple, dans des séries longues de PIB, les valeurs rétrospectives peuvent manquer pour des pays qui n’existaient pas avant une certaine date.</p>
+<p>Les valeurs manquantes, souvent représentées par <code>NA</code> (Not Available) en <code>R</code>, sont un aspect essentiel de la gestion des données et l’une des forces de <code>R</code> est de proposer une gestion cohérente de celles-ci. Par exemple, si on désire faire la moyenne mondiale des PIB sur une année passée: faut-il exclure ou non les pays pour lesquels on a pas d’information cette année-là ou renvoyer une erreur ? La gestion appropriée des valeurs manquantes est cruciale lors de l’analyse de données et de la création de modèles statistiques.</p>
+<p>La fonction <code>is.na()</code> permet de vérifier si une valeur est manquante dans un vecteur:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+</div>
+<p>La gestion appropriée des valeurs manquantes est cruciale pour éviter des biais dans les analyses statistiques et pour obtenir des résultats fiables car les valeurs manquantes sont rarement un hasard: il existe souvent une raison pour lesquelles une valeur est manquante et l’hypothèse de <a href="https://stefvanbuuren.name/fimd/sec-MCAR.html"><em>missing at randomn</em></a> est souvent fausse.</p>
+<p>Il existe plusieurs approches pour traiter les valeurs manquantes en fonction de l’objectif d’une analyse. Les trois stratégies les plus courantes sont :</p>
+<ul>
+<li>Suppression des valeurs manquantes : supprimer les lignes contenant des valeurs manquantes à l’aide de la fonction <code>na.omit()</code> ou <code>complete.cases()</code> (c’est par exemple ce que fait la régression linéaire par défaut dans <code>R</code>). Cependant, cette approche peut entraîner une perte d’informations et l’introduction de biais, elle n’est donc pas à faire à la légère.</li>
+<li>Imputation des valeurs manquantes : En faisant des hypothèses sur la distribution sous-jacente des valeurs manquantes, les valeurs de ces dernières peuvent être estimées. La méthode la plus simple est d’imputer à la moyenne ou à la médiane mais il existe des méthodes moins frustres comme la régression ou les méthodes basées sur les voisins les plus proches. Néanmoins cette imputation n’est pas à prendre à la légère car elle change la distribution de la variable observée, ce qui peut avoir un impact sur les analyses ultérieures, et elle est très dépendante du choix de modélisation.</li>
+<li>Traiter les valeurs manquantes comme un groupe à part : Dans les statistiques descriptives, il est possible de réaliser des analyses en mettant un groupe où les valeurs manquantes sont fréquentes à part.</li>
+</ul>
+</section>
+<section id="exercices" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Exercices</h1>
+<section id="exercice-2" class="level2 callout-exercice" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="exercice-2"><span class="header-section-number">6.1</span> Exercice 2</h2>
+<p>Afficher le type de <code>x</code> lorsque :</p>
+</section>
+<section id="exercice-3" class="level2 callout-exercice" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="exercice-3"><span class="header-section-number">6.2</span> Exercice 3</h2>
+<p>Calculer la somme des longueurs de chacune des chaînes de caractères suivantes :</p>
+<ul>
+<li>“une première chaîne”</li>
+<li>“et une deuxième”</li>
+<li>“jamais deux sans trois”</li>
+</ul>
+</section>
+<section id="exercice-4" class="level2 callout-exercice" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="exercice-4"><span class="header-section-number">6.3</span> Exercice 4</h2>
+<p>Quel est le type adapté pour définir un <a href="https://www.insee.fr/fr/information/6800675">code commune</a> ?</p>
+<details>
+<summary>
+Aide si vous ne voyez pas où est le problème
+</summary>
+Faire un test sur les premiers départements, par exemple 02350.
+</details>
+</section>
+<section id="exercice-5" class="level2 callout-exercice" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="exercice-5"><span class="header-section-number">6.4</span> Exercice 5</h2>
+<p>Voici une liste de codes communes issus du COG</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>liste_communes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'01363'</span>, <span class="st">'02644'</span>, <span class="st">'03137'</span>, <span class="st">'11311'</span>, <span class="st">'12269'</span>, <span class="st">'13018'</span>, <span class="st">'14458'</span>, <span class="st">'15008'</span>,</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'23103'</span>, <span class="st">'2A119'</span>, <span class="st">'2B352'</span>, <span class="st">'34005'</span>, <span class="st">'2B015'</span>, <span class="st">'2A015'</span>,</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'38188'</span>, <span class="st">'39574'</span>, <span class="st">'40223'</span>, <span class="st">'41223'</span>, <span class="st">'42064'</span>,</span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'63117'</span>, <span class="st">'64218'</span>, <span class="st">'65209'</span>, <span class="st">'66036'</span>, <span class="st">'67515'</span>, <span class="st">'68266'</span>, </span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'77440'</span>, <span class="st">'78372'</span>, <span class="st">'79339'</span>, <span class="st">'80810'</span>, <span class="st">'81295'</span>, <span class="st">'82067'</span>,</span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'93039'</span>, <span class="st">'94054'</span>, <span class="st">'95061'</span>, <span class="st">'97119'</span>, <span class="st">'97219'</span>, <span class="st">'97356'</span>, <span class="st">'97421'</span>, <span class="st">'97611'</span></span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>Extraire le département (deux premiers caractères) pour chaque commune</li>
+<li>Compter le nombre de départements uniques dans nos données</li>
+</ol>
+</section>
+<section id="exercice-6" class="level2 callout-exercice" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="exercice-6"><span class="header-section-number">6.5</span> Exercice 6</h2>
+<p>Supprimer les espaces superflus au début et à la fin de la chaîne suivante :</p>
+<details>
+<summary>
+Aide, si vous êtes bloqués
+</summary>
+Taper <code>?trimws()</code> dans la console pour afficher l’aide de la fonction <code>trimws()</code>
+</details>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Un string très mal formatté."</code></pre>
+</div>
+</div>
+</section>
+<p>Les fonctions de base de manipulation de données textuelles étant parfois un peu difficiles d’usage avec <code>R</code>, on pourra aller beaucoup plus loin lorsqu’on découvrira le package <code>stringr</code>.</p>
+</section>
+<section id="les-structures-plus-complexes" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Les structures plus complexes</h1>
+<p>Le prolongement naturel des vecteurs sont les matrices.</p>
+<p>Les matrices peuvent être vues comme le prolongement en deux dimensions des vecteurs : au lieu d’avoir des données sur une seule dimension, on empile des colonnes côte à côte.</p>
+<p><span class="math display">\[
+X = \begin{bmatrix}
+x_{11} &amp; x_{12} \\
+x_{21} &amp; x_{22} \\
+\end{bmatrix}
+\]</span></p>
+<p>Néanmoins, les matrices présentent une limite fondamentale: on ne peut stocker dans une matrice que des éléments de même type. Autrement dit, on aura exclusivement des matrices numériques, des matrices de caractères ou des matrices logiques. Il est impossible de construire une matrice dont certaines variables sont de type numérique (par exemple l’âge des personnes enquêtées) et d’autres de type caractère (par exemple leur secteur d’activité). Les matrices ne constituent donc pas un type d’objet susceptible de stocker l’information statistique habituellement mobilisée dans les enquêtes sociales. Le <em>mix</em> des types n’est pas pratique, c’est pour cette raison qu’en fait on utilise peu les matrices (sauf si on fait de la statistique mathématique ou de l’algorithmique).</p>
+<p>On propose donc un exercice sur les matrices mais on va rapidement passer à des types plus flexibles, plus utiles pour l’analyse de données où les variables sont de type diverses.</p>
+<section id="exercice-7" class="level2 callout-exercice" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="exercice-7"><span class="header-section-number">7.1</span> Exercice 7</h2>
+<p>X &lt;- matrix(letters[1:20], nrow = 4, ncol = 5)</p>
+<ol type="1">
+<li>Sélectionner l’élement le plus à gauche de notre matrice (première ligne, première colonne)</li>
+<li>Sélectionner l’ensemble de la première ligne</li>
+<li>Sélectionner l’ensemble de la première colonne</li>
+<li>Sélectionner les éléments à l’intersection :
+<ul>
+<li>Des 2e et 3e ligne</li>
+<li>Des 1ères et 3e colonne</li>
+</ul></li>
+</ol>
+<details>
+<summary>
+Indice si vous êtes bloqués
+</summary>
+Avec un vecteur, on accédait aux positions d’un élément avec <code>x[*]</code>. Avec les matrices le principe est le même mais on ajoute une dimension <code>x[*,*]</code>
+</details>
+</section>
+<section id="listes" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="listes"><span class="header-section-number">7.2</span> Listes</h2>
+<p>Les listes constituent un type d’objet beaucoup plus riche qui permet précisément de rassembler des types d’objets très différents : une liste peut contenir tous les types d’objet (vecteurs numériques, caractères, logiques, matrices, etc.), y compris d’autres listes.</p>
+<p>Cette très grande souplesse fait de la liste l’objet de prédilection pour stocker une information complexe et structurée, en particulier les résultats de procédures statistiques complexes (régression, classification, etc.). Pour des données plus structurées, comme le sont les jeux de données, nous allons voir ensuite que nous allons utiliser un type spécial de liste: le <em>dataframe</em>.</p>
+</section>
+<section id="exercice-8" class="level2 callout-exercice" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="exercice-8"><span class="header-section-number">7.3</span> Exercice 8</h2>
+<p>Voici une liste illustrant le principe de stockage de données hétérogènes dans un même objet:</p>
+<ol type="1">
+<li>Afficher la liste et observer la différence avec l’affichage des objets précédents</li>
+<li>Utiliser la notation <code>[[]]</code> pour accéder au 2e élément de notre liste pour au 2e nombre au sein du dernier élément de notre matrice</li>
+<li>On peut utiliser des noms pour les éléments de notre liste (c’est d’ailleurs une bonne pratique). Créer un élément nommé <code>communes</code> dans votre liste stockant les données suivantes <code>c('01363', '02644', '03137', '11311')</code></li>
+<li>Créer un élément <code>departements</code> en extrayant les deux premiers chiffres de votre élément <code>communes</code></li>
+</ol>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] "texte"
+
+[[3]]
+     [,1] [,2] [,3] [,4] [,5]
+[1,] "a"  "e"  "i"  "m"  "q" 
+[2,] "b"  "f"  "j"  "n"  "r" 
+[3,] "c"  "g"  "k"  "o"  "s" 
+[4,] "d"  "h"  "l"  "p"  "t" 
+
+[[4]]
+[1] 2 3 4</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "texte"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "01363" "02644" "03137" "11311"</code></pre>
+</div>
+</div>
+</section>
+<p>Lorsqu’on utilise des listes, on peut effectuer des opérations sur chaque élément de notre liste. On appelle cela boucler sur notre liste.</p>
+<!----
+Les boucles
+sont un élément fondamental en informatique et `R`
+comme tous les autres langages, permet de faire
+ce type d'itérations (boucles `for`, `while`...).
+Cela va être illustré dans le prochain exercice. Il
+convient néanmoins de garder en tête que c'est souvent
+une mauvaise pratique d'effectuer une boucle: il existe
+généralement des opérations vectorisées développées
+par
+des experts qui permettent
+d'éviter de faire soi-même une boucle inefficiente.
+----->
+<section id="exercice-9" class="level2 callout-exercice" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="exercice-9"><span class="header-section-number">7.4</span> Exercice 9</h2>
+<ol type="1">
+<li>Combien d’éléments comporte le premier niveau de notre liste ?</li>
+<li>Combien d’éléments comportent chaque niveaux de notre liste ?</li>
+<li>Créer un vecteur numérique qui est égal à 1 si <code>typeof</code> de l’élément est “double” et 0 sinon</li>
+</ol>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 1
+
+[[3]]
+[1] 20
+
+[[4]]
+[1] 3
+
+$communes
+[1] 4
+
+$departements
+[1] 4</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 0 0 1 0 0</code></pre>
+</div>
+</div>
+</section>
+<section id="dataframes" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="dataframes"><span class="header-section-number">7.5</span> Dataframes</h2>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Pour installer soi-même <code>RStudio</code>, les instructions sont <a href="https://posit.co/download/rstudio-desktop/">ici</a>. Néanmoins, dans le cadre de ce cours, vous n’aurez pas besoin de faire l’installation, nous allons utiliser une infrastructure préconfigurée. De cette manière, nous aurons accès au même environnement.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Cette remarque peut paraître triviale mais, en informatique, elle ne l’est pas. Beaucoup de langages (<code>Python</code>, <code>C</code>) ont une indexation qui commence à 0, comme c’est la convention en algèbre. Cela signifie que le premier élément a un indice 0, le deuxième indice 1 et le dernier un indice <span class="math inline">\(n-1\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Handle positioning of the toggle
+      window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
