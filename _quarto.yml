@@ -2,6 +2,7 @@ project:
   type: website
   render:
     - /slides/introduction.qmd
+    - /slides/wrangling.qmd
     - index.qmd
     - "/cards/**/*.qmd"
     - "/exercises/**/*.qmd"
@@ -25,6 +26,7 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-
+    code-annotations: hover
+    code-link: true
 
 author: Lino Galiana

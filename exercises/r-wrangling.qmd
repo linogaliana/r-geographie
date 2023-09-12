@@ -1,0 +1,151 @@
+---
+title: "Importer et manipuler des données avec {{< fa brands r-project >}}"
+echo: false
+number-sections: true
+---
+
+::: {.badge}
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
+:::
+
+Dans ce deuxième TP,
+nous allons apprendre à importer et
+manipuler des données avec
+{{< fa brands r-project >}}. 
+
+Si vous êtes intéressés par `Python` {{< fa brands python >}},
+une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/manipulation/02b_pandas_TP.html).
+
+
+::: {.callout-note}
+
+Certains exemples de code présentent des annotations sur le côté,
+passez votre souris dessus pour les afficher, comme ci-dessous
+
+```{r}
+#| echo: true
+#| output: false
+"une annotation explicative m'accompagne à droite" #<1>
+```
+1. Je m'affiche quand on passe la souris sur moi 🐭 !
+
+:::
+
+Dans ce chapitre, nous allons principalement utiliser les packages suivants
+du `tidyverse`: 
+
+- `readr` pour l'import de données ;
+- `dplyr` pour la manipulation de données.
+
+::: {.callout-note}
+
+Le `tidyverse` n'est pas le seul écosystème complet pour analyser des données.
+
+Néanmoins, pour une introduction à {{< fa brands r-project >}}, c'est 
+certainement le plus raisonnable à adopter. 
+
+Les écosystèmes
+concurrents ou complémentaires (`data.table`, `arrow`, `duckdb`) nécessitent
+déjà une bonne compréhension du `tidyverse` et de ses limites. 
+
+:::
+
+Dans ce tutoriel, nous allons utiliser deux sources de données :
+
+* Les émissions de gaz à effet de serre estimées au niveau communal par l'`ADEME`. Le jeu de données est 
+disponible sur [data.gouv](https://www.data.gouv.fr/fr/datasets/inventaire-de-gaz-a-effet-de-serre-territorialise/#_)
+et requêtable directement dans {{< fa brands r-project >}} avec
+[cet url](https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert) (ce sera l'objet du premier exercice)[^notedownload].
+* Idéalement, on utiliserait directement les données
+[disponibles sur le site de l'Insee](https://www.insee.fr/fr/statistiques/3560121) mais celles-ci nécessitent un peu de travail
+de nettoyage qui n'entre pas dans le cadre de ce TP. 
+Pour faciliter l'import de données Insee, il est recommandé d'utiliser les _packages_
+[`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol) et [`insee`](https://github.com/pyr-opendatafr/R-Insee-Data) qui simplifient l'accès aux données
+de l'Insee disponibles sur le site web [insee.fr](https://www.insee.fr/fr/accueil)
+ou via des API. 
+
+[^notedownload]: 
+
+  `readr` offre la possibilité d'importer des données directement depuis un url. C'est l'option 
+  prise dans ce tutoriel. Si vous préfèrez, pour des 
+  raisons d'accès au réseau ou de performance, importer depuis un poste local,
+  vous pouvez télécharger les données et changer
+  les commandes d'import avec le chemin adéquat plutôt que l'url. 
+
+
+## Etapes préliminaires: installer les _packages_
+
+{{< fa brands r-project >}} est un langage _open source_. N'importe qui peut
+donc proposer du code {{< fa brands r-project >}} pour accroître les 
+fonctionnalités du langage. Un ensemble cohérent de fonctionnalités s'appelle
+une __librairie__ ou un __package__. 
+
+Comme l'équipe qui gère le langage {{< fa brands r-project >}} n'a pas vocation
+à intégrer toutes les librairies dans le langage de base (celui-ci se doit
+de rester, comme son nom l'indique, basique), il existe des espaces
+communautaires où les gens peuvent mettre à disposition leurs _packages_. Dans
+l'écosystème {{< fa brands r-project >}}, les deux principaux[^bioconductor] sont:
+
+- Le `CRAN` (_Comprehensive R Archive Network_): le dépôt officiel et historique
+de librairies {{< fa brands r-project >}}.
+Pour installer un _package_ stocké dans cet espace, on utilise `install.package` ;
+- `Github` {{< fa brands github >}}: le réseau social du code _open source_. 
+Pour installer un _package_ stocké dans cet espace, on utilise `remotes::install_github`[^remotes]
+
+[^bioconductor]: Il existe également `bioconductor` mais celui-ci étant surtout orienté biostatistiques (une des communautés académiques ayant adopté {{< fa brands r-project >}} le plus tôt), nous ne l'utilisons pas vraiment
+
+[^remotes]:
+    `remotes::install_github` signifie d'utiliser la fonction `install_github` du _package_ `remotes`. Autrement dit, il faut un _package_ pour installer d'autres _packages_ 🤯.
+    C'est parce que `Github` n'existait pas lors de la création de {{< fa brands r-project >}} (années 1990) et que cette fonctionnalité n'a pas été ajouté depuis. 
+
+::: {.callout-note}
+
+En général, les _packages_ avec une certaine
+maturité sont sur le CRAN. `Github` a un aspect plus fourre-tout où on trouve
+des mines d'or à côté de choses de qualité plus variable. 
+
+Certains _packages_ que nous verrons ne sont pas sur le CRAN car la procédure
+de validation pour pouvoir y déposer son _package_ est assez lourde et
+fatiguante pour des développeurs bénévoles, généralement non rémunéré 
+pour ce travail et qui effectuent souvent cela la nuit. 
+
+:::
+
+Nous allons supposer que les principales librairies du `tidyverse` sont
+déjà installées. Sinon, vous pouvez les installer en suivant la documentation
+en ligne. 
+
+Pour installer un package disponible sur le CRAN, par exemple
+le package [`insee`](https://cran.r-project.org/web/packages/insee/index.html),
+vous pouvez faire:
+
+```{r}
+#| eval: false
+install.packages("insee")
+```
+
+Pour installer un package disponible sur `Github` {{< fa brands github >}},
+par exemple [`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol)
+qui est disponible sur le dépôt du compte `InseeFrLab`, on fait:
+
+
+```{r}
+#| eval: false
+remotes::install_github('inseefrlab/DoReMIFaSol')
+```
+
+# Importer les données
+
+Pour commencer, nous allons importer les données de l'Ademe à l'aide du package `readr`[^readcsv]. 
+
+
+[^readcsv]: Il existe des fonctions pour importer des données depuis un csv dans le langage de base.
+Cependant, elles ne sont pas recommandées. 
+
+
+```{r}
+#| echo: true
+
+#df = pd.read_csv("https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert", sep=",")
+```
+
