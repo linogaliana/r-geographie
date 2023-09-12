@@ -1,3 +1,4 @@
+source("renv/activate.R")
 setHook("rstudio.sessionInit", function(newSession) {
  if (newSession)
   {
