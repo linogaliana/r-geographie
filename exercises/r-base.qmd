@@ -2,6 +2,7 @@
 title: "Découverte des objets de base de {{< fa brands r-project >}}"
 echo: false
 number-sections: true
+code-annotations: hover
 ---
 
 Dans ce premier TP,
@@ -14,6 +15,16 @@ Cela se fera par les étapes suivantes:
 1. Familiarisation avec `RStudio`, le logiciel qui nous permettra d'utiliser le langage {{< fa brands r-project >}} ;
 2. Découverte des objets de base de {{< fa brands r-project >}}: les vecteurs de **nombres**, de **chaînes de caractères** et de conditions logiques, les **listes** et les _**dataframes**_ ;
 3. Découverte de l'**assignation** des objets à des **variables** pour réaliser des opérations avec ces dernières.
+
+Certains exemples de code présentent des annotations sur le côté,
+passez votre souris dessus pour les afficher, comme ci-dessous
+
+```{r}
+#| echo: true
+#| output: false
+"une annotation explicative m'accompagne à droite" #<1>
+```
+1. Je m'affiche quand on passe la souris sur moi 🐭 !
 
 # Familiarisation avec `RStudio`
 
@@ -142,6 +153,8 @@ class(2e3)
 
 
 ### Opérations arithmétiques de base
+
+![](img/verybadtrip.gif){fig-align="center"}
 
 Comme tout langage informatique,  {{< fa brands r-project >}} est avant tout
 une calculette. On est sauvé, on peut donc faire des additions:
@@ -273,55 +286,78 @@ c(1,20,2) - c(1,20)
 Les chaînes de caractères (ou *strings*) sont utilisées pour stocker de l'information textuelle.
 Plus précisément, elles peuvent stocker tout caractère de type [Unicode](https://fr.wikipedia.org/wiki/Unicode), ce qui inclut les lettres des différentes langues, mais également la ponctuation, les chiffres, les smileys, etc.
 
-Un *string* se définit en mettant l'information entre apostrophes ou entre guillemets (anglais). 
 
 ### Créer un _string_
 
-```{r}
-# Première manière 
-'mot'
-```
+Pour créer une chaine de caractères (_string_), on
+peut utiliser de manière indifférente les guillemets ou les
+apostrophes. 
+
 
 ```{r}
-# Deuxième manière
-"ça fonctionne aussi"
+#| echo: true
+'mot' # <1>
+"ça fonctionne aussi" # <2>
 ```
+1. Première méthode: `'`
+2. Deuxième méthode (préférable): `"`
 
-:::{.callout-danger}
+
+:::{.callout-warning}
 Attention au mélange des deux !
 
 ```{r}
+#| echo: true
 #| error: true
 print('l'apostrophe, quelle catastrophe')
 ```
 
-La seconde apostrophe est comprise comme la fin du _string_, et R ne sait pas interpréter le reste de la séquence.
+La deuxième apostrophe est comprise comme la fin du _string_,
+et {{< fa brands r-project >}} ne sait pas interpréter le reste de la séquence.
 
 Il faut donc varier en cas de besoin :
 
 ```{r}
-"l'apostrophe, aucun problème"
+#| echo: true
+"l'apostrophe, aucun problème" # <1>
 ```
+1. Cette fois, l'apostrophe `'` est bien enchassée au sein des guillemets qui
+délimitent notre _string_.
 
-Même chose en sens inverse
+Cela fonctionne également en sens inverse: les guillements sont bien
+interprétés lorsqu'ils sont entre apostrophes. 
 
 ```{r}
+#| echo: true
 'les guillemets, "aucun problème"'
 ```
 
+Comme l'illustre la sortie ci-dessus, il est
+possible de bien définir les caractères
+spéciaux de cette sorte en les échappant avec des antislashs `\`:
+
+```{r}
+#| echo: true
+"les guillemets, \"aucun problème\"" # <1>
+'l\'apostrophe, aucun problème' # <1>
+```
+1. `\` permet à {{< fa brands r-project >}} de comprendre que l'apostrophe
+ou le guillemet fait partie de la chaine de caractère et non de sa délimitation.
 
 :::
 
 ### Quelques fonctions utiles
 
-`R` propose par défaut un certain nombre de fonctions utiles pour 
+{{< fa brands r-project >}} propose par défaut un certain nombre
+de fonctions utiles pour 
 extraire ou transformer des vecteurs textuels. On en découvrira
 des plus pratiques et plus générales lorsqu'on se focalisera sur
-les données textuelles et le package [`stringr`](https://stringr.tidyverse.org/)
+les données textuelles et le package [`stringr`](https://stringr.tidyverse.org/).
 
 La fonction `nchar` permet de compter le nombre de caractères d'un *string*, tous caractères inclus (lettres, chiffres, espaces, ponctuation...).
 
 ```{r}
+#| echo: true
 nchar("J'ai 19 charactères")
 ```
 
@@ -329,44 +365,65 @@ Il ne faut pas la confondre avec la fonction `length`. Celle-ci
 nous donne la longueur du vecteur. Par exemple, 
 
 ```{r}
+#| echo: true
 length("J'ai 19 charactères")
 ```
 
-est de taille 1 puisqu'on a un seul élément dans notre vecteur. 
+est de taille 1 puisqu'on a un seul élément dans notre vecteur.
+Si on prend un vecteur de plus grande dimension:
 
 ```{r}
+#| echo: true
 length(c("J'ai 19 charactères", "pas moi"))
 ```
 
-D'ailleurs `nchar` est également une opération vectorielle:
+On retrouve bien le nombre d'éléments de notre vecteur en sortie de `length`.
+
+`nchar` est une opération vectorielle, on peut donc compter la longueur
+de chaque ligne de notre jeu de données:
 
 ```{r}
+#| echo: true
 nchar(c("J'ai 19 charactères", "pas moi"))
 ```
 
-```{r}
-# Mettre en majuscules
-toupper(c("sequence 850", "Sequence 850"))
-```
+L'un des intérêts des fonctions de base de traitement des données
+textuelles est la possibilité de remettre en forme nos chaînes
+de caractères de manière automatique. Par exemple, l'opération la 
+plus simple est de changer la capitalisation de notre texte:
 
 ```{r}
-# Mettre en minuscules
-tolower(c("SEQuEnce 850", "SEQUENCE 850"))
+#| echo: true
+toupper(c("sequence 850", "Sequence 850")) # <1>
+tolower(c("SEQuEnce 850", "SEQUENCE 850")) # <2>
 ```
+1. Mettre en majuscules tout le texte.
+2. Mettre en minuscules.
+
+Mais on peut aussi nettoyer des chaines textuelles avec quelques fonctions
+de base :
 
 ```{r}
+#| echo: true
 strsplit(c("une séquence    à séparer", "uneautreàséparer"), split = " ")
 ```
 
-A ce stade, la sortie obtenue peut paraître étrange car nous n'avons pas
-encore découvert le type `list`. Ce dernier n'étant pas forcément pratique
-pour l'analyse statistique, ce sera beaucoup plus pratique d'utiliser
-le _package_ `stringr` pour faire un _split`
+
+A ce stade, la sortie obtenue, avec des `[[]]`
+peut vous paraître étrange car nous n'avons pas
+encore découvert le type `list`.
+
+Ce type de données n'étant pas forcément pratique
+pour l'analyse statistique, pour laquelle on préfère des formats
+comme le vecteur, ce sera beaucoup plus pratique d'utiliser
+le _package_ `stringr` pour faire un _split_.
+
+On peut tout à fait découper notre _string_ sur autre chose que les espaces!
 
 ```{r}
+#| echo: true
 strsplit(c("une séquence    à séparer", "uneautreàséparer"), split = "à")
 ```
-
 On peut concaténer des chaines de caractère ensemble, c'est très pratique. 
 Malheureusement le `+` ne fonctionne pas en `R` pour les chaines de 
 caractères (contrairement à `Python`). Pour effectuer cela on 
@@ -375,82 +432,108 @@ pensée pour les concaténations simples):
 
 
 ```{r}
+#| echo: true
 #| label: paste
 paste0(
-    "La première fois qu'Aurélien vit Bérénice, ",
-    "il la trouva franchement laide. Elle lui déplut, enfin. ",
+    "La première fois qu'Aurélien vit Bérénice,",
+    " ",
+    "il la trouva franchement laide. Elle lui déplut, enfin.",
+    " ",
     "Il n'aima pas comment elle était habillée."
-)
+) # <1>
 
 paste(
     "La première fois qu'Aurélien vit Bérénice,",
     "il la trouva franchement laide. Elle lui déplut, enfin.",
     "Il n'aima pas comment elle était habillée.",
     sep = " "
-)
+) # <2>
 ```
 
+1. Avec `paste0`, on concatène en accolant les _strings_, sans espace.
+2. Avec `paste`, on peut choisir la manière d'accoler les _strings_, ici
+en mettant des espaces.
 
 On peut utiliser les strings comme _templates_. C'est particulièrement
 pratique pour automatiquement créer du texte à partir de valeurs 
 issues de nos données. Pour cela on utilise `sprintf`:
 
 ```{r}
+#| echo: true
 sprintf("La première fois qu'%s vit %s", "Aurélien", "Bérénice")
 sprintf("%s et %s font %s", 2, 2, 2+2)
 ```
 
-## Vecteurs logiques
+`%s` sert à définir l'endroit où sera collé le texte voulu. 
 
-En R, les vecteurs logiques sont utilisés pour stocker des valeurs booléennes, c'est-à-dire des valeurs vraies (TRUE) ou fausses (FALSE).
+## Vecteurs logiques (_logicals_) {#logicals}
+
+En {{< fa brands r-project >}},
+les vecteurs logiques sont utilisés pour stocker des valeurs booléennes,
+c'est-à-dire des valeurs vraies (`TRUE`) ou fausses (`FALSE`).
+
 Les vecteurs logiques sont couramment utilisés pour effectuer des opérations de logique, des filtres de données et des sélections conditionnelles. 
 Nous y reviendrons par la suite, nous les utiliserons fréquemment mais de manière indirecte.
 
 
 ```{r}
-5 > 3  # TRUE, car 5 est supérieur à 3
-2 == 2 # TRUE, car 2 est égal à 2
-0 == (2 - 2) # TRUE, le chainage des opérations est respecté
-1 < 0  # FALSE, car 1 n'est pas inférieur à 0
+#| echo: true
+5 > 3  # <1>
+2 == 2 # <2> 
+0 == (2 - 2) # <3>
+1 < 0 # <4>
 ```
+1. `TRUE`, car 5 est supérieur à 3.
+2. `TRUE`, car 2 est égal à 2.
+3. `TRUE`, le chainage des opérations est respecté.
+4. `FALSE`, car 1 n'est pas inférieur à 0.
 
 On peut généraliser les comparaisons pour obtenir des vecteurs:
 
 ```{r}
-c(2, 4, 6, 8, 10, 1, 3) %% 2 == 0 # TRUE pour les nombres pairs, FALSE pour les impairs
+#| echo: true
+c(2, 4, 6, 8, 10, 1, 3) %% 2 == 0
 ```
 
-Ceci nous permettra de sélectionner des données. Par exemple si on a des données d'âge, on
+On obtient `TRUE` pour les nombres pairs, `FALSE` pour les impairs.
+
+Utiliser des vecteurs logiques nous permettra, au quotidien,
+sélectionner des données. Par exemple si on a des données d'âge, on
 peut ne vouloir garder que les prénoms des adultes. Cela pourra être fait
 sur le modèle suivant:
 
 ```{r}
+#| echo: true
 c('Pierre', 'Paul', 'François', 'et les autres')[
     c(25, 3, 61, 17) >= 18
 ]
 ```
 
 
-Néanmoins nous verrons comment intégrer ce principe dans
-une séquence plus générale d'opérations.
+Néanmoins nous verrons dans les prochains chapitres
+comment intégrer ce principe dans
+une séquence plus générale d'opérations grâce au package [`dplyr`](https://dplyr.tidyverse.org/reference/filter.html).
 
 
-## Les facteurs
+## Les facteurs (_factors_) {#factors}
 
-Les facteurs (_factors_) sont utilisés pour représenter des variables catégorielles,
+Les facteurs (_factors_) sont utilisés pour représenter
+des __variables catégorielles__,
 c'est-à-dire des variables qui prennent un nombre fini et prédéterminé de niveaux ou de catégories.
 
 Pour convertir un vecteur numérique ou textuel en vecteur, on utilise
 la fonction `factor`:
 
 ```{r}
+#| echo: true
 factor(
     c("capitale","préfecture","sous-préfecture","préfecture")
 )
 factor(c(1,10,3))
 ```
 
-Les niveaux d'un facteur sont les différentes catégories ou valeurs possibles que la variable peut prendre. 
+Les niveaux d'un facteur sont les différentes catégories
+ou valeurs possibles que la variable peut prendre. 
 On peut les lister avec la fonction `levels`
 
 ```{r}
@@ -461,7 +544,9 @@ levels(
 )
 ```
 
-On peut aussi ordonner les niveaux si cela a un sens:
+On peut aussi ordonner ces niveaux si cela a un sens lors de la définition
+du facteur. Cela implique néanmoins de connaître, _a priori_ nos différents 
+niveaux et les renseigner à {{< fa brands r-project >}} dans l'ordre:
 
 ```{r}
 factor(
@@ -476,10 +561,11 @@ factor(
 
 Jusqu'ici, nous avons dû définir à chaque fois notre objet avant de pouvoir lui appliquer une transformation. Comment faire si l'on veut réutiliser un objet et lui appliquer plusieurs transformations ? Ou faire des opérations à partir de différents objets ?
 
-Pour cela, on va assigner les objets à des variables.
+Pour cela, on va __assigner__ les objets à des variables.
 Cela permet ensuite de réaliser des opérations à partir de ces variables.
 
-L'assignation se fait suivant le format :
+En {{< fa brands r-project >}},
+l'assignation se fait suivant le format :
 
 ```r
 nom_de_la_variable <- objet
@@ -492,7 +578,8 @@ d'utiliser `nom_de_la_variable <- objet` plutôt que `objet -> nom_de_la_variabl
 
 ::: {.callout-note}
 
-L'assignation sous la forme `<-` est une spécificité de `R` par rapport
+L'assignation sous la forme `<-` est une spécificité
+de {{< fa brands r-project >}} par rapport
 à beaucoup de langages. Dans la plupart des langages informatiques,
 comme en `Python` par exemple,
 l'assignation se fait avec `=`:
@@ -501,52 +588,68 @@ l'assignation se fait avec `=`:
 nom_de_la_variable = objet
 ```
 
-C'est également possible en `R` mais il
+C'est également possible en {{< fa brands r-project >}} mais il
 est plus conventionnel d'utiliser `<-`.
 
 :::
 
-
+Voici par exemple comment créer un vecteur `x` :
 
 ```{r}
+#| echo: true
 x <- 5
 x
 ```
 
+Celui-ci peut alors être réutilisé ultérieurement dans le code: 
+
 ```{r}
+#| echo: true
 class(x)
 ```
 
-```{r}
-x <- c(5, 10)
-```
+Les variables peuvent être n'importe quel type d'objet {{< fa brands r-project >}}
+et on peut créer une variable à partir d'une autre:
 
 ```{r}
+#| echo: true
+x <- c(5, 10)
 y <- x + 2*x
 y
 ```
 
-Contrairement à d'autres langages de programmation, `R` est dit *dynamiquement* typé : il est possible de réassigner une variable à un objet de type différent. Cela facilite la lecture et le développement, mais peut parfois générer des problèmes difficiles à débugger...
+::: {.callout-warning}
+Contrairement à d'autres langages de programmation, {{< fa brands r-project >}}
+est dit *dynamiquement* typé :
+il est possible de réassigner une variable à un objet de type différent. 
+Cela facilite la lecture et le développement, mais peut parfois générer des problèmes difficiles à débugger...
+
 Il faut donc toujours bien faire attention que le type de la variable est bien celui que l'on s'imagine manipuler.
 
 ```{r}
+#| echo: true
 x <- 3
 x <- "blabla"
-class(x)
+class(x) #<1>
 ```
+1. `x` n'est plus un _numeric_ mais un _character_. Gare aux opérations à venir sur `x` !
+:::
 
 Il y a naturellement certaines contraintes sur les opérations selon les types des objets.
 
 ```{r}
+#| echo: true
 #| error: true
 x <- "test"
 y <- 3
-x + y
+x + y # <1>
 ```
+1. L'addition `+` n'existe pas pour les _strings_ comme on l'a vu précédemment
 
 Il est par contre possible d'harmoniser les types en amont :
 
 ```{r}
+#| echo: true
 x <- "5"
 y <- 3
 z <- as.numeric(x)
@@ -555,8 +658,16 @@ y + z
 
 # Indexation
 
-En `R`, les indices de position dans les vecteurs permettent d'accéder à des éléments spécifiques en utilisant leur position dans le vecteur. 
-Les indices commencent à 1, ce qui signifie que le premier élément a un indice de 1, le deuxième a un indice de 2, et ainsi de suite.
+En {{< fa brands r-project >}},
+les indices de position dans les vecteurs permettent d'accéder à des éléments spécifiques en utilisant leur position dans le vecteur. 
+Les indices commencent à `1`, ce qui signifie que le premier élément a un indice de 1, le deuxième a un indice de 2, et ainsi de suite[^noteindice].
+
+[^noteindice]: 
+  Cette remarque peut paraître triviale mais, en informatique, elle ne l'est pas. 
+  Beaucoup de langages (`Python`, `C`) ont une indexation qui commence à 0, comme
+  c'est la convention en algèbre.
+  Cela signifie que le premier élément a un indice
+  0, le deuxième indice 1 et le dernier un indice $n-1$.
 
 ```{r}
 x <- 2*seq(1,10)
