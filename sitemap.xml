@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rgeo.linogaliana.fr/exercises/r-base.html</loc>
-    <lastmod>2023-09-12T14:27:10.976Z</lastmod>
+    <loc>https://rgeo.linogaliana.fr/exercises/r-wrangling.html</loc>
+    <lastmod>2023-09-12T17:10:01.991Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/cards/wrangling/index.html</loc>
+    <lastmod>2023-09-12T17:09:47.286Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/index.html</loc>
-    <lastmod>2023-09-12T14:27:04.447Z</lastmod>
+    <lastmod>2023-09-12T17:09:46.362Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/slides/introduction.html</loc>
-    <lastmod>2023-09-12T14:27:02.703Z</lastmod>
+    <lastmod>2023-09-12T17:09:40.134Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/slides/wrangling.html</loc>
+    <lastmod>2023-09-12T17:09:44.614Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/introduction/index.html</loc>
-    <lastmod>2023-09-12T14:27:05.091Z</lastmod>
+    <lastmod>2023-09-12T17:09:46.978Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/exercises/r-base.html</loc>
+    <lastmod>2023-09-12T17:09:55.974Z</lastmod>
   </url>
 </urlset>
