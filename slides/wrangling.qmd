@@ -156,6 +156,20 @@ read_csv("dossier_donnees/nom_fichier.csv") # <2>
 Plus de détails dans la documentation [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_fichiers_plats#importer-un-fichier-avec-le-package-readr)
 :::
 
+## Le JSON
+
+TO DO
+
 ## Les formats Excel
 
 {{< iconify face-vomiting size=10x >}}
+
+## Les formats Excel
+
+- Format propriétaire
+
+- Mélange mise en forme et données brute
+    + Pas approprié pour l'analyse de données
+    + Dangereux pour la reproductibilité et la transparence
+
+- Plus de détails sur [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_tableurs)
