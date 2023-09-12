@@ -670,6 +670,7 @@ Les indices commencent à `1`, ce qui signifie que le premier élément a un ind
   0, le deuxième indice 1 et le dernier un indice $n-1$.
 
 ```{r}
+#| echo: true
 x <- 2*seq(1,10)
 ```
 
@@ -677,6 +678,7 @@ Pour accéder à un élément spécifique du vecteur en utilisant son indice de 
 Par exemple, pour obtenir le deuxième élément de `x`, vous pouvez faire ceci :
 
 ```{r}
+#| echo: true
 # Accéder au deuxième élément du vecteur
 deuxieme_position <- x[2]
 deuxieme_position
@@ -689,12 +691,14 @@ On peut d'ailleurs mettre à jour le vecteur `x`, cela ne changera
 pas la valeur de la variable `deuxieme_position` :
 
 ```{r}
+#| echo: true
 x <- seq(5,9)
 print(deuxieme_position)
 deuxieme_position == x[2]
 ```
 
-En `R`, une valeur de variable n'est changée que s'il y a,
+En {{< fa brands r-project >}},
+une valeur de variable n'est changée que s'il y a,
 d'une manière ou d'une autre, réassignation. 
 :::
 
@@ -702,6 +706,7 @@ On peut aussi utiliser une séquence de valeurs pour récupérer
 un sous-ensemble de notre vecteur (on appelle cette opération _slice_)
 
 ```{r}
+#| echo: true
 x <- seq(5,15)
 x[1:5]
 x[c(2,3,8)]
@@ -711,9 +716,12 @@ Il est également possible de faire des sélections négatives, c'est-à-dire
 toutes les valeurs sauf certaines. Pour cela, on utilise les indices négatifs
 
 ```{r}
-x[-3]
-x[c(-3, -1)]
+#| echo: true
+x[-3] # <1>
+x[c(-3, -1)] # <2>
 ```
+1. On sélectionne toutes les données sauf le premier élément
+2. On sélectionne toutes les données sauf les premier et troisième éléments (l'ordre n'importe pas)
 
 Cependant, ce n'est pas une bonne pratique d'utiliser de manière 
 brute les nombres. En effet, imaginons que vous transformiez
@@ -726,15 +734,26 @@ C'est pour cette raison qu'on privilégie les sélections à partir de condition
 logiques. On l'avait vu précédemment sous cette forme :
 
 ```{r}
+#| echo: true
 c('Pierre', 'Paul', 'François', 'et les autres')[
     c(25, 3, 61, 17) >= 18
 ]
 ```
 
 Maintenant que nous connaissons l'assignation de variables intermédiaires, 
-la syntaxe se simplifie.
+la syntaxe se simplifie, ce qui rend le code plus lisible. 
 
 ```{r}
+#| echo: true
+prenom <- c('Pierre', 'Paul', 'François', 'et les autres')
+age <- c(25, 3, 61, 17)
+prenom[age >= 18]
+```
+
+Un autre exemple pour illustrer avec des données textuelles:
+
+```{r}
+#| echo: true
 villes <- c("Paris", "Toulouse", "Narbonne", "Foix")
 statut <- c("capitale","préfecture","sous-préfecture","préfecture")
 villes[statut == "préfecture"]
@@ -745,67 +764,102 @@ approche avec les __filtres__ de données.
 
 # Les valeurs manquantes
 
-Les vrais jeux de données ne sont pas toujours complets et le sont
+Les vrais jeux de données ne sont pas toujours complets. Ils le sont
 même rarement. Par exemple, 
 dans des séries longues de PIB, les valeurs rétrospectives peuvent
 manquer pour des pays qui n'existaient pas avant une certaine date. 
 
-Les valeurs manquantes, souvent représentées par `NA` (Not Available) en `R`,
-sont un aspect essentiel de la gestion des données et l'une des forces de `R`
+Les valeurs manquantes, souvent représentées
+par `NA` (Not Available) en {{< fa brands r-project >}},
+sont un aspect essentiel de la gestion des données et
+l'une des forces de {{< fa brands r-project >}}
 est de proposer une gestion cohérente de celles-ci. Par exemple, si on désire
 faire la moyenne mondiale des PIB sur une année passée: faut-il exclure ou non les
 pays pour lesquels on a pas d'information cette année-là ou renvoyer une erreur ?
-La gestion appropriée des valeurs manquantes est cruciale lors de l'analyse de données et de la création de modèles statistiques.
+La gestion appropriée des valeurs manquantes est donc
+cruciale lors de l'analyse de données et de la création de modèles statistiques.
 
-La fonction `is.na()` permet de vérifier si une valeur est manquante dans un vecteur:
+La fonction `is.na()` permet de vérifier si une valeur
+est manquante dans un vecteur:
 
 ```{r}
-# Créer un vecteur avec des valeurs manquantes
-donnees <- c(10, NA, 30, NA, 50)
+#| echo: true
+donnees <- c(10, NA, 30, NA, 50) # <1>
 
-is.na(donnees) # Renvoie TRUE pour les valeurs manquantes, FALSE sinon
+is.na(donnees) # <2>
 ```
+1. Créer un vecteur avec des valeurs manquantes.
+2. Renvoie `TRUE` pour les valeurs manquantes, `FALSE` sinon.
 
-La gestion appropriée des valeurs manquantes est cruciale pour éviter des biais dans les analyses statistiques et pour obtenir des résultats fiables
+La gestion appropriée des valeurs manquantes est cruciale 
+pour éviter des biais dans les analyses statistiques
+et pour obtenir des résultats fiables
 car les valeurs manquantes sont rarement un hasard: il existe souvent une raison pour lesquelles une valeur est manquante
-et l'hypothèse de [_missing at randomn_](https://stefvanbuuren.name/fimd/sec-MCAR.html) est souvent fausse. 
+et l'hypothèse de [_missing at random_](https://stefvanbuuren.name/fimd/sec-MCAR.html) est souvent fausse. 
 
-Il existe plusieurs approches pour traiter les valeurs manquantes en fonction de l'objectif d'une analyse. Les trois stratégies les plus courantes sont :
+::: {.callout-note collapse="true"}
+## Note sur la gestion des valeurs manquantes
 
-- Suppression des valeurs manquantes : supprimer les lignes contenant des valeurs manquantes à l'aide de la fonction `na.omit()` ou `complete.cases()` (c'est par exemple ce que fait la régression linéaire par défaut dans `R`). Cependant, cette approche peut entraîner une perte d'informations et l'introduction de biais, elle n'est donc pas à faire à la légère.
-- Imputation des valeurs manquantes : En faisant des hypothèses sur la distribution sous-jacente des valeurs manquantes, les valeurs de ces dernières peuvent être estimées. La méthode la plus simple est d'imputer à la moyenne ou à la médiane mais il existe des méthodes moins frustres comme la régression ou les méthodes basées sur les voisins les plus proches. Néanmoins cette imputation n'est pas à prendre à la légère car elle change la distribution de la variable observée, ce qui peut avoir un
-impact sur les analyses ultérieures, et elle est très dépendante du choix de modélisation. 
-- Traiter les valeurs manquantes comme un groupe à part : Dans les statistiques descriptives, il est possible de réaliser des analyses en mettant un groupe où les valeurs manquantes sont fréquentes à part.
+Il existe plusieurs approches pour traiter les valeurs manquantes en fonction de l'objectif d'une analyse. Cela dépasse le cadre de ce cours mais
+voici, dans les grandes lignes, les trois stratégies les plus courantes sont :
+
+- __Suppression des valeurs manquantes__ : supprimer les lignes contenant des valeurs manquantes à l'aide de la fonction `na.omit()` ou `complete.cases()`. C'est par exemple ce que fait la régression linéaire par défaut dans `R`. Cependant, cette approche peut entraîner une perte d'informations ou l'introduction de biais, elle n'est donc pas à faire à la légère ;
+- __Imputation des valeurs manquantes__ : En faisant des hypothèses sur la distribution sous-jacente des valeurs manquantes, les valeurs de ces dernières peuvent être estimées. La méthode la plus simple est d'imputer à la moyenne ou à la médiane mais il existe des méthodes moins frustres comme la régression ou les méthodes basées sur les voisins les plus proches. Néanmoins cette imputation n'est pas à prendre à la légère car elle change la distribution de la variable observée, ce qui peut avoir un
+impact sur les analyses ultérieures, et elle est très dépendante du choix de modélisation;
+- __Traiter les valeurs manquantes comme un groupe à part__ : Dans les statistiques descriptives, il est possible de réaliser des analyses en mettant un groupe où les valeurs manquantes sont fréquentes à part.
+:::
 
 
-# Exercices
+# Exercices sur les objets uni-dimensionnel
 
-:::{.callout-exercice}
+Première série d'exercices sur les objets uni-dimensionnels
+permettant d'approfondir les notions vues précédemment.
+
+<details>
+<summary>
+Votre état après cette série d'exercices ?
+</summary>
+
+![](img/exhausted.png){width=70% fig-align="center"}
+
+</details>
+
+:::{.callout-tip}
 ## Exercice 2
+
 Afficher le type de `x` lorsque : 
 
 ```{r}
-#| output: false
+#| echo: true
 x <- 3
 x <- "test"
 x <- 3.5
 ```
+
+
+```{r}
+#| output: false
+typeof(3)
+typeof("test")
+typeof(3.5)
+```
+
+
 :::
 
 
-:::{.callout-exercice}
+:::{.callout-tip}
 ## Exercice 3
 
 Calculer la somme des longueurs de chacune des chaînes de caractères suivantes : 
 
-- "une première chaîne"
-- "et une deuxième"
-- "jamais deux sans trois"
+- _"une première chaîne"_
+- _"et une deuxième"_
+- _"jamais deux sans trois"_
 
 ```{r}
 #| echo: false
 #| output: false
-
 x1 <- "une première chaîne"
 x2 <- "et une deuxième"
 x3 <- "jamais deux sans trois"
@@ -814,23 +868,26 @@ nchar(paste(x1, x2, x3, sep = ""))
 :::
 
 
-:::{.callout-exercice}
+:::{.callout-tip}
 ## Exercice 4
 
-Quel est le type adapté pour définir un [code commune](https://www.insee.fr/fr/information/6800675) ?
+Quel est le type adapté pour définir un [code commune](https://www.insee.fr/fr/information/6800675) (ne pas chercher
+à importer le jeu de données[^cognote]) ?
+
+[^cognote]: La suite du cours sera l'occasion d'amplement utiliser ce jeu de données. 
 
 <details>
 <summary>
 Aide si vous ne voyez pas où est le problème
 </summary>
-Faire un test sur les premiers départements, par exemple 02350.
+Faire un test sur les premiers départements, par exemple `02350`.
 </details>
 :::
 
-:::{.callout-exercice}
+:::{.callout-tip}
 ## Exercice 5
 
-Voici une liste de codes communes issus du COG
+Voici une liste de codes communes issus du [Code Officiel Géographique (COG)]((https://www.insee.fr/fr/information/6800675))
 
 ```{r}
 #| echo: true
@@ -844,8 +901,8 @@ liste_communes <- c(
 )
 ```
 
-1. Extraire le département (deux premiers caractères) pour chaque commune
-2. Compter le nombre de départements uniques dans nos données
+1. Extraire le département (deux premiers caractères) pour chaque commune ;
+2. Compter le nombre de départements uniques dans nos données ;
 
 ```{r}
 #| output: false
@@ -860,21 +917,27 @@ length(
 :::
 
 
-:::{.callout-exercice}
+:::{.callout-tip}
 ## Exercice 6
+
 Supprimer les espaces superflus au début et à la fin de la chaîne suivante :
+
+```{r}
+#| echo: true
+#| output: false
+a <- "    Un string très mal formatté.         "
+```
+
+```{r}
+trimws(a)
+```
 
 <details>
 <summary>Aide, si vous êtes bloqués</summary>
 Taper `?trimws()` dans la console pour afficher l'aide de la fonction `trimws()` 
 </details>
 
-```{r}
-a <- "    Un string très mal formatté.         "
-trimws(a)
-```
 :::
-
 
 
 Les fonctions de base de manipulation de données textuelles étant parfois
