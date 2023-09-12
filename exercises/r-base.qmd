@@ -1125,10 +1125,12 @@ lapply(ma_liste_nombres, sum)
 
 ## Les _dataframes_
 
-![Illustration du principe du _dataframe_ (empruntée à H. Wickham)](https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png)
 
 C'est l'objet central de l'analyse de données avec {{< fa brands r-project >}}. 
 Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).
+
+![Illustration du principe du _dataframe_ (empruntée à H. Wickham)](https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png)
+
 
 Voici par exemple un `dataframe`:
 
