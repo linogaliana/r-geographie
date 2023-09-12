@@ -917,7 +917,7 @@ length(
 :::
 
 
-:::{.callout-tip}
+::: {.callout-tip}
 ## Exercice 6
 
 Supprimer les espaces superflus au début et à la fin de la chaîne suivante :
@@ -941,15 +941,16 @@ Taper `?trimws()` dans la console pour afficher l'aide de la fonction `trimws()`
 
 
 Les fonctions de base de manipulation de données textuelles étant parfois
-un peu difficiles d'usage avec `R`, on pourra aller beaucoup plus loin 
+un peu difficiles d'usage avec {{< fa brands r-project >}}, on pourra aller beaucoup plus loin 
 lorsqu'on découvrira le package `stringr`.
 
 
 # Les structures plus complexes
 
-Le prolongement naturel des vecteurs sont les matrices. 
+## Les matrices
 
-Les matrices peuvent être vues comme le prolongement en deux dimensions des vecteurs : au lieu
+Les __matrices__ peuvent être vues comme le prolongement
+en deux dimensions des vecteurs. Au lieu
 d'avoir des données sur une seule dimension, on empile des colonnes côte à côte.
 
 $$
@@ -962,46 +963,69 @@ $$
 Néanmoins, les matrices présentent une limite fondamentale: on ne peut stocker dans
 une matrice que des éléments de même type. Autrement dit, on aura exclusivement
 des matrices numériques, des matrices de caractères ou des matrices logiques. 
-Il est impossible de construire une matrice dont certaines variables sont de type numérique (par exemple l’âge des personnes enquêtées) et d’autres de type caractère (par exemple leur secteur d’activité). Les matrices ne constituent donc pas un type d’objet susceptible de stocker l’information statistique habituellement mobilisée dans les enquêtes sociales.
-Le
-_mix_ des types n'est pas pratique, c'est pour cette raison qu'en fait on utilise
-peu les matrices (sauf si on fait de la statistique mathématique ou de l'algorithmique). 
+Il est impossible de construire une matrice dont certaines variables sont de type numérique (par exemple l’âge des personnes enquêtées) et d’autres de type caractère (par exemple leur secteur d’activité). 
+
+Les matrices ne constituent donc pas un type d’objet susceptible de stocker l’information statistique habituellement mobilisée dans les enquêtes sociales.
+Le _mix_ des types n'est pas pratique, c'est pour cette raison que les
+praticiens de l'analyse de données les utilisent peu[^matrices].
+
+[^matrices]: L'objet matrice sera surtout utilisé par les 
+les chercheurs en statistique mathématique ou les
+spécialistes d'algorithmique qui manipuleront des objets numériques
+bas niveau. 
 
 
 On propose donc un exercice sur les matrices mais on va rapidement passer
 à des types plus flexibles, plus utiles pour l'analyse de données où les 
 variables sont de type diverses. 
 
-:::{.callout-exercice}
+:::{.callout-tip}
 ## Exercice 7
-X <- matrix(letters[1:20], nrow = 4, ncol = 5)
 
+Soit une matrice:
+
+```{r}
+#| echo: true
+X <- matrix(letters[1:20], nrow = 4, ncol = 5)
+```
+
+```{r}
+#| output: false
+X[1,1] # <1>
+X[1,]  # <2>
+X[,1]  # <3>
+X[2:3,c(1,3)] #<4>
+```
 1. Sélectionner l'élement le plus à gauche de notre matrice (première ligne, première colonne)
 2. Sélectionner l'ensemble de la première ligne
+
 3. Sélectionner l'ensemble de la première colonne
 4. Sélectionner les éléments à l'intersection :
     + Des 2e et 3e ligne
     + Des 1ères et 3e colonne
 
+
 <details>
 <summary>
 Indice si vous êtes bloqués
 </summary>
-Avec un vecteur, on accédait aux positions d'un élément avec `x[*]`.
-Avec les matrices le principe est le même mais on ajoute une dimension `x[*,*]`
+Avec un vecteur, on accédait aux positions d'un élément avec `X[*]`.
+Avec les matrices le principe est le même mais on ajoute une dimension `X[*,*]`
 </details>
 :::
 
 
-## Listes
+## Les listes
 
-Les listes constituent un type d’objet beaucoup plus riche qui permet précisément de rassembler des types d’objets très différents : une liste peut contenir tous les types d’objet (vecteurs numériques, caractères, logiques, matrices, etc.), y compris d’autres listes.
+Les __listes__ constituent un type d’objet beaucoup plus riche qui permet précisément de rassembler des types d’objets très différents : une liste peut contenir tous les types d’objet (vecteurs numériques, caractères, logiques, matrices, etc.), y compris d’autres listes.
 
 Cette très grande souplesse fait de la liste l’objet de prédilection pour stocker une information complexe et structurée, en particulier les résultats de procédures statistiques complexes (régression, classification, etc.).
 Pour des données plus structurées, comme le sont les jeux de données, nous allons voir ensuite que nous
-allons utiliser un type spécial de liste: le _dataframe_. 
+allons utiliser un type spécial de liste: le **_dataframe_**. 
 
-:::{.callout-exercice}
+![Proposition d'illustration du principe des listes avec `R` par [Dall-E-2](https://openai.com/dall-e-2)](img/boites.png){width=50% fig-align="center"}
+
+:::{.callout-tip}
 ## Exercice 8
 
 Voici une liste illustrant le principe de stockage
@@ -1027,7 +1051,8 @@ dans votre liste stockant les données suivantes `c('01363', '02644', '03137', '
 de votre élément `communes`
 
 ```{r}
-# Question 1: afficher la liste
+#| output: false
+#Question 1: afficher la liste
 ma_liste
 # Question 2: Accéder au deuxième élément de la liste
 ma_liste[[2]]
@@ -1040,6 +1065,7 @@ ma_liste[['communes']]
 # Question 4: effectuer une opération 
 ma_liste[['departements']] <- substr(ma_liste[['communes']] , start = 1, stop = 2)
 ```
+
 :::
 
 Lorsqu'on utilise des listes, on peut effectuer
@@ -1060,25 +1086,151 @@ des experts qui permettent
 d'éviter de faire soi-même une boucle inefficiente.
 ----->
 
-:::{.callout-exercice}
+:::{.callout-tip}
 ## Exercice 9
 
-1. Combien d'éléments comporte le premier niveau de notre liste ? 
+Dans cet exercice, nous allons découvrir comment appliquer la même fonction
+aux éléments de notre liste grâce à `lapply`.
+
+1. Avant cela, combien d'éléments comporte le premier niveau de notre liste ? 
 2. Combien d'éléments comportent chaque niveaux de notre liste ?
 3. Créer un vecteur numérique qui est égal à 1 si `typeof` de l'élément est "double" et 0 sinon 
 
 ```{r}
+#| output: false
+# Question 1
 longueur_liste <- length(ma_liste)
+# Question 2
 lapply(ma_liste, length)
-for (i in seq_along(ma_liste)) length(ma_liste[[i]])
 as.numeric(
     lapply(ma_liste, function(l) typeof(l) == "double")
 )
 ```
 
+<details>
+<summary>Si `?lapply` ne vous aide pas</summary>
+Exemple d'utilisation de `lapply` pour faire la somme dans chaque élément de notre
+liste
 
+```{r}
+#| echo: true
+ma_liste_nombres <- list(c(1,2), seq(1,10))
+lapply(ma_liste_nombres, sum)
+```
+
+</details>
 
 :::
 
 
-## Dataframes
+## Les _dataframes_
+
+![Illustration du principe du _dataframe_ (empruntée à H. Wickham)](https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png)
+
+C'est l'objet central de l'analyse de données avec {{< fa brands r-project >}}. 
+Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).
+
+Voici par exemple un `dataframe`:
+
+```{r}
+#| echo: true
+# Création du data.frame df
+df <- data.frame(
+  var1 = 1:10,
+  var2 = letters[1:10],
+  var3 = rep(c(TRUE, FALSE), times = 5)
+)
+```
+
+Sa structure interne peut être vérifiée avec la fonction `str`:
+
+```{r}
+#| echo: true
+str(df)
+```
+
+Quand on travaille avec `R`, l'une des fonctions qu'on utilise le plus est `head`. 
+Elle permet d'afficher les $n$ premières lignes de notre jeu de données:
+
+```{r}
+head(df)
+```
+
+::: {.callout-warning}
+Il est également possible d'utiliser le _viewer_ de `RStudio` pour afficher
+des jeux de données.
+
+Attention cependant, ce _viewer_ peut rencontrer des
+problèmes de performance et faire planter votre session `R` quand le jeu de
+données commence à être d'une taille conséquente. 
+
+Je recommande plutôt
+de toucher utiliser `head` ou de sélectionner des lignes aléatoirement avec
+`sample`:
+
+```{r}
+df[sample(nrow(df), 3), ]
+```
+
+:::
+
+
+Du point de vue de sa structure, un `data.frame` est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.
+
+```{r}
+#| echo: true
+is.list(df)
+lapply(df, length)
+```
+
+De ce fait, les `data.frame` empruntent leurs caractéristiques tantôt aux listes,
+tantôt aux matrices comme le montre l'exercice suivant:
+
+::: {.callout-tip}
+## Exercice 10
+
+- Vérifier la dimension du dataframe `df`
+- Compter le nombre de lignes et de colonnes de `df`
+- Vérifier la longueur (_length_) de `df`. Est-ce le comportement d'une
+matrice ou d'une liste ? 
+- Extraire l'élement à la 2e ligne, 3e colonne de `df`. Est-ce le comportement d'indexation d'une
+matrice ou d'une liste ?
+- Récupérer la 3e ligne des variables `var1` et `var2`. 
+
+```{r}
+#| output: false
+dim(df)
+nrow(df)
+ncol(df)
+length(df) #comme une liste
+df[3, c("var1","var2")]
+```
+
+:::
+
+L'intérêt d'utiliser un `data.frame` est qu'on peut facilement mettre à jour
+nos données lors d'une analyse statistique. Les opérations les plus classiques,
+sur lesquelles nous reviendrons lors du prochain chapitre, sont 
+
+- Créer une nouvelle colonne à partir des colonnes pré-existantes ;
+- Sélectionner un sous-échantillon des données correspondant à certaines
+valeurs observées. 
+
+Il existe plusieurs manières de faire référence à une colonne déjà existante
+d'un dataframe. La plus simple est d'utiliser la structure `dataframe$colonne`. 
+Cela nous donnera un vecteur et on retombe sur ce format qu'on connaît déjà:
+
+```{r}
+#| echo: true
+class(df$var1)
+```
+
+::: {.callout-tip}
+## Exercice 11
+
+- Créer une colonne `var4` de notre jeu de données égale au carré de `var1`
+- Créer une colonne `var5` de notre jeu de données concaténant les deux premières
+variables en généralisant le schéma `1=a`. 
+- Créer un dataframe `df_small1` pour les lignes où la condition logique `var3` est vérifiée
+- Créer un dataframe `df_small2` pour les lignes où `var1` est paire (voir plus haut l'exemple sur la division euclidienne pour le modèle)
+:::
