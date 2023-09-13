@@ -300,9 +300,9 @@ filosofi %>%
   summarize(Stats = mean(NBPERSMENFISC16, na.rm = TRUE))
 ```
 
-Pour la question 8, vous devriez obtenir ceci:
 
 ```{r}
+#| output: false
 # Question 8
 filosofi_big <- filosofi %>%
   filter(NBPERSMENFISC16 > 100000) %>%
@@ -317,9 +317,19 @@ df_probleme <- filosofi_big %>%
   filter(probleme)
 ```
 
+<details>
+<summary>
+Ce que vous devriez trouver dans les questions 8 et 9
+</summary>
+
+Pour la question 8, vous devriez obtenir ceci:
+
+
 ```{r}
 head(df_probleme)
 ```
+
+Alors que pour la question 9, vos deux _dataframes_ ressembleront à
 
 
 ```{r}
@@ -332,7 +342,7 @@ filosofi %>%
   filter(grepl('Saint-Denis', LIBGEO)) %>%
   head(10)
 ```
-
+</details>
 
 :::
 
