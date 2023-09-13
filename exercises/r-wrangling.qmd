@@ -52,7 +52,7 @@ déjà une bonne compréhension du `tidyverse` et de ses limites.
 
 Dans ce tutoriel, nous allons utiliser deux sources de données :
 
-* Les émissions de gaz à effet de serre estimées au niveau communal par l'`ADEME`. Le jeu de données est 
+* Les émissions de gaz à effet de serre estimées au niveau communal par l'`ADEME`. Le jeu de données est
 disponible sur [data.gouv](https://www.data.gouv.fr/fr/datasets/inventaire-de-gaz-a-effet-de-serre-territorialise/#_)
 et requêtable directement dans {{< fa brands r-project >}} avec
 [cet url](https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert) (ce sera l'objet du premier exercice)[^notedownload].
@@ -73,7 +73,7 @@ ou via des API.
   les commandes d'import avec le chemin adéquat plutôt que l'url. 
 
 
-## Etapes préliminaires: installer les _packages_
+# Etapes préliminaires: installer les _packages_
 
 {{< fa brands r-project >}} est un langage _open source_. N'importe qui peut
 donc proposer du code {{< fa brands r-project >}} pour accroître les 
@@ -121,6 +121,7 @@ vous pouvez faire:
 
 ```{r}
 #| eval: false
+#| echo: true
 install.packages("insee")
 ```
 
@@ -131,21 +132,207 @@ qui est disponible sur le dépôt du compte `InseeFrLab`, on fait:
 
 ```{r}
 #| eval: false
+#| echo: true
 remotes::install_github('inseefrlab/DoReMIFaSol')
 ```
 
 # Importer les données
 
-Pour commencer, nous allons importer les données de l'Ademe à l'aide du package `readr`[^readcsv]. 
+## Import d'un csv de l'Ademe
 
+Pour commencer, nous allons importer les données de l'Ademe à l'aide du
+_package_ [`readr`](https://readr.tidyverse.org/)[^readcsv]. 
 
-[^readcsv]: Il existe des fonctions pour importer des données depuis un csv dans le langage de base.
-Cependant, elles ne sont pas recommandées. 
+::: {.callout-tip}
+## Exercice 1: lire un csv avec `readr` et observer les données
 
+Voici l'URL sur lequel les données sont disponibles
 
 ```{r}
 #| echo: true
-
-#df = pd.read_csv("https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert", sep=",")
+url <- "https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert"
 ```
+
+
+1. Utiliser le _package_  `readr` pour importer ces données. Nommer cet objet `emissions`[^nomdf]
+2. Afficher les premières lignes avec `head` et observer la différence d'affichage avec, par exemple,
+ce `dataframe`:
+
+```{r}
+#| echo: true
+library(readr)
+emissions <- read_csv(url)
+```
+
+```{r}
+#| echo: true
+data.frame(
+  "com" = c(1,2),
+  "val" = rnorm(2)
+)
+```
+
+3. Afficher la classe de `emissions`. Comprenez-vous maintenant pourquoi cet objet est un
+peu différent d'un dataframe de base ?
+4. Utiliser les fonctions adéquates pour les 10 premières valeurs, les 15 dernières et un échantillon aléatoire de 10 valeurs grâce à la [fonction adéquate du package `dplyr`](https://dplyr.tidyverse.org/reference/sample_n.html)
+
+<details>
+<summary>
+En cas de blocage à la question 1
+</summary>
+Lire la documentation de `read_csv` (très bien faite) ou chercher des exemples
+en ligne pour découvrir cette fonction.
+⚠️ Ne pas utiliser `read.csv` (fonction de base) qui n'est pas performante. 
+</details>
+:::
+
+[^nomdf]: Par manque d'imagination, on est souvent tenté d'appeler notre
+_dataframe_ principal `df` ou `data`. C'est souvent une mauvaise idée puisque
+ce nom n'est pas très informatif quand on relit le code quelques semaines
+plus tard. L'autodocumentation, approche qui consiste à avoir un code
+qui se comprend de lui-même, est une bonne pratique et il est donc recommandé
+de donner un nom simple mais efficace pour connaître la nature du _dataset_ en question.
+
+## Import de données de l'Insee
+
+En ce qui concerne nos informations communales, on va utiliser l'une des plus
+sources de l'Insee les plus utilisées : les données [`Filosofi`](https://www.insee.fr/fr/metadonnees/source/serie/s1172). 
+Afin de faciliter la récupération de celles-ci, nous allons
+utiliser le _package_ communautaire `doremifasol` :
+
+```{r}
+#| output: false
+#| echo: true
+library(doremifasol)
+library(tibble)
+filosofi <- as_tibble(
+  telechargerDonnees("FILOSOFI_COM", date = 2016)
+)
+head(filosofi)
+```
+
+```{r}
+#| echo: false
+head(filosofi)
+```
+
+::: {.callout-note}
+La fonction `as_tibble` nous sert à transformer le _dataframe_ de base (`doremifasol` 
+ne fait pas d'_a priori_ sur l'écosystème de manipulation adopté) en 
+_dataframe_ adapté à une exploitation via le `tidyverse`. 
+:::
+
+
+:::{.callout-tip}
+## Exercice 2
+
+Comme c'est `readr` ou `doremifasol` qui ont
+géré automatiquement l'import des données, on va faire un petit
+contrôle qualité:
+
+1. Afficher le nom des colonnes de nos _dataframes_ `emissions` et `filosofi`. 
+Quelles sont les colonnes communes ? Utiliser la fonction `intersect` et comprendre
+la nature du problème.
+2. Observer la structure de nos jeux de données (les types des colonnes). Les types fixés par défaut sont-ils adéquats ?
+
+```{r}
+#| output: false
+str(filosofi)
+str(emissions)
+intersect(colnames(filosofi), colnames(emissions))
+```
+
+
+Ensuite, on vérifie les dimensions des `DataFrames` et la structure de certaines variables clés.
+En l'occurrence, les variables fondamentales pour lier nos données sont les variables communales.
+Ici, on a deux variables géographiques: un code commune et un nom de commune. 
+On va donc vérifier qu'elles sont bien adaptées à l'analyse statistique.
+
+3. Vérifier les dimensions des _dataframes_ ;
+4. Vérifier le nombre de valeurs uniques des variables géographiques dans chaque base. Les résultats apparaissent-ils cohérents ?
+5. Identifier dans `filosofi` les noms de communes qui correspondent à plusieurs codes communes et sélectionner leurs codes. En d'autres termes, identifier les `CODGEO` tels qu'il existe des doublons de `LIBGEO` et les stocker dans un dataframe `duplicates`
+
+On se focalise temporairement sur les observations où le libellé comporte plus de deux codes communes différents
+
+6. Regarder dans `filosofi` ces observations. Pour mieux y voir, réordonner la base obtenue par order alphabétique
+7. Déterminer la taille moyenne (variable nombre de personnes: `NBPERSMENFISC16`) et quelques statistiques descriptives de ces données.
+Comparer aux mêmes statistiques sur les données où libellés et codes communes coïncident
+8. Vérifier les grandes villes (plus de 100 000 personnes),
+la proportion de villes pour lesquelles un même nom est associé à différents codes commune.
+9. Vérifier dans `filosofi` les villes dont le libellé est égal à Montreuil.
+Vérifier également celles qui contiennent le terme 'Saint-Denis'
+
+```{r}
+#| output: false
+
+library(dplyr)
+
+# Question 4
+emissions %>%
+  select('INSEE commune', 'Commune') %>%
+  summarize(Unique_Count = n_distinct(Commune))
+
+filosofi %>%
+  select('CODGEO', 'LIBGEO') %>%
+  summarize(Unique_Count = n_distinct(LIBGEO))
+
+# Question 5
+duplicates <- filosofi %>%
+  group_by(LIBGEO) %>%
+  summarize(Count = n()) %>%
+  select(LIBGEO, Count) %>%
+  #arrange(desc(Count)) %>%
+  filter(Count > 1)
+
+# Question 6
+filosofi %>%
+  filter(LIBGEO %in% duplicates$LIBGEO) %>%
+  arrange(LIBGEO)
+
+# Question 7
+filosofi %>%
+  filter(LIBGEO %in% duplicates$LIBGEO) %>%
+  summarize(Stats = mean(NBPERSMENFISC16, na.rm = TRUE))
+
+# Calculate summary statistics for 'NBPERSMENFISC16' for rows where 'LIBGEO' is not in 'x$LIBGEO'
+filosofi %>%
+  filter(!(LIBGEO %in% duplicates$LIBGEO)) %>%
+  summarize(Stats = mean(NBPERSMENFISC16, na.rm = TRUE))
+```
+
+Pour la question 8, vous devriez obtenir ceci:
+
+```{r}
+# Question 8
+filosofi_big <- filosofi %>%
+  filter(NBPERSMENFISC16 > 100000) %>%
+  mutate(probleme = LIBGEO %in% duplicates$LIBGEO)
+
+# Proportion de villes à problème
+mean_probleme <- filosofi_big %>%
+  summarize(mean(probleme))
+
+# Filter rows where 'probleme' is TRUE
+df_probleme <- filosofi_big %>%
+  filter(probleme)
+```
+
+```{r}
+head(df_probleme)
+```
+
+
+```{r}
+# Question 9
+filosofi %>%
+  filter(LIBGEO == 'Montreuil')
+
+# Question 10
+filosofi %>%
+  filter(grepl('Saint-Denis', LIBGEO)) %>%
+  head(10)
+```
+
+
+:::
 
