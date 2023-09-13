@@ -38,7 +38,7 @@ listing:
 ## Chapitre introductif
 
 ::: {.callout-note}
-- Exercices associés à ce chapitre [ici](exercises/r-base.html)
+- Exercices associés à ce chapitre [ici](exercises/r-wrangling.html)
 :::
 
 ![](../cards/wrangling/kidmatrix.png){fig-align="center"}
