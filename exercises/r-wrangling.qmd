@@ -346,3 +346,124 @@ filosofi %>%
 
 :::
 
+Ce petit exercice permet de se rassurer car les libellés dupliqués
+sont en fait des noms de commune identiques mais qui ne sont pas dans le même département.
+Il ne s'agit donc pas d'observations dupliquées.
+On se fiera ainsi aux codes communes, qui eux sont uniques.
+
+
+::: {.callout-tip}
+## Exercice 3
+
+On va commencer l'exploration de données. Cela implique un peu de
+nettoyage de données en amont. 
+
+1. Renommer la variable `INSEE commune` en `code_insee`[^espace]. 
+2. Les deux premiers chiffres des codes communes sont le numéro de département.
+Créer une variable de département `dep` dans `emissions` et dans `filosofi`
+en utilisant la fonction `str_sub` du package `stringr`[^stringr].
+
+Commençons le calcul de nos premières statistiques descriptives. 
+
+3. Calculer les émissions totales par secteur pour chaque département.
+Mettre en _log_ ces résultats dans un objet `emissions_log`.
+La @fig-sample-log illustre la structure de ces émissions sur 5 départements
+aléatoires. 
+
+4. Repartir du jeu de données `emissions`.
+Calculer les émissions totales par département et sortir la liste
+des 10 principaux émetteurs de CO2 et des 5 départements les moins émetteurs.
+Sans faire de *merge*,
+regarder les caractéristiques de ces départements (population et niveau de vie)
+
+[^stringr]: Les fonctionnalités limitées du langage de base sur la manipulation
+textuelle sont rapidement contraignantes. On passe ainsi rapidement à `stringr`
+même si ce n'est pas l'objet principal du chapitre. 
+
+```{r}
+#| output: false
+library(stringr)
+
+emissions <- emissions %>%
+  rename('code_insee' = `INSEE commune`)
+
+emissions <- emissions %>%
+  mutate(dep = str_sub(code_insee, start = 1, end = 2))
+filosofi <- filosofi %>%
+  mutate(dep = str_sub(CODGEO, start = 1, end = 2))
+```
+
+```{r}
+#| label: question 3 exo 3
+#| output: false
+emissions_log <- emissions %>%
+    group_by(dep) %>%
+    summarise(across(where(is.numeric), sum, na.rm = TRUE)) %>%
+    mutate(across(where(is.numeric), log))
+```
+
+```{r}
+#| output: false
+
+# Question 5
+
+## Emissions totales par département
+emissions_dep <- emissions %>%
+  mutate(total = rowSums(pick(where(is.numeric)), na.rm = TRUE)) %>%
+  group_by(dep) %>%
+  summarise(total = sum(total))
+gros_emetteurs <- emissions_dep %>%
+  arrange(desc(total)) %>%
+  head(10)
+petits_emetteurs <- emissions_dep %>%
+  arrange(total) %>%
+  head(5)
+
+## Caractéristiques de ces départements dans filosofi
+gros_emetteurs_filosofi <- filosofi %>%
+  filter(dep %in% gros_emetteurs$dep) %>%
+  group_by(dep) %>%
+  summarise(across(c('NBPERSMENFISC16','MED16'), \(x) mean(x, na.rm = TRUE)))
+
+head(gros_emetteurs_filosofi)
+```
+
+
+```{r}
+#| echo: true
+#| fig-cap: Structure des émissions de cinq départements aléatoires
+#| label: fig-sample-log
+library(tidyr)
+library(ggplot2)
+
+emissions_log_sample <- emissions_log %>%
+  filter(dep %in% sample(unique(dep),5))
+
+emissions_log_sample <- emissions_log_sample %>%
+  pivot_longer(cols = -dep, names_to = "Category", values_to = "Value")
+
+ggplot(emissions_log_sample, aes(x = dep, y = Value, fill = Category)) +
+    geom_bar(stat = "identity") +
+    labs(x = "Department", y = "Value") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) + scale_fill_viridis_d()
+```
+
+
+<details>
+<summary>
+Exemple d'utilisation de `str_sub`
+</summary>
+```r
+library(stringr)
+df %>% mutate(x = str_sub(y, start = 3, end = 5))
+```
+
+</details>
+
+:::
+
+[^espace]: L'espace dans le nom de la variable est embêtant. Pour pouvoir
+utiliser le nom de cet variable dans `rename`, il va falloir utiliser
+des backticks, c'est-à-dire ` INSEE commune `.
+
