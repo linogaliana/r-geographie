@@ -467,3 +467,7 @@ df %>% mutate(x = str_sub(y, start = 3, end = 5))
 utiliser le nom de cet variable dans `rename`, il va falloir utiliser
 des backticks, c'est-à-dire ` INSEE commune `.
 
+
+# Restructurer des données
+
+
