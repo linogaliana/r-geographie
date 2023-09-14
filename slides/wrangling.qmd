@@ -89,7 +89,23 @@ Concept popularisé par Hadley Wickham.
 
 # Les formats de données
 
-## Le CSV
+## Généralités
+
+- Données peuvent être stockées dans de nombreux formats différents
+    + Standards différents
+    + Manières d'importer différentes
+
+. . .
+
+- Fonctionnalités de {{< fa brands r-project >}} limitées:
+    + Packages spécialisés pour certains formats
+    + Objectif: applatir l'information dans un _dataframe_
+
+::: {.callout-note}
+On verra les formats géographiques, et leurs enjeux, ultérieurement
+:::
+
+## Le `CSV`
 
 - Format de fichier plat avec des colonnes délimitées:
     + Standard: `,` en délimitateur, `.` en décimale ;
@@ -134,7 +150,7 @@ raw_csv = `DEP,REG,CHEFLIEU,TNCC,NCC,NCCENR,LIBELLE
 `
 ```
 
-## Le CSV
+## Le `CSV`
 
 - Lecture avec la fonction `read_csv` du package `readr`!
 
@@ -156,9 +172,67 @@ read_csv("dossier_donnees/nom_fichier.csv") # <2>
 Plus de détails dans la documentation [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_fichiers_plats#importer-un-fichier-avec-le-package-readr)
 :::
 
-## Le JSON
+## Le `JSON`
 
-TO DO
+- Le format du _web_, notamment des API 
+    + API: on verra ça plus tard
+
+```{ojs}
+viewof info_json = Inputs.radio(
+  ["Fichier brut", "Ficher après import"], {value: "Fichier brut"}
+)
+```
+
+```{ojs}
+info_json == "Fichier brut" ? html`<div>${md_json}<div>` : html`<div>${df_json}<div>`
+```
+
+```{ojs}
+//| output: false
+json_string = `[
+  {"DEP": "01", "REG": "84", "CHEFLIEU": "01053", "TNCC": "5", "NCC": "AIN", "NCCENR": "Ain", "LIBELLE": "Ain"},
+  {"DEP": "02", "REG": "32", "CHEFLIEU": "02408", "TNCC": "5", "NCC": "AISNE", "NCCENR": "Aisne", "LIBELLE": "Aisne"},
+  {"DEP": "03", "REG": "84", "CHEFLIEU": "03190", "TNCC": "5", "NCC": "ALLIER", "NCCENR": "Allier", "LIBELLE": "Allier"},
+  {"DEP": "04", "REG": "93", "CHEFLIEU": "04070", "TNCC": "4", "NCC": "ALPES DE HAUTE PROVENCE", "NCCENR": "Alpes-de-Haute-Provence", "LIBELLE": "Alpes-de-Haute-Provence"},
+  {"DEP": "05", "REG": "93", "CHEFLIEU": "05061", "TNCC": "4", "NCC": "HAUTES ALPES", "NCCENR": "Hautes-Alpes", "LIBELLE": "Hautes-Alpes"},
+  {"DEP": "06", "REG": "93", "CHEFLIEU": "06088", "TNCC": "4", "NCC": "ALPES MARITIMES", "NCCENR": "Alpes-Maritimes", "LIBELLE": "Alpes-Maritimes"}
+]`
+raw_json = [
+  {"DEP": "01", "REG": "84", "CHEFLIEU": "01053", "TNCC": "5", "NCC": "AIN", "NCCENR": "Ain", "LIBELLE": "Ain"},
+  {"DEP": "02", "REG": "32", "CHEFLIEU": "02408", "TNCC": "5", "NCC": "AISNE", "NCCENR": "Aisne", "LIBELLE": "Aisne"},
+  {"DEP": "03", "REG": "84", "CHEFLIEU": "03190", "TNCC": "5", "NCC": "ALLIER", "NCCENR": "Allier", "LIBELLE": "Allier"},
+  {"DEP": "04", "REG": "93", "CHEFLIEU": "04070", "TNCC": "4", "NCC": "ALPES DE HAUTE PROVENCE", "NCCENR": "Alpes-de-Haute-Provence", "LIBELLE": "Alpes-de-Haute-Provence"},
+  {"DEP": "05", "REG": "93", "CHEFLIEU": "05061", "TNCC": "4", "NCC": "HAUTES ALPES", "NCCENR": "Hautes-Alpes", "LIBELLE": "Hautes-Alpes"},
+  {"DEP": "06", "REG": "93", "CHEFLIEU": "06088", "TNCC": "4", "NCC": "ALPES MARITIMES", "NCCENR": "Alpes-Maritimes", "LIBELLE": "Alpes-Maritimes"}
+]
+md_json = md`
+\`\`\`
+${json_string}
+\`\`\`
+`
+```
+
+```{ojs}
+//| output: false
+df_json = Inputs.table(raw_json)
+```
+
+## Le `JSON`
+
+- Importé comme une liste hiérarchisée
+- Objectif: transformer cette information dans un _dataframe_ `tidy`
+    + Pas toujours évident !
+
+```{r}
+#| eval: false
+#| echo: true
+library(jsonlite) # <1>
+df <- fromJSON(file="dossier_donnees/nom_fichier.json") # <2>
+```
+1. On importe la librairie `jsonlite` pour avoir accès à la fonction `fromJSON`
+2. On utilise `fromJSON` pour lire les données stockées dans le chemin relatif
+`dossier_donnees/nom_fichier.csv`
+
 
 ## Les formats Excel
 
