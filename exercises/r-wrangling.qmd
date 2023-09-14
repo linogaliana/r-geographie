@@ -561,4 +561,61 @@ head(df_long_dep)
 :::
 
 
+::: {.callout-note}
+## Exercice 6: long to wide
+
+TO DO
+:::
+
+
+# Combiner les données
+
+Une information que l'on cherche à obtenir s'obtient de moins en moins à partir d'une unique base de données. Il devient commun de devoir combiner des données issues de sources différentes. Nous allons ici nous focaliser sur le cas le plus favorable qui est la situation où une information permet d'apparier de manière exacte deux bases de données (autrement nous serions dans une situation, beaucoup plus complexe, d'appariement flou). La situation typique est l'appariement entre deux sources de données selon un identifiant individuel ou un identifiant de code commune, ce qui est notre cas.
+
+Il est recommandé de lire [ce guide assez complet sur la question des jointures avec R](https://www.book.utilitr.org/03_fiches_thematiques/fiche_joindre_donnees) qui donne des recommandations également utiles en `python`.
+
+On utilise de manière indifférente les termes *merge* ou *join*. Le deuxième terme provient de la syntaxe SQL. En `pandas`, dans la plupart des cas, on peut utiliser indifféremment `df.join` et `df.merge`
+
+![](https://rafalab.dfci.harvard.edu/dsbook/wrangling/img/joins.png)
+
+::: {.callout-tip}
+2. Faire une jointure à gauche entre les données d'émissions et les données de cadrage. Comparer les émissions moyennes des villes sans *match* (celles dont des variables bien choisies de la table de droite sont `NA`) avec celles où on a bien une valeur correspondante dans la base Insee
+3. Faire un *inner join* puis calculer l'empreinte carbone (l'émission rapportée au nombre de ménages fiscaux) dans chaque commune. Sortir un histogramme en niveau puis en log et quelques statistiques descriptives sur le sujet. 
+4. Regarder la corrélation entre les variables de cadrage et l'empreinte carbone. Certaines variables semblent-elles pouvoir potentiellement influer sur l'empreinte carbone ?
+
+```{r}
+emissions <- emissions %>%
+  mutate(total = rowSums(pick(where(is.numeric)), na.rm = TRUE))
+
+emissions_merged <- emissions %>%
+  left_join(filosofi, by = c("code_insee" = "CODGEO"))
+
+emissions_merged <- emissions_merged %>%
+  mutate(empreinte = total/NBPERSMENFISC16)
+```
+
+```{r}
+ggplot(emissions_merged) +
+  geom_histogram(aes(x = empreinte, y = ..density..)) +
+  scale_x_log10()
+```
+
+```{r}
+library(tibble)
+
+correlations <- cor(
+  emissions_merged %>% select(where(is.numeric)),
+  use="complete.obs"
+  )[,'empreinte']
+
+correlations <- enframe(correlations) %>%
+  filter(name %in% colnames(filosofi)) %>%
+  arrange(desc(abs(value)))
+
+ggplot(correlations) + geom_bar(aes(x = value, y = name), stat = "identity") +
+  scale_y_discrete(limits = correlations$name) 
+```
+
+:::
+
 
