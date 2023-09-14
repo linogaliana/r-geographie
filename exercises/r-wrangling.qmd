@@ -483,4 +483,82 @@ des backticks, c'est-à-dire ` INSEE commune `.
 
 # Restructurer des données
 
+On présente généralement deux types de données : 
+    
+* format __wide__: les données comportent des observations répétées, pour un même individu (ou groupe), dans des colonnes différentes 
+* format __long__: les données comportent des observations répétées, pour un même individu, dans des lignes différentes avec une colonne permettant de distinguer les niveaux d'observations
+
+Un exemple de la distinction entre les deux peut être pris à l'ouvrage de référence d'Hadley Wickham, *R for Data Science*:
+
+![](https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png)
+
+On est souvent amené avec {{< fa brands r-project >}} à restructurer les données
+pour les allonger (_wide to long_) et les élargir (_long to wide_).
+C'est le package _tidyr_ (qui appartient au _tidyverse_) qui permet
+de faire ce type de transformations. 
+L'aide mémoire suivante aidera à se rappeler les fonctions à appliquer si besoin:
+
+![](https://scienceparkstudygroup.github.io/r-lesson-based-on-ohi-data-training/img/rstudio-cheatsheet-spread-gather-sep-unite.png){width="80%" fig-align="center"}
+
+Le fait de passer d'un format *wide* au format *long* (ou vice-versa)
+peut être extrêmement pratique car certaines fonctions sont plus adéquates sur une forme de données ou sur l'autre.
+En règle générale, les formats *long* sont souvent préférables. C'est notamment
+la forme de données privilégiée pour préparer des graphiques avec `ggplot`, 
+que nous verrons dans le prochain chapitre. 
+
+
+:::{.callout-tip}
+## Exercice 4
+1. Restructurer les données au format *long* pour avoir des données d'émissions par secteur en gardant comme niveau d'analyse la commune (attention aux autres variables identifiantes).
+2. Faire la somme par secteur et représenter graphiquement un _barplot_[^barplot] 
+3. Garder, pour chaque département, le secteur le plus polluant
+
+[^barplot]: vous pouvez
+utiliser directement le morceau de code d'aide si vous n'êtes pas familiers de `ggplot`
+
+```{r}
+library(tidyr)
+
+# Question 1
+df_long <- emissions %>%
+  pivot_longer(cols = -c(code_insee, Commune, dep),
+               names_to = "secteur",
+               values_to = "emissions")
+
+# Question 2
+df_long_summary <- df_long %>%
+  group_by(secteur) %>% summarise(emissions = sum(emissions, na.rm = TRUE))
+
+# Question 3
+
+```
+
+<details>
+<summary>Graphique à réaliser pour la question 2</summary>
+
+```{r}
+#| echo: true
+ggplot(df_long_summary) +
+  geom_bar(
+    aes(y = secteur, x = emissions),
+    stat ='identity'
+  )
+```
+
+</details>
+
+```{r}
+df_long_dep <- df_long %>%
+  group_by(secteur, dep) %>%
+  summarise(emissions = sum(emissions, na.rm = TRUE)) %>%
+  arrange(desc(dep), desc(emissions)) %>%
+  group_by(dep) %>%
+  slice_head(n = 1)
+
+head(df_long_dep)
+```
+
+:::
+
+
 
