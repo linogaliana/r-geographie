@@ -9,6 +9,19 @@ code-annotations: hover
 <a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
 :::
 
+<details>
+<summary>
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/introduction.qmd)
+pour afficher les slides en plein écran.
+</summary>
+
+
+```{.yaml code-preview="/slides/introduction.qmd"}
+```
+
+</details>
+
+
 Dans ce premier TP,
 nous allons rentrer tranquillement
 dans notre parcours de découverte de 
@@ -20,6 +33,9 @@ Cela se fera par les étapes suivantes:
 2. Découverte des objets de base de {{< fa brands r-project >}}: les vecteurs de **nombres**, de **chaînes de caractères** et de conditions logiques, les **listes** et les _**dataframes**_ ;
 3. Découverte de l'**assignation** des objets à des **variables** pour réaliser des opérations avec ces dernières.
 
+
+:::{.callout-note collapse="true"}
+## Note sur les annotations
 Certains exemples de code présentent des annotations sur le côté,
 passez votre souris dessus pour les afficher, comme ci-dessous
 
@@ -29,6 +45,8 @@ passez votre souris dessus pour les afficher, comme ci-dessous
 "une annotation explicative m'accompagne à droite" #<1>
 ```
 1. Je m'affiche quand on passe la souris sur moi 🐭 !
+
+:::
 
 # Familiarisation avec `RStudio`
 

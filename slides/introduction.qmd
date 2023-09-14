@@ -33,6 +33,7 @@ listing:
   type: table
 #filters:
 #  - reveal-header
+code-annotations: hover
 ---
 
 ## Chapitre introductif

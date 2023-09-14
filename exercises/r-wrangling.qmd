@@ -8,6 +8,19 @@ number-sections: true
 <a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
 :::
 
+<details>
+<summary>
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/wrangling.qmd)
+pour afficher les slides en plein écran.
+</summary>
+
+
+``` {.yaml code-preview="/slides/wrangling.qmd"}
+```
+
+</details>
+
+
 Dans ce deuxième TP,
 nous allons apprendre à importer et
 manipuler des données avec

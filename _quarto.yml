@@ -13,8 +13,10 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: slides/introduction.html
+      - href: exercises/r-base.html
         text: Introduction
+      - href: exercises/r-wrangling.html
+        text: Manipulation
       - icon: github
         href: https://github.com/linogaliana/r-geographie
     background: "#802a03"
