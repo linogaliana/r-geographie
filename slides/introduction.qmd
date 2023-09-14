@@ -39,8 +39,10 @@ code-annotations: hover
 ## Chapitre introductif
 
 ::: {.callout-note}
-- Exercices associés à ce chapitre [ici](exercises/r-base.html)
+- Exercices associés à ce chapitre [ici](/exercises/r-base.html)
 :::
+
+
 
 ![](../cards/introduction/baby.png){fig-align="center"}
 
