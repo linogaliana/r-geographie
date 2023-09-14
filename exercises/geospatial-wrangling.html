@@ -8,7 +8,7 @@
 
 <meta name="author" content="Lino Galiana">
 
-<title>Introduction aux méthodes quantitatives avec &lt;i class="fa-brands fa-r-project" aria-label="r-project"&gt;&lt;/i&gt;</title>
+<title>Introduction aux méthodes quantitatives avec  - Manipuler des données spatiales avec sf</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,29 +21,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -64,41 +96,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-formations .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-project','listing-website','listing-format','listing-author','listing-language','listing-image','listing-title','listing-date','listing-description','listing-categories','listing-exercise','listing-order','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] }],
-      
-      searchColumns: ["listing-project","listing-website","listing-format","listing-author","listing-language","listing-image","listing-title","listing-date","listing-description","listing-categories","listing-exercise","listing-order","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-formations'] = new List('listing-formations', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="">
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Manipuler des données spatiales avec sf">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://rgeo.linogaliana.fr/cards/version-light/baby.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -111,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span>
     </a>
   </div>
@@ -122,15 +123,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./exercises/r-base.html" rel="" target="">
+    <a class="nav-link" href="../exercises/r-base.html" rel="" target="">
  <span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./exercises/r-wrangling.html" rel="" target="">
+    <a class="nav-link" href="../exercises/r-wrangling.html" rel="" target="">
  <span class="menu-text">Manipulation</span></a>
   </li>  
   <li class="nav-item compact">
@@ -146,167 +147,75 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
-
-
-<section id="introduction-aux-méthodes-quantitatives-avec-fa-brands-r-project" class="level1">
-<h1>Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></h1>
-<p><a href="https://www.linogaliana.fr/"><strong>Lino Galiana</strong></a></p>
-<p>Cours du département de sciences sociales de l’ENS Ulm.</p>
-<p>Un cours pour se familiariser à <i class="fa-brands fa-r-project" aria-label="r-project"></i> par la pratique avec l’<em>open data</em>.</p>
-<div id="listing-formations" class="quarto-listing quarto-listing-container-custom">
-<link href="./assets/css/all.css" rel="stylesheet">
-<div class="list grid quarto-listing-cols-3">
-  <div class="g-col-1" data-index="0" data-categories="Introduction" data-listing-date-sort="1693526400000" data-listing-file-modified-sort="1694708824401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-    <a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link"> <!-- Added link wrapper -->
-      </a><div class="quarto-grid-item card h-100 card-left"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-          <p class="card-img-top">
-            <img src="./cards/introduction/baby.png" class="thumbnail-image card-img" style="height: auto;" alt="">
-          </p>
-          </a><div class="card-body post-contents"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-            <h5 class="no-anchor card-title listing-title" data-anchor-id="introduction-aux-méthodes-quantitatives-avec-fa-brands-r-project">Introduction aux objets de base <i class="fa-brands fa-r-project"></i></h5>
-            <div class="card-subtitle listing-subtitle"></div>
-              <div class="card-text listing-description delink"><br>
-Introduction aux objets basiques de <i class="fa-brands fa-r-project"></i>
-et à <code>RStudio</code>
-<br>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Manipuler des données spatiales avec <code>sf</code></h1>
 </div>
-              <div class="card-attribution card-text-small justify">
-                <div class="listing-author">Lino Galiana</div>
-                <div class="listing-date">Sep 1, 2023</div>
-              </div>
-            <style>
-              .listing-categories .listing-category .listing-href {
-                color: inherit; /* blue colors for links too */
-                text-decoration: inherit; /* no underline */
-              }
-            </style>
-            </a><div class="listing-categories" style="padding-top: 1em;"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-                </a><div class="listing-category"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-                  </a><a class="listing-href" href="./exercises/r-base.html" target="_blank" rel="noopener">Exercice ✏️</a>
-                </div>
-                <div class="listing-category">
-                  <a class="listing-href" href="./slides/introduction.html" target="_blank" rel="noopener">Slides 🧑‍🏫</a>
-                </div>
-            </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lino Galiana </p>
           </div>
-        <!-- <div class="card-footer">
-            <div class="card-filename listing-filename">
-              index.qmd
-            </div>
-            <div class="card-file-modified listing-file-modified">
-              9/14/23, 4:27:04 PM
-            </div>
-        </div> -->
-      </div>
-     <!-- Added link wrapper -->
   </div>
-  <div class="g-col-1" data-index="1" data-categories="Introduction" data-listing-date-sort="1693526400000" data-listing-file-modified-sort="1694708824401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-    <a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link"> <!-- Added link wrapper -->
-      </a><div class="quarto-grid-item card h-100 card-left"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-          <p class="card-img-top">
-            <img src="./cards/wrangling/kidmatrix.png" class="thumbnail-image card-img" style="height: auto;" alt="">
-          </p>
-          </a><div class="card-body post-contents"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-            <h5 class="no-anchor card-title listing-title">Manipuler des données avec le <code>tidyverse</code></h5>
-            <div class="card-subtitle listing-subtitle"></div>
-              <div class="card-text listing-description delink"><br>
-Introduction à l'écosystème du <code>tidyverse</code>
-pour lire et manipuler des données structurées avec <i class="fa-brands fa-r-project"></i>
-<br>
-</div>
-              <div class="card-attribution card-text-small justify">
-                <div class="listing-author">Lino Galiana</div>
-                <div class="listing-date">Sep 1, 2023</div>
-              </div>
-            <style>
-              .listing-categories .listing-category .listing-href {
-                color: inherit; /* blue colors for links too */
-                text-decoration: inherit; /* no underline */
-              }
-            </style>
-            </a><div class="listing-categories" style="padding-top: 1em;"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-                </a><div class="listing-category"><a href="./exercises/r-base.html" target="_blank" rel="noopener" class="grid-item-link">
-                  </a><a class="listing-href" href="./exercises/r-base.html" target="_blank" rel="noopener">Exercice ✏️</a>
-                </div>
-                <div class="listing-category">
-                  <a class="listing-href" href="./slides/wrangling.html" target="_blank" rel="noopener">Slides 🧑‍🏫</a>
-                </div>
-            </div>
-          </div>
-        <!-- <div class="card-footer">
-            <div class="card-filename listing-filename">
-              index.qmd
-            </div>
-            <div class="card-file-modified listing-file-modified">
-              9/14/23, 4:27:04 PM
-            </div>
-        </div> -->
-      </div>
-     <!-- Added link wrapper -->
+    
+  
+    
   </div>
-  <div class="g-col-1" data-index="2" data-categories="Introduction" data-listing-date-sort="1693526400000" data-listing-file-modified-sort="1694708824397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-    <a href="./exercises/r-wrangling.html" target="_blank" rel="noopener" class="grid-item-link"> <!-- Added link wrapper -->
-      </a><div class="quarto-grid-item card h-100 card-left"><a href="./exercises/r-wrangling.html" target="_blank" rel="noopener" class="grid-item-link">
-          <p class="card-img-top">
-            <img src="./cards/geospatial-wrangling/geographer.png" class="thumbnail-image card-img" style="height: auto;" alt="">
-          </p>
-          </a><div class="card-body post-contents"><a href="./exercises/r-wrangling.html" target="_blank" rel="noopener" class="grid-item-link">
-            <h5 class="no-anchor card-title listing-title">Manipuler des données spatiales avec <code>sf</code></h5>
-            <div class="card-subtitle listing-subtitle"></div>
-              <div class="card-text listing-description delink"><br>
-Introduction à <code>sf</code>,
-une extension du
-<code>tidyverse</code>
-pour transformer <i class="fa-brands fa-r-project"></i>
-en SIG capable de lire et manipuler des données géographiques.
-<br>
+  
+
+</header>
+
+<div class="badge">
+<p><a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&amp;init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&amp;networking.user.enabled=true&amp;onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&amp;labelColor=black&amp;color=%231965b8" alt="Onyxia"></a><br></p>
 </div>
-              <div class="card-attribution card-text-small justify">
-                <div class="listing-author">Lino Galiana</div>
-                <div class="listing-date">Sep 1, 2023</div>
-              </div>
-            <style>
-              .listing-categories .listing-category .listing-href {
-                color: inherit; /* blue colors for links too */
-                text-decoration: inherit; /* no underline */
-              }
-            </style>
-            </a><div class="listing-categories" style="padding-top: 1em;"><a href="./exercises/r-wrangling.html" target="_blank" rel="noopener" class="grid-item-link">
-                </a><div class="listing-category"><a href="./exercises/r-wrangling.html" target="_blank" rel="noopener" class="grid-item-link">
-                  </a><a class="listing-href" href="./exercises/r-wrangling.html" target="_blank" rel="noopener">Exercice ✏️</a>
-                </div>
-                <div class="listing-category">
-                  <a class="listing-href" href="./slides/geospatial-wrangling.html" target="_blank" rel="noopener">Slides 🧑‍🏫</a>
-                </div>
-            </div>
-          </div>
-        <!-- <div class="card-footer">
-            <div class="card-filename listing-filename">
-              index.qmd
-            </div>
-            <div class="card-file-modified listing-file-modified">
-              9/14/23, 4:27:04 PM
-            </div>
-        </div> -->
-      </div>
-     <!-- Added link wrapper -->
-  </div>
+<details>
+<summary>
+Dérouler les <em>slides</em> ci-dessous ou <a href="../slides/wrangling.html">cliquer ici</a> pour afficher les slides en plein écran.
+</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><iframe class="sourceCode yaml code-with-copy" src="/slides/wrangling.html"></iframe></div>
+</details>
+<p>Dans ce troisème TP, nous allons apprendre à importer et manipuler des données spatiales avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Ce logiciel propose des fonctionnalités très intéressantes pour ce type de données complexes qui le rendent capable de se comporter comme un SIG.</p>
+<p>Si vous êtes intéressés par <code>Python</code> <i class="fa-brands fa-python" aria-label="python"></i>, une version très proche de ce TP est disponible dans <a href="https://pythonds.linogaliana.fr/content/manipulation/03_geopandas_TP.html">mon cours de l’ENSAE</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="listing-no-matching d-none">
-No matching items
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Certains exemples de code présentent des annotations sur le côté, passez votre souris dessus pour les afficher, comme ci-dessous</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="st">"une annotation explicative m'accompagne à droite"</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-cell="annotated-cell-1" data-code-annotation="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
+</dd>
+</dl>
+</div>
+</div>
 </div>
 </div>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

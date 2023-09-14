@@ -3,7 +3,8 @@
     "listing": "/index.html",
     "items": [
       "/cards/introduction/index.html",
-      "/cards/wrangling/index.html"
+      "/cards/wrangling/index.html",
+      "/cards/geospatial-wrangling/index.html"
     ]
   }
 ]
