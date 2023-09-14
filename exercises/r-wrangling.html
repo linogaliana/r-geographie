@@ -162,6 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#import-de-données-de-linsee" id="toc-import-de-données-de-linsee" class="nav-link" data-scroll-target="#import-de-données-de-linsee"><span class="header-section-number">2.2</span> Import de données de l’Insee</a></li>
   </ul></li>
   <li><a href="#restructurer-des-données" id="toc-restructurer-des-données" class="nav-link" data-scroll-target="#restructurer-des-données"><span class="header-section-number">3</span> Restructurer des données</a></li>
+  <li><a href="#combiner-les-données" id="toc-combiner-les-données" class="nav-link" data-scroll-target="#combiner-les-données"><span class="header-section-number">4</span> Combiner les données</a></li>
   </ul>
 </nav>
     </div>
@@ -219,7 +220,7 @@ Note
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
 </dd>
 </dl>
 </div>
@@ -327,8 +328,8 @@ dbl (10): Agriculture, Autres transports, Autres transports international, C...
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  com        val
-1   1 -0.9422588
-2   2 -0.2191258</code></pre>
+1   1 -0.3229841
+2   2 -1.0377766</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -511,9 +512,6 @@ Exercice 3
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Department"</span>, <span class="at">y =</span> <span class="st">"Value"</span>) <span class="sc">+</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing missing values (`geom_bar()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <div id="fig-sample-log" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -527,8 +525,8 @@ Exercice 3
 <summary>
 Exemple d’utilisation de <code>str_sub</code>
 </summary>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">str_sub</span>(y, <span class="at">start =</span> <span class="dv">3</span>, <span class="at">end =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">str_sub</span>(y, <span class="at">start =</span> <span class="dv">3</span>, <span class="at">end =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -536,6 +534,127 @@ Exemple d’utilisation de <code>str_sub</code>
 </section>
 <section id="restructurer-des-données" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Restructurer des données</h1>
+<p>On présente généralement deux types de données :</p>
+<ul>
+<li>format <strong>wide</strong>: les données comportent des observations répétées, pour un même individu (ou groupe), dans des colonnes différentes</li>
+<li>format <strong>long</strong>: les données comportent des observations répétées, pour un même individu, dans des lignes différentes avec une colonne permettant de distinguer les niveaux d’observations</li>
+</ul>
+<p>Un exemple de la distinction entre les deux peut être pris à l’ouvrage de référence d’Hadley Wickham, <em>R for Data Science</em>:</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png" class="img-fluid"></p>
+<p>On est souvent amené avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> à restructurer les données pour les allonger (<em>wide to long</em>) et les élargir (<em>long to wide</em>). C’est le package <em>tidyr</em> (qui appartient au <em>tidyverse</em>) qui permet de faire ce type de transformations. L’aide mémoire suivante aidera à se rappeler les fonctions à appliquer si besoin:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://scienceparkstudygroup.github.io/r-lesson-based-on-ohi-data-training/img/rstudio-cheatsheet-spread-gather-sep-unite.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+<p>Le fait de passer d’un format <em>wide</em> au format <em>long</em> (ou vice-versa) peut être extrêmement pratique car certaines fonctions sont plus adéquates sur une forme de données ou sur l’autre. En règle générale, les formats <em>long</em> sont souvent préférables. C’est notamment la forme de données privilégiée pour préparer des graphiques avec <code>ggplot</code>, que nous verrons dans le prochain chapitre.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Restructurer les données au format <em>long</em> pour avoir des données d’émissions par secteur en gardant comme niveau d’analyse la commune (attention aux autres variables identifiantes).</li>
+<li>Faire la somme par secteur et représenter graphiquement un <em>barplot</em><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></li>
+<li>Garder, pour chaque département, le secteur le plus polluant</li>
+</ol>
+<details>
+<summary>
+Graphique à réaliser pour la question 2
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long_summary) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y =</span> secteur, <span class="at">x =</span> emissions),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">stat =</span><span class="st">'identity'</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'secteur'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   dep [6]
+  secteur     dep   emissions
+  &lt;chr&gt;       &lt;chr&gt;     &lt;dbl&gt;
+1 Routier     01     1635350.
+2 Routier     02     1386403.
+3 Agriculture 03     1949985.
+4 Routier     04      390568.
+5 Routier     05      345859.
+6 Routier     06     1561664.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 6: long to wide
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>TO DO</p>
+</div>
+</div>
+</section>
+<section id="combiner-les-données" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Combiner les données</h1>
+<p>Une information que l’on cherche à obtenir s’obtient de moins en moins à partir d’une unique base de données. Il devient commun de devoir combiner des données issues de sources différentes. Nous allons ici nous focaliser sur le cas le plus favorable qui est la situation où une information permet d’apparier de manière exacte deux bases de données (autrement nous serions dans une situation, beaucoup plus complexe, d’appariement flou). La situation typique est l’appariement entre deux sources de données selon un identifiant individuel ou un identifiant de code commune, ce qui est notre cas.</p>
+<p>Il est recommandé de lire <a href="https://www.book.utilitr.org/03_fiches_thematiques/fiche_joindre_donnees">ce guide assez complet sur la question des jointures avec R</a> qui donne des recommandations également utiles en <code>python</code>.</p>
+<p>On utilise de manière indifférente les termes <em>merge</em> ou <em>join</em>. Le deuxième terme provient de la syntaxe SQL. En <code>pandas</code>, dans la plupart des cas, on peut utiliser indifféremment <code>df.join</code> et <code>df.merge</code></p>
+<p><img src="https://rafalab.dfci.harvard.edu/dsbook/wrangling/img/joins.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="2" type="1">
+<li>Faire une jointure à gauche entre les données d’émissions et les données de cadrage. Comparer les émissions moyennes des villes sans <em>match</em> (celles dont des variables bien choisies de la table de droite sont <code>NA</code>) avec celles où on a bien une valeur correspondante dans la base Insee</li>
+<li>Faire un <em>inner join</em> puis calculer l’empreinte carbone (l’émission rapportée au nombre de ménages fiscaux) dans chaque commune. Sortir un histogramme en niveau puis en log et quelques statistiques descriptives sur le sujet.</li>
+<li>Regarder la corrélation entre les variables de cadrage et l’empreinte carbone. Certaines variables semblent-elles pouvoir potentiellement influer sur l’empreinte carbone ?</li>
+</ol>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 4454 rows containing non-finite values (`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -550,6 +669,7 @@ Exemple d’utilisation de <code>str_sub</code>
 <li id="fn4"><p>Par manque d’imagination, on est souvent tenté d’appeler notre <em>dataframe</em> principal <code>df</code> ou <code>data</code>. C’est souvent une mauvaise idée puisque ce nom n’est pas très informatif quand on relit le code quelques semaines plus tard. L’autodocumentation, approche qui consiste à avoir un code qui se comprend de lui-même, est une bonne pratique et il est donc recommandé de donner un nom simple mais efficace pour connaître la nature du <em>dataset</em> en question.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>L’espace dans le nom de la variable est embêtant. Pour pouvoir utiliser le nom de cet variable dans <code>rename</code>, il va falloir utiliser des backticks, c’est-à-dire <code>INSEE commune</code>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>Les fonctionnalités limitées du langage de base sur la manipulation textuelle sont rapidement contraignantes. On passe ainsi rapidement à <code>stringr</code> même si ce n’est pas l’objet principal du chapitre.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>vous pouvez utiliser directement le morceau de code d’aide si vous n’êtes pas familiers de <code>ggplot</code><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
