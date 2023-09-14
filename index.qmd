@@ -10,8 +10,12 @@ toc: false
 
 # Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}
 
+[**Lino Galiana**](https://www.linogaliana.fr/)
 
-détails prochainement
+Cours du département de sciences sociales de l'ENS Ulm. 
+
+Un cours pour se familiariser à {{< fa brands r-project >}} par la
+pratique avec l'_open data_.
 
 ::: {#formations}
 :::
