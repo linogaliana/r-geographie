@@ -87,6 +87,115 @@ ou catégorielles (`forcats`)
 Concept popularisé par Hadley Wickham.
 :::
 
+## `readr`
+
+![](https://readr.tidyverse.org/logo.png){width=20%}
+
+- Le _package_ pour lire des fichiers plats (`.csv`, `.txt`...)
+- Permet d'obtenir un `tibble`, le _dataframe_ augmenté du `tidyverse`
+
+## `dplyr` 
+
+![](https://dplyr.tidyverse.org/logo.png){width=20%}
+
+- Le _package_ central de l'écosystème de manipulation de données ;
+- Manipulation de données et statistiques descriptives ;
+
+## `dplyr` {.smaller}
+
+### Principaux verbes
+
+On travaille sur un `tibble` (_dataframe_ augmenté)
+
+- `select()` : sélectionner des variables par leur nom ;
+- `rename()` : renommer des variables ;
+- `filter()` : sélectionner des observations selon une ou plusieurs conditions ;
+- `arrange()` : trier la table selon une ou plusieurs variables ;
+- `mutate()` : ajouter des variables qui sont fonction d’autres variables ;
+- `summarise()` : calculer une statistique à partir de données ;
+- `group_by()` : faire des opérations par groupe.- `
+
+
+
+## `dplyr` {.smaller}
+
+### Manipulation de données
+
+On enchaine des séquences avec les  _pipe_ (`%>%`)
+```{r}
+#| eval: false
+#| echo: true
+library(doremifasol)
+library(dplyr)
+
+base_publique_equipements <- telechargerDonnees("BPE_ENS")
+base_publique_equipements %>%
+  as_tibble() %>% # <1>
+  filter(TYPEQU == "B316") %>% # <2>
+  mutate(x = paste0(AN, "_", NB_EQUIP)) # <3>
+```
+1. On convertit le _dataframe_ standard en `tibble`
+2. On ne garde que les stations services (valeurs `B316` de `TYPEQU`)
+3. On crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)
+
+<br>
+
+::: {.callout-note}
+Plus de détails dans [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_tidyverse)
+:::
+
+## `dplyr` {.smaller}
+
+### Statistiques agrégées
+
+- Logique du _split-apply-combine_ avec `groupby`
+
+<details>
+<summary>
+Illustration du _split-apply-combine_
+</summary>
+![](https://miro.medium.com/v2/resize:fit:1400/1*w2oGdXv5btEMxAkAsz8fbg.png)
+</details>
+
+```{r}
+#| eval: false
+#| echo: true
+library(doremifasol)
+library(dplyr)
+
+base_publique_equipements <- telechargerDonnees("BPE_ENS")
+base_publique_equipements %>%
+  as_tibble() %>% # <1>
+  filter(TYPEQU == "B316") %>% # <2>
+  group_by(DEP) %>% # <3>
+  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))  # <4>
+```
+1. On convertit le _dataframe_ standard en `tibble`
+2. On ne garde que les stations services (valeurs `B316` de `TYPEQU`)
+3. On définit `DEP` comme une variable de stratification pour définir des groupes
+4. On résume les données en faisant la somme des stations services dans chaque groupe
+
+## `ggplot`
+
+![](https://ggplot2.tidyverse.org/logo.png){width=20%}
+
+- Le _package_ indispensable pour faire des graphiques ❤️ ;
+- Approche cohérente et flexible basée sur la __grammaire des graphiques__
+    + Objet d'un chapitre dédié
+
+## `stringr`, `forcats` et `lubridate`
+
+:::{ncol-layout=3 fig-align="center"}
+![](https://stringr.tidyverse.org/logo.png){width=20%}
+![](https://forcats.tidyverse.org/logo.png){width=20%}
+![](https://lubridate.tidyverse.org/logo.png){width=20%}
+:::
+
+- Plein de fonctions facilitant la manipulation:
+    - Données textuelles: `stringr`
+    - Données catégorielles: `forcats`
+    - Données temporelles: `lubridate`
+
 # Les formats de données
 
 ## Généralités
