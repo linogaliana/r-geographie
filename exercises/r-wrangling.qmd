@@ -235,6 +235,7 @@ ne fait pas d'_a priori_ sur l'écosystème de manipulation adopté) en
 _dataframe_ adapté à une exploitation via le `tidyverse`. 
 :::
 
+# Nettoyage des données
 
 :::{.callout-tip}
 ## Exercice 2
@@ -490,25 +491,32 @@ On présente généralement deux types de données :
 
 Un exemple de la distinction entre les deux peut être pris à l'ouvrage de référence d'Hadley Wickham, *R for Data Science*:
 
-![](https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png)
+![Données _long_ (gauche) et _wide_ (droite) (source: *R for Data Science*)](https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png)
 
 On est souvent amené avec {{< fa brands r-project >}} à restructurer les données
-pour les allonger (_wide to long_) et les élargir (_long to wide_).
+pour les allonger (_wide to long_) et les élargir (_long to wide_). 
+
+
 C'est le package _tidyr_ (qui appartient au _tidyverse_) qui permet
-de faire ce type de transformations. 
+de faire ce type de transformations.
+
 L'aide mémoire suivante aidera à se rappeler les fonctions à appliquer si besoin:
 
 ![](https://scienceparkstudygroup.github.io/r-lesson-based-on-ohi-data-training/img/rstudio-cheatsheet-spread-gather-sep-unite.png){width="80%" fig-align="center"}
 
 Le fait de passer d'un format *wide* au format *long* (ou vice-versa)
 peut être extrêmement pratique car certaines fonctions sont plus adéquates sur une forme de données ou sur l'autre.
-En règle générale, les formats *long* sont souvent préférables. C'est notamment
+
+En règle générale, les formats *long* sont souvent préférables car il est
+plus facile d'itérer sur des lignes que sur des colonnes du fait de
+la nature vectorielle de {{< fa brands r-project >}}.
+C'est notamment
 la forme de données privilégiée pour préparer des graphiques avec `ggplot`, 
-que nous verrons dans le prochain chapitre. 
+que nous découvrirons dans le prochain chapitre. 
 
 
 :::{.callout-tip}
-## Exercice 4
+## Exercice 4: la transformation _wide to long_
 1. Restructurer les données au format *long* pour avoir des données d'émissions par secteur en gardant comme niveau d'analyse la commune (attention aux autres variables identifiantes).
 2. Faire la somme par secteur et représenter graphiquement un _barplot_[^barplot] 
 3. Garder, pour chaque département, le secteur le plus polluant
@@ -536,6 +544,9 @@ df_long_summary <- df_long %>%
 <details>
 <summary>Graphique à réaliser pour la question 2</summary>
 
+Une fois le _dataframe_ `df_long_summary` créé, le code minimal
+pour réaliser le _barplot_ voulu est:
+
 ```{r}
 #| echo: true
 ggplot(df_long_summary) +
@@ -544,6 +555,9 @@ ggplot(df_long_summary) +
     stat ='identity'
   )
 ```
+
+Pas besoin d'aller plus loin pour le moment, nous ferons plus
+de `ggplot` ultérieurement. 
 
 </details>
 
@@ -561,8 +575,8 @@ head(df_long_dep)
 :::
 
 
-::: {.callout-note}
-## Exercice 6: long to wide
+::: {.callout-tip}
+## Exercice 5: _long to wide_
 
 TO DO
 :::
@@ -570,15 +584,29 @@ TO DO
 
 # Combiner les données
 
-Une information que l'on cherche à obtenir s'obtient de moins en moins à partir d'une unique base de données. Il devient commun de devoir combiner des données issues de sources différentes. Nous allons ici nous focaliser sur le cas le plus favorable qui est la situation où une information permet d'apparier de manière exacte deux bases de données (autrement nous serions dans une situation, beaucoup plus complexe, d'appariement flou). La situation typique est l'appariement entre deux sources de données selon un identifiant individuel ou un identifiant de code commune, ce qui est notre cas.
+Une information que l'on cherche à obtenir s'obtient de moins en moins à partir d'une unique base de données. Il devient commun de devoir combiner des données issues de sources différentes. 
 
-Il est recommandé de lire [ce guide assez complet sur la question des jointures avec R](https://www.book.utilitr.org/03_fiches_thematiques/fiche_joindre_donnees) qui donne des recommandations également utiles en `python`.
+Nous allons ici nous focaliser sur le cas le plus favorable qui est la situation où une information permet d'apparier de manière exacte deux bases de données (autrement nous serions dans une situation, beaucoup plus complexe, d'appariement flou). La situation typique est l'appariement entre deux sources de données selon un identifiant individuel ou un identifiant de code commune, ce qui est notre cas.
 
-On utilise de manière indifférente les termes *merge* ou *join*. Le deuxième terme provient de la syntaxe SQL. En `pandas`, dans la plupart des cas, on peut utiliser indifféremment `df.join` et `df.merge`
+Il est recommandé de lire [ce guide assez complet sur la question des jointures avec {{< fa brands r-project >}}](https://www.book.utilitr.org/03_fiches_thematiques/fiche_joindre_donnees) qui donne des recommandations également utiles en `Python` {{< fa brands python >}}.
 
-![](https://rafalab.dfci.harvard.edu/dsbook/wrangling/img/joins.png)
+Dans le langage courant du statisticien,
+on utilise de manière indifférente les termes *merge* ou *join*. Le deuxième terme provient de la syntaxe `SQL` et c'est celui qui est plutôt utilisé
+quand on code avec `dplyr`. 
+
+<details>
+
+<summary>
+Les différents type de _join_ disponibles dans `dplyr`
+</summary>
+
+![](https://rafalab.dfci.harvard.edu/dsbook/wrangling/img/joins.png){width=80%}
+
+</details>
 
 ::: {.callout-tip}
+## Exercice 6: enrichir les données d'émissions
+
 2. Faire une jointure à gauche entre les données d'émissions et les données de cadrage. Comparer les émissions moyennes des villes sans *match* (celles dont des variables bien choisies de la table de droite sont `NA`) avec celles où on a bien une valeur correspondante dans la base Insee
 3. Faire un *inner join* puis calculer l'empreinte carbone (l'émission rapportée au nombre de ménages fiscaux) dans chaque commune. Sortir un histogramme en niveau puis en log et quelques statistiques descriptives sur le sujet. 
 4. Regarder la corrélation entre les variables de cadrage et l'empreinte carbone. Certaines variables semblent-elles pouvoir potentiellement influer sur l'empreinte carbone ?
@@ -596,7 +624,7 @@ emissions_merged <- emissions_merged %>%
 
 ```{r}
 ggplot(emissions_merged) +
-  geom_histogram(aes(x = empreinte, y = ..density..)) +
+  geom_histogram(aes(x = empreinte, y = after_stat(density))) +
   scale_x_log10()
 ```
 
