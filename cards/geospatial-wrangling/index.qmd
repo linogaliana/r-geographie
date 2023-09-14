@@ -1,0 +1,19 @@
+---
+image: geographer.png
+title: Manipuler des données spatiales avec <code>sf</code>
+date: "2023-09-01"
+description: |
+  <br>
+  Introduction à <code>sf</code>,
+  une extension du
+  <code>tidyverse</code>
+  pour transformer <i class="fa-brands fa-r-project"></i> 
+  en SIG capable de lire et manipuler des données géographiques.
+  <br>
+categories:
+  - Introduction
+website: /slides/geospatial-wrangling.html
+exercise: /exercises/r-wrangling.html
+order: 3
+---
+

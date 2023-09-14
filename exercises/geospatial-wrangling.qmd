@@ -1,0 +1,49 @@
+---
+title: "Manipuler des données spatiales avec `sf`"
+echo: false
+number-sections: true
+---
+
+::: {.badge}
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
+:::
+
+<details>
+<summary>
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/wrangling.qmd)
+pour afficher les slides en plein écran.
+</summary>
+
+
+``` {.yaml code-preview="/slides/wrangling.qmd"}
+```
+
+</details>
+
+
+Dans ce troisème TP,
+nous allons apprendre à importer et
+manipuler des données spatiales avec
+{{< fa brands r-project >}}. Ce logiciel propose
+des fonctionnalités très intéressantes pour ce type de
+données complexes qui le rendent capable de se comporter
+comme un SIG.
+
+Si vous êtes intéressés par `Python` {{< fa brands python >}},
+une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/manipulation/03_geopandas_TP.html).
+
+
+::: {.callout-note}
+
+Certains exemples de code présentent des annotations sur le côté,
+passez votre souris dessus pour les afficher, comme ci-dessous
+
+```{r}
+#| echo: true
+#| output: false
+"une annotation explicative m'accompagne à droite" #<1>
+```
+1. Je m'affiche quand on passe la souris sur moi 🐭 !
+
+:::
+
