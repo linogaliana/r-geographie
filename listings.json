@@ -6,13 +6,5 @@
       "/cards/wrangling/index.html",
       "/cards/geospatial-wrangling/index.html"
     ]
-  },
-  {
-    "listing": "/slides/introduction.html",
-    "items": []
-  },
-  {
-    "listing": "/slides/wrangling.html",
-    "items": []
   }
 ]
