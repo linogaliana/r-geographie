@@ -13,7 +13,7 @@ description: |
 categories:
   - Introduction
 website: /slides/geospatial-wrangling.html
-exercise: /exercises/r-wrangling.html
+exercise: /exercises/geospatial-wrangling.html
 order: 3
 ---
 

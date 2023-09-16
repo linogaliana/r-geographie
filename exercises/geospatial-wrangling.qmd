@@ -21,13 +21,17 @@ pour afficher les slides en plein écran.
 </details>
 
 
-Dans ce troisème TP,
+Dans ce troisième TP,
 nous allons apprendre à importer et
 manipuler des données spatiales avec
 {{< fa brands r-project >}}. Ce logiciel propose
 des fonctionnalités très intéressantes pour ce type de
 données complexes qui le rendent capable de se comporter
-comme un SIG.
+comme un SIG. Grâce à la librairie `sf`, une extension
+de `dplyr` aux données spatiales, les
+données géographiques pourront être manipulées
+comme n'importe quel type de données avec {{< fa brands r-project >}}.
+La complexité induite par la dimension spatiale ne sera pas ressentie. 
 
 Si vous êtes intéressés par `Python` {{< fa brands python >}},
 une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/manipulation/03_geopandas_TP.html).
@@ -38,9 +42,13 @@ une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](htt
 remotes::install_github("linogaliana/cartiflette-r")
 ```
 
+Dans ce chapitre, nous allons utiliser les packages
+suivants:
+
 
 ```{r}
 #| echo: true
+#| output: false
 library(dplyr)
 library(sf)
 library(ggplot2)
@@ -93,6 +101,7 @@ Utiliser `st_transform` pour transformer les données en Lambert 93, le
 système officiel (code EPSG 2154). 
 4. Afficher les communes des Hauts de Seine (département 92) et représenter rapidement la carte.
 5. Réprésenter la carte de Paris : quel est le problème ?
+:::
 
 ```{r}
 #| output: false
@@ -123,24 +132,32 @@ sf::st_crs(communes_borders)
 communes_borders <- communes_borders %>% st_transform(2154)
 ```
 
-La carte du 92 est la suivante:
 
+<details>
+
+<summary>
+Si vous désirez observer l'aspect de la
+carte du 92 (question 4), déroulez cette partie.
+</summary>
 
 ```{r}
 #| label: plot-92
-library(dplyr)
-library(ggplot2)
+#| output: false
 
 # 4) afficher les communes du département 92
 hds <- communes_borders %>% filter(INSEE_DEP == "92")
-ggplot(hds) +
+map_92 <- ggplot(hds) +
     geom_sf(fill = "white") + theme_void()
-
 ```
 
-Quant à Paris, à l'issue de la question 5, la carte
-aura l'aspect suivant:
+```{r}
+map_92
+```
 
+</details>
+
+En ce qui concerne Paris, à l'issue de la question 5, la carte
+aura l'aspect suivant:
 
 ```{r}
 # 5) Représenter la carte de Paris. Quel est le problème ?
@@ -148,16 +165,16 @@ ggplot(communes_borders %>% filter(INSEE_DEP == "75")) +
     geom_sf(fill = "white") + theme_void()
 ```
 
-:::
 
 
-En effet, on ne dispose ainsi pas des limites des arrondissements parisiens, ce
+On remarque rapidement le problème.
+On ne dispose ainsi pas des limites des arrondissements parisiens, ce
 qui appauvrit grandement la carte de Paris. 
+
 On pourrait les récupérer directement 
-depuis le site d'_open-data_ du Grand Paris, ce qui est proposé
-en [exercice supplémentaire 👇️](#exo-supp).
-On propose ici d'utiliser à nouveau
-`cartiflette` pour cela afin de disposer du fonds de carte officiel
+depuis le site d'_open-data_ du Grand Paris 
+mais on propose ici d'utiliser à nouveau
+`cartiflette` afin de disposer du fonds de carte officiel
 des arrondissements.
 
 
