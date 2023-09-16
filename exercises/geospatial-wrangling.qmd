@@ -167,7 +167,7 @@ ggplot(communes_borders %>% filter(INSEE_DEP == "75")) +
 
 
 
-On remarque rapidement le problème.
+On remarque rapidement le problème. 
 On ne dispose ainsi pas des limites des arrondissements parisiens, ce
 qui appauvrit grandement la carte de Paris. 
 
@@ -206,20 +206,18 @@ arrondissements = download_vectorfile_url_all(
     filter_by="DEPARTEMENT",
     source="EXPRESS-COG-CARTO-TERRITOIRE",
     year=2022)
+
+arrondissements
 ```
 
 
-La carte de Paris intra-muros est, après la
-récupération des arrondissements avec
-`cartiflette` de ce type là:
 
 ```{r}
-plot(
-  st_geometry(arrondissements)
-)
+ggplot(arrondissements) + geom_sf(fill = "white") + theme_void()
 ```
 
 ```{r}
+#| output: false
 #3) Vérifier l'attribut `crs`. Est-il cohérent ?
 print(st_crs(communes_borders))
 print(st_crs(arrondissements))
@@ -236,6 +234,10 @@ data_paris <- dplyr::bind_rows(
   arrondissements
 )
 ```
+
+La carte de Paris intra-muros est, après la
+récupération des arrondissements avec
+`cartiflette` de ce type là:
 
 ```{r}
 ggplot(data_paris) +
