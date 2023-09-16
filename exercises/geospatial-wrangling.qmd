@@ -245,7 +245,7 @@ ggplot(data_paris) +
 ```
 
 
-# Utiliser des données géographiques comme des couches graphiques
+## Utiliser des données géographiques comme des couches graphiques
 
 
 Souvent, le découpage communal ne sert qu'en fond de cartes, pour donner des
@@ -258,3 +258,37 @@ disponibles [sur le site d'open data de la ville de Paris](https://opendata.pari
 requêtables directement par l'url
 <https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr>
 
+::: {.callout-tip}
+## Exercice 3: importer et explorer les données velib
+
+1. Importer les données velib sous le nom `station`
+2. Vérifier la projection géographique de `station` (attribut `crs`). Si celle-ci est différente des données communales, reprojeter ces
+dernières dans le même système de projection que les stations de vélib
+3.  Représenter sur une carte les 50 stations les plus importantes (variable `capacity`). Vous pouvez également afficher le fonds de carte des arrondissements de Paris.
+Cette [page](https://geopandas.org/mapping.html#maps-with-layers) peut vous aider pour comprendre comment afficher plusieurs couches à la fois. Vous pouvez customiser la carte en retirant les axes grâce à la méthode `set_axis_off` et mettre un titre tel que _"Les 50 principales stations de Vélib"_ avec la méthode `set_title`. 
+4. Afficher également (trait bleu et épais) les réseaux de transport en communs, disponibles [ici](https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/map/?location=7,48.69717,2.33167&basemap=jawg.streets). L'url à requêter est
+<https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr>
+:::
+
+
+
+```{r}
+# 1) Importer les données velib
+url = "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
+
+stations <- st_read(url)
+```
+
+```{r}
+head(stations)
+```
+
+
+```{r}
+# 2) Reprojection
+st_crs(stations)
+stations <- stations %>% 
+  st_transform(st_crs(data_paris))
+```
+
+La carte attendu à l'issue de la question 3 a l'aspect suivant:
