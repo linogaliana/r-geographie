@@ -40,6 +40,7 @@ une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](htt
 ```{r}
 #| eval: false
 remotes::install_github("linogaliana/cartiflette-r")
+install.packages("leaflet")
 ```
 
 Dans ce chapitre, nous allons utiliser les packages
@@ -333,16 +334,92 @@ ggplot(paris) +
   theme_void()
 ```
 
-Pour faire une belle carte, il faudrait couper les lignes de métro via une jointure spatiale ou
-utiliser un fonds de carte conceptuel. 
-L'exercice suivant propose de mettre en oeuvre la deuxième méthode. La première 
+Pour faire une belle carte, il faudrait couper les lignes de métro
+via une jointure spatiale ou privilégier
+un fonds de carte conceptuel. 
+La méthode pour faire des cartes contextuelles
 est proposée en [exercice supplémentaire 👇️](#exo-supp).
+puisqu'elle implique des connaissances minimales avec `leaflet`
+que nous verrons ultérieurement.
+
+## Jointures spatiales
+
+Les jointures attributaires fonctionnent comme avec un `tibble` classique.
+Pour conserver un objet spatial *in fine*, il faut faire attention à utiliser en premier (base de gauche) l'objet `sf`.
+En revanche, l'un des intérêts des objets geopandas est qu'on peut également faire une jointure sur la dimension spatiale grâce à plusieurs fonctions:
+
+| Fonction |	Opération |
+|----------|------------|
+|`st_intersects()` | 	Quelles géométries de x intersectent celles de y ? |
+|`st_contains()` | 	Quelles géométries de x contiennent celles de y ? |
+|`st_disjoint()` | 	Quelles géométries de x sont disjointes à celles de y ? |
+|`st_is_within_distance()` | 	Quelles géométries de x est à moins de 
+m/km de celles de y ? |
+
+La documentation à laquelle se
+référer est [ici](https://cran.r-project.org/web/packages/sfnetworks/vignettes/sfn03_join_filter.html). 
+Une version pédagogique se trouve dans la documentation [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_donnees_spatiales#joindre-des-donn%C3%A9es-g%C3%A9ographiques-et-attributaires). 
+
 
 ::: {.callout-tip}
-## Exercice 4: ajouter un fond de carte
+## Exercice 4: Associer les stations aux communes et arrondissements auxquels elles appartiennent
 
-1. Recréer par couche successive la carte précédente, que vous pouvez nommer `base`
-2. Utiliser `add_basemap` du package [`contextily`](https://contextily.readthedocs.io/en/latest/)
-pour ajouter, en arrière plan, un fonds de carte
-3. Jouer avec les fonds disponibles en utilisant l'argument `source`
+1. Faire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de `data_paris`. Appeler cet objet `stations_info`
+2. Représenter la carte des stations du 19e arrondissement (s'aider de la variable `c_ar`). Vous pouvez mettre en fond de carte les arrondissements parisiens. 
+3. Compter le nombre de stations velib et le nombre de places velib par arrondissement ou commune (pour vous aider, vous pouvez compléter vos connaissances avec [ce tutoriel](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)). Représenter sur une carte chacune des informations
+4. Représenter les mêmes informations mais en densité (diviser par la surface de l'arrondissement ou commune en km2)
+5. (optionnel) Choisir une des cartes de densité et la nettoyer (retirer les axes, mettre les titres...)
+
 :::
+
+```{r}
+stations_info <- st_join(stations, data_paris, join = st_within)
+```
+
+Pour la question 2,
+la première méthode consiste à afficher
+toute la ville mais à ne représenter que
+les points des stations du 19e:
+
+```{r}
+stations_19e <- stations_info %>%
+  filter(grepl("19e", NOM)) %>%
+  st_transform(4326)
+arrondissement_19e <- data_paris %>%
+  filter(grepl("19e", NOM)) %>%
+  st_transform(4326)
+
+leaflet(arrondissement_19e) %>%
+  addTiles() %>%
+  addPolygons()
+
+  
+leaflet(stations_19e) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    color = ~pal_fun(capacity),
+    radius = ~sqrt(capacity),
+    popup = ~paste0(name, ": ", capacity, " places disponibles"),
+    stroke = FALSE,
+    fillOpacity = 0.5) %>%
+  addPolylines(data = arrondissement_19e)
+```
+
+## Exercices supplémentaires
+
+```{r}
+library(leaflet)
+
+pal_fun <- colorQuantile("YlOrRd", NULL, n = 4)
+principales_stations_wgs84 <- principales_stations %>%
+  st_transform(4326)
+
+leaflet(principales_stations_wgs84) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    color = ~pal_fun(capacity),
+    popup = ~paste0(name, ": ", capacity, " places disponibles"),
+    stroke = FALSE,
+    fillOpacity = 0.5)
+```
+
