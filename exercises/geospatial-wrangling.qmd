@@ -328,8 +328,8 @@ L'ajout du réseau de métro permet d'obtenir une carte ressemblant à celle-ci:
 metro <- transports %>% filter(mode == "METRO")
 
 ggplot(paris) +
-  geom_sf(fill = "white") + geom_sf(data = principales_stations) + 
-  geom_sf(data = metro) +
+  geom_sf(fill = "white") + geom_sf(data = principales_stations, color = "red") + 
+  geom_sf(data = metro, color = "royalblue", alpha = 0.4) +
   theme_void()
 ```
 
