@@ -50,9 +50,11 @@ suivants:
 ```{r}
 #| echo: true
 #| output: false
+library(units)
 library(dplyr)
 library(sf)
 library(ggplot2)
+library()
 library(cartiflette)
 ```
 
@@ -365,7 +367,7 @@ Une version pédagogique se trouve dans la documentation [`utilitR`](https://www
 ## Exercice 4: Associer les stations aux communes et arrondissements auxquels elles appartiennent
 
 1. Faire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de `data_paris`. Appeler cet objet `stations_info`
-2. Représenter la carte des stations du 19e arrondissement (s'aider de la variable `c_ar`). Vous pouvez mettre en fond de carte les arrondissements parisiens. 
+2. Représenter la carte des stations du 19e arrondissement (s'aider de la variable `NOM`). Vous pouvez mettre en fond de carte les arrondissements parisiens. 
 3. Compter le nombre de stations velib et le nombre de places velib par arrondissement ou commune (pour vous aider, vous pouvez compléter vos connaissances avec [ce tutoriel](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)). Représenter sur une carte chacune des informations
 4. Représenter les mêmes informations mais en densité (diviser par la surface de l'arrondissement ou commune en km2)
 5. (optionnel) Choisir une des cartes de densité et la nettoyer (retirer les axes, mettre les titres...)
@@ -389,11 +391,6 @@ arrondissement_19e <- data_paris %>%
   filter(grepl("19e", NOM)) %>%
   st_transform(4326)
 
-leaflet(arrondissement_19e) %>%
-  addTiles() %>%
-  addPolygons()
-
-  
 leaflet(stations_19e) %>%
   addTiles() %>%
   addCircleMarkers(
@@ -404,6 +401,32 @@ leaflet(stations_19e) %>%
     fillOpacity = 0.5) %>%
   addPolylines(data = arrondissement_19e)
 ```
+
+```{r}
+# Question 3
+stations_agg <- stations_info %>%
+  group_by(NOM) %>%
+  mutate(stationcode_count = n_distinct(stationcode),
+            capacity_sum = sum(capacity)) %>%
+  st_drop_geometry()
+
+data_paris <- data_paris %>%
+  mutate(area = units::set_units(st_area(.), "km^2"))
+df <- data_paris %>% left_join(stations_agg)
+```
+
+Enfin, dans la question 4,
+si on représente plutôt la capacité 
+sous forme de densité, pour tenir compte
+de la taille différente des arrondissements,
+on obtient cette carte:
+
+```{r}
+df %>% mutate(capacity_density = capacity/area)
+```
+
+
+
 
 ## Exercices supplémentaires
 
