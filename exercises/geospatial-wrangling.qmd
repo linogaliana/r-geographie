@@ -258,6 +258,10 @@ disponibles [sur le site d'open data de la ville de Paris](https://opendata.pari
 requêtables directement par l'url
 <https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr>
 
+```{r}
+url <- "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
+```
+
 ::: {.callout-tip}
 ## Exercice 3: importer et explorer les données velib
 
@@ -273,9 +277,8 @@ Cette [page](https://geopandas.org/mapping.html#maps-with-layers) peut vous aide
 
 
 ```{r}
+#| output: false
 # 1) Importer les données velib
-url = "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
-
 stations <- st_read(url)
 ```
 
@@ -292,3 +295,54 @@ stations <- stations %>%
 ```
 
 La carte attendu à l'issue de la question 3 a l'aspect suivant:
+
+
+```{r}
+# 3) Carte des 50 stations les plus importantes. 
+
+paris <- data_paris %>%
+  filter(INSEE_DEP == "75")
+
+principales_stations <- stations %>%
+  arrange(desc(capacity)) %>%
+  head(50)
+
+ggplot(paris) +
+  geom_sf(fill = "white") + geom_sf(data = principales_stations) + 
+  theme_void()
+```
+
+
+```{r}
+# 4) Réseaux de transport en communs
+url <- "https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
+
+transports <- st_read(url) %>%
+  st_transform(2154)
+```
+
+L'ajout du réseau de métro permet d'obtenir une carte ressemblant à celle-ci:
+
+
+```{r}
+metro <- transports %>% filter(mode == "METRO")
+
+ggplot(paris) +
+  geom_sf(fill = "white") + geom_sf(data = principales_stations) + 
+  geom_sf(data = metro) +
+  theme_void()
+```
+
+Pour faire une belle carte, il faudrait couper les lignes de métro via une jointure spatiale ou
+utiliser un fonds de carte conceptuel. 
+L'exercice suivant propose de mettre en oeuvre la deuxième méthode. La première 
+est proposée en [exercice supplémentaire 👇️](#exo-supp).
+
+::: {.callout-tip}
+## Exercice 4: ajouter un fond de carte
+
+1. Recréer par couche successive la carte précédente, que vous pouvez nommer `base`
+2. Utiliser `add_basemap` du package [`contextily`](https://contextily.readthedocs.io/en/latest/)
+pour ajouter, en arrière plan, un fonds de carte
+3. Jouer avec les fonds disponibles en utilisant l'argument `source`
+:::
