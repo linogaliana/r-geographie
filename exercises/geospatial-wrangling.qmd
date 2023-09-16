@@ -40,6 +40,10 @@ remotes::install_github("linogaliana/cartiflette-r")
 
 
 ```{r}
+#| echo: true
+library(dplyr)
+library(sf)
+library(ggplot2)
 library(cartiflette)
 ```
 
@@ -85,7 +89,8 @@ Vous pouvez nommer l'objet `communes_borders`
 un DataFrame standard. 
 3. Afficher le `crs` de `communes_borders`. Ce dernier contrôle la
 transformation de l'espace tridimensionnel terrestre en une surface plane.
-Utiliser `to_crs` pour transformer les données en Lambert 93 (code EPSG 2154). 
+Utiliser `st_transform` pour transformer les données en Lambert 93, le 
+système officiel (code EPSG 2154). 
 4. Afficher les communes des Hauts de Seine (département 92) et représenter rapidement la carte.
 5. Réprésenter la carte de Paris : quel est le problème ?
 
@@ -115,6 +120,7 @@ head(communes_borders)
 # 3) Afficher le crs
 sf::st_crs(communes_borders)
 # Les données sont en WGS84, on les reprojette en lambert 93
+communes_borders <- communes_borders %>% st_transform(2154)
 ```
 
 La carte du 92 est la suivante:
@@ -151,4 +157,70 @@ On pourrait les récupérer directement
 depuis le site d'_open-data_ du Grand Paris, ce qui est proposé
 en [exercice supplémentaire 👇️](#exo-supp).
 On propose ici d'utiliser à nouveau
-`cartiflette` pour cela afin de disposer du fonds de carte officiel. 
+`cartiflette` pour cela afin de disposer du fonds de carte officiel
+des arrondissements.
+
+
+
+
+::: {.callout-tip}
+## Exercice 2: compléter des données spatiales issues de sources différentes
+
+1. Importer les données de découpage des arrondissements parisiens à l'adresse à l'aide de `cartiflette`.
+2. Vérifier sur une carte que les découpages des arrondissements sont bien présents.
+3. Vérifier l'attribut `crs`. Est-il cohérent avec celui des données communales ?
+Si non, transformer en Lambert 93 (code EPSG 2154).
+4. Retirer Paris du jeu de données communales et utiliser les arrondissements
+pour enrichir (nommer l'objet obtenu `data_borders`). 
+5. Représenter à nouveau les communes de la petite couronne parisienne (75, 92, 93, 94)
+
+:::
+
+
+```{r}
+library(cartiflette)
+
+# Question 1
+arrondissements = download_vectorfile_url_all(
+    crs = 4326,
+    values = "75",
+    borders="ARRONDISSEMENT_MUNICIPAL",
+    vectorfile_format="geojson",
+    filter_by="DEPARTEMENT",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022)
+```
+
+
+La carte de Paris intra-muros est, après la
+récupération des arrondissements avec
+`cartiflette` de ce type là:
+
+```{r}
+plot(
+  st_geometry(arrondissements)
+)
+```
+
+```{r}
+#3) Vérifier l'attribut `crs`. Est-il cohérent ?
+print(st_crs(communes_borders))
+print(st_crs(arrondissements))
+
+arrondissements <- arrondissements %>% st_transform(2154)
+print(st_crs(communes_borders) == st_crs(arrondissements))
+```
+
+
+```{r}
+#4) Retirer Paris et ajouter les arrondissements
+data_paris <- dplyr::bind_rows(
+  communes_borders %>% filter(INSEE_DEP != "75"),
+  arrondissements
+)
+```
+
+```{r}
+ggplot(data_paris) +
+    geom_sf(fill = "white") + theme_void()
+```
