@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Manipuler des données spatiales avec sf">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://rgeo.linogaliana.fr/cards/version-light/baby.png">
+<meta name="twitter:image" content="/cards/version-light/baby.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -151,7 +151,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lire-et-enrichir-des-données-spatiales" id="toc-lire-et-enrichir-des-données-spatiales" class="nav-link active" data-scroll-target="#lire-et-enrichir-des-données-spatiales"><span class="header-section-number">1</span> Lire et enrichir des données spatiales</a></li>
+  <li><a href="#utiliser-des-données-géographiques-comme-des-couches-graphiques" id="toc-utiliser-des-données-géographiques-comme-des-couches-graphiques" class="nav-link" data-scroll-target="#utiliser-des-données-géographiques-comme-des-couches-graphiques"><span class="header-section-number">2</span> Utiliser des données géographiques comme des couches graphiques</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -188,8 +195,15 @@ Dérouler les <em>slides</em> ci-dessous ou <a href="../slides/wrangling.html">c
 </summary>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><iframe class="sourceCode yaml code-with-copy" src="/slides/wrangling.html"></iframe></div>
 </details>
-<p>Dans ce troisème TP, nous allons apprendre à importer et manipuler des données spatiales avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Ce logiciel propose des fonctionnalités très intéressantes pour ce type de données complexes qui le rendent capable de se comporter comme un SIG.</p>
+<p>Dans ce troisième TP, nous allons apprendre à importer et manipuler des données spatiales avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Ce logiciel propose des fonctionnalités très intéressantes pour ce type de données complexes qui le rendent capable de se comporter comme un SIG. Grâce à la librairie <code>sf</code>, une extension de <code>dplyr</code> aux données spatiales, les données géographiques pourront être manipulées comme n’importe quel type de données avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>. La complexité induite par la dimension spatiale ne sera pas ressentie.</p>
 <p>Si vous êtes intéressés par <code>Python</code> <i class="fa-brands fa-python" aria-label="python"></i>, une version très proche de ce TP est disponible dans <a href="https://pythonds.linogaliana.fr/content/manipulation/03_geopandas_TP.html">mon cours de l’ENSAE</a>.</p>
+<p>Dans ce chapitre, nous allons utiliser les packages suivants:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -207,17 +221,256 @@ Note
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-1" data-code-annotation="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
 </dd>
 </dl>
 </div>
 </div>
 </div>
 </div>
+<section id="lire-et-enrichir-des-données-spatiales" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="lire-et-enrichir-des-données-spatiales"><span class="header-section-number">1</span> Lire et enrichir des données spatiales</h2>
+<p>Dans cette partie, nous utiliserons les fonds de carte de l’IGN dont la mise à disposition est facilitée par le projet <a href="https://github.com/InseeFrLab/cartiflette.git"><code>cartiflette</code></a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 1: lire et explorer la structure de fichiers géographiques
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>S’inspirer des exemples de code présents dans les slides mobilisant le package <code>cartiflette</code> pour télécharger les données communales des départements 75, 92, 93 et 94. Vous pouvez nommer l’objet <code>communes_borders</code></li>
+<li>Regarder les premières lignes des données. Identifier la différence avec un DataFrame standard.</li>
+<li>Afficher le <code>crs</code> de <code>communes_borders</code>. Ce dernier contrôle la transformation de l’espace tridimensionnel terrestre en une surface plane. Utiliser <code>st_transform</code> pour transformer les données en Lambert 93, le système officiel (code EPSG 2154).</li>
+<li>Afficher les communes des Hauts de Seine (département 92) et représenter rapidement la carte.</li>
+<li>Réprésenter la carte de Paris : quel est le problème ?</li>
+</ol>
+</div>
+</div>
+<details>
+<summary>
+Si vous désirez observer l’aspect de la carte du 92 (question 4), déroulez cette partie.
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="geospatial-wrangling_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<p>En ce qui concerne Paris, à l’issue de la question 5, la carte aura l’aspect suivant:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="geospatial-wrangling_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>On remarque rapidement le problème. On ne dispose ainsi pas des limites des arrondissements parisiens, ce qui appauvrit grandement la carte de Paris.</p>
+<p>On pourrait les récupérer directement depuis le site d’<em>open-data</em> du Grand Paris mais on propose ici d’utiliser à nouveau <code>cartiflette</code> afin de disposer du fonds de carte officiel des arrondissements.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 2: compléter des données spatiales issues de sources différentes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Importer les données de découpage des arrondissements parisiens à l’adresse à l’aide de <code>cartiflette</code>.</li>
+<li>Vérifier sur une carte que les découpages des arrondissements sont bien présents.</li>
+<li>Vérifier l’attribut <code>crs</code>. Est-il cohérent avec celui des données communales ? Si non, transformer en Lambert 93 (code EPSG 2154).</li>
+<li>Retirer Paris du jeu de données communales et utiliser les arrondissements pour enrichir (nommer l’objet obtenu <code>data_borders</code>).</li>
+<li>Représenter à nouveau les communes de la petite couronne parisienne (75, 92, 93, 94)</li>
+</ol>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `raw' from data source 
+  `https://minio.lab.sspcloud.fr/projet-cartiflette/diffusion/shapefiles-test2/year=2022/administrative_level=ARRONDISSEMENT_MUNICIPAL/crs=4326/DEPARTEMENT=75/vectorfile_format=geojson/provider=IGN/source=EXPRESS-COG-CARTO-TERRITOIRE/raw.geojson' 
+  using driver `GeoJSON'
+Simple feature collection with 20 features and 8 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 2.224217 ymin: 48.81556 xmax: 2.469851 ymax: 48.90215
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 20 features and 8 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 2.224217 ymin: 48.81556 xmax: 2.469851 ymax: 48.90215
+Geodetic CRS:  WGS 84
+First 10 features:
+                         ID                      NOM                    NOM_M
+1  ARR_MUNI0000000009736045  Paris 3e Arrondissement  PARIS 3E ARRONDISSEMENT
+2  ARR_MUNI0000000009736046  Paris 2e Arrondissement  PARIS 2E ARRONDISSEMENT
+3  ARR_MUNI0000000009736545  Paris 4e Arrondissement  PARIS 4E ARRONDISSEMENT
+4  ARR_MUNI0000000009736544  Paris 5e Arrondissement  PARIS 5E ARRONDISSEMENT
+5  ARR_MUNI0000000009736543  Paris 6e Arrondissement  PARIS 6E ARRONDISSEMENT
+6  ARR_MUNI0000000009736043  Paris 9e Arrondissement  PARIS 9E ARRONDISSEMENT
+7  ARR_MUNI0000000009736042 Paris 10e Arrondissement PARIS 10E ARRONDISSEMENT
+8  ARR_MUNI0000000009736035 Paris 11e Arrondissement PARIS 11E ARRONDISSEMENT
+9  ARR_MUNI0000000009736531 Paris 13e Arrondissement PARIS 13E ARRONDISSEMENT
+10 ARR_MUNI0000000009736044  Paris 8e Arrondissement  PARIS 8E ARRONDISSEMENT
+   INSEE_ARM INSEE_COM POPULATION INSEE_DEP                           source
+1      75103     75056      34025        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+2      75102     75056      21595        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+3      75104     75056      29131        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+4      75105     75056      58227        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+5      75106     75056      40303        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+6      75109     75056      60026        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+7      75110     75056      86472        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+8      75111     75056     145208        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+9      75113     75056     180005        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+10     75108     75056      35655        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE
+                         geometry
+1  POLYGON ((2.350164 48.86199...
+2  POLYGON ((2.347918 48.87069...
+3  POLYGON ((2.368491 48.85581...
+4  POLYGON ((2.336657 48.83967...
+5  POLYGON ((2.332916 48.85934...
+6  POLYGON ((2.325888 48.86958...
+7  POLYGON ((2.364714 48.88437...
+8  POLYGON ((2.376905 48.87205...
+9  POLYGON ((2.364204 48.8164,...
+10 POLYGON ((2.327165 48.88346...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="geospatial-wrangling_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>La carte de Paris intra-muros est, après la récupération des arrondissements avec <code>cartiflette</code> de ce type là:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="geospatial-wrangling_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="utiliser-des-données-géographiques-comme-des-couches-graphiques" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="utiliser-des-données-géographiques-comme-des-couches-graphiques"><span class="header-section-number">2</span> Utiliser des données géographiques comme des couches graphiques</h2>
+<p>Souvent, le découpage communal ne sert qu’en fond de cartes, pour donner des repères. En complément de celui-ci, on peut désirer exploiter un autre jeu de données.</p>
+<p>On va partir des données de localisation des stations velib, disponibles <a href="https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/table/">sur le site d’open data de la ville de Paris</a> et requêtables directement par l’url <a href="https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr" class="uri">https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr</a></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 3: importer et explorer les données velib
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Importer les données velib sous le nom <code>station</code></li>
+<li>Vérifier la projection géographique de <code>station</code> (attribut <code>crs</code>). Si celle-ci est différente des données communales, reprojeter ces dernières dans le même système de projection que les stations de vélib</li>
+<li>Représenter sur une carte les 50 stations les plus importantes (variable <code>capacity</code>). Vous pouvez également afficher le fonds de carte des arrondissements de Paris. Cette <a href="https://geopandas.org/mapping.html#maps-with-layers">page</a> peut vous aider pour comprendre comment afficher plusieurs couches à la fois. Vous pouvez customiser la carte en retirant les axes grâce à la méthode <code>set_axis_off</code> et mettre un titre tel que <em>“Les 50 principales stations de Vélib”</em> avec la méthode <code>set_title</code>.</li>
+<li>Afficher également (trait bleu et épais) les réseaux de transport en communs, disponibles <a href="https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/map/?location=7,48.69717,2.33167&amp;basemap=jawg.streets">ici</a>. L’url à requêter est <a href="https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr" class="uri">https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr</a></li>
+</ol>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 4 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: 2.271606 ymin: 48.8394 xmax: 2.366104 ymax: 48.88606
+Geodetic CRS:  WGS 84
+  capacity                           name stationcode     coordonnees_geo
+1       45       Place du Moulin de Javel       15058 48.840217, 2.271606
+2       33              Boétie - Ponthieu        8050 48.871417, 2.307679
+3       60             Alibert - Jemmapes       10013 48.871044, 2.366104
+4       35         Chazelles - Courcelles       17025 48.879407, 2.303446
+5       46         Edgar Quinet - Raspail       14002 48.839403, 2.329715
+6        0 Place de la Porte de Champeret       17203   48.88606, 2.29170
+                   geometry
+1 POINT (2.271606 48.84022)
+2 POINT (2.307679 48.87142)
+3 POINT (2.366104 48.87104)
+4 POINT (2.303446 48.87941)
+5  POINT (2.329715 48.8394)
+6   POINT (2.2917 48.88606)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: WGS 84 
+  wkt:
+GEOGCRS["WGS 84",
+    DATUM["World Geodetic System 1984",
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["geodetic latitude (Lat)",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["geodetic longitude (Lon)",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    ID["EPSG",4326]]</code></pre>
+</div>
+</div>
+<p>La carte attendu à l’issue de la question 3 a l’aspect suivant:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="geospatial-wrangling_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `OGRGeoJSON' from data source 
+  `https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr' 
+  using driver `GeoJSON'
+Simple feature collection with 1638 features and 21 fields
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: 1.149741 ymin: 47.95678 xmax: 3.512889 ymax: 49.4262
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
+<p>L’ajout du réseau de métro permet d’obtenir une carte ressemblant à celle-ci:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="geospatial-wrangling_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Pour faire une belle carte, il faudrait couper les lignes de métro via une jointure spatiale ou utiliser un fonds de carte conceptuel. L’exercice suivant propose de mettre en oeuvre la deuxième méthode. La première est proposée en <a href="#exo-supp">exercice supplémentaire 👇️</a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 4: ajouter un fond de carte
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Recréer par couche successive la carte précédente, que vous pouvez nommer <code>base</code></li>
+<li>Utiliser <code>add_basemap</code> du package <a href="https://contextily.readthedocs.io/en/latest/"><code>contextily</code></a> pour ajouter, en arrière plan, un fonds de carte</li>
+<li>Jouer avec les fonds disponibles en utilisant l’argument <code>source</code></li>
+</ol>
+</div>
+</div>
 
 
+</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>La librairie <i class="fa-brands fa-r-project" aria-label="r-project"></i> est expérimentale mais les prochaines semaines devraient permettre de combler ce manque. Une documentation interactive illustrant le code nécessaire pour reproduire telle ou telle carte est disponible sur <a href="https://linogaliana.github.io/cartiflette-website/index.html">linogaliana.github.io/cartiflette-website</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

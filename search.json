@@ -11,7 +11,7 @@
     "href": "exercises/r-wrangling.html#import-dun-csv-de-lademe",
     "title": "Importer et manipuler des données avec ",
     "section": "2.1 Import d’un csv de l’Ademe",
-    "text": "2.1 Import d’un csv de l’Ademe\nPour commencer, nous allons importer les données de l’Ademe à l’aide du package readr[^readcsv].\n\n\n\n\n\n\nExercice 1: lire un csv avec readr et observer les données\n\n\n\nVoici l’URL sur lequel les données sont disponibles\n\nurl &lt;- \"https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert\"\n\n\nUtiliser le package readr pour importer ces données. Nommer cet objet emissions4\nAfficher les premières lignes avec head et observer la différence d’affichage avec, par exemple, ce dataframe:\n\n\nlibrary(readr)\nemissions &lt;- read_csv(url)\n\nRows: 35798 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): INSEE commune, Commune\ndbl (10): Agriculture, Autres transports, Autres transports international, C...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\ndata.frame(\n  \"com\" = c(1,2),\n  \"val\" = rnorm(2)\n)\n\n  com        val\n1   1 -0.1261996\n2   2 -0.4135347\n\n\n\nAfficher la classe de emissions. Comprenez-vous maintenant pourquoi cet objet est un peu différent d’un dataframe de base ?\nUtiliser les fonctions adéquates pour les 10 premières valeurs, les 15 dernières et un échantillon aléatoire de 10 valeurs grâce à la fonction adéquate du package dplyr\n\n\n\nEn cas de blocage à la question 1\n\nLire la documentation de read_csv (très bien faite) ou chercher des exemples en ligne pour découvrir cette fonction. ⚠️ Ne pas utiliser read.csv (fonction de base) qui n’est pas performante."
+    "text": "2.1 Import d’un csv de l’Ademe\nPour commencer, nous allons importer les données de l’Ademe à l’aide du package readr[^readcsv].\n\n\n\n\n\n\nExercice 1: lire un csv avec readr et observer les données\n\n\n\nVoici l’URL sur lequel les données sont disponibles\n\nurl &lt;- \"https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert\"\n\n\nUtiliser le package readr pour importer ces données. Nommer cet objet emissions4\nAfficher les premières lignes avec head et observer la différence d’affichage avec, par exemple, ce dataframe:\n\n\nlibrary(readr)\nemissions &lt;- read_csv(url)\n\nRows: 35798 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): INSEE commune, Commune\ndbl (10): Agriculture, Autres transports, Autres transports international, C...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\ndata.frame(\n  \"com\" = c(1,2),\n  \"val\" = rnorm(2)\n)\n\n  com        val\n1   1  1.9773831\n2   2 -0.7265329\n\n\n\nAfficher la classe de emissions. Comprenez-vous maintenant pourquoi cet objet est un peu différent d’un dataframe de base ?\nUtiliser les fonctions adéquates pour les 10 premières valeurs, les 15 dernières et un échantillon aléatoire de 10 valeurs grâce à la fonction adéquate du package dplyr\n\n\n\nEn cas de blocage à la question 1\n\nLire la documentation de read_csv (très bien faite) ou chercher des exemples en ligne pour découvrir cette fonction. ⚠️ Ne pas utiliser read.csv (fonction de base) qui n’est pas performante."
   },
   {
     "objectID": "exercises/r-wrangling.html#import-de-données-de-linsee",
@@ -32,7 +32,28 @@
     "href": "exercises/geospatial-wrangling.html",
     "title": "Manipuler des données spatiales avec sf",
     "section": "",
-    "text": "Dérouler les slides ci-dessous ou cliquer ici pour afficher les slides en plein écran.\n\n\n\nDans ce troisème TP, nous allons apprendre à importer et manipuler des données spatiales avec . Ce logiciel propose des fonctionnalités très intéressantes pour ce type de données complexes qui le rendent capable de se comporter comme un SIG.\nSi vous êtes intéressés par Python , une version très proche de ce TP est disponible dans mon cours de l’ENSAE.\n\n\n\n\n\n\nNote\n\n\n\nCertains exemples de code présentent des annotations sur le côté, passez votre souris dessus pour les afficher, comme ci-dessous\n\n1\"une annotation explicative m'accompagne à droite\"\n\n\n1\n\nJe m’affiche quand on passe la souris sur moi 🐭 !"
+    "text": "Dans ce troisième TP, nous allons apprendre à importer et manipuler des données spatiales avec . Ce logiciel propose des fonctionnalités très intéressantes pour ce type de données complexes qui le rendent capable de se comporter comme un SIG. Grâce à la librairie sf, une extension de dplyr aux données spatiales, les données géographiques pourront être manipulées comme n’importe quel type de données avec . La complexité induite par la dimension spatiale ne sera pas ressentie.\nSi vous êtes intéressés par Python , une version très proche de ce TP est disponible dans mon cours de l’ENSAE.\nDans ce chapitre, nous allons utiliser les packages suivants:\nlibrary(dplyr)\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(cartiflette)"
+  },
+  {
+    "objectID": "exercises/geospatial-wrangling.html#lire-et-enrichir-des-données-spatiales",
+    "href": "exercises/geospatial-wrangling.html#lire-et-enrichir-des-données-spatiales",
+    "title": "Manipuler des données spatiales avec sf",
+    "section": "1 Lire et enrichir des données spatiales",
+    "text": "1 Lire et enrichir des données spatiales\nDans cette partie, nous utiliserons les fonds de carte de l’IGN dont la mise à disposition est facilitée par le projet cartiflette1.\n\n\n\n\n\n\nExercice 1: lire et explorer la structure de fichiers géographiques\n\n\n\n\nS’inspirer des exemples de code présents dans les slides mobilisant le package cartiflette pour télécharger les données communales des départements 75, 92, 93 et 94. Vous pouvez nommer l’objet communes_borders\nRegarder les premières lignes des données. Identifier la différence avec un DataFrame standard.\nAfficher le crs de communes_borders. Ce dernier contrôle la transformation de l’espace tridimensionnel terrestre en une surface plane. Utiliser st_transform pour transformer les données en Lambert 93, le système officiel (code EPSG 2154).\nAfficher les communes des Hauts de Seine (département 92) et représenter rapidement la carte.\nRéprésenter la carte de Paris : quel est le problème ?\n\n\n\n\n\nSi vous désirez observer l’aspect de la carte du 92 (question 4), déroulez cette partie.\n\n\n\n\n\n\n\nEn ce qui concerne Paris, à l’issue de la question 5, la carte aura l’aspect suivant:\n\n\n\n\n\nOn remarque rapidement le problème. On ne dispose ainsi pas des limites des arrondissements parisiens, ce qui appauvrit grandement la carte de Paris.\nOn pourrait les récupérer directement depuis le site d’open-data du Grand Paris mais on propose ici d’utiliser à nouveau cartiflette afin de disposer du fonds de carte officiel des arrondissements.\n\n\n\n\n\n\nExercice 2: compléter des données spatiales issues de sources différentes\n\n\n\n\nImporter les données de découpage des arrondissements parisiens à l’adresse à l’aide de cartiflette.\nVérifier sur une carte que les découpages des arrondissements sont bien présents.\nVérifier l’attribut crs. Est-il cohérent avec celui des données communales ? Si non, transformer en Lambert 93 (code EPSG 2154).\nRetirer Paris du jeu de données communales et utiliser les arrondissements pour enrichir (nommer l’objet obtenu data_borders).\nReprésenter à nouveau les communes de la petite couronne parisienne (75, 92, 93, 94)\n\n\n\n\n\nReading layer `raw' from data source \n  `https://minio.lab.sspcloud.fr/projet-cartiflette/diffusion/shapefiles-test2/year=2022/administrative_level=ARRONDISSEMENT_MUNICIPAL/crs=4326/DEPARTEMENT=75/vectorfile_format=geojson/provider=IGN/source=EXPRESS-COG-CARTO-TERRITOIRE/raw.geojson' \n  using driver `GeoJSON'\nSimple feature collection with 20 features and 8 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 2.224217 ymin: 48.81556 xmax: 2.469851 ymax: 48.90215\nGeodetic CRS:  WGS 84\n\n\nSimple feature collection with 20 features and 8 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 2.224217 ymin: 48.81556 xmax: 2.469851 ymax: 48.90215\nGeodetic CRS:  WGS 84\nFirst 10 features:\n                         ID                      NOM                    NOM_M\n1  ARR_MUNI0000000009736045  Paris 3e Arrondissement  PARIS 3E ARRONDISSEMENT\n2  ARR_MUNI0000000009736046  Paris 2e Arrondissement  PARIS 2E ARRONDISSEMENT\n3  ARR_MUNI0000000009736545  Paris 4e Arrondissement  PARIS 4E ARRONDISSEMENT\n4  ARR_MUNI0000000009736544  Paris 5e Arrondissement  PARIS 5E ARRONDISSEMENT\n5  ARR_MUNI0000000009736543  Paris 6e Arrondissement  PARIS 6E ARRONDISSEMENT\n6  ARR_MUNI0000000009736043  Paris 9e Arrondissement  PARIS 9E ARRONDISSEMENT\n7  ARR_MUNI0000000009736042 Paris 10e Arrondissement PARIS 10E ARRONDISSEMENT\n8  ARR_MUNI0000000009736035 Paris 11e Arrondissement PARIS 11E ARRONDISSEMENT\n9  ARR_MUNI0000000009736531 Paris 13e Arrondissement PARIS 13E ARRONDISSEMENT\n10 ARR_MUNI0000000009736044  Paris 8e Arrondissement  PARIS 8E ARRONDISSEMENT\n   INSEE_ARM INSEE_COM POPULATION INSEE_DEP                           source\n1      75103     75056      34025        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n2      75102     75056      21595        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n3      75104     75056      29131        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n4      75105     75056      58227        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n5      75106     75056      40303        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n6      75109     75056      60026        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n7      75110     75056      86472        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n8      75111     75056     145208        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n9      75113     75056     180005        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n10     75108     75056      35655        75 IGN:EXPRESS-COG-CARTO-TERRITOIRE\n                         geometry\n1  POLYGON ((2.350164 48.86199...\n2  POLYGON ((2.347918 48.87069...\n3  POLYGON ((2.368491 48.85581...\n4  POLYGON ((2.336657 48.83967...\n5  POLYGON ((2.332916 48.85934...\n6  POLYGON ((2.325888 48.86958...\n7  POLYGON ((2.364714 48.88437...\n8  POLYGON ((2.376905 48.87205...\n9  POLYGON ((2.364204 48.8164,...\n10 POLYGON ((2.327165 48.88346...\n\n\n\n\n\n\n\nLa carte de Paris intra-muros est, après la récupération des arrondissements avec cartiflette de ce type là:"
+  },
+  {
+    "objectID": "exercises/geospatial-wrangling.html#utiliser-des-données-géographiques-comme-des-couches-graphiques",
+    "href": "exercises/geospatial-wrangling.html#utiliser-des-données-géographiques-comme-des-couches-graphiques",
+    "title": "Manipuler des données spatiales avec sf",
+    "section": "2 Utiliser des données géographiques comme des couches graphiques",
+    "text": "2 Utiliser des données géographiques comme des couches graphiques\nSouvent, le découpage communal ne sert qu’en fond de cartes, pour donner des repères. En complément de celui-ci, on peut désirer exploiter un autre jeu de données.\nOn va partir des données de localisation des stations velib, disponibles sur le site d’open data de la ville de Paris et requêtables directement par l’url https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr\n\n\n\n\n\n\nExercice 3: importer et explorer les données velib\n\n\n\n\nImporter les données velib sous le nom station\nVérifier la projection géographique de station (attribut crs). Si celle-ci est différente des données communales, reprojeter ces dernières dans le même système de projection que les stations de vélib\nReprésenter sur une carte les 50 stations les plus importantes (variable capacity). Vous pouvez également afficher le fonds de carte des arrondissements de Paris. Cette page peut vous aider pour comprendre comment afficher plusieurs couches à la fois. Vous pouvez customiser la carte en retirant les axes grâce à la méthode set_axis_off et mettre un titre tel que “Les 50 principales stations de Vélib” avec la méthode set_title.\nAfficher également (trait bleu et épais) les réseaux de transport en communs, disponibles ici. L’url à requêter est https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr\n\n\n\n\n\nSimple feature collection with 6 features and 4 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 2.271606 ymin: 48.8394 xmax: 2.366104 ymax: 48.88606\nGeodetic CRS:  WGS 84\n  capacity                           name stationcode     coordonnees_geo\n1       45       Place du Moulin de Javel       15058 48.840217, 2.271606\n2       33              Boétie - Ponthieu        8050 48.871417, 2.307679\n3       60             Alibert - Jemmapes       10013 48.871044, 2.366104\n4       35         Chazelles - Courcelles       17025 48.879407, 2.303446\n5       46         Edgar Quinet - Raspail       14002 48.839403, 2.329715\n6        0 Place de la Porte de Champeret       17203   48.88606, 2.29170\n                   geometry\n1 POINT (2.271606 48.84022)\n2 POINT (2.307679 48.87142)\n3 POINT (2.366104 48.87104)\n4 POINT (2.303446 48.87941)\n5  POINT (2.329715 48.8394)\n6   POINT (2.2917 48.88606)\n\n\n\n\nCoordinate Reference System:\n  User input: WGS 84 \n  wkt:\nGEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4326]]\n\n\nLa carte attendu à l’issue de la question 3 a l’aspect suivant:\n\n\n\n\n\n\n\nReading layer `OGRGeoJSON' from data source \n  `https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr' \n  using driver `GeoJSON'\nSimple feature collection with 1638 features and 21 fields\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: 1.149741 ymin: 47.95678 xmax: 3.512889 ymax: 49.4262\nGeodetic CRS:  WGS 84\n\n\nL’ajout du réseau de métro permet d’obtenir une carte ressemblant à celle-ci:\n\n\n\n\n\nPour faire une belle carte, il faudrait couper les lignes de métro via une jointure spatiale ou utiliser un fonds de carte conceptuel. L’exercice suivant propose de mettre en oeuvre la deuxième méthode. La première est proposée en exercice supplémentaire 👇️.\n\n\n\n\n\n\nExercice 4: ajouter un fond de carte\n\n\n\n\nRecréer par couche successive la carte précédente, que vous pouvez nommer base\nUtiliser add_basemap du package contextily pour ajouter, en arrière plan, un fonds de carte\nJouer avec les fonds disponibles en utilisant l’argument source"
+  },
+  {
+    "objectID": "exercises/geospatial-wrangling.html#footnotes",
+    "href": "exercises/geospatial-wrangling.html#footnotes",
+    "title": "Manipuler des données spatiales avec sf",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nLa librairie  est expérimentale mais les prochaines semaines devraient permettre de combler ce manque. Une documentation interactive illustrant le code nécessaire pour reproduire telle ou telle carte est disponible sur linogaliana.github.io/cartiflette-website.↩︎"
   },
   {
     "objectID": "index.html",
@@ -42,25 +63,32 @@
     "text": "Introduction aux méthodes quantitatives avec \nLino Galiana\nCours du département de sciences sociales de l’ENS Ulm.\nUn cours pour se familiariser à  par la pratique avec l’open data.\n\n\n\n  \n     \n      \n          \n            \n          \n          \n            Introduction aux objets de base \n            \n              \nIntroduction aux objets basiques de \net à RStudio\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données avec le tidyverse\n            \n              \nIntroduction à l'écosystème du tidyverse\npour lire et manipuler des données structurées avec \n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données spatiales avec sf\n            \n              \nIntroduction à sf,\nune extension du\ntidyverse\npour transformer \nen SIG capable de lire et manipuler des données géographiques.\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
   },
   {
+    "objectID": "slides/introduction.html",
+    "href": "slides/introduction.html",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "",
+    "text": "Note\n\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\n\n\n\nRetour à la page principale"
+  },
+  {
     "objectID": "slides/introduction.html#chapitre-introductif",
     "href": "slides/introduction.html#chapitre-introductif",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Chapitre introductif",
-    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+    "section": "",
+    "text": "Note\n\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\n\n\n\nRetour à la page principale"
   },
   {
     "objectID": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
     "href": "slides/introduction.html#qui-suis-je-fa-brands-firefox-sizetiny-fa-brands-github-sizetiny-fa-brands-twitter-sizetiny-fa-brands-linkedin-sizetiny-fa-brands-python-sizetiny",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qui suis-je ?      ",
-    "text": "Qui suis-je ?      \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists\n\n\n\n\nImplication dans l’innovation statistique, l’open source et la diffusion grand public2:\n\n: utilitR, doremifasol\n: cartiflette, pynsee\n\n\n\nRenseignez-vous sur le concours ENS ! Il y a de belles missions !Pas tout seul ! Avec une communauté de gens sympa de l’administration et de la recherche ! Beaucoup de projets novateurs 😍 sur compte  InseeFrLab"
+    "text": "Qui suis-je ?      \n\nData scientist au lab de l’Insee :\n\nAdministrateur Insee1 ;\nCoordonnateur d’un réseau de data scientists\n\n\n. . .\n\nImplication dans l’innovation statistique, l’open source et la diffusion grand public2:\n\n: utilitR, doremifasol\n: cartiflette, pynsee\n\n\n. . ."
   },
   {
     "objectID": "slides/introduction.html#qui-suis-je",
     "href": "slides/introduction.html#qui-suis-je",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qui suis-je ?",
-    "text": "Qui suis-je ?\n\nTravaux à l’intersection entre informatique, économie, sociologie & géographie:\n\nSégrégation avec données de téléphonie mobile\nInégalités alimentaires à partir de données massives de supermarchés\n\n\n\nExemple tiré de l’Insee Analyse sur la mixité sociale"
+    "text": "Qui suis-je ?\n\nTravaux à l’intersection entre informatique, économie, sociologie & géographie:\n\nSégrégation avec données de téléphonie mobile\nInégalités alimentaires à partir de données massives de supermarchés\n\n\n\n\n\nExemple tiré de l’Insee Analyse sur la mixité sociale"
   },
   {
     "objectID": "slides/introduction.html#qui-suis-je-1",
@@ -74,7 +102,7 @@
     "href": "slides/introduction.html#objectifs-pédagogiques",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Objectifs pédagogiques",
-    "text": "Objectifs pédagogiques\n\nDécouverte de l’écosystème de l’open data 🇫🇷\n\n\n\nIntroduction pratique au langage :\n\nDonnées classiques\nDonnées géographiques\n\n\n\n\n\nIntroduction à la publication reproductible avec Quarto\n\n\n\n\nOuverture à la cartographie web avec Observable"
+    "text": "Objectifs pédagogiques\n\nDécouverte de l’écosystème de l’open data 🇫🇷\n\n. . .\n\nIntroduction pratique au langage :\n\nDonnées classiques\nDonnées géographiques\n\n\n. . .\n\nIntroduction à la publication reproductible avec Quarto\n\n. . .\n\nOuverture à la cartographie web avec Observable"
   },
   {
     "objectID": "slides/introduction.html#modalités-pratiques",
@@ -88,28 +116,28 @@
     "href": "slides/introduction.html#ressources-complémentaires",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Ressources complémentaires",
-    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n\n\nDocumentation collaborative utilitR 👶 ;\n\n\n\n\nPortail de formation du SSPCloud ;\n\n\n\n\nFunathon organisé par l’Insee ;\n\n\n\n\nR for Data Science (la bible !) ;\n\n\n\n\nData science with R (Sciences Po) ;\n\n\n\n\nRzine, du CIST\n\n\n\n\nGeocomputation with R, de Lovelace, Nowosad et Muenchow\n\n\n\n\nData Visualization : A practical introduction, de Kieran Healy"
+    "text": "Ressources complémentaires\n\nIntroduction à R et au tidyverse ;\n\n. . .\n\nDocumentation collaborative utilitR 👶 ;\n\n. . .\n\nPortail de formation du SSPCloud ;\n\n. . .\n\nFunathon organisé par l’Insee ;\n\n. . .\n\nR for Data Science (la bible !) ;\n\n. . .\n\nData science with R (Sciences Po) ;\n\n. . .\n\nRzine, du CIST\n\n. . .\n\nGeocomputation with R, de Lovelace, Nowosad et Muenchow\n\n. . .\n\nData Visualization : A practical introduction, de Kieran Healy"
   },
   {
     "objectID": "slides/introduction.html#prolifération-des-données",
     "href": "slides/introduction.html#prolifération-des-données",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Prolifération des données",
-    "text": "Prolifération des données\n\nNumérisation et innovations technologiques ont réduit le coût de production de la donnée ;\n\nVolume de données produites en explosion\n\n\n\n\nL’utilisation des statistiques n’est pas nouvelle (cf. Desrosières)…\n\n\n\n\n… mais une place accrue dans le débat public et l’action publique (Supiot, Martin)"
+    "text": "Prolifération des données\n\nNumérisation et innovations technologiques ont réduit le coût de production de la donnée ;\n\nVolume de données produites en explosion\n\n\n. . .\n\nL’utilisation des statistiques n’est pas nouvelle (cf. Desrosières)…\n\n. . .\n\n… mais une place accrue dans le débat public et l’action publique (Supiot, Martin)"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-14",
     "href": "slides/introduction.html#diversification-des-données-14",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (1/4)",
-    "text": "Diversification des données (1/4)\nDonnées tabulaires classiques\n\nviewof info_mutations = Inputs.radio(\n  [\"Tableau\", \"Graphique\"], {value: \"Tableau\"}\n)\n\n\n\n\n\n\n\ninfo_mutations == \"Tableau\" ? html`&lt;div&gt;${table_mutations1}&lt;div&gt;` : html`&lt;div&gt;${plot_mutations}&lt;div&gt;`\n\n\n\n\n\n\n\nurl = \"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv\"\nproxy = \"https://corsproxy.io/?\"\ndvf = d3.csv(proxy + url)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntable_mutations1 = Inputs.table(dvf, {\"columns\": ['date_mutation', 'valeur_fonciere', 'adresse_nom_voie']})\nplot_mutations = Plot.plot({\n  y: {grid: true, label: \"Nombre de transactions\"},\n  x: {\n    ticks: 12,\n    transform: (d) =&gt; Math.pow(10, d),\n    type: \"log\",\n    tickFormat: \"~s\",\n    label: \"Prix (échelle log) →\"\n  },\n  marks: [\n    Plot.rectY(\n      dvf.filter(d =&gt; d.valeur_fonciere &gt; 10000),\n      Plot.binX({y: \"count\"},\n      {\n        x: d =&gt; Math.log10(d.valeur_fonciere),\n        tip: true\n      })\n    ),\n    Plot.ruleY([0])\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot = require(\"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js\")"
+    "text": "Diversification des données (1/4)\n\nDonnées tabulaires classiques\n\nviewof info_mutations = Inputs.radio(\n  [\"Tableau\", \"Graphique\"], {value: \"Tableau\"}\n)\n\n\n\n\n\n\n\ninfo_mutations == \"Tableau\" ? html`&lt;div&gt;${table_mutations1}&lt;div&gt;` : html`&lt;div&gt;${plot_mutations}&lt;div&gt;`\n\n\n\n\n\n\n\nurl = \"https://files.data.gouv.fr/geo-dvf/latest/csv/2020/communes/92/92049.csv\"\nproxy = \"https://corsproxy.io/?\"\ndvf = d3.csv(proxy + url)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntable_mutations1 = Inputs.table(dvf, {\"columns\": ['date_mutation', 'valeur_fonciere', 'adresse_nom_voie']})\nplot_mutations = Plot.plot({\n  y: {grid: true, label: \"Nombre de transactions\"},\n  x: {\n    ticks: 12,\n    transform: (d) =&gt; Math.pow(10, d),\n    type: \"log\",\n    tickFormat: \"~s\",\n    label: \"Prix (échelle log) →\"\n  },\n  marks: [\n    Plot.rectY(\n      dvf.filter(d =&gt; d.valeur_fonciere &gt; 10000),\n      Plot.binX({y: \"count\"},\n      {\n        x: d =&gt; Math.log10(d.valeur_fonciere),\n        tip: true\n      })\n    ),\n    Plot.ruleY([0])\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot = require(\"https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.10/dist/plot.umd.min.js\")"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-14-1",
     "href": "slides/introduction.html#diversification-des-données-14-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (1/4)",
-    "text": "Diversification des données (1/4)\nDonnées tabulaires classiques\n\nDonnées structurées sous forme de tableau\n\n\nSource: Hadley Wickham, R for data science\n très bien outillé pour ces données (si volumétrie adaptée)"
+    "text": "Diversification des données (1/4)\n\nDonnées tabulaires classiques\n\nDonnées structurées sous forme de tableau\n\n\n\n\nSource: Hadley Wickham, R for data science\n\n\n\n très bien outillé pour ces données (si volumétrie adaptée)"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-24",
@@ -123,35 +151,35 @@
     "href": "slides/introduction.html#diversification-des-données-24-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (2/4)",
-    "text": "Diversification des données (2/4)\n\nDonnées géolocalisées\n\n\nDonnées tabulaires avec une dimension spatiale supplémentaire\n\nDimension géographique prend des formes multiples:\nPoints, lignes, polygones…\n\n\n\n\n très bien outillé pour ces données (si volumétrie adaptée)"
+    "text": "Diversification des données (2/4)\n\nDonnées géolocalisées\n\n\nDonnées tabulaires avec une dimension spatiale supplémentaire\n\nDimension géographique prend des formes multiples:\nPoints, lignes, polygones…\n\n\n. . .\n\n très bien outillé pour ces données (si volumétrie adaptée)"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-34",
     "href": "slides/introduction.html#diversification-des-données-34",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (3/4)",
-    "text": "Diversification des données (3/4)\n\nDonnées textuelles et non structurées\n\n\nTechniques statistiques anciennes (Levenshtein 1957, perceptron) ;\n\n\n\nApplications limitées jusqu’aux années 2010 ;\n\n\n\n\nDéveloppement très rapide de la recherche :\n\nCollecte accrue : réseaux sociaux, enquêtes…\nBaisse coûts stockage & augmentation ressources traitement ;\nNouvelles techniques statistiques: webscraping, LLM…\n\n\n\n\n\nUtilisation intensive dans l’administration, la recherche et le secteur privé\n\nPlus d’infos dans mon cours sur les données émergentes"
+    "text": "Diversification des données (3/4)\n\nDonnées textuelles et non structurées\n\n\nTechniques statistiques anciennes (Levenshtein 1957, perceptron) ;\n\n. . .\n\nApplications limitées jusqu’aux années 2010 ;\n\n. . .\n\nDéveloppement très rapide de la recherche :\n\nCollecte accrue : réseaux sociaux, enquêtes…\nBaisse coûts stockage & augmentation ressources traitement ;\nNouvelles techniques statistiques: webscraping, LLM…\n\n\n. . .\n\nUtilisation intensive dans l’administration, la recherche et le secteur privé\n\nPlus d’infos dans mon cours sur les données émergentes"
   },
   {
     "objectID": "slides/introduction.html#diversification-des-données-44",
     "href": "slides/introduction.html#diversification-des-données-44",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Diversification des données (4/4)",
-    "text": "Diversification des données (4/4)\nImages, sons et vidéos\n\nPlus d’infos dans mon cours sur les données émergentes"
+    "text": "Diversification des données (4/4)\n\nImages, sons et vidéos\n\n\n\nPlus d’infos dans mon cours sur les données émergentes"
   },
   {
     "objectID": "slides/introduction.html#apparition-de-nouveaux-acteurs",
     "href": "slides/introduction.html#apparition-de-nouveaux-acteurs",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Apparition de nouveaux acteurs",
-    "text": "Apparition de nouveaux acteurs\n\nActeurs classiques:\n\nInstituts statistiques (INSEE et SSM1) ;\nAdministrations centrales (DGFiP, DINUM…) ou opérateurs (IGN…)\nPlus de détails à venir\n\n\n\n\nCollectivités locales (exemple: Open data Paris)\n\n\n\n\nProjets contributifs: OpenStreetMap, Wikidata, OpenFoodFacts…\n\n\n\n\nActeurs privés:\n\nCollectent des données sur leurs utilisateurs/clients (extrapolation possible?)\nPeuvent mettre à disposition ces données à d’autres acteurs (chercheurs par exemple)\nCadre réglementaire: RGPD\n\n\n\nLe service statistique public est constitué de l’Insee et des 16 services statistiques ministériels (SSM)"
+    "text": "Apparition de nouveaux acteurs\n\nActeurs classiques:\n\nInstituts statistiques (INSEE et SSM3) ;\nAdministrations centrales (DGFiP, DINUM…) ou opérateurs (IGN…)\nPlus de détails à venir\n\n\n. . .\n\nCollectivités locales (exemple: Open data Paris)\n\n. . .\n\nProjets contributifs: OpenStreetMap, Wikidata, OpenFoodFacts…\n\n. . .\n\nActeurs privés:\n\nCollectent des données sur leurs utilisateurs/clients (extrapolation possible?)\nPeuvent mettre à disposition ces données à d’autres acteurs (chercheurs par exemple)\nCadre réglementaire: RGPD"
   },
   {
     "objectID": "slides/introduction.html#accès-de-plus-en-plus-direct-à-la-donnée",
     "href": "slides/introduction.html#accès-de-plus-en-plus-direct-à-la-donnée",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Accès de plus en plus direct à la donnée",
-    "text": "Accès de plus en plus direct à la donnée\n\nEre de l’open data et open source :\n\nMouvement accéléré depuis l’élection Obama 2008\nCréation Etalab en 2011 ;\nLoi pour une république numérique 2016\n\n\n\n\nChangements technologiques et culturels :\n\nFormats ouverts et standardisés ;\nSuccès des langages open source (notamment Python  et R )\nAcculturation aux API"
+    "text": "Accès de plus en plus direct à la donnée\n\nEre de l’open data et open source :\n\nMouvement accéléré depuis l’élection Obama 2008\nCréation Etalab en 2011 ;\nLoi pour une république numérique 2016\n\n\n. . .\n\nChangements technologiques et culturels :\n\nFormats ouverts et standardisés ;\nSuccès des langages open source (notamment Python  et R )\nAcculturation aux API"
   },
   {
     "objectID": "slides/introduction.html#data-is-everywhere",
@@ -165,35 +193,35 @@
     "href": "slides/introduction.html#linsee",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "L’Insee",
-    "text": "L’Insee\n\nCollecte, produit, analyse et diffuse l’information statistique :\n\nProducteur de statistiques (enquêtes, données administratives) ;\nProducteur d’études pour le débat public (rare chez les instituts statistiques)\n\n\n\n\nPublie énormément d’informations:\n\nRecensement, taux de chômage, inflation, PIB, fichier des prénoms…\nCode officiel géographique (COG) et zonages d’études\n\n\n\n\n\nRôle de coordination du service statistique public:\n\nInstituts statistiques ministériels: DREES (Santé), DARES (Travail)…\n\n\n\n\n\nDiffusion données sur insee.fr\n\nUtilisateurs de : accès facilité via des packages"
+    "text": "L’Insee\n\nCollecte, produit, analyse et diffuse l’information statistique :\n\nProducteur de statistiques (enquêtes, données administratives) ;\nProducteur d’études pour le débat public (rare chez les instituts statistiques)\n\n\n. . .\n\nPublie énormément d’informations:\n\nRecensement, taux de chômage, inflation, PIB, fichier des prénoms…\nCode officiel géographique (COG) et zonages d’études\n\n\n. . .\n\nRôle de coordination du service statistique public:\n\nInstituts statistiques ministériels: DREES (Santé), DARES (Travail)…\n\n\n. . .\n\nDiffusion données sur insee.fr\n\nUtilisateurs de : accès facilité via des packages"
   },
   {
     "objectID": "slides/introduction.html#lign",
     "href": "slides/introduction.html#lign",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "L’IGN",
-    "text": "L’IGN\n\nProduit et diffuse la géométrie du territoire national et l’occupation du sol:\n\nProducteur de cartes 🥾 (top25…)\nLIDAR\n\n\n\n\nProducteur des fonds de carte utiles pour nous:\n\nBDTopo, BD Forêt,\nAdminExpress\n\n\n\n\n\nDiffusion données depuis geoservices de l’IGN (en attendant la geoplateforme)\n\nUtilisateurs de : accès facilité à certaines sources via cartiflette"
+    "text": "L’IGN\n\nProduit et diffuse la géométrie du territoire national et l’occupation du sol:\n\nProducteur de cartes 🥾 (top25…)\nLIDAR\n\n\n. . .\n\nProducteur des fonds de carte utiles pour nous:\n\nBDTopo, BD Forêt,\nAdminExpress\n\n\n. . .\n\nDiffusion données depuis geoservices de l’IGN (en attendant la geoplateforme)\n\nUtilisateurs de : accès facilité à certaines sources via cartiflette"
   },
   {
     "objectID": "slides/introduction.html#data.gouv",
     "href": "slides/introduction.html#data.gouv",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "data.gouv",
-    "text": "data.gouv\n\nPlateforme de l’open data en France\n\nCrée par Etalab (DINUM) en 2011\n\n\n\n\nRecense des jeux de données produits par les acteurs publics:\n\nAdministrations centrales\nCollectivités locales\n\n\n\n\n\nMise à disposition directe de certains jeux de données\n\n\n\n\nRecense des réutilisations"
+    "text": "data.gouv\n\nPlateforme de l’open data en France\n\nCrée par Etalab (DINUM) en 2011\n\n\n. . .\n\nRecense des jeux de données produits par les acteurs publics:\n\nAdministrations centrales\nCollectivités locales\n\n\n. . .\n\nMise à disposition directe de certains jeux de données\n\n. . .\n\nRecense des réutilisations"
   },
   {
     "objectID": "slides/introduction.html#github-fa-brands-github-là-où-on-trouve-du-code",
     "href": "slides/introduction.html#github-fa-brands-github-là-où-on-trouve-du-code",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Github : là où on trouve du code",
-    "text": "Github : là où on trouve du code\n\nPlateforme de mise à disposition de code\n\n\n\nBeaucoup plus que seulement du code:\n\nDocumentation de projets\nSites web\n\n\n\n\n\nLieu de l’open source et de la recherche transparente"
+    "text": "Github : là où on trouve du code\n\nPlateforme de mise à disposition de code\n\n. . .\n\nBeaucoup plus que seulement du code:\n\nDocumentation de projets\nSites web\n\n\n. . .\n\nLieu de l’open source et de la recherche transparente"
   },
   {
     "objectID": "slides/introduction.html#observable-the-new-place-to-be",
     "href": "slides/introduction.html#observable-the-new-place-to-be",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Observable: the new place to be",
-    "text": "Observable: the new place to be\n\nPlateforme de dataviz web\n\nCréée par Mike Bostock (dieu dans la dataviz)\n\n\n\n\nEmergence récente mais forte dynamique\n\nTrès complémentaire à R\n\n\n\n\n\nInvestie par des cartographes qui font de super visualisations :\n\nNicolas Lambert\nEric Mauvière\nThomas Ansart"
+    "text": "Observable: the new place to be\n\nPlateforme de dataviz web\n\nCréée par Mike Bostock (dieu dans la dataviz)\n\n\n. . .\n\nEmergence récente mais forte dynamique\n\nTrès complémentaire à R\n\n\n. . .\n\nInvestie par des cartographes qui font de super visualisations :\n\nNicolas Lambert\nEric Mauvière\nThomas Ansart"
   },
   {
     "objectID": "slides/introduction.html#des-métiers-multiples-dans-ladministration",
@@ -221,28 +249,28 @@
     "href": "slides/introduction.html#la-géographie-quantitative",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "La géographie quantitative",
-    "text": "La géographie quantitative\n\nUne des premières cartes statistiques (1798)"
+    "text": "La géographie quantitative\n\n\n\nUne des premières cartes statistiques (1798)"
   },
   {
     "objectID": "slides/introduction.html#la-géographie-quantitative-1",
     "href": "slides/introduction.html#la-géographie-quantitative-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "La géographie quantitative",
-    "text": "La géographie quantitative\n\nJohn Snow cartographie le choléra à Londres"
+    "text": "La géographie quantitative\n\n\n\nJohn Snow cartographie le choléra à Londres"
   },
   {
     "objectID": "slides/introduction.html#années-1950-1960-révolution-quantitative",
     "href": "slides/introduction.html#années-1950-1960-révolution-quantitative",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Années 1950-1960 : révolution quantitative",
-    "text": "Années 1950-1960 : révolution quantitative\n\nEverything is related to everything else, but near things are more related than distant things.\nW. Tobler, 1970, Economic Geography\n\n\nUne science nomothétique : recherche des lois générales de l’organisation de l’espace\n\n\n\nUne science explicative : modélisation\n\nModèle de Christaller\n\n\n\n\n\nUne science appliquée : essor de la regional science, de l’économétrie spatiale\n\nLoi de Zipf…)\n\n\n\n\n\nUne science de l’information (déjà):\n\nSémiologie (carto)graphique de Bertin, 1967"
+    "text": "Années 1950-1960 : révolution quantitative\n\nEverything is related to everything else, but near things are more related than distant things.\nW. Tobler, 1970, Economic Geography\n\n\nUne science nomothétique : recherche des lois générales de l’organisation de l’espace\n\n. . .\n\nUne science explicative : modélisation\n\nModèle de Christaller\n\n\n. . .\n\nUne science appliquée : essor de la regional science, de l’économétrie spatiale\n\nLoi de Zipf…)\n\n\n. . .\n\nUne science de l’information (déjà):\n\nSémiologie (carto)graphique de Bertin, 1967"
   },
   {
     "objectID": "slides/introduction.html#années-2010-tournant-digital-de-la-géographie-quantitative",
     "href": "slides/introduction.html#années-2010-tournant-digital-de-la-géographie-quantitative",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Années 2010 : tournant “digital” de la géographie quantitative",
-    "text": "Années 2010 : tournant “digital” de la géographie quantitative\n\nQuantification de masse de phénomènes spatiaux sociaux:\n\nDéplacements, lieux fréquentés…\n\n\n\n\nIntersection avec d’autres sciences : data science, CSS\n\nExemple: le RIATE\n\n\n\n\n\nArribas-Bel, D, 2018. “Geography and Computers: Past, Present, and Future” Geography Compass."
+    "text": "Années 2010 : tournant “digital” de la géographie quantitative\n\nQuantification de masse de phénomènes spatiaux sociaux:\n\nDéplacements, lieux fréquentés…\n\n\n. . .\n\nIntersection avec d’autres sciences : data science, CSS\n\nExemple: le RIATE\n\n\n. . .\n\nArribas-Bel, D, 2018. “Geography and Computers: Past, Present, and Future” Geography Compass."
   },
   {
     "objectID": "slides/introduction.html#principe-dun-langage-open-source",
@@ -256,35 +284,35 @@
     "href": "slides/introduction.html#quest-ce-que-r",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Qu’est-ce que R ?",
-    "text": "Qu’est-ce que R ?\n\nLogiciel statistique open source:\n\nLangage de base\nPackages étendent les fonctionnalités\n\n\n\n\nAdoption importante dans le monde académique et l’administration\n\n\n\n\nBeaucoup de ressources d’aide en ligne\n\n\n\n\n\n\n\nNote\n\n\n\nNaissance dans les années 1990 ;\nSuccès depuis les années 2010 (succès parallèle à Python)"
+    "text": "Qu’est-ce que R ?\n\nLogiciel statistique open source:\n\nLangage de base\nPackages étendent les fonctionnalités\n\n\n. . .\n\nAdoption importante dans le monde académique et l’administration\n\n. . .\n\nBeaucoup de ressources d’aide en ligne\n\n\n\n\n\n\n\nNote\n\n\n\n\nNaissance dans les années 1990 ;\nSuccès depuis les années 2010 (succès parallèle à Python)"
   },
   {
     "objectID": "slides/introduction.html#un-logiciel-couteau-suisse",
     "href": "slides/introduction.html#un-logiciel-couteau-suisse",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Un logiciel couteau-suisse",
-    "text": "Un logiciel couteau-suisse\n\nManipulation de données de tout type ;\n\n\n\nVisualisation de données (dataviz), cartographie & SIG ;\n\n\n\n\nModélisation (machine learning, analyse de réseaux…) ;\n\n\n\n\nRédaction de mémoires, de site web, de slides (comme celles-ci 🤓)…"
+    "text": "Un logiciel couteau-suisse\n\nManipulation de données de tout type ;\n\n. . .\n\nVisualisation de données (dataviz), cartographie & SIG ;\n\n. . .\n\nModélisation (machine learning, analyse de réseaux…) ;\n\n. . .\n\nRédaction de mémoires, de site web, de slides (comme celles-ci 🤓)…"
   },
   {
     "objectID": "slides/introduction.html#un-logiciel-couteau-suisse-1",
     "href": "slides/introduction.html#un-logiciel-couteau-suisse-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Un logiciel couteau-suisse",
-    "text": "Un logiciel couteau-suisse\nOn peut tout faire en R:\n\nExtrait de R for data science (la bible)"
+    "text": "Un logiciel couteau-suisse\nOn peut tout faire en R:\n\n\n\nExtrait de R for data science (la bible)"
   },
   {
     "objectID": "slides/introduction.html#transparence-et-reproductibilité",
     "href": "slides/introduction.html#transparence-et-reproductibilité",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Transparence et reproductibilité",
-    "text": "Transparence et reproductibilité\n\nTraçabilité des statistiques et réalisations graphiques\n\n\n\nPartage de code R permet une transparence méthodologique:\n\nDe plus en plus de journaux exigent les codes !\nEncore des progrès à faire dans le domaine\n\n\n\n\n\nL’utilisation de R Markdown rend plus efficace 🐢🔜🐇:\n\nSuppression des fichiers intermédiaires (texte, excel, images…)\nGain de temps sur la mise en page (des millions d’heures économisées au bas mot)\n\n\n\n\n\n\n\n\nNote\n\n\nVoir cours dédié sur le sujet des bonnes pratiques (Insee très impliquée sur le sujet!)"
+    "text": "Transparence et reproductibilité\n\nTraçabilité des statistiques et réalisations graphiques\n\n. . .\n\nPartage de code R permet une transparence méthodologique:\n\nDe plus en plus de journaux exigent les codes !\nEncore des progrès à faire dans le domaine\n\n\n. . .\n\nL’utilisation de R Markdown rend plus efficace 🐢🔜🐇:\n\nSuppression des fichiers intermédiaires (texte, excel, images…)\nGain de temps sur la mise en page (des millions d’heures économisées au bas mot)\n\n\n\n\n\n\n\n\nNote\n\n\n\nVoir cours dédié sur le sujet des bonnes pratiques (Insee très impliquée sur le sujet!)"
   },
   {
     "objectID": "slides/introduction.html#une-communauté-dutilisateurs",
     "href": "slides/introduction.html#une-communauté-dutilisateurs",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Une communauté d’utilisateurs",
-    "text": "Une communauté d’utilisateurs\n\nUn logiciel opensource :\n\nGratuit, collaboratif\n\n\n\n\nBeaucoup de packages:\n\nsur le CRAN (The Comprehensive R Archive Network)\nsur Github\n\n\n\n\n\nUne communauté d’idéalistes de la science ouverte\n\n\n\n\nUn pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques etc."
+    "text": "Une communauté d’utilisateurs\n\nUn logiciel opensource :\n\nGratuit, collaboratif\n\n\n. . .\n\nBeaucoup de packages:\n\nsur le CRAN (The Comprehensive R Archive Network)\nsur Github\n\n\n. . .\n\nUne communauté d’idéalistes de la science ouverte\n\n. . .\n\nUn pont vers les autres disciplines : sociologie, économie, biologie, sciences politiques etc."
   },
   {
     "objectID": "slides/introduction.html#le-ssp-cloud-cest-quoi",
@@ -298,7 +326,7 @@
     "href": "slides/introduction.html#le-ssp-cloud-cest-quoi-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Le SSP Cloud, c’est quoi ?",
-    "text": "Le SSP Cloud, c’est quoi ?\n\nDes serveurs hébergés à l’Insee avec de nombreux logiciels statistiques (dont R) dessus\nEnvironnement ouvert aux agents de l’Etat et à des formations en data science pour découvrir et expérimenter\nSeulement avec des données en open data\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans la documentation du SSP Cloud ou dans utilitR"
+    "text": "Le SSP Cloud, c’est quoi ?\n\nDes serveurs hébergés à l’Insee avec de nombreux logiciels statistiques (dont R) dessus\nEnvironnement ouvert aux agents de l’Etat et à des formations en data science pour découvrir et expérimenter\nSeulement avec des données en open data\n\n\n\n\n\n\n\nNote\n\n\n\nPlus de détails dans la documentation du SSP Cloud ou dans utilitR"
   },
   {
     "objectID": "slides/introduction.html#pourquoi-utiliser-le-ssp-cloud",
@@ -319,63 +347,77 @@
     "href": "slides/introduction.html#lancer-un-service-rstudio",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Lancer un service RStudio",
-    "text": "Lancer un service RStudio\nAide-mémoire\n\nCliquer à gauche sur Catalogue de service"
+    "text": "Lancer un service RStudio\n\nAide-mémoire\n\n\n\nCliquer à gauche sur Catalogue de service"
   },
   {
     "objectID": "slides/introduction.html#lancer-un-service-rstudio-1",
     "href": "slides/introduction.html#lancer-un-service-rstudio-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Lancer un service RStudio",
-    "text": "Lancer un service RStudio\nAide-mémoire\n\nLaisser les options par défaut de RStudio"
+    "text": "Lancer un service RStudio\n\nAide-mémoire\n\n\n\nLaisser les options par défaut de RStudio"
   },
   {
     "objectID": "slides/introduction.html#lancer-un-service-rstudio-2",
     "href": "slides/introduction.html#lancer-un-service-rstudio-2",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Lancer un service RStudio",
-    "text": "Lancer un service RStudio\nAide-mémoire\n\nRécupérer le mot de passe des services RStudio"
+    "text": "Lancer un service RStudio\n\nAide-mémoire\n\n\n\nRécupérer le mot de passe des services RStudio"
   },
   {
     "objectID": "slides/introduction.html#lancer-un-service-rstudio-3",
     "href": "slides/introduction.html#lancer-un-service-rstudio-3",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Lancer un service RStudio",
-    "text": "Lancer un service RStudio\nAide-mémoire\n\nAutre manière de récupérer le mot de passe des services RStudio"
+    "text": "Lancer un service RStudio\n\nAide-mémoire\n\n\n\nAutre manière de récupérer le mot de passe des services RStudio"
   },
   {
     "objectID": "slides/introduction.html#lancer-un-service-rstudio-4",
     "href": "slides/introduction.html#lancer-un-service-rstudio-4",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Lancer un service RStudio",
-    "text": "Lancer un service RStudio\nAide-mémoire\n\nS’authentifier sur le service"
+    "text": "Lancer un service RStudio\n\nAide-mémoire\n\n\n\nS’authentifier sur le service"
   },
   {
     "objectID": "slides/introduction.html#linterface-rstudio",
     "href": "slides/introduction.html#linterface-rstudio",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "L’interface RStudio",
-    "text": "L’interface RStudio\n\nIllustration empruntée à ce livre"
+    "text": "L’interface RStudio\n\n\n\nIllustration empruntée à ce livre"
+  },
+  {
+    "objectID": "slides/introduction.html#footnotes",
+    "href": "slides/introduction.html#footnotes",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Notes de bas de page",
+    "text": "Notes de bas de page\n\n\nRenseignez-vous sur le concours ENS ! Il y a de belles missions !↩︎\nPas tout seul ! Avec une communauté de gens sympa de l’administration et de la recherche ! Beaucoup de projets novateurs 😍 sur compte  InseeFrLab↩︎\nLe service statistique public est constitué de l’Insee et des 16 services statistiques ministériels (SSM)↩︎"
+  },
+  {
+    "objectID": "slides/wrangling.html",
+    "href": "slides/wrangling.html",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "",
+    "text": "Note\n\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\n\n\n\nRetour à la page principale"
   },
   {
     "objectID": "slides/wrangling.html#chapitre-introductif",
     "href": "slides/wrangling.html#chapitre-introductif",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Chapitre introductif",
-    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+    "section": "",
+    "text": "Note\n\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\n\n\n\nRetour à la page principale"
   },
   {
     "objectID": "slides/wrangling.html#introduction",
     "href": "slides/wrangling.html#introduction",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Introduction",
-    "text": "Introduction\n\n centré autour du dataframe\n\n\n\nMais manipulations parfois un peu lourdes :\n\ndf$var: un peu lourd\ndf[,]: un peu trop calqué sur les matrices\n\n\n\n\n\nDonnées textuelles: une base perfectible\n\nDes outputs alambiqués\nDes fonctionnalités manquantes par rapport à Python"
+    "text": "Introduction\n\n centré autour du dataframe\n\n. . .\n\nMais manipulations parfois un peu lourdes :\n\ndf$var: un peu lourd\ndf[,]: un peu trop calqué sur les matrices\n\n\n. . .\n\nDonnées textuelles: une base perfectible\n\nDes outputs alambiqués\nDes fonctionnalités manquantes par rapport à Python"
   },
   {
     "objectID": "slides/wrangling.html#la-réponse-le-tidyverse",
     "href": "slides/wrangling.html#la-réponse-le-tidyverse",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "La réponse: le tidyverse !",
-    "text": "La réponse: le tidyverse !\n\nL’écosystème du tidyverse"
+    "text": "La réponse: le tidyverse !\n\n\n\nL’écosystème du tidyverse"
   },
   {
     "objectID": "slides/wrangling.html#la-réponse-le-tidyverse-1",
@@ -389,7 +431,7 @@
     "href": "slides/wrangling.html#le-concept-de-données-tidy",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Le concept de données tidy",
-    "text": "Le concept de données tidy\n\nChaque variable possède sa propre colonne ;\nChaque observation possède sa propre ligne ;\nUne valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.\n\n\n\n\n\n\n\nNote\n\n\nConcept popularisé par Hadley Wickham."
+    "text": "Le concept de données tidy\n\nChaque variable possède sa propre colonne ;\nChaque observation possède sa propre ligne ;\nUne valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.\n\n\n\n\n\n\n\nNote\n\n\n\nConcept popularisé par Hadley Wickham."
   },
   {
     "objectID": "slides/wrangling.html#readr",
@@ -410,21 +452,21 @@
     "href": "slides/wrangling.html#dplyr-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "dplyr",
-    "text": "dplyr\nPrincipaux verbes\nOn travaille sur un tibble (dataframe augmenté)\n\nselect() : sélectionner des variables par leur nom ;\nrename() : renommer des variables ;\nfilter() : sélectionner des observations selon une ou plusieurs conditions ;\narrange() : trier la table selon une ou plusieurs variables ;\nmutate() : ajouter des variables qui sont fonction d’autres variables ;\nsummarise() : calculer une statistique à partir de données ;\ngroup_by() : faire des opérations par groupe.- `"
+    "text": "dplyr\n\nPrincipaux verbes\nOn travaille sur un tibble (dataframe augmenté)\n\nselect() : sélectionner des variables par leur nom ;\nrename() : renommer des variables ;\nfilter() : sélectionner des observations selon une ou plusieurs conditions ;\narrange() : trier la table selon une ou plusieurs variables ;\nmutate() : ajouter des variables qui sont fonction d’autres variables ;\nsummarise() : calculer une statistique à partir de données ;\ngroup_by() : faire des opérations par groupe.- `"
   },
   {
     "objectID": "slides/wrangling.html#dplyr-2",
     "href": "slides/wrangling.html#dplyr-2",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "dplyr",
-    "text": "dplyr\nManipulation de données\nOn enchaine des séquences avec les pipe (%&gt;%)\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  mutate(x = paste0(AN, \"_\", NB_EQUIP))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans utilitR"
+    "text": "dplyr\n\nManipulation de données\nOn enchaine des séquences avec les pipe (%&gt;%)\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  mutate(x = paste0(AN, \"_\", NB_EQUIP))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nPlus de détails dans utilitR"
   },
   {
     "objectID": "slides/wrangling.html#dplyr-3",
     "href": "slides/wrangling.html#dplyr-3",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "dplyr",
-    "text": "dplyr\nStatistiques agrégées\n\nLogique du split-apply-combine avec groupby\n\n\n\nIllustration du split-apply-combine\n\n\n\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  group_by(DEP) %&gt;%\n4  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn définit DEP comme une variable de stratification pour définir des groupes\n\n4\n\nOn résume les données en faisant la somme des stations services dans chaque groupe"
+    "text": "dplyr\n\nStatistiques agrégées\n\nLogique du split-apply-combine avec groupby\n\n\n\nIllustration du split-apply-combine\n\n\n\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  group_by(DEP) %&gt;%\n4  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn définit DEP comme une variable de stratification pour définir des groupes\n\n4\n\nOn résume les données en faisant la somme des stations services dans chaque groupe"
   },
   {
     "objectID": "slides/wrangling.html#ggplot",
@@ -445,7 +487,7 @@
     "href": "slides/wrangling.html#généralités",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Généralités",
-    "text": "Généralités\n\nDonnées peuvent être stockées dans de nombreux formats différents\n\nStandards différents\nManières d’importer différentes\n\n\n\n\nFonctionnalités de  limitées:\n\nPackages spécialisés pour certains formats\nObjectif: applatir l’information dans un dataframe\n\n\n\n\n\n\n\n\nNote\n\n\nOn verra les formats géographiques, et leurs enjeux, ultérieurement"
+    "text": "Généralités\n\nDonnées peuvent être stockées dans de nombreux formats différents\n\nStandards différents\nManières d’importer différentes\n\n\n. . .\n\nFonctionnalités de  limitées:\n\nPackages spécialisés pour certains formats\nObjectif: applatir l’information dans un dataframe\n\n\n\n\n\n\n\n\nNote\n\n\n\nOn verra les formats géographiques, et leurs enjeux, ultérieurement"
   },
   {
     "objectID": "slides/wrangling.html#le-csv",
@@ -459,7 +501,7 @@
     "href": "slides/wrangling.html#le-csv-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Le CSV",
-    "text": "Le CSV\n\nLecture avec la fonction read_csv du package readr!\n\n\n1library(readr)\n2read_csv(\"dossier_donnees/nom_fichier.csv\")\n\n\n1\n\nOn importe la librairie readr pour avoir accès à la fonction read_csv\n\n2\n\nOn utilise read_csv pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nCSV avec délimitateur ;: fonction read_csv2.\nFormats plats plus exotiques (.txt par exemple): read_delim\n\nPlus de détails dans la documentation utilitR"
+    "text": "Le CSV\n\nLecture avec la fonction read_csv du package readr!\n\n\n1library(readr)\n2read_csv(\"dossier_donnees/nom_fichier.csv\")\n\n\n1\n\nOn importe la librairie readr pour avoir accès à la fonction read_csv\n\n2\n\nOn utilise read_csv pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\n\nCSV avec délimitateur ;: fonction read_csv2.\nFormats plats plus exotiques (.txt par exemple): read_delim\n\nPlus de détails dans la documentation utilitR"
   },
   {
     "objectID": "slides/wrangling.html#le-json",
@@ -487,7 +529,7 @@
     "href": "slides/wrangling.html#les-formats-excel-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Les formats Excel",
-    "text": "Les formats Excel\n\nFormat propriétaire\nMélange mise en forme et données brute\n\nPas approprié pour l’analyse de données\nDangereux pour la reproductibilité et la transparence\n\nPlus de détails sur utilitR\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+    "text": "Les formats Excel\n\nFormat propriétaire\nMélange mise en forme et données brute\n\nPas approprié pour l’analyse de données\nDangereux pour la reproductibilité et la transparence\n\nPlus de détails sur utilitR"
   },
   {
     "objectID": "exercises/r-base.html",
@@ -543,7 +585,7 @@
     "href": "exercises/r-base.html#les-dataframes",
     "title": "Découverte des objets de base de ",
     "section": "7.3 Les dataframes",
-    "text": "7.3 Les dataframes\nC’est l’objet central de l’analyse de données avec . Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).\n\n\n\nIllustration du principe du dataframe (empruntée à H. Wickham)\n\n\nVoici par exemple un dataframe:\n\n# Création du data.frame df\ndf &lt;- data.frame(\n  var1 = 1:10,\n  var2 = letters[1:10],\n  var3 = rep(c(TRUE, FALSE), times = 5)\n)\n\nSa structure interne peut être vérifiée avec la fonction str:\n\nstr(df)\n\n'data.frame':   10 obs. of  3 variables:\n $ var1: int  1 2 3 4 5 6 7 8 9 10\n $ var2: chr  \"a\" \"b\" \"c\" \"d\" ...\n $ var3: logi  TRUE FALSE TRUE FALSE TRUE FALSE ...\n\n\nQuand on travaille avec R, l’une des fonctions qu’on utilise le plus est head. Elle permet d’afficher les \\(n\\) premières lignes de notre jeu de données:\n\n\n  var1 var2  var3\n1    1    a  TRUE\n2    2    b FALSE\n3    3    c  TRUE\n4    4    d FALSE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\n\n\n\n\nWarning\n\n\n\nIl est également possible d’utiliser le viewer de RStudio pour afficher des jeux de données.\nAttention cependant, ce viewer peut rencontrer des problèmes de performance et faire planter votre session R quand le jeu de données commence à être d’une taille conséquente.\nJe recommande plutôt de toucher utiliser head ou de sélectionner des lignes aléatoirement avec sample:\n\n\n   var1 var2  var3\n8     8    h FALSE\n10   10    j FALSE\n7     7    g  TRUE\n\n\n\n\nDu point de vue de sa structure, un data.frame est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.\n\nis.list(df)\n\n[1] TRUE\n\nlapply(df, length)\n\n$var1\n[1] 10\n\n$var2\n[1] 10\n\n$var3\n[1] 10\n\n\nDe ce fait, les data.frame empruntent leurs caractéristiques tantôt aux listes, tantôt aux matrices comme le montre l’exercice suivant:\n\n\n\n\n\n\nExercice 10\n\n\n\n\nVérifier la dimension du dataframe df\nCompter le nombre de lignes et de colonnes de df\nVérifier la longueur (length) de df. Est-ce le comportement d’une matrice ou d’une liste ?\nExtraire l’élement à la 2e ligne, 3e colonne de df. Est-ce le comportement d’indexation d’une matrice ou d’une liste ?\nRécupérer la 3e ligne des variables var1 et var2.\n\n\n\nL’intérêt d’utiliser un data.frame est qu’on peut facilement mettre à jour nos données lors d’une analyse statistique. Les opérations les plus classiques, sur lesquelles nous reviendrons lors du prochain chapitre, sont\n\nCréer une nouvelle colonne à partir des colonnes pré-existantes ;\nSélectionner un sous-échantillon des données correspondant à certaines valeurs observées.\n\nIl existe plusieurs manières de faire référence à une colonne déjà existante d’un dataframe. La plus simple est d’utiliser la structure dataframe$colonne. Cela nous donnera un vecteur et on retombe sur ce format qu’on connaît déjà:\n\nclass(df$var1)\n\n[1] \"integer\"\n\n\n\n\n\n\n\n\nExercice 11\n\n\n\n\nCréer une colonne var4 de notre jeu de données égale au carré de var1\nCréer une colonne var5 de notre jeu de données concaténant les deux premières variables en généralisant le schéma 1=a.\nCréer un dataframe df_small1 pour les lignes où la condition logique var3 est vérifiée\nCréer un dataframe df_small2 pour les lignes où var1 est paire (voir plus haut l’exemple sur la division euclidienne pour le modèle)\n\n\n\nLe prochain chapitre va nous permettre d’aller beaucoup plus loin grâce à l’écosystème du tidyverse et notamment son package phare dplyr. Sans cet ensemble de packages facilitant grandement l’analyse statistique,  ne serait pas devenu l’un des deux langages phares de la statistique."
+    "text": "7.3 Les dataframes\nC’est l’objet central de l’analyse de données avec . Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).\n\n\n\nIllustration du principe du dataframe (empruntée à H. Wickham)\n\n\nVoici par exemple un dataframe:\n\n# Création du data.frame df\ndf &lt;- data.frame(\n  var1 = 1:10,\n  var2 = letters[1:10],\n  var3 = rep(c(TRUE, FALSE), times = 5)\n)\n\nSa structure interne peut être vérifiée avec la fonction str:\n\nstr(df)\n\n'data.frame':   10 obs. of  3 variables:\n $ var1: int  1 2 3 4 5 6 7 8 9 10\n $ var2: chr  \"a\" \"b\" \"c\" \"d\" ...\n $ var3: logi  TRUE FALSE TRUE FALSE TRUE FALSE ...\n\n\nQuand on travaille avec R, l’une des fonctions qu’on utilise le plus est head. Elle permet d’afficher les \\(n\\) premières lignes de notre jeu de données:\n\n\n  var1 var2  var3\n1    1    a  TRUE\n2    2    b FALSE\n3    3    c  TRUE\n4    4    d FALSE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\n\n\n\n\nWarning\n\n\n\nIl est également possible d’utiliser le viewer de RStudio pour afficher des jeux de données.\nAttention cependant, ce viewer peut rencontrer des problèmes de performance et faire planter votre session R quand le jeu de données commence à être d’une taille conséquente.\nJe recommande plutôt de toucher utiliser head ou de sélectionner des lignes aléatoirement avec sample:\n\n\n  var1 var2  var3\n3    3    c  TRUE\n1    1    a  TRUE\n2    2    b FALSE\n\n\n\n\nDu point de vue de sa structure, un data.frame est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.\n\nis.list(df)\n\n[1] TRUE\n\nlapply(df, length)\n\n$var1\n[1] 10\n\n$var2\n[1] 10\n\n$var3\n[1] 10\n\n\nDe ce fait, les data.frame empruntent leurs caractéristiques tantôt aux listes, tantôt aux matrices comme le montre l’exercice suivant:\n\n\n\n\n\n\nExercice 10\n\n\n\n\nVérifier la dimension du dataframe df\nCompter le nombre de lignes et de colonnes de df\nVérifier la longueur (length) de df. Est-ce le comportement d’une matrice ou d’une liste ?\nExtraire l’élement à la 2e ligne, 3e colonne de df. Est-ce le comportement d’indexation d’une matrice ou d’une liste ?\nRécupérer la 3e ligne des variables var1 et var2.\n\n\n\nL’intérêt d’utiliser un data.frame est qu’on peut facilement mettre à jour nos données lors d’une analyse statistique. Les opérations les plus classiques, sur lesquelles nous reviendrons lors du prochain chapitre, sont\n\nCréer une nouvelle colonne à partir des colonnes pré-existantes ;\nSélectionner un sous-échantillon des données correspondant à certaines valeurs observées.\n\nIl existe plusieurs manières de faire référence à une colonne déjà existante d’un dataframe. La plus simple est d’utiliser la structure dataframe$colonne. Cela nous donnera un vecteur et on retombe sur ce format qu’on connaît déjà:\n\nclass(df$var1)\n\n[1] \"integer\"\n\n\n\n\n\n\n\n\nExercice 11\n\n\n\n\nCréer une colonne var4 de notre jeu de données égale au carré de var1\nCréer une colonne var5 de notre jeu de données concaténant les deux premières variables en généralisant le schéma 1=a.\nCréer un dataframe df_small1 pour les lignes où la condition logique var3 est vérifiée\nCréer un dataframe df_small2 pour les lignes où var1 est paire (voir plus haut l’exemple sur la division euclidienne pour le modèle)\n\n\n\nLe prochain chapitre va nous permettre d’aller beaucoup plus loin grâce à l’écosystème du tidyverse et notamment son package phare dplyr. Sans cet ensemble de packages facilitant grandement l’analyse statistique,  ne serait pas devenu l’un des deux langages phares de la statistique."
   },
   {
     "objectID": "exercises/r-base.html#footnotes",
