@@ -4,6 +4,7 @@
     "items": [
       "/cards/introduction/index.html",
       "/cards/wrangling/index.html",
+      "/cards/ggplot/index.html",
       "/cards/geospatial-wrangling/index.html"
     ]
   }
