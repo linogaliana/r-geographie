@@ -1,0 +1,18 @@
+---
+image: drawing.png
+title: Produire des représentations graphiques avec <code>ggplot2</code>
+date: "2023-09-01"
+description: |
+  <br>
+  Introduction à <code>ggplot2</code>,
+  la librairie de référence 
+  pour produire des graphiques avec
+  <i class="fa-brands fa-r-project"></i>
+  <br>
+categories:
+  - Introduction
+website: /slides/ggplot.html
+exercise: /exercises/ggplot.html
+order: 3
+---
+

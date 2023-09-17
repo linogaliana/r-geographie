@@ -391,6 +391,8 @@ arrondissement_19e <- data_paris %>%
   filter(grepl("19e", NOM)) %>%
   st_transform(4326)
 
+pal_fun <- colorQuantile("YlOrRd", NULL, n = 4)
+
 leaflet(stations_19e) %>%
   addTiles() %>%
   addCircleMarkers(

@@ -14,6 +14,6 @@ categories:
   - Introduction
 website: /slides/geospatial-wrangling.html
 exercise: /exercises/geospatial-wrangling.html
-order: 3
+order: 4
 ---
 
