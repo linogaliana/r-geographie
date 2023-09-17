@@ -1,0 +1,148 @@
+---
+title: "Importer et manipuler des données avec {{< fa brands r-project >}}"
+echo: false
+number-sections: true
+---
+
+::: {.badge}
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
+:::
+
+<details>
+<summary>
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/wrangling.qmd)
+pour afficher les slides en plein écran.
+</summary>
+
+
+``` {.yaml code-preview="/slides/wrangling.qmd"}
+```
+
+</details>
+
+
+Être en 
+mesure de synthétiser l'information présente
+dans un jeu de données est une compétence attendue
+des chercheurs et _data scientists_. 
+Dans ce troisième TP,
+nous allons apprendre à importer et
+manipuler des données avec
+{{< fa brands r-project >}}. {{< fa brands r-project >}} est
+très bien outillé dans le domaine grâce à la librairie
+`ggplot2` qui implémente
+une [grammaire des graphiques](https://fr.wikibooks.org/wiki/Programmer_en_R/Comprendre_la_grammaire_des_graphiques)
+flexible, cohérente et simple d'usage. 
+
+Si vous êtes intéressés par `Python` {{< fa brands python >}},
+une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/manipulation/02b_pandas_TP.html).
+
+
+::: {.callout-note}
+
+Certains exemples de code présentent des annotations sur le côté,
+passez votre souris dessus pour les afficher, comme ci-dessous
+
+```{r}
+#| echo: true
+#| output: false
+"une annotation explicative m'accompagne à droite" #<1>
+```
+1. Je m'affiche quand on passe la souris sur moi 🐭 !
+
+:::
+
+La pratique de la visualisation se fera, dans ce cours, en répliquant des graphiques qu'on peut trouver sur
+la page de l'*open-data* de la ville de Paris 
+[ici](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name).
+
+
+Ce TP vise à initier:
+
+* Au package [ggplot2](https://ggplot2.tidyverse.org/) pour la construction de graphiques figés
+* Au package [plotly](https://plotly.com/r/) pour les graphiques 
+dynamiques, au format HTML
+
+Nous verrons par la suite la manière de construire des cartes facilement avec
+des formats équivalents.
+
+Un sous-ensemble des données de [paris open data](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name) a été mis à disposition
+sur {{< githubrepo >}} pour faciliter l'import (élimination des colonnes
+qui ne nous serviront pas mais ralentissent l'import).
+
+
+Etre capable de construire des visualisations de données
+intéressantes est une compétence nécessaire à tout
+_data-scientist_. Pour améliorer
+la qualité de ces visualisations, il est recommandé
+de suivre certains conseils donnés par des spécialistes
+de la _dataviz_ sur la sémiologie graphique.
+Les bonnes visualisations de données, comme celles du _New York Times_,
+reposent certes sur des outils adaptés (des librairies `JavaScript`)
+mais aussi sur certaines règles de représentation qui permettent
+de comprendre en quelques secondes le message d'une visualisation.
+Ce [post de blog](https://blog.datawrapper.de/text-in-data-visualizations/?utm_source=substack&utm_medium=email)
+est une ressource qu'il est utile de consulter régulièrement. 
+
+
+::: {.callout-tip}
+## Exercice 1 : Importer les données et produire un premier graphique rapidement
+
+1. Importer les données de compteurs de vélos. Vous pouvez utiliser l'url <https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv>. 
+⚠️ Il s'agit de données
+compressées au format `gzip`, il est donc recommandé de procéder en deux étapes: 
+télécharger le fichier avec `download.file` et importer avec `read_csv`
+
+```{r}
+url <- "https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"
+download.file(url, "bike.gz")
+df <- readr::read_csv("bike.gz")
+```
+
+2. En premier lieu, sans se préoccuper des éléments de style ni des labels des
+graphiques, reproduire les deux premiers graphiques de la
+[page d'analyse des données](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name):
+*Les 10 compteurs avec la moyenne horaire la plus élevée* et *Les 10 compteurs ayant comptabilisés le plus de vélos*. Les valeurs chiffrées des graphiques seront différentes de celles de la page en ligne, c'est normal, nous travaillons sur des données plus anciennes. 
+
+```{r}
+# Calculate the mean hourly count for each 'Nom du compteur' and select the top 10
+df1 <- df %>%
+  group_by(`Nom du compteur`) %>%
+  summarise(`Comptage horaire` = mean(`Comptage horaire`, na.rm = TRUE)) %>%
+  arrange(desc(`Comptage horaire`)) %>%
+  head(10)
+
+# Create a horizontal bar plot
+p1 <- ggplot(df1, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
+  geom_bar(stat = "identity", fill = "red") +
+  labs(title = "Les 10 compteurs avec la moyenne horaire la plus élevée",
+       x = "Nom du compteur",
+       y = "Moyenne horaire") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+```{r}
+df2 <- df %>%
+  group_by(`Nom du compteur`) %>%
+  summarise(`Comptage horaire` = sum(`Comptage horaire`, na.rm = TRUE)) %>%
+  arrange(desc(`Comptage horaire`)) %>%
+  head(10)
+
+# Create a horizontal bar plot
+p2 <- ggplot(df2, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
+  geom_bar(stat = "identity", fill = "forestgreen") +
+  labs(title = "Les 10 compteurs avec le comptage horaire le plus élevé (total)",
+       x = "Nom du compteur",
+       y = "Comptage horaire total") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+
+:::
+
