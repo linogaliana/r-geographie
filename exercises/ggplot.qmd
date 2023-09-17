@@ -21,10 +21,6 @@ pour afficher les slides en plein écran.
 </details>
 
 
-Être en 
-mesure de synthétiser l'information présente
-dans un jeu de données est une compétence attendue
-des chercheurs et _data scientists_. 
 Dans ce troisième TP,
 nous allons apprendre à importer et
 manipuler des données avec
@@ -59,9 +55,18 @@ la page de l'*open-data* de la ville de Paris
 
 Ce TP vise à initier:
 
-* Au package [ggplot2](https://ggplot2.tidyverse.org/) pour la construction de graphiques figés
-* Au package [plotly](https://plotly.com/r/) pour les graphiques 
+* Au package [`ggplot2`](https://ggplot2.tidyverse.org/) pour la construction de graphiques figés
+* Au package [`plotly`](https://plotly.com/r/) pour les graphiques 
 dynamiques, au format HTML
+
+Dans ce chapitre, nous allons utiliser les librairies suivantes:
+
+```{r}
+#| echo: true
+#| output: false
+library(dplyr)
+library(ggplot2)
+```
 
 Nous verrons par la suite la manière de construire des cartes facilement avec
 des formats équivalents.
@@ -71,9 +76,9 @@ sur {{< githubrepo >}} pour faciliter l'import (élimination des colonnes
 qui ne nous serviront pas mais ralentissent l'import).
 
 
-Etre capable de construire des visualisations de données
+Être capable de construire des visualisations de données
 intéressantes est une compétence nécessaire à tout
-_data-scientist_. Pour améliorer
+_data-scientist_ ou chercheur. Pour améliorer
 la qualité de ces visualisations, il est recommandé
 de suivre certains conseils donnés par des spécialistes
 de la _dataviz_ sur la sémiologie graphique.
@@ -85,34 +90,106 @@ Ce [post de blog](https://blog.datawrapper.de/text-in-data-visualizations/?utm_s
 est une ressource qu'il est utile de consulter régulièrement. 
 
 
-::: {.callout-tip}
-## Exercice 1 : Importer les données et produire un premier graphique rapidement
+## Premières productions graphiques
 
-1. Importer les données de compteurs de vélos. Vous pouvez utiliser l'url <https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv>. 
-⚠️ Il s'agit de données
-compressées au format `gzip`, il est donc recommandé de procéder en deux étapes: 
-télécharger le fichier avec `download.file` et importer avec `read_csv`
+Chercher à produire une visualisation parfaite du premier coup est
+illusoire. Il est beaucoup plus réaliste d'améliorer graduellement 
+une représentation graphique afin, petit à petit, de mettre en 
+avant les effets de structure. 
 
-```{r}
-url <- "https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"
-download.file(url, "bike.gz")
-df <- readr::read_csv("bike.gz")
-```
+Nous allons donc commencer par nous représenter la distribution
+des principales stations. Pour cela nous allons produire
+rapidement un _barplot_ puis l'améliorer graduellement. 
 
-2. En premier lieu, sans se préoccuper des éléments de style ni des labels des
-graphiques, reproduire les deux premiers graphiques de la
+Les données sont mises à disposition dans une forme simplifiée par
+rapport à celles de l'_open data_ parisien. Nous proposons
+de les télécharger et les enregistrer dans un fichier sur le disque
+dur local avant de l'importer[^1].
+
+
+Nous allons reproduire les deux premiers graphiques de la
 [page d'analyse des données](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name):
 *Les 10 compteurs avec la moyenne horaire la plus élevée* et *Les 10 compteurs ayant comptabilisés le plus de vélos*. Les valeurs chiffrées des graphiques seront différentes de celles de la page en ligne, c'est normal, nous travaillons sur des données plus anciennes. 
 
+
+[^1]: D'habitude, nous recommandons d'utiliser directement l'URL 
+de téléchargement ce qui évite de créer un fichier intermédiaire
+sur le disque dur. Néanmoins, ici, l'import direct avec `readr`
+ne fonctionnera pas car le fichier est mal interprété par la
+librairie. Celle-ci ne comprend pas que le fichier est compressé car
+il lui manque l'extension `.gz` (un format compressé) à la fin. 
+
 ```{r}
-# Calculate the mean hourly count for each 'Nom du compteur' and select the top 10
+#| echo: true
+url <- "https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"
+download.file(url, "bike.gz")
+```
+
+::: {.callout-tip}
+## Exercice 1 : Importer les données et produire un premier graphique rapidement
+
+1. Importer les données de compteurs de vélos depuis le fichier `bike.gz`.
+Celles-ci ont l'aspect suivant:
+
+```{r}
+#| output: false
+df <- readr::read_csv("bike.gz")
+```
+
+```{r}
+head(df)
+```
+
+2. Garder les dix bornes à la moyenne la plus élevée 
+
+```{r}
 df1 <- df %>%
   group_by(`Nom du compteur`) %>%
   summarise(`Comptage horaire` = mean(`Comptage horaire`, na.rm = TRUE)) %>%
   arrange(desc(`Comptage horaire`)) %>%
   head(10)
+```
 
-# Create a horizontal bar plot
+```{r}
+head(df1)
+```
+
+3. En premier lieu, sans se préoccuper des éléments de style ni de la beauté
+du graphique, créer la structure du _barplot_ (diagramme en batons) de la
+[page d'analyse des données](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name):
+
+
+```{r}
+ggplot(df1, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
+  geom_bar(stat = "identity")
+```
+
+La suite de l'exercice consiste à améliorer graduellement cette représentation
+pour converger vers la reproduction de la version en _open data_. 
+
+4. Changer les labels des axes
+
+```{r}
+ggplot(df1, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
+  geom_bar(stat = "identity") + 
+  labs(title = "Les 10 compteurs avec la moyenne horaire la plus élevée",
+       x = "Nom du compteur",
+       y = "Moyenne horaire")
+```
+
+5. Le fond gris permet certes de reconnaître que le graphique a été
+produit avec `ggplot2` mais ce n'est pas très esthétique. Changer le thème pour avoir
+les éléments suivants. Mettre à jour votre figure avec les éléments de style
+suivant:
+
+```r
+theme_minimal() +
+theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+```{r}
 p1 <- ggplot(df1, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
   geom_bar(stat = "identity", fill = "red") +
   labs(title = "Les 10 compteurs avec la moyenne horaire la plus élevée",
@@ -143,6 +220,23 @@ p2 <- ggplot(df2, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `C
         plot.margin = margin(1, 4, 1, 1, "cm"))
 ```
 
+```{r}
+p1
+```
+
+```{r}
+p2
+```
 
 :::
+
+
+On peut remarquer plusieurs éléments problématiques (par exemple les labels) mais
+aussi des éléments ne correspondant pas (les titres des axes, etc.) ou 
+manquants (le nom du graphique...)
+
+::: {.callout-tip}
+**Exercice 2 : Un peu de style !**
+:::
+
 
