@@ -541,6 +541,7 @@ apporte peu à la figure voire dégrade la compréhension du message.
 ## Première série temporelle
 
 ::: {.callout-tip}
+## Exercice 5: Représenter une série temporelle
 
 1. Créer une variable `day` qui transforme l'horodatage en format journalier
 du type `2021-05-01`.
