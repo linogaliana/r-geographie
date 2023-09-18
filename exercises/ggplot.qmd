@@ -49,7 +49,7 @@ passez votre souris dessus pour les afficher, comme ci-dessous
 
 La pratique de la visualisation se fera, dans ce cours, en répliquant des graphiques qu'on peut trouver sur
 la page de l'*open data* de la ville de Paris 
-[ici](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name).
+[ici](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name).
 
 
 Ce TP vise à initier:
@@ -167,10 +167,17 @@ df1 <- df %>%
   head(10)
 ```
 
+<details>
+<summary>
+Les 10 principales stations à l'issue de la question 2
+</summary>
+```{r}
+head(df1)
+```
+</details>
+
 On va maintenant pouvoir se concentrer sur la production de la 
 représentation
-
-
 
 3. En premier lieu, sans se préoccuper des éléments de style ni de la beauté
 du graphique, créer la structure du _barplot_ (diagramme en batons) de la
@@ -230,15 +237,6 @@ figure1 <- ggplot(df1,
 figure1
 ```
 
-</details>
-
-<details>
-<summary>
-Les 10 principales stations à l'issue de la question 2
-</summary>
-```{r}
-head(df1)
-```
 </details>
 
 :::
@@ -442,8 +440,161 @@ un _lollipop chart_.
 
 ## Représentations temporelles
 
+On va maintenant se concentrer sur la dimension spatiale de notre
+jeu de données à travers deux approches:
+
+- Un diagramme en barre synthétisant l'information de notre jeu de données
+de manière mensuelle
+- Des séries instructives sur la dynamique temporelle
+
+### Première agrégation temporelle
+
+Pour commencer, reproduisons la troisième figure qui est, encore une fois, 
+un _barplot_. La première question implique une première rencontre avec
+une donnée
+temporelle. 
+
+::: {.callout-tip}
+## Exercice 4: barplot des comptages mensuels
+
+1. Utiliser la fonction `format` pour créer une variable `mois`
+dont le format respecte, par exemple, le schéma `2019-08` ;
+2. Faire la moyenne des comptages horaires pour chaque mois
+
 ```{r}
 df <- df %>%
-  mutate(month = format(`Date et heure de comptage`, "%Y-%m")) %>%
-  select(month)
+  mutate(month = format(`Date et heure de comptage`, "%Y-%m"))
 ```
+
+```{r}
+comptage_horaires_mois <- df %>%
+  group_by(month) %>%
+  summarise(value = mean(`Comptage horaire`, na.rm = TRUE))
+```
+
+<details>
+<summary>
+Comptages horaires obtenus à l'issue de cette question
+</summary>
+
+```{r}
+comptage_horaires_mois
+```
+
+</details>
+
+Appliquer les conseils précédents pour construire et améliorer
+graduellement un graphique afin d'obtenir une figure similaire
+à la 3e production sur la page de l'_open data_ parisien
+
+```{r}
+figure3 <- ggplot(comptage_horaires_mois) +
+  geom_bar(aes(x = month, y = value), fill = "#ffcd00", stat = "identity") +
+  labs(x = "Date et heure de comptage", y = "Moyenne mensuelle du comptage par heure\nsur la période sélectionnée",
+       title = "Moyenne mensuelle des comptages vélos") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.y = element_text(color = "#ffcd00", face = "bold"),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+<details>
+<summary>
+Exemple de figure reproduisant l'_open data_ parisien
+</summary>
+
+```{r}
+figure3
+```
+
+</details>
+
+- Question optionnelle: représenter la même information sous forme de _lollipop_
+
+:::
+
+
+```{r}
+figure3
+```
+
+Si vous préférez représenter cela sous forme de _lollipop_[^notecouleur]:
+
+```{r}
+ggplot(comptage_horaires_mois, aes(x = month, y = value)) +
+  geom_segment(aes(xend = month, yend = 0)) +
+  geom_point( color="#ffcd00", size=4) +
+  labs(x = "Date et heure de comptage", y = "Moyenne mensuelle du comptage par heure\nsur la période sélectionnée",
+       title = "Moyenne mensuelle des comptages vélos") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        #axis.title.y = element_text(color = "#ffcd00", face = "bold"),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+[^notecouleur]: J'ai retiré la couleur sur l'axe des ordonnées qui, je trouve,
+apporte peu à la figure voire dégrade la compréhension du message. 
+
+
+## Première série temporelle
+
+::: {.callout-tip}
+
+1. Créer une variable `day` qui transforme l'horodatage en format journalier
+du type `2021-05-01`.
+
+
+```{r}
+df <- df %>%
+  mutate(day = date(`Date et heure de comptage`))
+
+moyenne_quotidienne <- df %>%
+  group_by(day) %>%
+  summarise(value = mean(`Comptage horaire`, na.rm = TRUE))
+```
+
+<details>
+<summary>
+Le jeu de données pour la figure 4
+</summary>
+```{r}
+head(moyenne_quotidienne)
+```
+</details>
+
+2. Représenter sous forme de série temporelle cette information, sans vous
+préoccuper du style de la figure
+
+```{r}
+figure4 <- ggplot(moyenne_quotidienne, aes(x = day, y = value)) +
+  geom_line(color = "magenta")
+```
+
+3. Colorer la zone sous la ligne avec la fonction appropriée
+
+```{r}
+figure4 <- figure4 +
+  geom_area(fill="magenta", alpha = 0.6)
+```
+
+<details>
+<summary>
+Aide pour cette question
+</summary>
+[Ce _thread_ sur `stackoverflow`](https://stackoverflow.com/questions/28730083/filling-in-the-area-under-a-line-graph-in-ggplot2-geom-area) peut vous aider.
+</details>
+
+
+```{r}
+figure4 +
+  labs(x = "Date et heure de comptage (Jour)", y = "Moyenne journalière du comptage par heure\nsur la période sélectionnée",
+       title = "Moyenne journalière des comptages vélos") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+:::
