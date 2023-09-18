@@ -65,6 +65,7 @@ Dans ce chapitre, nous allons utiliser les librairies suivantes:
 #| output: false
 library(readr)
 library(dplyr)
+library(lubridate)
 library(ggplot2)
 ```
 
@@ -86,6 +87,8 @@ de comprendre en quelques secondes le message d'une visualisation.
 
 Ce [post de blog](https://blog.datawrapper.de/text-in-data-visualizations/)
 est une ressource qu'il est utile de consulter régulièrement. 
+Ce [post de blog d'Albert Rapp](https://albert-rapp.de/posts/ggplot2-tips/10_recreating_swd_look/10_recreating_swd_look) montre bien comment construire graduellement une bonne visualisation
+de données. 
 :::
 
 
@@ -209,7 +212,52 @@ figure1
 
 </details>
 
-5. Le minimum pour que quelqu'un ne connaissant pas les données soit
+
+5. Modifier votre couche esthétique afin
+d'appliquer une couleur rouge à l'ensemble des barres
+
+<details>
+<summary>
+Figure avec les barres rouges
+</summary>
+
+```{r}
+figure1 <- ggplot(df1,
+       aes(y = reorder(`Nom du compteur`, `Comptage horaire`), # <1>
+           x = `Comptage horaire`)
+       ) +
+  geom_bar(stat = "identity", fill = "red")
+figure1
+```
+
+</details>
+
+<details>
+<summary>
+Les 10 principales stations à l'issue de la question 2
+</summary>
+```{r}
+head(df1)
+```
+</details>
+
+:::
+
+On commence à avoir quelque chose qui commence à transmettre
+un message synthétique sur la nature des données.
+On peut néanmoins remarquer plusieurs éléments problématiques
+(par exemple les labels) mais
+aussi des éléments ne correspondant pas (les titres des axes, etc.) ou 
+manquants (le nom du graphique...)
+
+
+::: {.callout-tip}
+## Exercice 2 : Un peu de style !
+
+La figure comporte maintenant un message mais il est encore peu
+lisible. 
+
+1. Le minimum pour que quelqu'un ne connaissant pas les données soit
 capable de comprendre la représentation graphique est de labelliser
 les axes. Créer les mêmes labels d'axes que la figure originale. 
 
@@ -232,17 +280,34 @@ les axes. Mais la plus simple est la fonction `labs`
 </details>
 
 
-5. Le fond gris permet est certes une manière de reconnaître que le graphique a été
+2. Le fond gris permet est certes une marque distinctive que le graphique a été
 produit avec `ggplot2` mais ce n'est pas très soigné.
+Utiliser un thème plus minimaliste afin d'avoir un fond blanc.
+
+<details>
+<summary>
+Figure avec un fond blanc
+</summary>
+```{r}
+figure1 <- figure1 +
+  theme_minimal()
+figure1
+```
+
+</details>
+
+3. Maintenant, concentrons nous sur les éléments plus esthétiques.
 Comme c'est une fonctionnalité un peu plus avancée, nous proposons directement
 le code pour mettre à jour votre figure avec les éléments de style
 suivant:
 
 ```r
-theme_minimal() +
-theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        plot.title = element_text(hjust = 0.5),
-        plot.margin = margin(1, 4, 1, 1, "cm"))
+theme(
+  axis.text.x = element_text(angle = 45, hjust = 1, color = "red"),
+  axis.title.x = element_text(color = "red"),
+  plot.title = element_text(hjust = 0.5),
+  plot.margin = margin(1, 4, 1, 1, "cm")
+)
 ```
 
 <details>
@@ -251,14 +316,49 @@ Figure obtenue à l'issue de ces questions
 </summary>
 ```{r}
 figure1 <- figure1 +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        plot.title = element_text(hjust = 0.5),
-        plot.margin = margin(1, 4, 1, 1, "cm"))
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, color = "red"),
+    axis.title.x = element_text(color = "red"),
+    plot.title = element_text(hjust = 0.5),
+    plot.margin = margin(1, 4, 1, 1, "cm")
+    )
 figure1
 ```
 
+4. Enfin ajoutons de la complexité au graphique avec les chiffres sur
+les barres.
+En vous aidant de ce [_post_](https://stackoverflow.com/questions/67767859/adding-text-on-each-bar-in-horizontal-bar-plot-in-ggplot), ajouter les comptages horaires moyens comme sur la
+figure de l'_open data_ parisien[^annotation]
+
+```{r}
+figure1 <- figure1 + 
+  geom_text(
+    aes(label=round(`Comptage horaire`)),
+    position=position_dodge(width=0.9),
+    hjust=-0.5
+    )
+```
+
+[^annotation]: Ce n'est pas forcément une bonne pratique de _dataviz_ de
+faire cela. En effet, cela signifie que l'échelle et la diversité
+des données dans celle-ci ne sont pas directement 
+intelligibles. 
+
 </details>
+
+:::
+
+On comprend
+ainsi que le boulevard de Sébastopol est le plus emprunté,
+ce qui ne vous suprendra pas si vous faites du vélo à Paris. 
+
+```{r}
+#| fig-cap: "Les 10 compteurs avec la moyenne horaire la plus élevée"
+figure1
+```
+
+::: {.callout-tip}
+## Exercice 3: produire une nouvelle figure
 
 Faire la même chose pour la figure 2, afin d'obtenir une figure
 similaire
@@ -275,13 +375,14 @@ df2 <- df %>%
 
 ```{r}
 # Create a horizontal bar plot
-p2 <- ggplot(df2, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
+figure2 <- ggplot(df2, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
   geom_bar(stat = "identity", fill = "forestgreen") +
   labs(title = "Les 10 compteurs avec le comptage horaire le plus élevé (total)",
        x = "Nom du compteur",
        y = "Comptage horaire total") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_text(color = "forestgreen"),
         plot.title = element_text(hjust = 0.5),
         plot.margin = margin(1, 4, 1, 1, "cm"))
 ```
@@ -291,33 +392,58 @@ Figure 2 à l'issue de cet exercice
 </summary>
 
 ```{r}
-p2
+figure2
 ```
 
 </details>
 
-
-
-<details>
-<summary>
-Les 10 principales stations à l'issue de la question 2
-</summary>
-```{r}
-head(df1)
-```
-</details>
 
 
 :::
 
 
-On peut remarquer plusieurs éléments problématiques
-(par exemple les labels) mais
-aussi des éléments ne correspondant pas (les titres des axes, etc.) ou 
-manquants (le nom du graphique...)
+Les diagrammes en batons (_barplot_) sont extrêmement communs mais 
+sont finalement assez complexes pour le peu d'information
+qu'ils transmettent. Les _lollipop charts_ sont préférables: ils
+transmettent la même information mais avec moins de bruit
+(la largeur des barres du barplot noie un peu l'information)
+
+
+```{r}
+library(forcats)
+
+df2_lollipop <- df2 %>%
+  mutate(x =  fct_reorder(`Nom du compteur`, `Comptage horaire` ), y = `Comptage horaire`)
+
+figure2_lollipop <- ggplot(df2_lollipop, aes(x=x, y=y)) +
+    geom_segment( aes(xend=x, yend=0)) +
+    geom_point( size=4, color="forestgreen") +
+    coord_flip() +
+  labs(title = "Les 10 compteurs avec le comptage horaire le plus élevé (total)",
+       x = "Nom du compteur",
+       y = "Comptage horaire total") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_text(color = "forestgreen"),
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(1, 4, 1, 1, "cm"))
+```
+
+```{r}
+figure2_lollipop
+```
 
 ::: {.callout-tip}
-**Exercice 2 : Un peu de style !**
-:::
+## Exercice 3 bis (optionnel): produire un _lollipop_ chart
 
+Reprendre l'exercice 2 mais à la place d'un _barplot_, produire
+un _lollipop chart_.  
+::: 
 
+## Représentations temporelles
+
+```{r}
+df <- df %>%
+  mutate(month = format(`Date et heure de comptage`, "%Y-%m")) %>%
+  select(month)
+```
