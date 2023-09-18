@@ -599,3 +599,6 @@ figure4 +
 ```
 
 :::
+
+## Introduction aux graphiques HTML avec `Plotly`
+
