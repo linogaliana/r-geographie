@@ -8,7 +8,7 @@
 
 <meta name="author" content="Lino Galiana">
 
-<title>Introduction aux méthodes quantitatives avec  - Importer et manipuler des données avec </title>
+<title>Introduction aux méthodes quantitatives avec  - Produire des représentations graphiques avec  et ggplot2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Importer et manipuler des données avec ">
+<meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Produire des représentations graphiques avec  et ggplot2">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://rgeo.linogaliana.fr/cards/version-light/baby.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -155,7 +155,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#premières-productions-graphiques" id="toc-premières-productions-graphiques" class="nav-link active" data-scroll-target="#premières-productions-graphiques"><span class="header-section-number">1</span> Premières productions graphiques</a></li>
+  <li><a href="#données" id="toc-données" class="nav-link active" data-scroll-target="#données"><span class="header-section-number">1</span> Données</a></li>
+  <li><a href="#premières-productions-graphiques" id="toc-premières-productions-graphiques" class="nav-link" data-scroll-target="#premières-productions-graphiques"><span class="header-section-number">2</span> Premières productions graphiques</a></li>
   </ul>
 </nav>
     </div>
@@ -164,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Importer et manipuler des données avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></h1>
+<h1 class="title">Produire des représentations graphiques avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> et <code>ggplot2</code></h1>
 </div>
 
 
@@ -194,7 +195,7 @@ Dérouler les <em>slides</em> ci-dessous ou <a href="../slides/wrangling.html">c
 </summary>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><iframe class="sourceCode yaml code-with-copy" src="/slides/wrangling.html"></iframe></div>
 </details>
-<p>Dans ce troisième TP, nous allons apprendre à importer et manipuler des données avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>. <i class="fa-brands fa-r-project" aria-label="r-project"></i> est très bien outillé dans le domaine grâce à la librairie <code>ggplot2</code> qui implémente une <a href="https://fr.wikibooks.org/wiki/Programmer_en_R/Comprendre_la_grammaire_des_graphiques">grammaire des graphiques</a> flexible, cohérente et simple d’usage.</p>
+<p>Dans ce troisième TP, nous allons apprendre à créer des représentations graphiques synthétiques avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> qui est très bien outillé dans le domaine grâce à la librairie <code>ggplot2</code>. Cette dernière implémente une <a href="https://fr.wikibooks.org/wiki/Programmer_en_R/Comprendre_la_grammaire_des_graphiques">grammaire des graphiques</a> flexible, cohérente et simple d’usage.</p>
 <p>Si vous êtes intéressés par <code>Python</code> <i class="fa-brands fa-python" aria-label="python"></i>, une version très proche de ce TP est disponible dans <a href="https://pythonds.linogaliana.fr/content/manipulation/02b_pandas_TP.html">mon cours de l’ENSAE</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -213,37 +214,63 @@ Note
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
+<span data-code-cell="annotated-cell-1" data-code-annotation="1" data-code-lines="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
 </dd>
 </dl>
 </div>
 </div>
 </div>
 </div>
-<p>La pratique de la visualisation se fera, dans ce cours, en répliquant des graphiques qu’on peut trouver sur la page de l’<em>open-data</em> de la ville de Paris <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">ici</a>.</p>
+<p>La pratique de la visualisation se fera, dans ce cours, en répliquant des graphiques qu’on peut trouver sur la page de l’<em>open data</em> de la ville de Paris <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">ici</a>.</p>
 <p>Ce TP vise à initier:</p>
 <ul>
-<li>Au package <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> pour la construction de graphiques figés</li>
+<li>Principalement au <em>package</em> <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> pour la construction de graphiques figés ;</li>
 <li>Au package <a href="https://plotly.com/r/"><code>plotly</code></a> pour les graphiques dynamiques, au format HTML</li>
 </ul>
 <p>Dans ce chapitre, nous allons utiliser les librairies suivantes:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nous verrons par la suite la manière de construire des cartes facilement avec des formats équivalents.</p>
-<p>Un sous-ensemble des données de <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">paris open data</a> a été mis à disposition sur pour faciliter l’import (élimination des colonnes qui ne nous serviront pas mais ralentissent l’import).</p>
-<p>Être capable de construire des visualisations de données intéressantes est une compétence nécessaire à tout <em>data-scientist</em> ou chercheur. Pour améliorer la qualité de ces visualisations, il est recommandé de suivre certains conseils donnés par des spécialistes de la <em>dataviz</em> sur la sémiologie graphique. Les bonnes visualisations de données, comme celles du <em>New York Times</em>, reposent certes sur des outils adaptés (des librairies <code>JavaScript</code>) mais aussi sur certaines règles de représentation qui permettent de comprendre en quelques secondes le message d’une visualisation. Ce <a href="https://blog.datawrapper.de/text-in-data-visualizations/?utm_source=substack&amp;utm_medium=email">post de blog</a> est une ressource qu’il est utile de consulter régulièrement.</p>
-<section id="premières-productions-graphiques" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="premières-productions-graphiques"><span class="header-section-number">1</span> Premières productions graphiques</h2>
-<p>Chercher à produire une visualisation parfaite du premier coup est illusoire. Il est beaucoup plus réaliste d’améliorer graduellement une représentation graphique afin, petit à petit, de mettre en avant les effets de structure.</p>
-<p>Nous allons donc commencer par nous représenter la distribution des principales stations. Pour cela nous allons produire rapidement un <em>barplot</em> puis l’améliorer graduellement.</p>
-<p>Les données sont mises à disposition dans une forme simplifiée par rapport à celles de l’<em>open data</em> parisien. Nous proposons de les télécharger et les enregistrer dans un fichier sur le disque dur local avant de l’importer<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p>Nous allons reproduire les deux premiers graphiques de la <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">page d’analyse des données</a>: <em>Les 10 compteurs avec la moyenne horaire la plus élevée</em> et <em>Les 10 compteurs ayant comptabilisés le plus de vélos</em>. Les valeurs chiffrées des graphiques seront différentes de celles de la page en ligne, c’est normal, nous travaillons sur des données plus anciennes.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="st">"bike.gz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Être capable de construire des visualisations de données intéressantes est une compétence nécessaire à tout <em>data-scientist</em> ou chercheur. Pour améliorer la qualité de ces visualisations, il est recommandé de suivre certains conseils donnés par des spécialistes de la <em>dataviz</em> sur la sémiologie graphique.</p>
+<p>Les bonnes visualisations de données, comme celles du <em>New York Times</em>, reposent certes sur des outils adaptés (des librairies <code>JavaScript</code>) mais aussi sur certaines règles de représentation qui permettent de comprendre en quelques secondes le message d’une visualisation.</p>
+<p>Ce <a href="https://blog.datawrapper.de/text-in-data-visualizations/">post de blog</a> est une ressource qu’il est utile de consulter régulièrement.</p>
+</div>
+</div>
+<section id="données" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="données"><span class="header-section-number">1</span> Données</h2>
+<p>Un sous-ensemble des données de <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">Paris <em>Open Data</em></a> a été mis à disposition pour faciliter l’import. Il s’agit d’une extraction, qui commence à dater, des données disponibles sur le site où seules les colonnes qui servent à cet exercice ont été conservées.</p>
+<p>Nous proposons de télécharger ces données et les enregistrer dans un fichier sur le disque dur local avant de l’importer<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Cependant, nous n’allons pas faire cela manuellement mais nous allons plutôt utiliser <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Effectuer ce type d’action de manière manuelle serait une mauvaise pratique du point de vue de la reproductibilité.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="st">"bike.gz"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-annotation="1" data-code-lines="2">L’extension <code>.gz</code> est importante pour la suite car <code>readr</code> en a besoin pour comprendre que le fichier est compressé.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="premières-productions-graphiques" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="premières-productions-graphiques"><span class="header-section-number">2</span> Premières productions graphiques</h2>
+<p>Chercher à produire une visualisation parfaite du premier coup est illusoire. Il est beaucoup plus réaliste d’améliorer graduellement une représentation graphique afin, petit à petit, de mettre en avant les effets de structure dans un jeu de données.</p>
+<p>Nous allons donc commencer par nous représenter la distribution des passages aux principales stations de mesure. Pour cela nous allons produire rapidement un <em>barplot</em> puis l’améliorer graduellement.</p>
+<p>Dans cette partie, nous allons ainsi reproduire les deux premiers graphiques de la <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">page d’analyse des données</a>: <em>Les 10 compteurs avec la moyenne horaire la plus élevée</em> et <em>Les 10 compteurs ayant comptabilisés le plus de vélos</em>. Les valeurs chiffrées des graphiques seront différentes de celles de la page en ligne, c’est normal, nous travaillons sur des données plus anciennes.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -254,29 +281,90 @@ Exercice 1 : Importer les données et produire un premier graphique rapidement
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Les données comportent plusieurs dimensions pouvant faire l’objet d’une analyse statistique. Il est donc nécessaire dans un premier temps de synthétiser celles-ci par des agrégations afin d’avoir un graphique lisible.</p>
 <ol type="1">
-<li>Importer les données de compteurs de vélos depuis le fichier <code>bike.gz</code>. Celles-ci ont l’aspect suivant:</li>
+<li>Importer les données de compteurs de vélos depuis le fichier <code>bike.gz</code> ;</li>
+<li>Garder les dix bornes à la moyenne la plus élevée ;</li>
 </ol>
+<p>On va maintenant pouvoir se concentrer sur la production de la représentation</p>
+<ol start="3" type="1">
+<li>En premier lieu, sans se préoccuper des éléments de style ni de la beauté du graphique, créer la structure du <em>barplot</em> (diagramme en batons) de la <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">page d’analyse des données</a>:</li>
+</ol>
+<details>
+<summary>
+Figure obtenue, sans s’occuper du style
+</summary>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 7
-  `Identifiant du compteur` `Nom du compteur`             Identifiant du site …¹
-  &lt;chr&gt;                     &lt;chr&gt;                                          &lt;dbl&gt;
-1 100003096-SC              97 avenue Denfert Rochereau …              100003096
-2 100003096-SC              97 avenue Denfert Rochereau …              100003096
-3 100003096-SC              97 avenue Denfert Rochereau …              100003096
-4 100003096-SC              97 avenue Denfert Rochereau …              100003096
-5 100003096-SC              97 avenue Denfert Rochereau …              100003096
-6 100003096-SC              97 avenue Denfert Rochereau …              100003096
-# ℹ abbreviated name: ¹​`Identifiant du site de comptage`
-# ℹ 4 more variables: `Nom du site de comptage` &lt;chr&gt;,
-#   `Comptage horaire` &lt;dbl&gt;, `Date et heure de comptage` &lt;dttm&gt;,
-#   `Date d'installation du site de comptage` &lt;date&gt;</code></pre>
+<div class="cell-output-display">
+<p><img src="ggplot_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ol start="2" type="1">
-<li>Garder les dix bornes à la moyenne la plus élevée</li>
+</details>
+<p>La suite de l’exercice consiste à améliorer graduellement cette représentation pour converger vers la reproduction de la version en <em>open data</em>. Il ne s’agit pas encore de se concentrer sur l’esthétique de la figure mais de la rendre intelligible, à gros trait.</p>
+<ol start="4" type="1">
+<li>En premier lieu, réordonner les barres sur l’axe des ordonnées grâce à la fonction <code>reorder</code>. Cela rendra le message de la figure plus intelligible.</li>
 </ol>
+<details>
+<summary>
+Figure avec les barres réordonnées
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ggplot_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol type="1">
+<li>On réordonne <code>Nom du compteur</code> en fonction de <code>Comptage horaire</code></li>
+</ol>
+</details>
+<ol start="5" type="1">
+<li>Le minimum pour que quelqu’un ne connaissant pas les données soit capable de comprendre la représentation graphique est de labelliser les axes. Créer les mêmes labels d’axes que la figure originale.</li>
+</ol>
+<details>
+<summary>
+Figure avec les axes nommés
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ggplot_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol type="1">
+<li>Il existe de nombreuses manières de procéder avec <code>ggplot</code> pour labelliser les axes. Mais la plus simple est la fonction <code>labs</code></li>
+</ol>
+</details>
+<ol start="5" type="1">
+<li>Le fond gris permet est certes une manière de reconnaître que le graphique a été produit avec <code>ggplot2</code> mais ce n’est pas très soigné. Comme c’est une fonctionnalité un peu plus avancée, nous proposons directement le code pour mettre à jour votre figure avec les éléments de style suivant:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="st">"cm"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>
+Figure obtenue à l’issue de ces questions
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ggplot_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<p>Faire la même chose pour la figure 2, afin d’obtenir une figure similaire</p>
+<details>
+<summary>
+Figure 2 à l’issue de cet exercice
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ggplot_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<details>
+<summary>
+Les 10 principales stations à l’issue de la question 2
+</summary>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
@@ -290,40 +378,7 @@ Exercice 1 : Importer les données et produire un premier graphique rapidement
 6 72 boulevard Voltaire NO-SE                        124.</code></pre>
 </div>
 </div>
-<ol start="3" type="1">
-<li>En premier lieu, sans se préoccuper des éléments de style ni de la beauté du graphique, créer la structure du <em>barplot</em> (diagramme en batons) de la <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">page d’analyse des données</a>:</li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ggplot_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>La suite de l’exercice consiste à améliorer graduellement cette représentation pour converger vers la reproduction de la version en <em>open data</em>.</p>
-<ol start="4" type="1">
-<li>Changer les labels des axes</li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ggplot_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<ol start="5" type="1">
-<li>Le fond gris permet certes de reconnaître que le graphique a été produit avec <code>ggplot2</code> mais ce n’est pas très esthétique. Changer le thème pour avoir les éléments suivants. Mettre à jour votre figure avec les éléments de style suivant:</li>
-</ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="st">"cm"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ggplot_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ggplot_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+</details>
 </div>
 </div>
 <p>On peut remarquer plusieurs éléments problématiques (par exemple les labels) mais aussi des éléments ne correspondant pas (les titres des axes, etc.) ou manquants (le nom du graphique…)</p>
