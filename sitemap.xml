@@ -2,46 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/r-wrangling.html</loc>
-    <lastmod>2023-09-19T11:55:52.158Z</lastmod>
+    <lastmod>2023-09-19T13:35:25.217Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/ggplot.html</loc>
-    <lastmod>2023-09-19T11:55:07.810Z</lastmod>
+    <lastmod>2023-09-19T13:34:45.301Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/wrangling/index.html</loc>
-    <lastmod>2023-09-19T11:54:09.218Z</lastmod>
+    <lastmod>2023-09-19T13:33:52.785Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/ggplot/index.html</loc>
-    <lastmod>2023-09-19T11:54:08.478Z</lastmod>
+    <lastmod>2023-09-19T13:33:52.105Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/index.html</loc>
-    <lastmod>2023-09-19T11:54:07.314Z</lastmod>
-  </url>
-  <url>
-    <loc>https://rgeo.linogaliana.fr/slides/introduction.html</loc>
-    <lastmod>2023-09-19T11:53:56.490Z</lastmod>
+    <lastmod>2023-09-19T13:33:51.057Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/slides/wrangling.html</loc>
-    <lastmod>2023-09-19T11:54:05.286Z</lastmod>
+    <lastmod>2023-09-19T13:33:35.545Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/slides/introduction.html</loc>
+    <lastmod>2023-09-19T13:33:27.532Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/slides/ggplot.html</loc>
+    <lastmod>2023-09-19T13:33:50.201Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/geospatial-wrangling/index.html</loc>
-    <lastmod>2023-09-19T11:54:08.114Z</lastmod>
+    <lastmod>2023-09-19T13:33:51.757Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/introduction/index.html</loc>
-    <lastmod>2023-09-19T11:54:08.846Z</lastmod>
+    <lastmod>2023-09-19T13:33:52.445Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/geospatial-wrangling.html</loc>
-    <lastmod>2023-09-19T11:54:38.998Z</lastmod>
+    <lastmod>2023-09-19T13:34:20.245Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/r-base.html</loc>
-    <lastmod>2023-09-19T11:55:23.946Z</lastmod>
+    <lastmod>2023-09-19T13:35:00.261Z</lastmod>
   </url>
 </urlset>

@@ -11,7 +11,7 @@
     "href": "exercises/r-wrangling.html#import-dun-csv-de-lademe",
     "title": "Importer et manipuler des données avec ",
     "section": "2.1 Import d’un csv de l’Ademe",
-    "text": "2.1 Import d’un csv de l’Ademe\nPour commencer, nous allons importer les données de l’Ademe à l’aide du package readr[^readcsv].\n\n\n\n\n\n\nExercice 1: lire un csv avec readr et observer les données\n\n\n\nVoici l’URL sur lequel les données sont disponibles\n\nurl &lt;- \"https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert\"\n\n\nUtiliser le package readr pour importer ces données. Nommer cet objet emissions4\nAfficher les premières lignes avec head et observer la différence d’affichage avec, par exemple, ce dataframe:\n\n\nlibrary(readr)\nemissions &lt;- read_csv(url)\n\nRows: 35798 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): INSEE commune, Commune\ndbl (10): Agriculture, Autres transports, Autres transports international, C...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\ndata.frame(\n  \"com\" = c(1,2),\n  \"val\" = rnorm(2)\n)\n\n  com       val\n1   1 1.8014753\n2   2 0.7193079\n\n\n\nAfficher la classe de emissions. Comprenez-vous maintenant pourquoi cet objet est un peu différent d’un dataframe de base ?\nUtiliser les fonctions adéquates pour les 10 premières valeurs, les 15 dernières et un échantillon aléatoire de 10 valeurs grâce à la fonction adéquate du package dplyr\n\n\n\nEn cas de blocage à la question 1\n\nLire la documentation de read_csv (très bien faite) ou chercher des exemples en ligne pour découvrir cette fonction. ⚠️ Ne pas utiliser read.csv (fonction de base) qui n’est pas performante."
+    "text": "2.1 Import d’un csv de l’Ademe\nPour commencer, nous allons importer les données de l’Ademe à l’aide du package readr[^readcsv].\n\n\n\n\n\n\nExercice 1: lire un csv avec readr et observer les données\n\n\n\nVoici l’URL sur lequel les données sont disponibles\n\nurl &lt;- \"https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert\"\n\n\nUtiliser le package readr pour importer ces données. Nommer cet objet emissions4\nAfficher les premières lignes avec head et observer la différence d’affichage avec, par exemple, ce dataframe:\n\n\nlibrary(readr)\nemissions &lt;- read_csv(url)\n\nRows: 35798 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): INSEE commune, Commune\ndbl (10): Agriculture, Autres transports, Autres transports international, C...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\ndata.frame(\n  \"com\" = c(1,2),\n  \"val\" = rnorm(2)\n)\n\n  com       val\n1   1 0.2862189\n2   2 1.0318354\n\n\n\nAfficher la classe de emissions. Comprenez-vous maintenant pourquoi cet objet est un peu différent d’un dataframe de base ?\nUtiliser les fonctions adéquates pour les 10 premières valeurs, les 15 dernières et un échantillon aléatoire de 10 valeurs grâce à la fonction adéquate du package dplyr\n\n\n\nEn cas de blocage à la question 1\n\nLire la documentation de read_csv (très bien faite) ou chercher des exemples en ligne pour découvrir cette fonction. ⚠️ Ne pas utiliser read.csv (fonction de base) qui n’est pas performante."
   },
   {
     "objectID": "exercises/r-wrangling.html#import-de-données-de-linsee",
@@ -82,6 +82,146 @@
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "",
     "text": "Introduction aux méthodes quantitatives avec \nLino Galiana\nCours du département de sciences sociales de l’ENS Ulm.\nUn cours pour se familiariser à  par la pratique avec l’open data.\n\n\n\n  \n     \n      \n          \n            \n          \n          \n            Introduction aux objets de base \n            \n              \nIntroduction aux objets basiques de \net à RStudio\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données avec le tidyverse\n            \n              \nIntroduction à l'écosystème du tidyverse\npour lire et manipuler des données structurées avec \n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Produire des représentations graphiques avec ggplot2\n            \n              \nIntroduction à ggplot2,\npour produire des graphiques avec\n\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données spatiales avec sf\n            \n              \nIntroduction à sf,\nune extension du\ntidyverse\npour transformer \nen SIG capable de lire et manipuler des données géographiques.\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
+  },
+  {
+    "objectID": "slides/wrangling.html#chapitre-introductif",
+    "href": "slides/wrangling.html#chapitre-introductif",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Chapitre introductif",
+    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+  },
+  {
+    "objectID": "slides/wrangling.html#introduction",
+    "href": "slides/wrangling.html#introduction",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Introduction",
+    "text": "Introduction\n\n centré autour du dataframe\n\n\n\nMais manipulations parfois un peu lourdes :\n\ndf$var: un peu lourd\ndf[,]: un peu trop calqué sur les matrices\n\n\n\n\n\nDonnées textuelles: une base perfectible\n\nDes outputs alambiqués\nDes fonctionnalités manquantes par rapport à Python"
+  },
+  {
+    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse",
+    "href": "slides/wrangling.html#la-réponse-le-tidyverse",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "La réponse: le tidyverse !",
+    "text": "La réponse: le tidyverse !\n\nL’écosystème du tidyverse"
+  },
+  {
+    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse-1",
+    "href": "slides/wrangling.html#la-réponse-le-tidyverse-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "La réponse: le tidyverse !",
+    "text": "La réponse: le tidyverse !\nUn ensemble de packages développés par RStudio qui facilite :\n\nLa lecture (readr) et la manipulation de bases de données (dplyr)\nL’exploitation de données textuelles (stringr), temporelles (lubridate) ou catégorielles (forcats)\nLa création de graphiques (ggplot2)\nLa programmation à partir de dataframes (purrr)\nEt bien d’autres choses…"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-concept-de-données-tidy",
+    "href": "slides/wrangling.html#le-concept-de-données-tidy",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le concept de données tidy",
+    "text": "Le concept de données tidy\n\nChaque variable possède sa propre colonne ;\nChaque observation possède sa propre ligne ;\nUne valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.\n\n\n\n\n\n\n\nNote\n\n\nConcept popularisé par Hadley Wickham."
+  },
+  {
+    "objectID": "slides/wrangling.html#readr",
+    "href": "slides/wrangling.html#readr",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "readr",
+    "text": "readr\n\n\nLe package pour lire des fichiers plats (.csv, .txt…)\nPermet d’obtenir un tibble, le dataframe augmenté du tidyverse"
+  },
+  {
+    "objectID": "slides/wrangling.html#dplyr",
+    "href": "slides/wrangling.html#dplyr",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "dplyr",
+    "text": "dplyr\n\n\nLe package central de l’écosystème de manipulation de données ;\nManipulation de données et statistiques descriptives ;"
+  },
+  {
+    "objectID": "slides/wrangling.html#dplyr-1",
+    "href": "slides/wrangling.html#dplyr-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "dplyr",
+    "text": "dplyr\nPrincipaux verbes\nOn travaille sur un tibble (dataframe augmenté)\n\nselect() : sélectionner des variables par leur nom ;\nrename() : renommer des variables ;\nfilter() : sélectionner des observations selon une ou plusieurs conditions ;\narrange() : trier la table selon une ou plusieurs variables ;\nmutate() : ajouter des variables qui sont fonction d’autres variables ;\nsummarise() : calculer une statistique à partir de données ;\ngroup_by() : faire des opérations par groupe.- `"
+  },
+  {
+    "objectID": "slides/wrangling.html#dplyr-2",
+    "href": "slides/wrangling.html#dplyr-2",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "dplyr",
+    "text": "dplyr\nManipulation de données\nOn enchaine des séquences avec les pipe (%&gt;%)\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  mutate(x = paste0(AN, \"_\", NB_EQUIP))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans utilitR"
+  },
+  {
+    "objectID": "slides/wrangling.html#dplyr-3",
+    "href": "slides/wrangling.html#dplyr-3",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "dplyr",
+    "text": "dplyr\nStatistiques agrégées\n\nLogique du split-apply-combine avec groupby\n\n\n\nIllustration du split-apply-combine\n\n\n\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  group_by(DEP) %&gt;%\n4  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn définit DEP comme une variable de stratification pour définir des groupes\n\n4\n\nOn résume les données en faisant la somme des stations services dans chaque groupe"
+  },
+  {
+    "objectID": "slides/wrangling.html#ggplot",
+    "href": "slides/wrangling.html#ggplot",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "ggplot",
+    "text": "ggplot\n\n\nLe package indispensable pour faire des graphiques ❤️ ;\nApproche cohérente et flexible basée sur la grammaire des graphiques\n\nObjet d’un chapitre dédié"
+  },
+  {
+    "objectID": "slides/wrangling.html#stringr-forcats-et-lubridate",
+    "href": "slides/wrangling.html#stringr-forcats-et-lubridate",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "stringr, forcats et lubridate",
+    "text": "stringr, forcats et lubridate\n\n  \n\n\nPlein de fonctions facilitant la manipulation:\n\nDonnées textuelles: stringr\nDonnées catégorielles: forcats\nDonnées temporelles: lubridate"
+  },
+  {
+    "objectID": "slides/wrangling.html#généralités",
+    "href": "slides/wrangling.html#généralités",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Généralités",
+    "text": "Généralités\n\nDonnées peuvent être stockées dans de nombreux formats différents\n\nStandards différents\nManières d’importer différentes\n\n\n\n\nFonctionnalités de  limitées:\n\nPackages spécialisés pour certains formats\nObjectif: applatir l’information dans un dataframe\n\n\n\n\n\n\n\n\nNote\n\n\nOn verra les formats géographiques, et leurs enjeux, ultérieurement"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-csv",
+    "href": "slides/wrangling.html#le-csv",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le CSV",
+    "text": "Le CSV\n\nFormat de fichier plat avec des colonnes délimitées:\n\nStandard: , en délimitateur, . en décimale ;\nVariante européenne 😮‍💨: ; en délimitateur, , en décimale\n\nFormat universel, simple d’utilisation (quelques limites)\n\n\nviewof info_csv = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_csv == \"Fichier brut\" ? html`&lt;div&gt;${md_csv}&lt;div&gt;` : html`&lt;div&gt;${df_csv}&lt;div&gt;`\n\n\n\n\n\n\n\ndf_csv = Inputs.table(\n  d3.csvParse(raw_csv)\n)\nmd_csv = md`\n\\`\\`\\`\n${raw_csv}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nraw_csv = `DEP,REG,CHEFLIEU,TNCC,NCC,NCCENR,LIBELLE\n01,84,01053,5,AIN,Ain,Ain\n02,32,02408,5,AISNE,Aisne,Aisne\n03,84,03190,5,ALLIER,Allier,Allier\n04,93,04070,4,ALPES DE HAUTE PROVENCE,Alpes-de-Haute-Provence,Alpes-de-Haute-Provence\n05,93,05061,4,HAUTES ALPES,Hautes-Alpes,Hautes-Alpes\n06,93,06088,4,ALPES MARITIMES,Alpes-Maritimes,Alpes-Maritimes\n`"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-csv-1",
+    "href": "slides/wrangling.html#le-csv-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le CSV",
+    "text": "Le CSV\n\nLecture avec la fonction read_csv du package readr!\n\n\n1library(readr)\n2read_csv(\"dossier_donnees/nom_fichier.csv\")\n\n\n1\n\nOn importe la librairie readr pour avoir accès à la fonction read_csv\n\n2\n\nOn utilise read_csv pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nCSV avec délimitateur ;: fonction read_csv2.\nFormats plats plus exotiques (.txt par exemple): read_delim\n\nPlus de détails dans la documentation utilitR"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-json",
+    "href": "slides/wrangling.html#le-json",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le JSON",
+    "text": "Le JSON\n\nLe format du web, notamment des API\n\nAPI: on verra ça plus tard\n\n\n\nviewof info_json = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_json == \"Fichier brut\" ? html`&lt;div&gt;${md_json}&lt;div&gt;` : html`&lt;div&gt;${df_json}&lt;div&gt;`\n\n\n\n\n\n\n\njson_string = `[\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]`\nraw_json = [\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]\nmd_json = md`\n\\`\\`\\`\n${json_string}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ndf_json = Inputs.table(raw_json)"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-json-1",
+    "href": "slides/wrangling.html#le-json-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le JSON",
+    "text": "Le JSON\n\nImporté comme une liste hiérarchisée\nObjectif: transformer cette information dans un dataframe tidy\n\nPas toujours évident !\n\n\n\n1library(jsonlite)\n2df &lt;- fromJSON(file=\"dossier_donnees/nom_fichier.json\")\n\n\n1\n\nOn importe la librairie jsonlite pour avoir accès à la fonction fromJSON\n\n2\n\nOn utilise fromJSON pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv"
+  },
+  {
+    "objectID": "slides/wrangling.html#les-formats-excel",
+    "href": "slides/wrangling.html#les-formats-excel",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Les formats Excel",
+    "text": "Les formats Excel"
+  },
+  {
+    "objectID": "slides/wrangling.html#les-formats-excel-1",
+    "href": "slides/wrangling.html#les-formats-excel-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Les formats Excel",
+    "text": "Les formats Excel\n\nFormat propriétaire\nMélange mise en forme et données brute\n\nPas approprié pour l’analyse de données\nDangereux pour la reproductibilité et la transparence\n\nPlus de détails sur utilitR"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-pipe-magrittr-1",
+    "href": "slides/wrangling.html#le-pipe-magrittr-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le pipe magrittr (%>%)",
+    "text": "Le pipe magrittr (%&gt;%)\nUne manière de chaîner les opérations\n\n\nFonctions emboitéesAvec le pipe\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ndf &lt;- filter(\n  as_tibble(telechargerDonnees(\"BPE_ENS\")),\n  TYPEQU == \"B316\"\n)\n\nsummarise(\n  group_by(df, DEP),\n  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)\n)\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ntelechargerDonnees(\"BPE_ENS\") %&gt;%\n  as_tibble() %&gt;%\n  filter(TYPEQU == \"B316\") %&gt;% \n  group_by(DEP) %&gt;% \n  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) \n\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
   },
   {
     "objectID": "slides/introduction.html#chapitre-introductif",
@@ -399,144 +539,74 @@
     "text": "L’interface RStudio\n\nIllustration empruntée à ce livre"
   },
   {
-    "objectID": "slides/wrangling.html#chapitre-introductif",
-    "href": "slides/wrangling.html#chapitre-introductif",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Chapitre introductif",
-    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
-  },
-  {
-    "objectID": "slides/wrangling.html#introduction",
-    "href": "slides/wrangling.html#introduction",
+    "objectID": "slides/ggplot.html#introduction",
+    "href": "slides/ggplot.html#introduction",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Introduction",
-    "text": "Introduction\n\n centré autour du dataframe\n\n\n\nMais manipulations parfois un peu lourdes :\n\ndf$var: un peu lourd\ndf[,]: un peu trop calqué sur les matrices\n\n\n\n\n\nDonnées textuelles: une base perfectible\n\nDes outputs alambiqués\nDes fonctionnalités manquantes par rapport à Python"
+    "text": "Introduction\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
   },
   {
-    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse",
-    "href": "slides/wrangling.html#la-réponse-le-tidyverse",
+    "objectID": "slides/ggplot.html#introduction-1",
+    "href": "slides/ggplot.html#introduction-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La réponse: le tidyverse !",
-    "text": "La réponse: le tidyverse !\n\nL’écosystème du tidyverse"
+    "section": "Introduction",
+    "text": "Introduction\n\nLa visualisation de données synthétise la structure des données\n\nGuide l’exploration ultérieure de données\nTransmets un message au lecteur\n\n\n\n\n2 types de visualisations :\n\nReprésentations figées: ggplot2\nReprésentations HTML: leaflet"
   },
   {
-    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse-1",
-    "href": "slides/wrangling.html#la-réponse-le-tidyverse-1",
+    "objectID": "slides/ggplot.html#jeu-de-données-des-exemples",
+    "href": "slides/ggplot.html#jeu-de-données-des-exemples",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La réponse: le tidyverse !",
-    "text": "La réponse: le tidyverse !\nUn ensemble de packages développés par RStudio qui facilite :\n\nLa lecture (readr) et la manipulation de bases de données (dplyr)\nL’exploitation de données textuelles (stringr), temporelles (lubridate) ou catégorielles (forcats)\nLa création de graphiques (ggplot2)\nLa programmation à partir de dataframes (purrr)\nEt bien d’autres choses…"
+    "section": "Jeu de données des exemples",
+    "text": "Jeu de données des exemples\n\nlibrary(doremifasol)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(scales)\n\ndf &lt;- telechargerDonnees(\"FILOSOFI_DISP_IRIS\", date = 2017) %&gt;%\n  as_tibble() %&gt;%\n  sample_frac(0.1)\n\n\n\n\n\n\n\nNote\n\n\nInspiration pour ces slides :\n\nDocumentation collaborative utilitR ;\nManuel ggplot ;\nCours de Joseph Larmarange"
   },
   {
-    "objectID": "slides/wrangling.html#le-concept-de-données-tidy",
-    "href": "slides/wrangling.html#le-concept-de-données-tidy",
+    "objectID": "slides/ggplot.html#ggplot2",
+    "href": "slides/ggplot.html#ggplot2",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le concept de données tidy",
-    "text": "Le concept de données tidy\n\nChaque variable possède sa propre colonne ;\nChaque observation possède sa propre ligne ;\nUne valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.\n\n\n\n\n\n\n\nNote\n\n\nConcept popularisé par Hadley Wickham."
+    "section": "ggplot2",
+    "text": "ggplot2\nInitialise une figure associée à un jeu de données\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917))"
   },
   {
-    "objectID": "slides/wrangling.html#readr",
-    "href": "slides/wrangling.html#readr",
+    "objectID": "slides/ggplot.html#ggplot2-1",
+    "href": "slides/ggplot.html#ggplot2-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "readr",
-    "text": "readr\n\n\nLe package pour lire des fichiers plats (.csv, .txt…)\nPermet d’obtenir un tibble, le dataframe augmenté du tidyverse"
+    "section": "ggplot2",
+    "text": "ggplot2\nAjoute des couches (+) avec les fonctions geom_*\n\nggplot(df) +\n  geom_point(aes(x = DISP_MED17, y = DISP_D917))"
   },
   {
-    "objectID": "slides/wrangling.html#dplyr",
-    "href": "slides/wrangling.html#dplyr",
+    "objectID": "slides/ggplot.html#ggplot2-2",
+    "href": "slides/ggplot.html#ggplot2-2",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\n\n\nLe package central de l’écosystème de manipulation de données ;\nManipulation de données et statistiques descriptives ;"
+    "section": "ggplot2",
+    "text": "ggplot2\nParamétrise les couches avec aes\n\nggplot(df) +\n  geom_point(aes(x = DISP_MED17, y = DISP_D917, color = DISP_Q117), shape = 3)\n\n\n\n\n\n\n\n\nNote\n\n\nLe contrôle de l’esthétique d’une couche geom_ se fait :\n\naes: paramètres variables de la couche liés à une variable ;\nhors aes: paramètres qui s’appliquent uniformément sur la couche"
   },
   {
-    "objectID": "slides/wrangling.html#dplyr-1",
-    "href": "slides/wrangling.html#dplyr-1",
+    "objectID": "slides/ggplot.html#ggplot2-3",
+    "href": "slides/ggplot.html#ggplot2-3",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\nPrincipaux verbes\nOn travaille sur un tibble (dataframe augmenté)\n\nselect() : sélectionner des variables par leur nom ;\nrename() : renommer des variables ;\nfilter() : sélectionner des observations selon une ou plusieurs conditions ;\narrange() : trier la table selon une ou plusieurs variables ;\nmutate() : ajouter des variables qui sont fonction d’autres variables ;\nsummarise() : calculer une statistique à partir de données ;\ngroup_by() : faire des opérations par groupe.- `"
+    "section": "ggplot2",
+    "text": "ggplot2\nAjoute des couches (+) avec les fonctions geom_*\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = DISP_Q117), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE)"
   },
   {
-    "objectID": "slides/wrangling.html#dplyr-2",
-    "href": "slides/wrangling.html#dplyr-2",
+    "objectID": "slides/ggplot.html#ggplot2-4",
+    "href": "slides/ggplot.html#ggplot2-4",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\nManipulation de données\nOn enchaine des séquences avec les pipe (%&gt;%)\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  mutate(x = paste0(AN, \"_\", NB_EQUIP))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans utilitR"
+    "section": "ggplot2",
+    "text": "ggplot2\nModifier les échelles avec les fonctions scale_\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = DISP_Q117), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_c()"
   },
   {
-    "objectID": "slides/wrangling.html#dplyr-3",
-    "href": "slides/wrangling.html#dplyr-3",
+    "objectID": "slides/ggplot.html#ggplot2-5",
+    "href": "slides/ggplot.html#ggplot2-5",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\nStatistiques agrégées\n\nLogique du split-apply-combine avec groupby\n\n\n\nIllustration du split-apply-combine\n\n\n\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  group_by(DEP) %&gt;%\n4  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn définit DEP comme une variable de stratification pour définir des groupes\n\n4\n\nOn résume les données en faisant la somme des stations services dans chaque groupe"
+    "section": "ggplot2",
+    "text": "ggplot2\nModifier les échelles avec les fonctions scale_\n\ndf &lt;- df %&gt;% mutate(quartile = factor(ntile(DISP_Q117, 4)))\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = quartile), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_d(option = \"turbo\")"
   },
   {
-    "objectID": "slides/wrangling.html#ggplot",
-    "href": "slides/wrangling.html#ggplot",
+    "objectID": "slides/ggplot.html#ggplot2-6",
+    "href": "slides/ggplot.html#ggplot2-6",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot",
-    "text": "ggplot\n\n\nLe package indispensable pour faire des graphiques ❤️ ;\nApproche cohérente et flexible basée sur la grammaire des graphiques\n\nObjet d’un chapitre dédié"
-  },
-  {
-    "objectID": "slides/wrangling.html#stringr-forcats-et-lubridate",
-    "href": "slides/wrangling.html#stringr-forcats-et-lubridate",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "stringr, forcats et lubridate",
-    "text": "stringr, forcats et lubridate\n\n  \n\n\nPlein de fonctions facilitant la manipulation:\n\nDonnées textuelles: stringr\nDonnées catégorielles: forcats\nDonnées temporelles: lubridate"
-  },
-  {
-    "objectID": "slides/wrangling.html#généralités",
-    "href": "slides/wrangling.html#généralités",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Généralités",
-    "text": "Généralités\n\nDonnées peuvent être stockées dans de nombreux formats différents\n\nStandards différents\nManières d’importer différentes\n\n\n\n\nFonctionnalités de  limitées:\n\nPackages spécialisés pour certains formats\nObjectif: applatir l’information dans un dataframe\n\n\n\n\n\n\n\n\nNote\n\n\nOn verra les formats géographiques, et leurs enjeux, ultérieurement"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-csv",
-    "href": "slides/wrangling.html#le-csv",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le CSV",
-    "text": "Le CSV\n\nFormat de fichier plat avec des colonnes délimitées:\n\nStandard: , en délimitateur, . en décimale ;\nVariante européenne 😮‍💨: ; en délimitateur, , en décimale\n\nFormat universel, simple d’utilisation (quelques limites)\n\n\nviewof info_csv = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_csv == \"Fichier brut\" ? html`&lt;div&gt;${md_csv}&lt;div&gt;` : html`&lt;div&gt;${df_csv}&lt;div&gt;`\n\n\n\n\n\n\n\ndf_csv = Inputs.table(\n  d3.csvParse(raw_csv)\n)\nmd_csv = md`\n\\`\\`\\`\n${raw_csv}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nraw_csv = `DEP,REG,CHEFLIEU,TNCC,NCC,NCCENR,LIBELLE\n01,84,01053,5,AIN,Ain,Ain\n02,32,02408,5,AISNE,Aisne,Aisne\n03,84,03190,5,ALLIER,Allier,Allier\n04,93,04070,4,ALPES DE HAUTE PROVENCE,Alpes-de-Haute-Provence,Alpes-de-Haute-Provence\n05,93,05061,4,HAUTES ALPES,Hautes-Alpes,Hautes-Alpes\n06,93,06088,4,ALPES MARITIMES,Alpes-Maritimes,Alpes-Maritimes\n`"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-csv-1",
-    "href": "slides/wrangling.html#le-csv-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le CSV",
-    "text": "Le CSV\n\nLecture avec la fonction read_csv du package readr!\n\n\n1library(readr)\n2read_csv(\"dossier_donnees/nom_fichier.csv\")\n\n\n1\n\nOn importe la librairie readr pour avoir accès à la fonction read_csv\n\n2\n\nOn utilise read_csv pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nCSV avec délimitateur ;: fonction read_csv2.\nFormats plats plus exotiques (.txt par exemple): read_delim\n\nPlus de détails dans la documentation utilitR"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-json",
-    "href": "slides/wrangling.html#le-json",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le JSON",
-    "text": "Le JSON\n\nLe format du web, notamment des API\n\nAPI: on verra ça plus tard\n\n\n\nviewof info_json = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_json == \"Fichier brut\" ? html`&lt;div&gt;${md_json}&lt;div&gt;` : html`&lt;div&gt;${df_json}&lt;div&gt;`\n\n\n\n\n\n\n\njson_string = `[\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]`\nraw_json = [\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]\nmd_json = md`\n\\`\\`\\`\n${json_string}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ndf_json = Inputs.table(raw_json)"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-json-1",
-    "href": "slides/wrangling.html#le-json-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le JSON",
-    "text": "Le JSON\n\nImporté comme une liste hiérarchisée\nObjectif: transformer cette information dans un dataframe tidy\n\nPas toujours évident !\n\n\n\n1library(jsonlite)\n2df &lt;- fromJSON(file=\"dossier_donnees/nom_fichier.json\")\n\n\n1\n\nOn importe la librairie jsonlite pour avoir accès à la fonction fromJSON\n\n2\n\nOn utilise fromJSON pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv"
-  },
-  {
-    "objectID": "slides/wrangling.html#les-formats-excel",
-    "href": "slides/wrangling.html#les-formats-excel",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Les formats Excel",
-    "text": "Les formats Excel"
-  },
-  {
-    "objectID": "slides/wrangling.html#les-formats-excel-1",
-    "href": "slides/wrangling.html#les-formats-excel-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Les formats Excel",
-    "text": "Les formats Excel\n\nFormat propriétaire\nMélange mise en forme et données brute\n\nPas approprié pour l’analyse de données\nDangereux pour la reproductibilité et la transparence\n\nPlus de détails sur utilitR"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-pipe-magrittr-1",
-    "href": "slides/wrangling.html#le-pipe-magrittr-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le pipe magrittr (%>%)",
-    "text": "Le pipe magrittr (%&gt;%)\n\n\nUne manière de chaîner les opérations\n\n\nFonctions emboitéesAvec le pipe\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ndf &lt;- filter(\n  as_tibble(telechargerDonnees(\"BPE_ENS\")),\n  TYPEQU == \"B316\"\n)\n\nsummarise(\n  group_by(df, DEP),\n  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)\n)\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ntelechargerDonnees(\"BPE_ENS\") %&gt;%\n  as_tibble() %&gt;%\n  filter(TYPEQU == \"B316\") %&gt;% \n  group_by(DEP) %&gt;% \n  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) \n\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+    "section": "ggplot2",
+    "text": "ggplot2\nModifier l’esthétique, à la fin seulement\n\np &lt;- ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = quartile), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_d(option = \"turbo\")\n\np + theme_bw() +\n  labs(x = \"Revenu médian\", y = \"9e décile\", color = \"Quartile\") +\n  theme(legend.position = \"bottom\")\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
   },
   {
     "objectID": "exercises/geospatial-wrangling.html",
@@ -557,14 +627,14 @@
     "href": "exercises/geospatial-wrangling.html#utiliser-des-données-géographiques-comme-des-couches-graphiques",
     "title": "Manipuler des données spatiales avec sf",
     "section": "2 Utiliser des données géographiques comme des couches graphiques",
-    "text": "2 Utiliser des données géographiques comme des couches graphiques\nSouvent, le découpage communal ne sert qu’en fond de cartes, pour donner des repères. En complément de celui-ci, on peut désirer exploiter un autre jeu de données.\nOn va partir des données de localisation des stations velib, disponibles sur le site d’open data de la ville de Paris et requêtables directement par l’url https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr\n\n\n\n\n\n\nExercice 3: importer et explorer les données velib\n\n\n\n\nImporter les données velib sous le nom station\nVérifier la projection géographique de station (attribut crs). Si celle-ci est différente des données communales, reprojeter ces dernières dans le même système de projection que les stations de vélib\nReprésenter sur une carte les 50 stations les plus importantes (variable capacity). Vous pouvez également afficher le fonds de carte des arrondissements de Paris. Cette page peut vous aider pour comprendre comment afficher plusieurs couches à la fois. Vous pouvez customiser la carte en retirant les axes grâce à la méthode set_axis_off et mettre un titre tel que “Les 50 principales stations de Vélib” avec la méthode set_title.\nAfficher également (trait bleu et épais) les réseaux de transport en communs, disponibles ici. L’url à requêter est https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr\n\n\n\n\n\nSimple feature collection with 6 features and 4 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 2.2917 ymin: 48.8394 xmax: 2.467731 ymax: 48.88606\nGeodetic CRS:  WGS 84\n  capacity                           name stationcode     coordonnees_geo\n1       33              Boétie - Ponthieu        8050 48.871417, 2.307679\n2       60             Alibert - Jemmapes       10013 48.871044, 2.366104\n3       35         Chazelles - Courcelles       17025 48.879407, 2.303446\n4       46         Edgar Quinet - Raspail       14002 48.839403, 2.329715\n5        0 Place de la Porte de Champeret       17203   48.88606, 2.29170\n6       21      Boissière - Etienne Dolet       31102 48.876111, 2.467731\n                   geometry\n1 POINT (2.307679 48.87142)\n2 POINT (2.366104 48.87104)\n3 POINT (2.303446 48.87941)\n4  POINT (2.329715 48.8394)\n5   POINT (2.2917 48.88606)\n6 POINT (2.467731 48.87611)\n\n\n\n\nCoordinate Reference System:\n  User input: WGS 84 \n  wkt:\nGEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4326]]\n\n\nLa carte attendu à l’issue de la question 3 a l’aspect suivant:\n\n\n\n\n\n\n\nReading layer `OGRGeoJSON' from data source \n  `https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr' \n  using driver `GeoJSON'\nSimple feature collection with 1638 features and 21 fields\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: 1.149741 ymin: 47.95678 xmax: 3.512889 ymax: 49.4262\nGeodetic CRS:  WGS 84\n\n\nL’ajout du réseau de métro permet d’obtenir une carte ressemblant à celle-ci:\n\n\n\n\n\nPour faire une belle carte, il faudrait couper les lignes de métro via une jointure spatiale ou privilégier un fonds de carte conceptuel. La méthode pour faire des cartes contextuelles est proposée en exercice supplémentaire 👇️. puisqu’elle implique des connaissances minimales avec leaflet que nous verrons ultérieurement."
+    "text": "2 Utiliser des données géographiques comme des couches graphiques\nSouvent, le découpage communal ne sert qu’en fond de cartes, pour donner des repères. En complément de celui-ci, on peut désirer exploiter un autre jeu de données.\nOn va partir des données de localisation des stations velib, disponibles sur le site d’open data de la ville de Paris et requêtables directement par l’url https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr\n\n\n\n\n\n\nExercice 3: importer et explorer les données velib\n\n\n\n\nImporter les données velib sous le nom station\nVérifier la projection géographique de station (attribut crs). Si celle-ci est différente des données communales, reprojeter ces dernières dans le même système de projection que les stations de vélib\nReprésenter sur une carte les 50 stations les plus importantes (variable capacity). Vous pouvez également afficher le fonds de carte des arrondissements de Paris. Cette page peut vous aider pour comprendre comment afficher plusieurs couches à la fois. Vous pouvez customiser la carte en retirant les axes grâce à la méthode set_axis_off et mettre un titre tel que “Les 50 principales stations de Vélib” avec la méthode set_title.\nAfficher également (trait bleu et épais) les réseaux de transport en communs, disponibles ici. L’url à requêter est https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr\n\n\n\n\n\nSimple feature collection with 6 features and 4 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 2.285468 ymin: 48.79629 xmax: 2.417212 ymax: 48.88022\nGeodetic CRS:  WGS 84\n  capacity                                    name stationcode\n1       48                      Le Brun - Gobelins       13007\n2       20                  Beaux-Arts - Bonaparte        6021\n3       18                       Raspail - Varenne        7004\n4       30 Jules Guesde - Pont du Port à l'Anglais       44017\n5       39             Belidor - Gouvion-Saint-Cyr       17043\n6       58             Richard Lenoir - Republique       11113\n      coordonnees_geo                  geometry\n1 48.835093, 2.353468 POINT (2.353468 48.83509)\n2 48.856452, 2.334852 POINT (2.334852 48.85645)\n3 48.853148, 2.326391 POINT (2.326391 48.85315)\n4 48.796288, 2.417212 POINT (2.417212 48.79629)\n5 48.880222, 2.285468 POINT (2.285468 48.88022)\n6 48.866718, 2.369254 POINT (2.369254 48.86672)\n\n\n\n\nCoordinate Reference System:\n  User input: WGS 84 \n  wkt:\nGEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4326]]\n\n\nLa carte attendu à l’issue de la question 3 a l’aspect suivant:\n\n\n\n\n\n\n\nReading layer `OGRGeoJSON' from data source \n  `https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr' \n  using driver `GeoJSON'\nSimple feature collection with 1638 features and 21 fields\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: 1.149741 ymin: 47.95678 xmax: 3.512889 ymax: 49.4262\nGeodetic CRS:  WGS 84\n\n\nL’ajout du réseau de métro permet d’obtenir une carte ressemblant à celle-ci:\n\n\n\n\n\nPour faire une belle carte, il faudrait couper les lignes de métro via une jointure spatiale ou privilégier un fonds de carte conceptuel. La méthode pour faire des cartes contextuelles est proposée en exercice supplémentaire 👇️. puisqu’elle implique des connaissances minimales avec leaflet que nous verrons ultérieurement."
   },
   {
     "objectID": "exercises/geospatial-wrangling.html#jointures-spatiales",
     "href": "exercises/geospatial-wrangling.html#jointures-spatiales",
     "title": "Manipuler des données spatiales avec sf",
     "section": "3 Jointures spatiales",
-    "text": "3 Jointures spatiales\nLes jointures attributaires fonctionnent comme avec un tibble classique. Pour conserver un objet spatial in fine, il faut faire attention à utiliser en premier (base de gauche) l’objet sf. En revanche, l’un des intérêts des objets geopandas est qu’on peut également faire une jointure sur la dimension spatiale grâce à plusieurs fonctions:\n\n\n\n\n\n\n\nFonction\nOpération\n\n\n\n\nst_intersects()\nQuelles géométries de x intersectent celles de y ?\n\n\nst_contains()\nQuelles géométries de x contiennent celles de y ?\n\n\nst_disjoint()\nQuelles géométries de x sont disjointes à celles de y ?\n\n\nst_is_within_distance()\nQuelles géométries de x est à moins de\n\n\nm/km de celles de y ?\n\n\n\n\nLa documentation à laquelle se référer est ici. Une version pédagogique se trouve dans la documentation utilitR.\n\n\n\n\n\n\nExercice 4: Associer les stations aux communes et arrondissements auxquels elles appartiennent\n\n\n\n\nFaire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de data_paris. Appeler cet objet stations_info\nReprésenter la carte des stations du 19e arrondissement (s’aider de la variable NOM). Vous pouvez mettre en fond de carte les arrondissements parisiens.\nCompter le nombre de stations velib et le nombre de places velib par arrondissement ou commune (pour vous aider, vous pouvez compléter vos connaissances avec ce tutoriel). Représenter sur une carte chacune des informations\nReprésenter les mêmes informations mais en densité (diviser par la surface de l’arrondissement ou commune en km2)\n(optionnel) Choisir une des cartes de densité et la nettoyer (retirer les axes, mettre les titres…)\n\n\n\nPour la question 2, la première méthode consiste à afficher toute la ville mais à ne représenter que les points des stations du 19e:\n\n\n\n\n\n\n\n\nJoining with `by = join_by(ID, NOM, NOM_M, INSEE_COM, STATUT, POPULATION,\nINSEE_CAN, INSEE_ARR, INSEE_DEP, INSEE_REG, SIREN_EPCI, source, INSEE_ARM)`\n\n\nEnfin, dans la question 4, si on représente plutôt la capacité sous forme de densité, pour tenir compte de la taille différente des arrondissements, on obtient cette carte:\n\n\nSimple feature collection with 1531 features and 21 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 637298.9 ymin: 6843146 xmax: 671750.3 ymax: 6879246\nProjected CRS: RGF93 / Lambert-93\nFirst 10 features:\n                         ID              NOM            NOM_M INSEE_COM\n1  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n2  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n3  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n4  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n5  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n6  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n7  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n8  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n9  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n10 COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n           STATUT POPULATION INSEE_CAN INSEE_ARR INSEE_DEP INSEE_REG\n1  Commune simple      66082        16         2        92        11\n2  Commune simple      66082        16         2        92        11\n3  Commune simple      66082        16         2        92        11\n4  Commune simple      66082        16         2        92        11\n5  Commune simple      66082        16         2        92        11\n6  Commune simple      66082        16         2        92        11\n7  Commune simple      66082        16         2        92        11\n8  Commune simple      66082        16         2        92        11\n9  Commune simple      66082        16         2        92        11\n10 Commune simple      66082        16         2        92        11\n            SIREN_EPCI                           source INSEE_ARM\n1  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n2  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n3  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n4  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n5  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n6  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n7  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n8  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n9  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n10 200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n              area capacity                                  name stationcode\n1  2.417473 [km^2]       50        Anatole France - Louise Michel       23009\n2  2.417473 [km^2]       39     Paul Vaillant Couturier - Chaptal       23001\n3  2.417473 [km^2]       50               Pont de Levallois-bécon       23002\n4  2.417473 [km^2]       26    Hôtel de Ville de Levallois Perret       23008\n5  2.417473 [km^2]        0                Bineau - Louise Michel       23011\n6  2.417473 [km^2]       27             Voltaire - Anatole France       23010\n7  2.417473 [km^2]       36 Paul Vaillant-Couturier - Victor Hugo       23004\n8  2.417473 [km^2]       26              Gare de Clichy-Levallois       23005\n9  2.417473 [km^2]       28             Président Wilson - Baudin       23003\n10 2.417473 [km^2]       25                 Jules Guesde - Alsace       23006\n       coordonnees_geo stationcode_count capacity_sum\n1  48.888732, 2.288158                11          334\n2  48.893480, 2.277525                11          334\n3  48.898418, 2.279131                11          334\n4  48.893145, 2.288882                11          334\n5  48.886662, 2.284327                11          334\n6  48.891999, 2.284263                11          334\n7  48.898197, 2.293848                11          334\n8  48.896798, 2.298468                11          334\n9  48.898269, 2.284934                11          334\n10 48.890566, 2.295078                11          334\n                         geometry  capacity_density\n1  POLYGON ((647761.4 6867307,... 20.68275 [1/km^2]\n2  POLYGON ((647761.4 6867307,... 16.13255 [1/km^2]\n3  POLYGON ((647761.4 6867307,... 20.68275 [1/km^2]\n4  POLYGON ((647761.4 6867307,... 10.75503 [1/km^2]\n5  POLYGON ((647761.4 6867307,...  0.00000 [1/km^2]\n6  POLYGON ((647761.4 6867307,... 11.16869 [1/km^2]\n7  POLYGON ((647761.4 6867307,... 14.89158 [1/km^2]\n8  POLYGON ((647761.4 6867307,... 10.75503 [1/km^2]\n9  POLYGON ((647761.4 6867307,... 11.58234 [1/km^2]\n10 POLYGON ((647761.4 6867307,... 10.34138 [1/km^2]"
+    "text": "3 Jointures spatiales\nLes jointures attributaires fonctionnent comme avec un tibble classique. Pour conserver un objet spatial in fine, il faut faire attention à utiliser en premier (base de gauche) l’objet sf. En revanche, l’un des intérêts des objets geopandas est qu’on peut également faire une jointure sur la dimension spatiale grâce à plusieurs fonctions:\n\n\n\n\n\n\n\nFonction\nOpération\n\n\n\n\nst_intersects()\nQuelles géométries de x intersectent celles de y ?\n\n\nst_contains()\nQuelles géométries de x contiennent celles de y ?\n\n\nst_disjoint()\nQuelles géométries de x sont disjointes à celles de y ?\n\n\nst_is_within_distance()\nQuelles géométries de x est à moins de\n\n\nm/km de celles de y ?\n\n\n\n\nLa documentation à laquelle se référer est ici. Une version pédagogique se trouve dans la documentation utilitR.\n\n\n\n\n\n\nExercice 4: Associer les stations aux communes et arrondissements auxquels elles appartiennent\n\n\n\n\nFaire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de data_paris. Appeler cet objet stations_info\nReprésenter la carte des stations du 19e arrondissement (s’aider de la variable NOM). Vous pouvez mettre en fond de carte les arrondissements parisiens.\nCompter le nombre de stations velib et le nombre de places velib par arrondissement ou commune (pour vous aider, vous pouvez compléter vos connaissances avec ce tutoriel). Représenter sur une carte chacune des informations\nReprésenter les mêmes informations mais en densité (diviser par la surface de l’arrondissement ou commune en km2)\n(optionnel) Choisir une des cartes de densité et la nettoyer (retirer les axes, mettre les titres…)\n\n\n\nPour la question 2, la première méthode consiste à afficher toute la ville mais à ne représenter que les points des stations du 19e:\n\n\n\n\n\n\n\n\nJoining with `by = join_by(ID, NOM, NOM_M, INSEE_COM, STATUT, POPULATION,\nINSEE_CAN, INSEE_ARR, INSEE_DEP, INSEE_REG, SIREN_EPCI, source, INSEE_ARM)`\n\n\nEnfin, dans la question 4, si on représente plutôt la capacité sous forme de densité, pour tenir compte de la taille différente des arrondissements, on obtient cette carte:\n\n\nSimple feature collection with 1531 features and 21 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 637298.9 ymin: 6843146 xmax: 671750.3 ymax: 6879246\nProjected CRS: RGF93 / Lambert-93\nFirst 10 features:\n                         ID              NOM            NOM_M INSEE_COM\n1  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n2  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n3  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n4  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n5  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n6  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n7  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n8  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n9  COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n10 COMMUNE_0000000009736037 Levallois-Perret LEVALLOIS-PERRET     92044\n           STATUT POPULATION INSEE_CAN INSEE_ARR INSEE_DEP INSEE_REG\n1  Commune simple      66082        16         2        92        11\n2  Commune simple      66082        16         2        92        11\n3  Commune simple      66082        16         2        92        11\n4  Commune simple      66082        16         2        92        11\n5  Commune simple      66082        16         2        92        11\n6  Commune simple      66082        16         2        92        11\n7  Commune simple      66082        16         2        92        11\n8  Commune simple      66082        16         2        92        11\n9  Commune simple      66082        16         2        92        11\n10 Commune simple      66082        16         2        92        11\n            SIREN_EPCI                           source INSEE_ARM\n1  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n2  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n3  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n4  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n5  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n6  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n7  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n8  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n9  200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n10 200054781/200057982 IGN:EXPRESS-COG-CARTO-TERRITOIRE      &lt;NA&gt;\n              area capacity                                  name stationcode\n1  2.417473 [km^2]       50        Anatole France - Louise Michel       23009\n2  2.417473 [km^2]       39     Paul Vaillant Couturier - Chaptal       23001\n3  2.417473 [km^2]       26    Hôtel de Ville de Levallois Perret       23008\n4  2.417473 [km^2]       50               Pont de Levallois-bécon       23002\n5  2.417473 [km^2]        0                Bineau - Louise Michel       23011\n6  2.417473 [km^2]       27             Voltaire - Anatole France       23010\n7  2.417473 [km^2]       26              Gare de Clichy-Levallois       23005\n8  2.417473 [km^2]       36 Paul Vaillant-Couturier - Victor Hugo       23004\n9  2.417473 [km^2]       28             Président Wilson - Baudin       23003\n10 2.417473 [km^2]       25                 Jules Guesde - Alsace       23006\n       coordonnees_geo stationcode_count capacity_sum\n1  48.888732, 2.288158                11          334\n2  48.893480, 2.277525                11          334\n3  48.893145, 2.288882                11          334\n4  48.898418, 2.279131                11          334\n5  48.886662, 2.284327                11          334\n6  48.891999, 2.284263                11          334\n7  48.896798, 2.298468                11          334\n8  48.898197, 2.293848                11          334\n9  48.898269, 2.284934                11          334\n10 48.890566, 2.295078                11          334\n                         geometry  capacity_density\n1  POLYGON ((647761.4 6867307,... 20.68275 [1/km^2]\n2  POLYGON ((647761.4 6867307,... 16.13255 [1/km^2]\n3  POLYGON ((647761.4 6867307,... 10.75503 [1/km^2]\n4  POLYGON ((647761.4 6867307,... 20.68275 [1/km^2]\n5  POLYGON ((647761.4 6867307,...  0.00000 [1/km^2]\n6  POLYGON ((647761.4 6867307,... 11.16869 [1/km^2]\n7  POLYGON ((647761.4 6867307,... 10.75503 [1/km^2]\n8  POLYGON ((647761.4 6867307,... 14.89158 [1/km^2]\n9  POLYGON ((647761.4 6867307,... 11.58234 [1/km^2]\n10 POLYGON ((647761.4 6867307,... 10.34138 [1/km^2]"
   },
   {
     "objectID": "exercises/geospatial-wrangling.html#exercices-supplémentaires",
@@ -634,7 +704,7 @@
     "href": "exercises/r-base.html#les-dataframes",
     "title": "Découverte des objets de base de ",
     "section": "7.3 Les dataframes",
-    "text": "7.3 Les dataframes\nC’est l’objet central de l’analyse de données avec . Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).\n\n\n\nIllustration du principe du dataframe (empruntée à H. Wickham)\n\n\nVoici par exemple un dataframe:\n\n# Création du data.frame df\ndf &lt;- data.frame(\n  var1 = 1:10,\n  var2 = letters[1:10],\n  var3 = rep(c(TRUE, FALSE), times = 5)\n)\n\nSa structure interne peut être vérifiée avec la fonction str:\n\nstr(df)\n\n'data.frame':   10 obs. of  3 variables:\n $ var1: int  1 2 3 4 5 6 7 8 9 10\n $ var2: chr  \"a\" \"b\" \"c\" \"d\" ...\n $ var3: logi  TRUE FALSE TRUE FALSE TRUE FALSE ...\n\n\nQuand on travaille avec R, l’une des fonctions qu’on utilise le plus est head. Elle permet d’afficher les \\(n\\) premières lignes de notre jeu de données:\n\n\n  var1 var2  var3\n1    1    a  TRUE\n2    2    b FALSE\n3    3    c  TRUE\n4    4    d FALSE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\n\n\n\n\nWarning\n\n\n\nIl est également possible d’utiliser le viewer de RStudio pour afficher des jeux de données.\nAttention cependant, ce viewer peut rencontrer des problèmes de performance et faire planter votre session R quand le jeu de données commence à être d’une taille conséquente.\nJe recommande plutôt de toucher utiliser head ou de sélectionner des lignes aléatoirement avec sample:\n\n\n  var1 var2  var3\n2    2    b FALSE\n3    3    c  TRUE\n9    9    i  TRUE\n\n\n\n\nDu point de vue de sa structure, un data.frame est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.\n\nis.list(df)\n\n[1] TRUE\n\nlapply(df, length)\n\n$var1\n[1] 10\n\n$var2\n[1] 10\n\n$var3\n[1] 10\n\n\nDe ce fait, les data.frame empruntent leurs caractéristiques tantôt aux listes, tantôt aux matrices comme le montre l’exercice suivant:\n\n\n\n\n\n\nExercice 10\n\n\n\n\nVérifier la dimension du dataframe df\nCompter le nombre de lignes et de colonnes de df\nVérifier la longueur (length) de df. Est-ce le comportement d’une matrice ou d’une liste ?\nExtraire l’élement à la 2e ligne, 3e colonne de df. Est-ce le comportement d’indexation d’une matrice ou d’une liste ?\nRécupérer la 3e ligne des variables var1 et var2.\n\n\n\nL’intérêt d’utiliser un data.frame est qu’on peut facilement mettre à jour nos données lors d’une analyse statistique. Les opérations les plus classiques, sur lesquelles nous reviendrons lors du prochain chapitre, sont\n\nCréer une nouvelle colonne à partir des colonnes pré-existantes ;\nSélectionner un sous-échantillon des données correspondant à certaines valeurs observées.\n\nIl existe plusieurs manières de faire référence à une colonne déjà existante d’un dataframe. La plus simple est d’utiliser la structure dataframe$colonne. Cela nous donnera un vecteur et on retombe sur ce format qu’on connaît déjà:\n\nclass(df$var1)\n\n[1] \"integer\"\n\n\n\n\n\n\n\n\nExercice 11\n\n\n\n\nCréer une colonne var4 de notre jeu de données égale au carré de var1\nCréer une colonne var5 de notre jeu de données concaténant les deux premières variables en généralisant le schéma 1=a.\nCréer un dataframe df_small1 pour les lignes où la condition logique var3 est vérifiée\nCréer un dataframe df_small2 pour les lignes où var1 est paire (voir plus haut l’exemple sur la division euclidienne pour le modèle)\n\n\n\nLe prochain chapitre va nous permettre d’aller beaucoup plus loin grâce à l’écosystème du tidyverse et notamment son package phare dplyr. Sans cet ensemble de packages facilitant grandement l’analyse statistique,  ne serait pas devenu l’un des deux langages phares de la statistique."
+    "text": "7.3 Les dataframes\nC’est l’objet central de l’analyse de données avec . Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).\n\n\n\nIllustration du principe du dataframe (empruntée à H. Wickham)\n\n\nVoici par exemple un dataframe:\n\n# Création du data.frame df\ndf &lt;- data.frame(\n  var1 = 1:10,\n  var2 = letters[1:10],\n  var3 = rep(c(TRUE, FALSE), times = 5)\n)\n\nSa structure interne peut être vérifiée avec la fonction str:\n\nstr(df)\n\n'data.frame':   10 obs. of  3 variables:\n $ var1: int  1 2 3 4 5 6 7 8 9 10\n $ var2: chr  \"a\" \"b\" \"c\" \"d\" ...\n $ var3: logi  TRUE FALSE TRUE FALSE TRUE FALSE ...\n\n\nQuand on travaille avec R, l’une des fonctions qu’on utilise le plus est head. Elle permet d’afficher les \\(n\\) premières lignes de notre jeu de données:\n\n\n  var1 var2  var3\n1    1    a  TRUE\n2    2    b FALSE\n3    3    c  TRUE\n4    4    d FALSE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\n\n\n\n\nWarning\n\n\n\nIl est également possible d’utiliser le viewer de RStudio pour afficher des jeux de données.\nAttention cependant, ce viewer peut rencontrer des problèmes de performance et faire planter votre session R quand le jeu de données commence à être d’une taille conséquente.\nJe recommande plutôt de toucher utiliser head ou de sélectionner des lignes aléatoirement avec sample:\n\n\n  var1 var2  var3\n7    7    g  TRUE\n1    1    a  TRUE\n4    4    d FALSE\n\n\n\n\nDu point de vue de sa structure, un data.frame est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.\n\nis.list(df)\n\n[1] TRUE\n\nlapply(df, length)\n\n$var1\n[1] 10\n\n$var2\n[1] 10\n\n$var3\n[1] 10\n\n\nDe ce fait, les data.frame empruntent leurs caractéristiques tantôt aux listes, tantôt aux matrices comme le montre l’exercice suivant:\n\n\n\n\n\n\nExercice 10\n\n\n\n\nVérifier la dimension du dataframe df\nCompter le nombre de lignes et de colonnes de df\nVérifier la longueur (length) de df. Est-ce le comportement d’une matrice ou d’une liste ?\nExtraire l’élement à la 2e ligne, 3e colonne de df. Est-ce le comportement d’indexation d’une matrice ou d’une liste ?\nRécupérer la 3e ligne des variables var1 et var2.\n\n\n\nL’intérêt d’utiliser un data.frame est qu’on peut facilement mettre à jour nos données lors d’une analyse statistique. Les opérations les plus classiques, sur lesquelles nous reviendrons lors du prochain chapitre, sont\n\nCréer une nouvelle colonne à partir des colonnes pré-existantes ;\nSélectionner un sous-échantillon des données correspondant à certaines valeurs observées.\n\nIl existe plusieurs manières de faire référence à une colonne déjà existante d’un dataframe. La plus simple est d’utiliser la structure dataframe$colonne. Cela nous donnera un vecteur et on retombe sur ce format qu’on connaît déjà:\n\nclass(df$var1)\n\n[1] \"integer\"\n\n\n\n\n\n\n\n\nExercice 11\n\n\n\n\nCréer une colonne var4 de notre jeu de données égale au carré de var1\nCréer une colonne var5 de notre jeu de données concaténant les deux premières variables en généralisant le schéma 1=a.\nCréer un dataframe df_small1 pour les lignes où la condition logique var3 est vérifiée\nCréer un dataframe df_small2 pour les lignes où var1 est paire (voir plus haut l’exemple sur la division euclidienne pour le modèle)\n\n\n\nLe prochain chapitre va nous permettre d’aller beaucoup plus loin grâce à l’écosystème du tidyverse et notamment son package phare dplyr. Sans cet ensemble de packages facilitant grandement l’analyse statistique,  ne serait pas devenu l’un des deux langages phares de la statistique."
   },
   {
     "objectID": "exercises/r-base.html#footnotes",
