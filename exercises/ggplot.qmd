@@ -10,12 +10,12 @@ number-sections: true
 
 <details>
 <summary>
-Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/wrangling.qmd)
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/ggplot.qmd)
 pour afficher les slides en plein écran.
 </summary>
 
 
-``` {.yaml code-preview="/slides/wrangling.qmd"}
+``` {.yaml code-preview="/slides/ggplot.qmd"}
 ```
 
 </details>

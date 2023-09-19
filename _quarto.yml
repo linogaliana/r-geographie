@@ -3,6 +3,7 @@ project:
   render:
     - /slides/introduction.qmd
     - /slides/wrangling.qmd
+    - /slides/ggplot.qmd
     - index.qmd
     - "/cards/**/*.qmd"
     - "/exercises/**/*.qmd"

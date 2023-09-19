@@ -361,9 +361,10 @@ df <- fromJSON(file="dossier_donnees/nom_fichier.json") # <2>
 
 ## Le _pipe_ `magrittr` (`%>%`)
 
-![](https://magrittr.tidyverse.org/logo.png){width=20%}
 
-- Une manière de chaîner les opérations
+Une manière de chaîner les opérations
+
+![](https://magrittr.tidyverse.org/logo.png){width=20%}
 
 ::: {.panel-tabset}
 

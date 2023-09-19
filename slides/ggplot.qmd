@@ -1,0 +1,190 @@
+---
+title: Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}
+subtitle: |
+  **[Chapitre 3: représenter des données avec `ggplot2`]{.orange}**
+authors: |
+  [Lino Galiana](https://www.linogaliana.fr/),
+# date: 
+slide-number: true
+header: |
+  [Retour à la page principale du cours](https://rgeo.linogaliana.fr/)
+footer: |
+  Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}, École Normale Supérieure ([retour page principale](/))
+# uncomment for French presentations:
+lang: fr-FR
+# for blind readers:
+slide-tone: false
+# for @olevitt:
+chalkboard: # press the B key to toggle chalkboard
+  theme: whiteboard
+# uncomment to use the multiplex mode:
+#multiplex: true
+format:
+  onyxia-revealjs
+  # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
+  #onyxia-dark-revealjs:
+controls: true
+css: custom.css
+from: markdown+emoji
+listing:
+  id: sample-listings
+  contents: teaching
+  sort: "date desc"
+  type: table
+#filters:
+#  - reveal-header
+---
+
+## Introduction
+
+::: {.callout-note}
+- Exercices associés à ce chapitre [ici](/exercises/r-wrangling.html)
+:::
+
+![](../cards/ggplot/drawing.png){fig-align="center"}
+
+- [Retour à la page principale](/)
+
+
+## Introduction
+
+- La visualisation de données synthétise la structure des données
+    + Guide l'exploration ultérieure de données
+    + Transmets un message au lecteur
+    
+. . .
+
+- 2 types de visualisations :
+    + Représentations figées: `ggplot2`
+    + Représentations HTML: `leaflet`
+
+
+## Jeu de données des exemples
+
+```{r}
+#| output: false
+#| echo: true
+library(doremifasol)
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+df <- telechargerDonnees("FILOSOFI_DISP_IRIS", date = 2017) %>%
+  as_tibble() %>%
+  sample_frac(0.1)
+```
+
+::: {.callout-note}
+Inspiration pour ces slides :
+
+- Documentation collaborative [`utilitR`](https://www.book.utilitr.org/) ;
+- Manuel [`ggplot`](https://ggplot2-book.org) ;
+- Cours de [Joseph Larmarange](https://larmarange.github.io/guide-R/analyses/ggplot2.html)
+:::
+
+
+## `ggplot2`
+
+__Initialise une figure associée à un jeu de données__
+
+```{r}
+#| echo: true
+#| code-line-numbers: "1"
+ggplot(df, aes(x = DISP_MED17, y = DISP_D917))
+```
+
+## `ggplot2`
+
+__Ajoute des couches (`+`) avec les fonctions `geom_*`__
+
+```{r}
+#| echo: true
+#| code-line-numbers: "2"
+ggplot(df) +
+  geom_point(aes(x = DISP_MED17, y = DISP_D917))
+```
+
+
+## `ggplot2` {.smaller}
+
+__Paramétrise les couches avec `aes`__
+
+```{r}
+#| echo: true
+#| code-line-numbers: "2-3"
+ggplot(df) +
+  geom_point(aes(x = DISP_MED17, y = DISP_D917, color = DISP_Q117), shape = 3)
+```
+
+::: {.callout-note}
+Le contrôle de l'esthétique d'une couche `geom_` se fait :
+
+- `aes`: paramètres variables de la couche liés à une variable ;
+- hors `aes`: paramètres qui s'appliquent uniformément sur la couche
+:::
+
+
+
+## `ggplot2`
+
+__Ajoute des couches (`+`) avec les fonctions `geom_*`__
+
+
+```{r}
+#| echo: true
+#| code-line-numbers: "3"
+ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +
+  geom_point(aes(color = DISP_Q117), shape = 3) +
+  geom_smooth(color = "red", alpha = 0.7, se = FALSE)
+```
+
+## `ggplot2` {.smaller}
+
+__Modifier les échelles avec les fonctions `scale_`__
+
+```{r}
+#| echo: true
+#| code-line-numbers: "4-6"
+ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +
+  geom_point(aes(color = DISP_Q117), shape = 3) +
+  geom_smooth(color = "red", alpha = 0.7, se = FALSE) +
+  scale_x_continuous(labels = unit_format(unit = "k", scale=1e-3)) +
+  scale_y_continuous(trans='log', labels = unit_format(unit = "k", scale=1e-3)) +
+  scale_color_viridis_c()
+```
+
+## `ggplot2` {.smaller}
+
+__Modifier les échelles avec les fonctions `scale_`__
+
+```{r}
+#| echo: true
+#| code-line-numbers: "5-7"
+df <- df %>% mutate(quartile = factor(ntile(DISP_Q117, 4)))
+ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +
+  geom_point(aes(color = quartile), shape = 3) +
+  geom_smooth(color = "red", alpha = 0.7, se = FALSE) +
+  scale_x_continuous(labels = unit_format(unit = "k", scale=1e-3)) +
+  scale_y_continuous(trans='log', labels = unit_format(unit = "k", scale=1e-3)) +
+  scale_color_viridis_d(option = "turbo")
+```
+
+## `ggplot2` {.smaller}
+
+__Modifier l'esthétique, à la fin seulement__
+
+```{r}
+#| echo: true
+#| code-line-numbers: "8-10"
+p <- ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +
+  geom_point(aes(color = quartile), shape = 3) +
+  geom_smooth(color = "red", alpha = 0.7, se = FALSE) +
+  scale_x_continuous(labels = unit_format(unit = "k", scale=1e-3)) +
+  scale_y_continuous(trans='log', labels = unit_format(unit = "k", scale=1e-3)) +
+  scale_color_viridis_d(option = "turbo")
+
+p + theme_bw() +
+  labs(x = "Revenu médian", y = "9e décile", color = "Quartile") +
+  theme(legend.position = "bottom")
+```
+
