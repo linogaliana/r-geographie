@@ -10,7 +10,7 @@ description: |
 categories:
   - Introduction
 website: /slides/wrangling.html
-exercise: /exercises/r-base.html
+exercise: /exercises/r-wrangling.html
 order: 2
 ---
 

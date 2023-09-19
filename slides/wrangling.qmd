@@ -356,3 +356,47 @@ df <- fromJSON(file="dossier_donnees/nom_fichier.json") # <2>
     + Dangereux pour la reproductibilité et la transparence
 
 - Plus de détails sur [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_tableurs)
+
+# Le _pipe_ `magrittr` (`%>%`)
+
+## Le _pipe_ `magrittr` (`%>%`)
+
+![](https://magrittr.tidyverse.org/logo.png){width=20%}
+
+- Une manière de chaîner les opérations
+
+::: {.panel-tabset}
+
+## Fonctions emboitées
+
+```
+library(dplyr)
+library(doremifasol)
+
+df <- filter(
+  as_tibble(telechargerDonnees("BPE_ENS")),
+  TYPEQU == "B316"
+)
+
+summarise(
+  group_by(df, DEP),
+  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)
+)
+```  
+
+
+## Avec le _pipe_
+
+```
+library(dplyr)
+library(doremifasol)
+
+telechargerDonnees("BPE_ENS") %>%
+  as_tibble() %>%
+  filter(TYPEQU == "B316") %>% 
+  group_by(DEP) %>% 
+  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) 
+```  
+
+
+:::
