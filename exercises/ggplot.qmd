@@ -56,17 +56,22 @@ Ce TP vise à initier:
 
 * Principalement au _package_ [`ggplot2`](https://ggplot2.tidyverse.org/) pour la construction de graphiques figés ;
 * Au package [`plotly`](https://plotly.com/r/) pour les graphiques 
-dynamiques, au format HTML
+dynamiques, au format HTML. Nous approfondirons l'apprentissage des
+graphiques HTML dans un prochain chapitre en
+découvrant [`Observable`](https://observablehq.com/).
 
 Dans ce chapitre, nous allons utiliser les librairies suivantes:
 
 ```{r}
 #| echo: true
 #| output: false
+library(scales)
 library(readr)
 library(dplyr)
+library(forcats)
 library(lubridate)
 library(ggplot2)
+library(plotly)
 ```
 
 Nous verrons par la suite la manière de construire des cartes facilement avec
@@ -349,6 +354,10 @@ intelligibles.
 On comprend
 ainsi que le boulevard de Sébastopol est le plus emprunté,
 ce qui ne vous suprendra pas si vous faites du vélo à Paris. 
+Néanmoins, si vous n'êtes pas familiers avec la géographie parisienne,
+cela sera peu informatif pour vous, vous allez avoir besoin d'une
+représentation graphique supplémentaire: une carte ! Nous verrons
+ceci lors d'un prochain chapitre. 
 
 ```{r}
 #| fig-cap: "Les 10 compteurs avec la moyenne horaire la plus élevée"
@@ -358,8 +367,7 @@ figure1
 ::: {.callout-tip}
 ## Exercice 3: produire une nouvelle figure
 
-Faire la même chose pour la figure 2, afin d'obtenir une figure
-similaire
+Faire la même chose pour la figure 2 (_"Les 10 compteurs ayant comptabilisés le plus de vélos"_), afin d'obtenir une figure similaire.
 
 <details>
 
@@ -375,9 +383,9 @@ df2 <- df %>%
 # Create a horizontal bar plot
 figure2 <- ggplot(df2, aes(y = reorder(`Nom du compteur`, `Comptage horaire`), x = `Comptage horaire`)) +
   geom_bar(stat = "identity", fill = "forestgreen") +
-  labs(title = "Les 10 compteurs avec le comptage horaire le plus élevé (total)",
+  labs(title = "Les 10 compteurs ayant comptabilisés le plus de vélos",
        x = "Nom du compteur",
-       y = "Comptage horaire total") +
+       y = "La somme des vélos comptabilisés sur la période sélectionnée") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_text(color = "forestgreen"),
@@ -401,35 +409,53 @@ figure2
 
 
 Les diagrammes en batons (_barplot_) sont extrêmement communs mais 
-sont finalement assez complexes pour le peu d'information
-qu'ils transmettent. Les _lollipop charts_ sont préférables: ils
+qu'ils transmettent. Sur le plan sémiologique,
+les _lollipop charts_ sont préférables: ils
 transmettent la même information mais avec moins de bruit
-(la largeur des barres du barplot noie un peu l'information)
+(la largeur des barres du barplot noie un peu l'information).
+
+Voici, par exemple, la deuxième figure de la page, rendue non plus
+sous forme de _barplot_ mais sous forme de _lollipop chart_:
 
 
 ```{r}
-library(forcats)
-
 df2_lollipop <- df2 %>%
   mutate(x =  fct_reorder(`Nom du compteur`, `Comptage horaire` ), y = `Comptage horaire`)
 
 figure2_lollipop <- ggplot(df2_lollipop, aes(x=x, y=y)) +
-    geom_segment( aes(xend=x, yend=0)) +
-    geom_point( size=4, color="forestgreen") +
+    geom_segment( aes(xend=x, yend=0), alpha = 0.4) +
+    geom_point( size=5, color="forestgreen") +
     coord_flip() +
-  labs(title = "Les 10 compteurs avec le comptage horaire le plus élevé (total)",
+  labs(title = "Les 10 compteurs ayant comptabilisés le plus de vélos",
        x = "Nom du compteur",
-       y = "Comptage horaire total") +
+       y = "La somme des vélos comptabilisés sur la période sélectionnée") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_text(color = "forestgreen"),
         plot.title = element_text(hjust = 0.5),
-        plot.margin = margin(1, 4, 1, 1, "cm"))
+        plot.margin = margin(1, 4, 1, 1, "cm")) +
+  scale_y_continuous(labels = unit_format(unit = "M", scale=1e-6))
 ```
 
 ```{r}
 figure2_lollipop
 ```
+
+<details>
+<summary>
+Comparaison du _barplot_ et du _lollipop chart_
+</summary>
+```{r}
+#| layout-ncol: 2
+#| fig-cap: "Choisissez votre représentation préférée"
+#| fig-subcap: 
+#|   - "Barplot"
+#|   - "Lollipop"
+figure2
+figure2_lollipop
+```
+</details>
+
 
 ::: {.callout-tip}
 ## Exercice 3 bis (optionnel): produire un _lollipop_ chart
@@ -438,21 +464,21 @@ Reprendre l'exercice 2 mais à la place d'un _barplot_, produire
 un _lollipop chart_.  
 ::: 
 
-## Représentations temporelles
+## Première agrégation temporelle
 
 On va maintenant se concentrer sur la dimension spatiale de notre
 jeu de données à travers deux approches:
 
 - Un diagramme en barre synthétisant l'information de notre jeu de données
-de manière mensuelle
-- Des séries instructives sur la dynamique temporelle
+de manière mensuelle ;
+- Des séries instructives sur la dynamique temporelle. Cela sera l'objet de la prochaine partie ;
 
-### Première agrégation temporelle
 
 Pour commencer, reproduisons la troisième figure qui est, encore une fois, 
 un _barplot_. La première question implique une première rencontre avec
-une donnée
-temporelle. 
+une donnée temporelle à travers une opération assez classique en séries
+temporelles: changer le format d'une date pour pouvoir faire une agrégation
+à un pas de temps plus large. 
 
 ::: {.callout-tip}
 ## Exercice 4: barplot des comptages mensuels
@@ -467,6 +493,7 @@ df <- df %>%
 ```
 
 ```{r}
+# Question 2
 comptage_horaires_mois <- df %>%
   group_by(month) %>%
   summarise(value = mean(`Comptage horaire`, na.rm = TRUE))
@@ -485,7 +512,7 @@ comptage_horaires_mois
 
 Appliquer les conseils précédents pour construire et améliorer
 graduellement un graphique afin d'obtenir une figure similaire
-à la 3e production sur la page de l'_open data_ parisien
+à la 3e production sur la page de l'_open data_ parisien.
 
 ```{r}
 figure3 <- ggplot(comptage_horaires_mois) +
@@ -540,12 +567,15 @@ apporte peu à la figure voire dégrade la compréhension du message.
 
 ## Première série temporelle
 
+Il est plus commun de représenter sous forme de série
+les données ayant une dimension temporelle.
+
+
 ::: {.callout-tip}
 ## Exercice 5: Représenter une série temporelle
 
 1. Créer une variable `day` qui transforme l'horodatage en format journalier
 du type `2021-05-01`.
-
 
 ```{r}
 df <- df %>%
@@ -556,22 +586,22 @@ moyenne_quotidienne <- df %>%
   summarise(value = mean(`Comptage horaire`, na.rm = TRUE))
 ```
 
-<details>
-<summary>
-Le jeu de données pour la figure 4
-</summary>
-```{r}
-head(moyenne_quotidienne)
-```
-</details>
-
 2. Représenter sous forme de série temporelle cette information, sans vous
-préoccuper du style de la figure
+préoccuper du style de la figure.
 
 ```{r}
 figure4 <- ggplot(moyenne_quotidienne, aes(x = day, y = value)) +
   geom_line(color = "magenta")
 ```
+
+<details>
+<summary>
+Figure minimaliste
+</summary>
+```{r}
+figure4
+```
+</details>
 
 3. Colorer la zone sous la ligne avec la fonction appropriée
 
@@ -582,14 +612,17 @@ figure4 <- figure4 +
 
 <details>
 <summary>
-Aide pour cette question
+Figure avec la coloration sous la ligne
 </summary>
-[Ce _thread_ sur `stackoverflow`](https://stackoverflow.com/questions/28730083/filling-in-the-area-under-a-line-graph-in-ggplot2-geom-area) peut vous aider.
+```{r}
+figure4
+```
 </details>
 
+4. Finaliser le graphique pour reproduire la figure de la page d'_open data_
 
 ```{r}
-figure4 +
+figure4 <- figure4 +
   labs(x = "Date et heure de comptage (Jour)", y = "Moyenne journalière du comptage par heure\nsur la période sélectionnée",
        title = "Moyenne journalière des comptages vélos") +
   theme_minimal() +
@@ -598,7 +631,214 @@ figure4 +
         plot.margin = margin(1, 4, 1, 1, "cm"))
 ```
 
+<details>
+<summary>
+Figure finalisée
+</summary>
+```{r}
+figure4
+```
+</details>
+
+Voici quelques aides pour cet exercice
+
+
+<details>
+<summary>
+💡 Aide pour la question 1
+</summary>
+Regardez la fonction `day` du _package_ `lubridate`
+</details>
+
+<details>
+<summary>
+💡 Aide pour la question 3
+</summary>
+[Ce _thread_ sur `stackoverflow`](https://stackoverflow.com/questions/28730083/filling-in-the-area-under-a-line-graph-in-ggplot2-geom-area) peut vous aider.
+</details>
+
+
+<details>
+<summary>
+Le jeu de données pour la figure 4
+</summary>
+```{r}
+head(moyenne_quotidienne)
+```
+</details>
+
 :::
 
+A l'issue de cet exercice, on obtient ainsi une figure prenant la forme
+suivante:
+
+```{r}
+figure4
+```
+
+
 ## Introduction aux graphiques HTML avec `Plotly`
+
+L'inconvénient des figures avec `ggplot` est que celles-ci ne permettent
+pas d'interaction avec le lecteur. Toute l'information doit donc être
+contenue dans la figure ce qui peut la rendre difficile à lire. 
+Si la figure est bien faite, avec différents niveaux d'information, cela
+peut bien fonctionner.
+
+Il est néanmoins plus simple, grâce aux technologies _web_, de proposer des
+visualisations à plusieurs niveaux. Un premier niveau d'information, celui du
+coup d'oeil, peut suffire à assimiler les principaux messages de la
+visualisation. Ensuite, un comportement plus volontaire de recherche
+d'information secondaire peut permettre d'en savoir plus. Les visualisations
+réactives, qui sont maintenant la norme dans le monde de la _dataviz_, 
+permettent ce type d'approche: le lecteur d'une visualisation peut passer
+sa souris à la recherche d'information complémentaire (par exemple les
+valeurs exactes) ou cliquer pour faire apparaître des informations complémentaires
+sur la visualisation ou autour.
+
+Ces visualisations reposent sur le même triptyque que l'ensemble de l'écosystème
+_web_: `HTML`, `CSS` et `JavaScript`. Les utilisateurs de {{< fa brands r-project >}} 
+ne vont jamais manipuler directement ces langages, qui demandent une 
+certaine expertise, mais vont utiliser des librairies au niveau de {{< fa brands r-project >}} qui génèreront automatiquement tout le code `HTML`, `CSS` et `JavaScript`
+permettant de créer la figure. 
+
+::: {.callout-tip}
+## Exercice 6: série temporelle interactive
+
+1. Créer une figure `Plotly` basique pour représenter
+sous forme de série temporelle la figure 4, sans se préoccuper du style
+
+<details>
+<summary>
+Série temporelle produite sans élément de style
+</summary>
+```{r}
+plot_ly(
+  moyenne_quotidienne, x = ~day, y = ~value,
+  type = 'scatter', mode = 'lines'
+)
+```
+</details>
+
+
+2. A partir de l'exemple dans la [documentation](https://plotly.com/r/filled-area-plots/),
+ajouter une aire sous la figure
+
+<details>
+<summary>
+Ajout de la couche sous la ligne
+</summary>
+
+```{r}
+plot_ly(
+  moyenne_quotidienne, x = ~day, y = ~value,
+  fill = 'tozeroy',
+  type = 'scatter', mode = 'lines'
+)
+```
+</details>
+
+
+3. Jouer sur les éléments de style pour reproduire la figure 4. Pour profiter
+de la réactivité du graphique, soigner l'information obtenue en passant
+la souris sur la figure grâce aux arguments `hovertemplate` et `hoverinfo`
+
+```{r}
+fig <- plot_ly(
+  moyenne_quotidienne, x = ~day, y = ~value,
+  color = I("magenta"),
+  hovertemplate = ~paste(day, ": ", round(value), " passages de vélo en moyenne par heure"),
+  hoverinfo = "text",
+  fill = 'tozeroy',
+  type = 'scatter', mode = 'lines')
+fig4 <- fig %>%
+  layout(title = "Moyenne journalière des comptages vélos",
+         xaxis = list(title = "Date et heure de comptage (Jour)"),
+         yaxis = list(title = "Moyenne journalière du comptage par heure\nsur la période sélectionnée"))
+```
+
+
+<details>
+<summary>
+Figure obtenue
+</summary>
+
+```{r}
+fig4
+```
+
+</details>
+
+:::
+
+
+La version réactive de la figure est ainsi
+
+```{r}
+fig4
+```
+
+
+Cette représentation montre bien le caractère spécial de l'année 2020. Pour 
+rappeller au lecteur distrait la nature particulière de la période, marquée
+par un premier confinement qu'on voit bien dans les données, on peut,
+avec l'aide de la [documentation](https://plotly.com/r/horizontal-vertical-shapes/),
+ajouter deux barres verticales pour marquer les dates de début et
+de fin de cette période:
+
+
+```{r}
+#| echo: true
+vline <- function(x = 0, color = "royalblue") {
+  list(
+    type = "line",
+    y0 = 0,
+    y1 = 1,
+    yref = "paper",
+    x0 = x,
+    x1 = x,
+    line = list(color = color, dash="dot")
+  )
+}
+
+fig4 %>% layout(shapes = list(vline("2020-03-17"), vline("2020-05-11")))
+```
+
+Comme dernier exercice, voici comment reproduire cette figure avec 
+`Plotly`:
+
+```{r}
+df1 <- df1 %>% mutate(`Nom du compteur` = fct_reorder(`Nom du compteur`, `Comptage horaire`))
+
+fig <- plot_ly(
+  df1,
+  x = ~ `Comptage horaire`, y = ~`Nom du compteur`,
+  color = I("red"),
+  hovertext = ~paste0(`Nom du compteur`, ": ", round(`Comptage horaire`)),
+  hoverinfo = 'text',
+  type = 'bar',
+  name = 'Principales stations')
+
+
+fig <- fig %>% layout(
+  yaxis = list(title = 'Moyenne horaire'),
+  xaxis = list(title = 'Nom du compteur', color = "red")
+  )
+```
+
+:::
+
+```{r}
+fig
+```
+
+::: {.callout-tip}
+## Exercice 7: un barplot avec `Plotly`
+
+1. Pour avoir immédiatement des barres bien ordonnées, utiliser la fonction
+`fct_reorder` du package `forcats` pour réoordonner les valeurs du dataframe
+issu de l'exercice 1
+2. Utiliser `Plotly` pour créer votre figure.
+3. (Optionnel, plus avancé) Faire un _lollipop chart_ avec `Plotly`
+:::
 
