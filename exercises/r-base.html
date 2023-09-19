@@ -1148,7 +1148,7 @@ Exercice 4
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Quel est le type adapté pour définir un <a href="https://www.insee.fr/fr/information/6800675">code commune</a> (ne pas chercher à importer le jeu de données<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>) ?</p>
+<p>Les codes communes sont des identifiants normalisés, propres à chaque commune (ce qui les différencie des codes postaux). Ils sont issus du <a href="https://www.insee.fr/fr/information/6800675">code officiel</a> que nous découvrirons ultérieurement ?</p>
 <details>
 <summary>
 Aide si vous ne voyez pas où est le problème
@@ -1225,7 +1225,7 @@ x_{21} &amp; x_{22} \\
 \end{bmatrix}
 \]</span></p>
 <p>Néanmoins, les matrices présentent une limite fondamentale: on ne peut stocker dans une matrice que des éléments de même type. Autrement dit, on aura exclusivement des matrices numériques, des matrices de caractères ou des matrices logiques. Il est impossible de construire une matrice dont certaines variables sont de type numérique (par exemple l’âge des personnes enquêtées) et d’autres de type caractère (par exemple leur secteur d’activité).</p>
-<p>Les matrices ne constituent donc pas un type d’objet susceptible de stocker l’information statistique habituellement mobilisée dans les enquêtes sociales. Le <em>mix</em> des types n’est pas pratique, c’est pour cette raison que les praticiens de l’analyse de données les utilisent peu<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p>Les matrices ne constituent donc pas un type d’objet susceptible de stocker l’information statistique habituellement mobilisée dans les enquêtes sociales. Le <em>mix</em> des types n’est pas pratique, c’est pour cette raison que les praticiens de l’analyse de données les utilisent peu<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 <p>On propose donc un exercice sur les matrices mais on va rapidement passer à des types plus flexibles, plus utiles pour l’analyse de données où les variables sont de type diverses.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1394,10 +1394,10 @@ Warning
 <p>Je recommande plutôt de toucher utiliser <code>head</code> ou de sélectionner des lignes aléatoirement avec <code>sample</code>:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>   var1 var2  var3
-7     7    g  TRUE
-10   10    j FALSE
-9     9    i  TRUE</code></pre>
+<pre><code>  var1 var2  var3
+2    2    b FALSE
+4    4    d FALSE
+8    8    h FALSE</code></pre>
 </div>
 </div>
 </div>
@@ -1482,8 +1482,7 @@ Exercice 11
 <ol>
 <li id="fn1"><p>Pour installer soi-même <code>RStudio</code>, les instructions sont <a href="https://posit.co/download/rstudio-desktop/">ici</a>. Néanmoins, dans le cadre de ce cours, vous n’aurez pas besoin de faire l’installation, nous allons utiliser une infrastructure préconfigurée. De cette manière, nous aurons accès au même environnement.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Cette remarque peut paraître triviale mais, en informatique, elle ne l’est pas. Beaucoup de langages (<code>Python</code>, <code>C</code>) ont une indexation qui commence à 0, comme c’est la convention en algèbre. Cela signifie que le premier élément a un indice 0, le deuxième indice 1 et le dernier un indice <span class="math inline">\(n-1\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>La suite du cours sera l’occasion d’amplement utiliser ce jeu de données.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>L’objet matrice sera surtout utilisé par les les chercheurs en statistique mathématique ou les spécialistes d’algorithmique qui manipuleront des objets numériques bas niveau.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>L’objet matrice sera surtout utilisé par les les chercheurs en statistique mathématique ou les spécialistes d’algorithmique qui manipuleront des objets numériques bas niveau.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
