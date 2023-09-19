@@ -906,6 +906,47 @@ Illustration du <em>split-apply-combine</em>
 </ul></li>
 <li><p>Plus de détails sur <a href="https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_tableurs"><code>utilitR</code></a></p></li>
 </ul>
+</section></section>
+<section>
+<section id="le-pipe-magrittr" class="title-slide slide level1 center" data-background-image="background.svg" data-background-size="contain">
+<h1>Le <em>pipe</em> <code>magrittr</code> (<code>%&gt;%</code>)</h1>
+
+</section>
+<section id="le-pipe-magrittr-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
+<h2>Le <em>pipe</em> <code>magrittr</code> (<code>%&gt;%</code>)</h2>
+
+<img data-src="https://magrittr.tidyverse.org/logo.png" style="width:20.0%" class="r-stretch"><ul>
+<li>Une manière de chaîner les opérations</li>
+</ul>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Fonctions emboitées</a></li><li><a href="#tabset-1-2">Avec le <em>pipe</em></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<pre><code>library(dplyr)
+library(doremifasol)
+
+df &lt;- filter(
+  as_tibble(telechargerDonnees("BPE_ENS")),
+  TYPEQU == "B316"
+)
+
+summarise(
+  group_by(df, DEP),
+  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)
+)</code></pre>
+</div>
+<div id="tabset-1-2">
+<pre><code>library(dplyr)
+library(doremifasol)
+
+telechargerDonnees("BPE_ENS") %&gt;%
+  as_tibble() %&gt;%
+  filter(TYPEQU == "B316") %&gt;% 
+  group_by(DEP) %&gt;% 
+  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) </code></pre>
+</div>
+</div>
+</div>
 
 <div class="footer footer-default">
 <p>Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>, École Normale Supérieure (<a href="../">retour page principale</a>)</p>
