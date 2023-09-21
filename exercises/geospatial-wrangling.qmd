@@ -21,17 +21,26 @@ pour afficher les slides en plein écran.
 </details>
 
 
-Dans ce troisième TP,
+Dans ce TP,
 nous allons apprendre à importer et
 manipuler des données spatiales avec
-{{< fa brands r-project >}}. Ce logiciel propose
+{{< fa brands r-project >}}.
+
+Ce logiciel propose
 des fonctionnalités très intéressantes pour ce type de
 données complexes qui le rendent capable de se comporter
-comme un SIG. Grâce à la librairie `sf`, une extension
+comme un SIG. Grâce à la librairie [`sf`](https://r-spatial.github.io/sf/), une extension
 de `dplyr` aux données spatiales, les
 données géographiques pourront être manipulées
 comme n'importe quel type de données avec {{< fa brands r-project >}}.
 La complexité induite par la dimension spatiale ne sera pas ressentie. 
+
+<details>
+<summary>
+`sf`, une association de tables de données classiques à des géométries
+</summary>
+![](https://user-images.githubusercontent.com/520851/50280460-e35c1880-044c-11e9-9ed7-cc46754e49db.jpg){width="70%"}
+</details>
 
 Si vous êtes intéressés par `Python` {{< fa brands python >}},
 une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/manipulation/03_geopandas_TP.html).
@@ -59,7 +68,8 @@ library(cartiflette)
 ```
 
 
-::: {.callout-note}
+::: {.callout-note collapse="true"}
+## Note sur les annotations
 
 Certains exemples de code présentent des annotations sur le côté,
 passez votre souris dessus pour les afficher, comme ci-dessous
@@ -74,7 +84,7 @@ passez votre souris dessus pour les afficher, comme ci-dessous
 :::
 
 
-## Lire et enrichir des données spatiales
+## Découverte des objets géographiques 
 
 Dans cette partie,
 nous utiliserons
@@ -90,26 +100,22 @@ par le projet [`cartiflette`](https://github.com/InseeFrLab/cartiflette.git)[^ca
 
 
 ::: {.callout-tip}
-## Exercice 1: lire et explorer la structure de fichiers géographiques
+## Exercice 1: découverte des objets géographiques
+
+En premier lieu, on récupère des données géographiques grâce
+au _package_ `cartiflette`.
 
 1. S'inspirer des exemples de code présents dans les slides mobilisant
 le package `cartiflette`
-pour télécharger les données communales des départements 75, 92, 93 et 94.
-Vous pouvez nommer l'objet `communes_borders`
-2. Regarder les premières lignes des données. Identifier la différence avec
-un DataFrame standard. 
-3. Afficher le `crs` de `communes_borders`. Ce dernier contrôle la
-transformation de l'espace tridimensionnel terrestre en une surface plane.
-Utiliser `st_transform` pour transformer les données en Lambert 93, le 
-système officiel (code EPSG 2154). 
-4. Afficher les communes des Hauts de Seine (département 92) et représenter rapidement la carte.
-5. Réprésenter la carte de Paris : quel est le problème ?
-:::
+pour télécharger les données communales (produit `Admin Express` de l'IGN)
+des départements de la petite couronne (75, 92, 93 et 94). L'argument à utiliser
+dans cet exercice est `borders="COMMUNE"`
+Vous pouvez nommer l'objet `communes_borders`.
 
 ```{r}
 #| output: false
 #| label: download-borders-communes
-#1) Chargement des données de Cartiflette
+# 1. Chargement des données de cartiflette
 communes_borders <- download_vectorfile_url_all(
     crs = 4326,
     values = c("75", "92", "93", "94"),
@@ -120,11 +126,82 @@ communes_borders <- download_vectorfile_url_all(
     year=2022)
 ```
 
+2. Regarder les premières lignes des données. Identifier la différence avec
+un _dataframe_ standard. 
+
+
+<details>
+<summary>
+Premières lignes des données
+</summary>
 ```{r}
-#| output: false
 # 2) Regarder les premières lignes
 head(communes_borders)
 ```
+</details>
+
+3. Afficher le `crs` de `communes_borders`. Ce dernier contrôle la
+transformation de l'espace tridimensionnel terrestre en une surface plane.
+Utiliser `st_transform` pour transformer les données en Lambert 93, le 
+système officiel (code EPSG 2154). 
+
+```{r}
+#| output: false
+
+# 3) Afficher le crs
+sf::st_crs(communes_borders)
+```
+
+4. Afficher les communes des Hauts de Seine (département 92) et représenter rapidement la carte.
+
+```{r}
+#| label: plot-92
+#| output: false
+
+# 4) afficher les communes du département 92
+hds <- communes_borders %>% filter(INSEE_DEP == "92")
+map_92 <- ggplot(hds) +
+    geom_sf(fill = "white") + theme_void()
+```
+
+5. Ne conserver que Paris et réprésenter les frontières sur une carte : quel est le problème pour
+une analyse de Paris intramuros?
+
+```{r}
+paris_raw <- communes_borders %>% filter(INSEE_DEP == "75")
+map_paris_raw <- ggplot(paris_raw) +
+    geom_sf(fill = "white") + theme_void()
+```
+
+On remarque rapidement le problème. 
+On ne dispose ainsi pas des limites des arrondissements parisiens, ce
+qui appauvrit grandement la carte de Paris. 
+
+6. Cette fois, utiliser l'argument `borders="COMMUNE_ARRONDISSEMENT"` pour obtenir
+un fonds de carte consolidé des communes avec les arrondissements dans les grandes villes. 
+Convertir en Lambert 93. 
+
+```{r}
+#| output: false
+petite_couronne <- download_vectorfile_url_all(
+    crs = 4326,
+    values = c("75", "92", "93", "94"),
+    borders="COMMUNE_ARRONDISSEMENT",
+    vectorfile_format="geojson",
+    filter_by="DEPARTEMENT",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022) %>%
+  st_transform(2154)
+petite_couronne_mercator <- petite_couronne %>%
+  st_transform(4326)
+
+map_paris_arrondissements <- ggplot(petite_couronne) +
+    geom_sf(fill = "white") + theme_void()
+```
+
+
+:::
+
 
 ```{r}
 #| output: false
@@ -144,108 +221,135 @@ carte du 92 (question 4), déroulez cette partie.
 </summary>
 
 ```{r}
-#| label: plot-92
-#| output: false
-
-# 4) afficher les communes du département 92
-hds <- communes_borders %>% filter(INSEE_DEP == "92")
-map_92 <- ggplot(hds) +
-    geom_sf(fill = "white") + theme_void()
-```
-
-```{r}
 map_92
 ```
 
 </details>
 
-En ce qui concerne Paris, à l'issue de la question 5, la carte
-aura l'aspect suivant:
+<details>
+<summary>
+Carte de Paris attendue à la question 5 et à la question 6
+</summary>
+
+A la question 5, Paris intra-muros est bien pauvre: 
 
 ```{r}
 # 5) Représenter la carte de Paris. Quel est le problème ?
-ggplot(communes_borders %>% filter(INSEE_DEP == "75")) +
-    geom_sf(fill = "white") + theme_void()
+map_paris_raw
+```
+
+A l'issue de la  question 6, on a bien une carte de la petite couronne avec
+des arrondissements:
+
+```{r}
+# 6) Représenter la carte de Paris avec arrondissements
+map_paris_arrondissements
 ```
 
 
-
-On remarque rapidement le problème. 
-On ne dispose ainsi pas des limites des arrondissements parisiens, ce
-qui appauvrit grandement la carte de Paris. 
-
-On pourrait les récupérer directement 
-depuis le site d'_open-data_ du Grand Paris 
-mais on propose ici d'utiliser à nouveau
-`cartiflette` afin de disposer du fonds de carte officiel
-des arrondissements.
-
-
+</details>
 
 
 ::: {.callout-tip}
-## Exercice 2: compléter des données spatiales issues de sources différentes
+## Exercice 2: Les projections, représentations et approximations
 
-1. Importer les données de découpage des arrondissements parisiens à l'adresse à l'aide de `cartiflette`.
-2. Vérifier sur une carte que les découpages des arrondissements sont bien présents.
-3. Vérifier l'attribut `crs`. Est-il cohérent avec celui des données communales ?
-Si non, transformer en Lambert 93 (code EPSG 2154).
-4. Retirer Paris du jeu de données communales et utiliser les arrondissements
-pour enrichir (nommer l'objet obtenu `data_borders`). 
-5. Représenter à nouveau les communes de la petite couronne parisienne (75, 92, 93, 94)
-
-:::
-
-
-```{r}
-library(cartiflette)
-
-# Question 1
-arrondissements = download_vectorfile_url_all(
-    crs = 4326,
-    values = "75",
-    borders="ARRONDISSEMENT_MUNICIPAL",
-    vectorfile_format="geojson",
-    filter_by="DEPARTEMENT",
-    source="EXPRESS-COG-CARTO-TERRITOIRE",
-    year=2022)
-
-arrondissements
-```
-
-
-
-```{r}
-ggplot(arrondissements) + geom_sf(fill = "white") + theme_void()
-```
+Voici un code pour récupérer les frontières françaises (découpées par région)
 
 ```{r}
 #| output: false
-#3) Vérifier l'attribut `crs`. Est-il cohérent ?
-print(st_crs(communes_borders))
-print(st_crs(arrondissements))
-
-arrondissements <- arrondissements %>% st_transform(2154)
-print(st_crs(communes_borders) == st_crs(arrondissements))
+#| echo: true
+france <- download_vectorfile_url_all(
+      values = "metropole",
+      crs = 4326,
+      borders = "REGION",
+      vectorfile_format="geojson",
+      filter_by="FRANCE_ENTIERE",
+      source="EXPRESS-COG-CARTO-TERRITOIRE",
+      year=2022)
 ```
 
+1. S'amuser à représenter les limites de la France avec plusieurs projections:
+
+- Mercator WGS84 (EPSG: 4326)
+- Projection healpix (+proj=healpix +lon_0=0 +a=1)
+- Projection prévue pour Tahiti (EPSG: 3304)
+- Projection Albers prévue pour Etats-Unis (EPSG: 5070)
+
+2. Utiliser la fonction `st_area` sur calculer la superficie en $km^2$
+des régions françaises dans les deux systèmes de projection suivants: 
+WGS84 (EPSG: 4326) et Lambert 93 (EPSG: 2154). Calculer la différence en $km^2$
+pour chaque région.
+:::
 
 ```{r}
-#4) Retirer Paris et ajouter les arrondissements
-data_paris <- dplyr::bind_rows(
-  communes_borders %>% filter(INSEE_DEP != "75"),
-  arrondissements
-)
+#| output: false
+france_2154 <- france %>% sf::st_transform(2154)
+france_healpix <- france %>% sf::st_transform("+proj=healpix +lon_0=0 +a=1")
+france_5070 <- france %>% sf::st_transform(5070)
+france_3304 <- france %>% sf::st_transform(3304)
 ```
 
-La carte de Paris intra-muros est, après la
-récupération des arrondissements avec
-`cartiflette` de ce type là:
+Les projections ont ainsi un effet déformant qui se voit bien lorsqu'on prend
+quelques cas pathologiques:
 
 ```{r}
-ggplot(data_paris) +
+#| label: fig-effet-mercator
+#| fig-cap: "Comparaison des projections"
+#| fig-subcap: 
+#|   - "Mercator WGS84 (EPSG: 4326)"
+#|   - "Projection healpix (+proj=healpix +lon_0=0 +a=1)"
+#|   - "Projection prévue pour Tahiti (EPSG: 3304)"
+#|   - "Projection Albers prévue pour Etats-Unis (EPSG: 5070)"
+#| layout-ncol: 2
+
+ggplot(france) +
+    geom_sf(fill = "white") + theme_void()
+
+ggplot(france_healpix) +
+    geom_sf(fill = "white") + theme_void()
+
+ggplot(france_3304) +
+    geom_sf(fill = "white") + theme_void()
+
+ggplot(france_5070) +
     geom_sf(fill = "white") + theme_void()
 ```
+
+```{r}
+mismatch_france <- france %>%
+  mutate(superficie_4326 = set_units(st_area(.), "km^2")) %>%
+  st_transform(2154) %>%
+  mutate(superficie_2154 = set_units(st_area(.), "km^2")) %>%
+  mutate(mismatch = superficie_2154-superficie_4326) %>%
+  select(NOM, superficie_4326, superficie_2154, mismatch)
+```
+
+Les approximations sont non négligeables: 
+
+```{r}
+mismatch_france %>% arrange(desc(mismatch))
+```
+
+On peut représenter celles-ci sur une carte pour se faire
+une idée des régions où l'erreur de mesure est la plus importante
+
+```{r}
+#| label: fig-erreur-mesure
+ggplot(mismatch_france) +
+  geom_sf(aes(fill = as.numeric(mismatch))) +
+  scale_fill_gradient2() +
+  labs(title = "Approximations liées à la projection (km²)", fill = NULL) +
+  theme_void() + theme(legend.position = "bottom")
+```
+
+Ce type d'erreur de mesure est normal à l'échelle du territoire français. 
+Les projections héritères du Mercator déforment les distances. Si cela ne se
+voit pas forcément sur de petits territoires, les erreurs peuvent être 
+non négligeables à l'échelle de la France.
+
+Il faut donc repasser les données dans le système de projection Lambert 93 (le
+système officiel pour la métropole) avant d'effectuer des calculs géométriques.
+
 
 
 ## Utiliser des données géographiques comme des couches graphiques
@@ -294,7 +398,7 @@ head(stations)
 # 2) Reprojection
 st_crs(stations)
 stations <- stations %>% 
-  st_transform(st_crs(data_paris))
+  st_transform(st_crs(communes_borders))
 ```
 
 La carte attendu à l'issue de la question 3 a l'aspect suivant:
@@ -303,7 +407,7 @@ La carte attendu à l'issue de la question 3 a l'aspect suivant:
 ```{r}
 # 3) Carte des 50 stations les plus importantes. 
 
-paris <- data_paris %>%
+paris <- communes_borders %>%
   filter(INSEE_DEP == "75")
 
 principales_stations <- stations %>%
@@ -387,7 +491,7 @@ les points des stations du 19e:
 stations_19e <- stations_info %>%
   filter(grepl("19e", NOM)) %>%
   st_transform(4326)
-arrondissement_19e <- data_paris %>%
+arrondissement_19e <- communes_borders %>%
   filter(grepl("19e", NOM)) %>%
   st_transform(4326)
 
@@ -412,9 +516,9 @@ stations_agg <- stations_info %>%
             capacity_sum = sum(capacity)) %>%
   st_drop_geometry()
 
-data_paris <- data_paris %>%
+communes_borders <- communes_borders %>%
   mutate(area = units::set_units(st_area(.), "km^2"))
-df <- data_paris %>% left_join(stations_agg)
+df <- communes_borders %>% left_join(stations_agg)
 ```
 
 Enfin, dans la question 4,
