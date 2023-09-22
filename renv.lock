@@ -399,8 +399,8 @@
       "Package": "doremifasol",
       "Version": "0.5.1",
       "Source": "GitHub",
-      "Remotes": "inseeFrLab/apinsee",
       "RemoteType": "github",
+      "Remotes": "inseeFrLab/apinsee",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "doremifasol",
       "RemoteUsername": "InseeFrLab",
@@ -871,6 +871,23 @@
         "R"
       ],
       "Hash": "7ce2733a9826b3aeb1775d56fd305472"
+    },
+    "mapsf": {
+      "Package": "mapsf",
+      "Version": "0.7.1",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "classInt",
+        "grDevices",
+        "graphics",
+        "sf",
+        "stats",
+        "utils"
+      ],
+      "Hash": "c0f3c382a3d00a3cc701faa8d7965898"
     },
     "memoise": {
       "Package": "memoise",
