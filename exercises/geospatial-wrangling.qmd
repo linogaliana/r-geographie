@@ -286,6 +286,7 @@ france <- download_vectorfile_url_all(
 
 ```{r}
 st_crs(france) <- 4326
+st_crs(france$geometry) <- 4326
 ```
 
 1. S'amuser à représenter les limites de la France avec plusieurs projections:

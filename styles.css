@@ -10,6 +10,9 @@
     background-color: inherit;
   }
 
+.green {
+  font-color: green; 
+}
 
 .grid-item-link {
     color: inherit;
