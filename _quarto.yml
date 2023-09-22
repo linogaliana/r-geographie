@@ -4,6 +4,7 @@ project:
     - /slides/introduction.qmd
     - /slides/wrangling.qmd
     - /slides/ggplot.qmd
+    - /slides/geospatial.qmd
     - index.qmd
     - "/cards/**/*.qmd"
     - "/exercises/**/*.qmd"

@@ -35,6 +35,7 @@ données géographiques pourront être manipulées
 comme n'importe quel type de données avec {{< fa brands r-project >}}.
 La complexité induite par la dimension spatiale ne sera pas ressentie. 
 
+
 <details>
 <summary>
 `sf`, une association de tables de données classiques à des géométries

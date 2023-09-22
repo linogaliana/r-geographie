@@ -47,21 +47,23 @@ listing:
 
 ## Introduction
 
-- {{< fa brands r-project >}} centré autour du _dataframe_ 
+- `dplyr` facilite l'analyse de données avec {{< fa brands r-project >}} 
 
 . . .
 
-- Mais manipulations parfois un peu lourdes :
-    - `df$var`: un peu lourd
-    - `df[,]`: un peu trop calqué sur les matrices
+- Mais les données géographiques sont plus complexes:
+    + Données classiques associées à des objets géométriques
+    + Besoin de faire des opérations géométriques (fusion, dissolution...)
 
 . . . 
 
-- Données textuelles: une base perfectible
-    - Des _outputs_ alambiqués
-    - Des fonctionnalités manquantes par rapport à `Python`
+- SIG offrent une approche cohérente pour ce type d'opération
+    + {{< fa brands r-project >}} peut se comporter comme un SIG !
     
-## La réponse: le `tidyverse` !
+## La réponse: le _package_ `sf` !
+
+![`sf`, une association de tables de données classiques à des géométries](https://user-images.githubusercontent.com/520851/50280460-e35c1880-044c-11e9-9ed7-cc46754e49db.jpg){width="70%"}
+
 
 ![L'écosystème du [`tidyverse`](https://www.tidyverse.org/)](./img/tidyverse.png)
 
