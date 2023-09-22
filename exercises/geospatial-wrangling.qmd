@@ -249,6 +249,20 @@ map_paris_arrondissements
 
 </details>
 
+## Le système de projection
+
+Un concept central dans les logiciels de GIS est la notion de système de
+projection. L'exercice précédent imposait parfois certaines projections
+sans expliquer l'importance de ces choix. {{< fa brands r-project >}}, comme
+tout SIG, permet une gestion cohérente des projections. 
+
+L'exercice suivant vise à introduire aux principales
+fonctionnalités de {{< fa brands r-project >}}
+à ce propos. Il illustre les problèmes communs que peuvent rencontrer
+les géographes dans la gestion des systèmes de projection. 
+
+
+
 
 ::: {.callout-tip}
 ## Exercice 2: Les projections, représentations et approximations
@@ -271,7 +285,7 @@ france <- download_vectorfile_url_all(
 1. S'amuser à représenter les limites de la France avec plusieurs projections:
 
 - Mercator WGS84 (EPSG: 4326)
-- Projection healpix (+proj=healpix +lon_0=0 +a=1)
+- Projection healpix (`+proj=healpix +lon_0=0 +a=1`)
 - Projection prévue pour Tahiti (EPSG: 3304)
 - Projection Albers prévue pour Etats-Unis (EPSG: 5070)
 
@@ -289,7 +303,9 @@ france_5070 <- france %>% sf::st_transform(5070)
 france_3304 <- france %>% sf::st_transform(3304)
 ```
 
-Les projections ont ainsi un effet déformant qui se voit bien lorsqu'on prend
+Avec la question 1 illustrant quelques cas pathologiques,
+on comprend que les projections ont un effet déformant
+qui se voit bien lorsqu'on prend
 quelques cas pathologiques:
 
 ```{r}
@@ -324,30 +340,58 @@ mismatch_france <- france %>%
   select(NOM, superficie_4326, superficie_2154, mismatch)
 ```
 
-Les approximations sont non négligeables: 
+Cependant le problème n'est pas que visuel, il est également
+numérique. Les calculs géométriques amènent à des différences
+assez notables selon le système de référence utilisé.
 
+<details>
+<summary>
+Voir le tableau des approximations pour chaque région
+</summary>
 ```{r}
 mismatch_france %>% arrange(desc(mismatch))
 ```
+</details>
 
-On peut représenter celles-ci sur une carte pour se faire
-une idée des régions où l'erreur de mesure est la plus importante
+On peut représenter ces approximations sur une carte[^notecarte] pour se faire
+une idée des régions où l'erreur de mesure est la plus importante.
+
+[^notecarte]: Cette carte n'est pas trop soignée, c'est normal nous verrons comment
+faire de belles cartes ultérieurement.
 
 ```{r}
 #| label: fig-erreur-mesure
+#| fig-cap: Approximations liées au système de projection WGS 84
 ggplot(mismatch_france) +
   geom_sf(aes(fill = as.numeric(mismatch))) +
   scale_fill_gradient2() +
-  labs(title = "Approximations liées à la projection (km²)", fill = NULL) +
+  labs(title = "Approximations liées à la projection", fill = "km²") +
   theme_void() + theme(legend.position = "bottom")
 ```
 
 Ce type d'erreur de mesure est normal à l'échelle du territoire français. 
-Les projections héritères du Mercator déforment les distances. Si cela ne se
-voit pas forcément sur de petits territoires, les erreurs peuvent être 
+Les projections héritères du Mercator déforment les distances,
+surtout lorqu'on se rapproche de l'équateur ou des pôles. 
+
+::: {#fig-mercator}
+
+![Exemple de reprojection de pays depuis le site [thetruesize.com](https://www.thetruesize.com/)](https://pythonds.linogaliana.fr/content/manipulation/truesize.png){#fig-surus}
+
+!["Don't trust the Mercator projection" sur `Reddit`](img/mercator.jpg){#fig-mercator-funny}
+
+La projection Mercator, une vision déformante
+:::
+
+
+
+Il n'est donc pas suprenant que nos déformations soient exacerbées aux
+extrèmes du territoire métropolitain. 
+Si les approximations sont légères sur de petits territoires,
+les erreurs peuvent être 
 non négligeables à l'échelle de la France.
 
-Il faut donc repasser les données dans le système de projection Lambert 93 (le
+Il faut donc systématiquement
+repasser les données dans le système de projection Lambert 93 (le
 système officiel pour la métropole) avant d'effectuer des calculs géométriques.
 
 
@@ -369,98 +413,175 @@ requêtables directement par l'url
 url <- "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
 ```
 
+
+Dans le prochain exercice, nous proposons de créer rapidement une 
+carte comprenant trois couches:
+
+- Les localisations de stations sous forme de points ;
+- Les bordures des communes et arrondissements pour contextualiser ;
+- Les bordures des départements en traits plus larges pour contextualiser également. 
+
+Nous irons plus loin dans le travail cartographique dans le prochain
+chapitre. Mais être en mesure de positionner rapidement
+ses données sur une carte est
+toujours utile dans un travail exploratoire. 
+
+En amont de l'exercice,
+utiliser la fonction suivante du _package_ `cartiflette` pour récupérer
+le fonds de carte des départements de la petite couronne:
+
+```{r}
+#| echo: true
+#| output: false
+idf <- download_vectorfile_url_all(
+      values = "11",
+      crs = 4326,
+      borders = "DEPARTEMENT",
+      vectorfile_format="geojson",
+      filter_by="REGION",
+      source="EXPRESS-COG-CARTO-TERRITOIRE",
+      year=2022)
+petite_couronne_departements <- idf %>%
+  filter(INSEE_DEP %in% c("75","92","93","94"))
+```
+
+
+
 ::: {.callout-tip}
 ## Exercice 3: importer et explorer les données velib
 
-1. Importer les données velib sous le nom `station`
+On commence par récupérer les données nécessaires à la production
+de cette carte.
+
+1. En utilisant l'URL précédent, importer les données velib sous le nom `station`
 2. Vérifier la projection géographique de `station` (attribut `crs`). Si celle-ci est différente des données communales, reprojeter ces
 dernières dans le même système de projection que les stations de vélib
-3.  Représenter sur une carte les 50 stations les plus importantes (variable `capacity`). Vous pouvez également afficher le fonds de carte des arrondissements de Paris.
-Cette [page](https://geopandas.org/mapping.html#maps-with-layers) peut vous aider pour comprendre comment afficher plusieurs couches à la fois. Vous pouvez customiser la carte en retirant les axes grâce à la méthode `set_axis_off` et mettre un titre tel que _"Les 50 principales stations de Vélib"_ avec la méthode `set_title`. 
-4. Afficher également (trait bleu et épais) les réseaux de transport en communs, disponibles [ici](https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/map/?location=7,48.69717,2.33167&basemap=jawg.streets). L'url à requêter est
-<https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr>
+3. Ne conserver que les 50 principales stations (variable `capacity`)
+
+On peut maintenant construire la carte de manière séquentielle avec `ggplot`
+
+4. En premier lieu, grâce à `geom_sf`, 
+représenter exclusivement les positions des stations
+et ajuster la taille en fonction de la variable `capacity`
+
+5. Ajouter la couche des communes d'arrondissements et des communes
+    + Comme ces limites administratives sont stockées dans un _dataframe_ différent, il va falloir utiliser l'argument `data`
+    + Utiliser `fill = "transparent"` pour que l'intérieur du polygone ne masque pas nos points
+
+6. Ajouter la couche des départements
+
+7. En supposant que votre objet `ggplot` s'appelle `carte`, vous pouvez
+utiliser le code suivant pour améliorer rapidement l'esthétique
+
+```r
+carte +
+  theme_void() +
+  theme(legend.position = "bottom") +
+  guides(color = "none", size = guide_legend(title.position="top", title.hjust = 0.5)) +
+  labs(size = "Capacité de la station", title = "Les 50 principales stations de vélib")
+```
+
+
 :::
-
-
 
 ```{r}
 #| output: false
-# 1) Importer les données velib
+# 1. Importer les données velib
 stations <- st_read(url)
 ```
 
 ```{r}
-head(stations)
-```
-
-
-```{r}
-# 2) Reprojection
+#| output: false
+# 2. Reprojection
 st_crs(stations)
 stations <- stations %>% 
-  st_transform(st_crs(communes_borders))
+  st_transform(st_crs(petite_couronne))
 ```
-
-La carte attendu à l'issue de la question 3 a l'aspect suivant:
 
 
 ```{r}
-# 3) Carte des 50 stations les plus importantes. 
-
-paris <- communes_borders %>%
-  filter(INSEE_DEP == "75")
-
+#| output: false
+# 3. Principales stations
 principales_stations <- stations %>%
   arrange(desc(capacity)) %>%
   head(50)
-
-ggplot(paris) +
-  geom_sf(fill = "white") + geom_sf(data = principales_stations) + 
-  theme_void()
 ```
 
 
 ```{r}
-# 4) Réseaux de transport en communs
-url <- "https://data.iledefrance-mobilites.fr/explore/dataset/traces-du-reseau-ferre-idf/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
-
-transports <- st_read(url) %>%
-  st_transform(2154)
+# 4. Principales stations sous forme de nuage de points
+carte <- ggplot(principales_stations) +
+  geom_sf(aes(color = "red", size = capacity))
 ```
 
-L'ajout du réseau de métro permet d'obtenir une carte ressemblant à celle-ci:
-
+<details>
+<summary>
+Les stations placées sur un plan, à l'issue de la question 4
+</summary>
+```{r}
+carte
+```
+</details>
 
 ```{r}
-metro <- transports %>% filter(mode == "METRO")
-
-ggplot(paris) +
-  geom_sf(fill = "white") + geom_sf(data = principales_stations, color = "red") + 
-  geom_sf(data = metro, color = "royalblue", alpha = 0.4) +
-  theme_void()
+# Question 5
+carte <- carte + geom_sf(data = petite_couronne, fill = "transparent")
 ```
 
-Pour faire une belle carte, il faudrait couper les lignes de métro
-via une jointure spatiale ou privilégier
-un fonds de carte conceptuel. 
-La méthode pour faire des cartes contextuelles
-est proposée en [exercice supplémentaire 👇️](#exo-supp).
-puisqu'elle implique des connaissances minimales avec `leaflet`
-que nous verrons ultérieurement.
+<details>
+<summary>
+Ajout d'une couche d'arrondissements (question 5)
+</summary>
+
+```{r}
+carte
+```
+</details>
+
+```{r}
+# Question 6
+carte <- carte +
+  geom_sf(data = petite_couronne_departements, fill = "transparent", color = "blue")
+```
+
+<details>
+<summary>
+Ajout de la couche des départements (question 6)
+</summary>
+
+```{r}
+carte
+```
+
+</details>
+
+La carte finalisée (question 7), obtenue grâce à une demi-douzaine de lignes
+de code seulement, est ainsi:
+
+```{r}
+# Question 7
+carte +
+  theme_void() +
+  theme(legend.position = "bottom") +
+  guides(color = "none", size = guide_legend(title.position="top", title.hjust = 0.5)) +
+  labs(size = "Capacité de la station", title = "Les 50 principales stations de vélib")
+```
+
+
+
 
 ## Jointures spatiales
 
 Les jointures attributaires fonctionnent comme avec un `tibble` classique.
 Pour conserver un objet spatial *in fine*, il faut faire attention à utiliser en premier (base de gauche) l'objet `sf`.
-En revanche, l'un des intérêts des objets geopandas est qu'on peut également faire une jointure sur la dimension spatiale grâce à plusieurs fonctions:
+En revanche, l'un des intérêts des objets `sf` est qu'on peut également faire une jointure sur la dimension spatiale grâce à plusieurs fonctions. Les jointures les plus communes sont:
 
 | Fonction |	Opération |
 |----------|------------|
 |`st_intersects()` | 	Quelles géométries de x intersectent celles de y ? |
 |`st_contains()` | 	Quelles géométries de x contiennent celles de y ? |
 |`st_disjoint()` | 	Quelles géométries de x sont disjointes à celles de y ? |
-|`st_is_within_distance()` | 	Quelles géométries de x est à moins de 
-m/km de celles de y ? |
+|`st_is_within_distance()` | 	Quelles géométries de x est à moins de m/km de celles de y ? |
 
 La documentation à laquelle se
 référer est [ici](https://cran.r-project.org/web/packages/sfnetworks/vignettes/sfn03_join_filter.html). 
@@ -470,31 +591,51 @@ Une version pédagogique se trouve dans la documentation [`utilitR`](https://www
 ::: {.callout-tip}
 ## Exercice 4: Associer les stations aux communes et arrondissements auxquels elles appartiennent
 
-1. Faire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de `data_paris`. Appeler cet objet `stations_info`
-2. Représenter la carte des stations du 19e arrondissement (s'aider de la variable `NOM`). Vous pouvez mettre en fond de carte les arrondissements parisiens. 
-3. Compter le nombre de stations velib et le nombre de places velib par arrondissement ou commune (pour vous aider, vous pouvez compléter vos connaissances avec [ce tutoriel](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)). Représenter sur une carte chacune des informations
+Dans cet exercice, on va supposer que :
+
+- les localisations des stations `velib` 
+sont stockées dans un _dataframe_ nommé `stations`
+- les données administratives
+sont dans un _dataframe_ nommé `petite_couronne`.
+
+1. Faire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de `petite_couronne`. Appeler cet objet `stations_info`
+2. Créer les objets `stations_19e` et `arrondissement_19e` pour stocker, respectivement, 
+les stations appartenant au 19e et les limites de l'arrondissement
+2. Représenter la carte des stations du 19e arrondissement (s'aider de la variable `NOM`)
+    + Ne représenter sur la carte que les stations du 19e avec des points bleus
+    + Représenter en rouge les limites du 19e
+    + Vous pouvez mettre en fond de carte tous les arrondissements parisiens pour contextualiser. 
+3. Compter le nombre de stations velib et le nombre de places velib par arrondissement ou commune. Représenter sur une carte chacune des informations
 4. Représenter les mêmes informations mais en densité (diviser par la surface de l'arrondissement ou commune en km2)
 5. (optionnel) Choisir une des cartes de densité et la nettoyer (retirer les axes, mettre les titres...)
 
 :::
 
 ```{r}
-stations_info <- st_join(stations, data_paris, join = st_within)
+stations_info <- st_join(stations, petite_couronne, join = st_within)
 ```
-
-Pour la question 2,
-la première méthode consiste à afficher
-toute la ville mais à ne représenter que
-les points des stations du 19e:
 
 ```{r}
 stations_19e <- stations_info %>%
   filter(grepl("19e", NOM)) %>%
   st_transform(4326)
-arrondissement_19e <- communes_borders %>%
+arrondissement_19e <- petite_couronne %>%
   filter(grepl("19e", NOM)) %>%
   st_transform(4326)
+```
 
+
+```{r}
+ggplot(petite_couronne %>% filter(INSEE_DEP == 75)) +
+  geom_sf(aes(fill = grepl("19e", NOM)), alpha = 0.1) +
+  geom_sf(data = stations_19e) +
+  scale_fill_viridis_d() +
+  theme_void() +
+  theme(legend.position = "none")
+```
+
+
+```{r}
 pal_fun <- colorQuantile("YlOrRd", NULL, n = 4)
 
 leaflet(stations_19e) %>%
@@ -509,6 +650,7 @@ leaflet(stations_19e) %>%
 ```
 
 ```{r}
+#| eval: false
 # Question 3
 stations_agg <- stations_info %>%
   group_by(NOM) %>%
@@ -516,9 +658,9 @@ stations_agg <- stations_info %>%
             capacity_sum = sum(capacity)) %>%
   st_drop_geometry()
 
-communes_borders <- communes_borders %>%
+data_paris <- petite_couronne %>%
   mutate(area = units::set_units(st_area(.), "km^2"))
-df <- communes_borders %>% left_join(stations_agg)
+df <- petite_couronne %>% left_join(stations_agg)
 ```
 
 Enfin, dans la question 4,
@@ -528,6 +670,7 @@ de la taille différente des arrondissements,
 on obtient cette carte:
 
 ```{r}
+#| eval: false
 df %>% mutate(capacity_density = capacity/area)
 ```
 
@@ -537,6 +680,7 @@ df %>% mutate(capacity_density = capacity/area)
 ## Exercices supplémentaires
 
 ```{r}
+#| eval: false
 library(leaflet)
 
 pal_fun <- colorQuantile("YlOrRd", NULL, n = 4)
