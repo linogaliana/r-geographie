@@ -284,6 +284,10 @@ france <- download_vectorfile_url_all(
       year=2022)
 ```
 
+```{r}
+st_crs(france) <- 4326
+```
+
 1. S'amuser à représenter les limites de la France avec plusieurs projections:
 
 - Mercator WGS84 (EPSG: 4326)
