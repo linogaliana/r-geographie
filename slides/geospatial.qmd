@@ -1,0 +1,403 @@
+---
+title: Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}
+subtitle: |
+  **[Chapitre 4: manipuler des données spatiales]{.orange}**
+authors: |
+  [Lino Galiana](https://www.linogaliana.fr/),
+# date: 
+slide-number: true
+header: |
+  [Retour à la page principale du cours](https://rgeo.linogaliana.fr/)
+footer: |
+  Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}, École Normale Supérieure ([retour page principale](/))
+# uncomment for French presentations:
+lang: fr-FR
+# for blind readers:
+slide-tone: false
+# for @olevitt:
+chalkboard: # press the B key to toggle chalkboard
+  theme: whiteboard
+# uncomment to use the multiplex mode:
+#multiplex: true
+format:
+  onyxia-revealjs
+  # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
+  #onyxia-dark-revealjs:
+controls: true
+css: custom.css
+from: markdown+emoji
+listing:
+  id: sample-listings
+  contents: teaching
+  sort: "date desc"
+  type: table
+#filters:
+#  - reveal-header
+---
+
+## Chapitre introductif
+
+::: {.callout-note}
+- Exercices associés à ce chapitre [ici](/exercises/geospatial-wrangling.html)
+:::
+
+![](../cards/geospatial-wrangling/geographer.png){fig-align="center"}
+
+- [Retour à la page principale](/)
+
+## Introduction
+
+- {{< fa brands r-project >}} centré autour du _dataframe_ 
+
+. . .
+
+- Mais manipulations parfois un peu lourdes :
+    - `df$var`: un peu lourd
+    - `df[,]`: un peu trop calqué sur les matrices
+
+. . . 
+
+- Données textuelles: une base perfectible
+    - Des _outputs_ alambiqués
+    - Des fonctionnalités manquantes par rapport à `Python`
+    
+## La réponse: le `tidyverse` !
+
+![L'écosystème du [`tidyverse`](https://www.tidyverse.org/)](./img/tidyverse.png)
+
+## La réponse: le `tidyverse` !
+
+Un ensemble de _packages_ développés par `RStudio` qui facilite :
+
+- La lecture (`readr`) et la manipulation de bases de données (`dplyr`)
+- L'exploitation de données textuelles (`stringr`), temporelles (`lubridate`)
+ou catégorielles (`forcats`)
+- La création de graphiques (`ggplot2`)
+- La programmation à partir de _dataframes_ (`purrr`)
+- Et bien d'autres choses...
+
+## Le concept de données _tidy_
+
+
+- Chaque variable possède sa propre colonne ;
+- Chaque observation possède sa propre ligne ;
+- Une valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.
+
+::: {.callout-note}
+Concept popularisé par Hadley Wickham.
+:::
+
+## `readr`
+
+![](https://readr.tidyverse.org/logo.png){width=20%}
+
+- Le _package_ pour lire des fichiers plats (`.csv`, `.txt`...)
+- Permet d'obtenir un `tibble`, le _dataframe_ augmenté du `tidyverse`
+
+## `dplyr` 
+
+![](https://dplyr.tidyverse.org/logo.png){width=20%}
+
+- Le _package_ central de l'écosystème de manipulation de données ;
+- Manipulation de données et statistiques descriptives ;
+
+## `dplyr` {.smaller}
+
+### Principaux verbes
+
+On travaille sur un `tibble` (_dataframe_ augmenté)
+
+- `select()` : sélectionner des variables par leur nom ;
+- `rename()` : renommer des variables ;
+- `filter()` : sélectionner des observations selon une ou plusieurs conditions ;
+- `arrange()` : trier la table selon une ou plusieurs variables ;
+- `mutate()` : ajouter des variables qui sont fonction d’autres variables ;
+- `summarise()` : calculer une statistique à partir de données ;
+- `group_by()` : faire des opérations par groupe.- `
+
+
+
+## `dplyr` {.smaller}
+
+### Manipulation de données
+
+On enchaine des séquences avec les  _pipe_ (`%>%`)
+```{r}
+#| eval: false
+#| echo: true
+library(doremifasol)
+library(dplyr)
+
+base_publique_equipements <- telechargerDonnees("BPE_ENS")
+base_publique_equipements %>%
+  as_tibble() %>% # <1>
+  filter(TYPEQU == "B316") %>% # <2>
+  mutate(x = paste0(AN, "_", NB_EQUIP)) # <3>
+```
+1. On convertit le _dataframe_ standard en `tibble`
+2. On ne garde que les stations services (valeurs `B316` de `TYPEQU`)
+3. On crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)
+
+<br>
+
+::: {.callout-note}
+Plus de détails dans [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_tidyverse)
+:::
+
+## `dplyr` {.smaller}
+
+### Statistiques agrégées
+
+- Logique du _split-apply-combine_ avec `groupby`
+
+<details>
+<summary>
+Illustration du _split-apply-combine_
+</summary>
+![](https://miro.medium.com/v2/resize:fit:1400/1*w2oGdXv5btEMxAkAsz8fbg.png)
+</details>
+
+```{r}
+#| eval: false
+#| echo: true
+library(doremifasol)
+library(dplyr)
+
+base_publique_equipements <- telechargerDonnees("BPE_ENS")
+base_publique_equipements %>%
+  as_tibble() %>% # <1>
+  filter(TYPEQU == "B316") %>% # <2>
+  group_by(DEP) %>% # <3>
+  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))  # <4>
+```
+1. On convertit le _dataframe_ standard en `tibble`
+2. On ne garde que les stations services (valeurs `B316` de `TYPEQU`)
+3. On définit `DEP` comme une variable de stratification pour définir des groupes
+4. On résume les données en faisant la somme des stations services dans chaque groupe
+
+## `ggplot`
+
+![](https://ggplot2.tidyverse.org/logo.png){width=20%}
+
+- Le _package_ indispensable pour faire des graphiques ❤️ ;
+- Approche cohérente et flexible basée sur la __grammaire des graphiques__
+    + Objet d'un chapitre dédié
+
+## `stringr`, `forcats` et `lubridate`
+
+:::{ncol-layout=3 fig-align="center"}
+![](https://stringr.tidyverse.org/logo.png){width=20%}
+![](https://forcats.tidyverse.org/logo.png){width=20%}
+![](https://lubridate.tidyverse.org/logo.png){width=20%}
+:::
+
+- Plein de fonctions facilitant la manipulation:
+    - Données textuelles: `stringr`
+    - Données catégorielles: `forcats`
+    - Données temporelles: `lubridate`
+
+# Les formats de données
+
+## Généralités
+
+- Données peuvent être stockées dans de nombreux formats différents
+    + Standards différents
+    + Manières d'importer différentes
+
+. . .
+
+- Fonctionnalités de {{< fa brands r-project >}} limitées:
+    + Packages spécialisés pour certains formats
+    + Objectif: applatir l'information dans un _dataframe_
+
+::: {.callout-note}
+On verra les formats géographiques, et leurs enjeux, ultérieurement
+:::
+
+## Le `CSV`
+
+- Format de fichier plat avec des colonnes délimitées:
+    + Standard: `,` en délimitateur, `.` en décimale ;
+    + Variante européenne 😮‍💨: `;` en délimitateur, `,` en décimale
+
+- Format universel, simple d'utilisation (quelques limites)
+
+
+```{ojs}
+viewof info_csv = Inputs.radio(
+  ["Fichier brut", "Ficher après import"], {value: "Fichier brut"}
+)
+```
+
+```{ojs}
+info_csv == "Fichier brut" ? html`<div>${md_csv}<div>` : html`<div>${df_csv}<div>`
+```
+
+
+
+```{ojs}
+//| output: false
+df_csv = Inputs.table(
+  d3.csvParse(raw_csv)
+)
+md_csv = md`
+\`\`\`
+${raw_csv}
+\`\`\`
+`
+```
+
+```{ojs}
+//| output: false
+raw_csv = `DEP,REG,CHEFLIEU,TNCC,NCC,NCCENR,LIBELLE
+01,84,01053,5,AIN,Ain,Ain
+02,32,02408,5,AISNE,Aisne,Aisne
+03,84,03190,5,ALLIER,Allier,Allier
+04,93,04070,4,ALPES DE HAUTE PROVENCE,Alpes-de-Haute-Provence,Alpes-de-Haute-Provence
+05,93,05061,4,HAUTES ALPES,Hautes-Alpes,Hautes-Alpes
+06,93,06088,4,ALPES MARITIMES,Alpes-Maritimes,Alpes-Maritimes
+`
+```
+
+## Le `CSV`
+
+- Lecture avec la fonction `read_csv` du package `readr`!
+
+```{r}
+#| eval: false
+#| echo: true
+library(readr) # <1>
+read_csv("dossier_donnees/nom_fichier.csv") # <2>
+```
+1. On importe la librairie `readr` pour avoir accès à la fonction `read_csv`
+2. On utilise `read_csv` pour lire les données stockées dans le chemin relatif
+`dossier_donnees/nom_fichier.csv`
+
+
+:::{.callout-note}
+- CSV avec délimitateur `;`: fonction `read_csv2`. 
+- Formats plats plus exotiques (`.txt` par exemple): `read_delim`
+
+Plus de détails dans la documentation [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_fichiers_plats#importer-un-fichier-avec-le-package-readr)
+:::
+
+## Le `JSON`
+
+- Le format du _web_, notamment des API 
+    + API: on verra ça plus tard
+
+```{ojs}
+viewof info_json = Inputs.radio(
+  ["Fichier brut", "Ficher après import"], {value: "Fichier brut"}
+)
+```
+
+```{ojs}
+info_json == "Fichier brut" ? html`<div>${md_json}<div>` : html`<div>${df_json}<div>`
+```
+
+```{ojs}
+//| output: false
+json_string = `[
+  {"DEP": "01", "REG": "84", "CHEFLIEU": "01053", "TNCC": "5", "NCC": "AIN", "NCCENR": "Ain", "LIBELLE": "Ain"},
+  {"DEP": "02", "REG": "32", "CHEFLIEU": "02408", "TNCC": "5", "NCC": "AISNE", "NCCENR": "Aisne", "LIBELLE": "Aisne"},
+  {"DEP": "03", "REG": "84", "CHEFLIEU": "03190", "TNCC": "5", "NCC": "ALLIER", "NCCENR": "Allier", "LIBELLE": "Allier"},
+  {"DEP": "04", "REG": "93", "CHEFLIEU": "04070", "TNCC": "4", "NCC": "ALPES DE HAUTE PROVENCE", "NCCENR": "Alpes-de-Haute-Provence", "LIBELLE": "Alpes-de-Haute-Provence"},
+  {"DEP": "05", "REG": "93", "CHEFLIEU": "05061", "TNCC": "4", "NCC": "HAUTES ALPES", "NCCENR": "Hautes-Alpes", "LIBELLE": "Hautes-Alpes"},
+  {"DEP": "06", "REG": "93", "CHEFLIEU": "06088", "TNCC": "4", "NCC": "ALPES MARITIMES", "NCCENR": "Alpes-Maritimes", "LIBELLE": "Alpes-Maritimes"}
+]`
+raw_json = [
+  {"DEP": "01", "REG": "84", "CHEFLIEU": "01053", "TNCC": "5", "NCC": "AIN", "NCCENR": "Ain", "LIBELLE": "Ain"},
+  {"DEP": "02", "REG": "32", "CHEFLIEU": "02408", "TNCC": "5", "NCC": "AISNE", "NCCENR": "Aisne", "LIBELLE": "Aisne"},
+  {"DEP": "03", "REG": "84", "CHEFLIEU": "03190", "TNCC": "5", "NCC": "ALLIER", "NCCENR": "Allier", "LIBELLE": "Allier"},
+  {"DEP": "04", "REG": "93", "CHEFLIEU": "04070", "TNCC": "4", "NCC": "ALPES DE HAUTE PROVENCE", "NCCENR": "Alpes-de-Haute-Provence", "LIBELLE": "Alpes-de-Haute-Provence"},
+  {"DEP": "05", "REG": "93", "CHEFLIEU": "05061", "TNCC": "4", "NCC": "HAUTES ALPES", "NCCENR": "Hautes-Alpes", "LIBELLE": "Hautes-Alpes"},
+  {"DEP": "06", "REG": "93", "CHEFLIEU": "06088", "TNCC": "4", "NCC": "ALPES MARITIMES", "NCCENR": "Alpes-Maritimes", "LIBELLE": "Alpes-Maritimes"}
+]
+md_json = md`
+\`\`\`
+${json_string}
+\`\`\`
+`
+```
+
+```{ojs}
+//| output: false
+df_json = Inputs.table(raw_json)
+```
+
+## Le `JSON`
+
+- Importé comme une liste hiérarchisée
+- Objectif: transformer cette information dans un _dataframe_ `tidy`
+    + Pas toujours évident !
+
+```{r}
+#| eval: false
+#| echo: true
+library(jsonlite) # <1>
+df <- fromJSON(file="dossier_donnees/nom_fichier.json") # <2>
+```
+1. On importe la librairie `jsonlite` pour avoir accès à la fonction `fromJSON`
+2. On utilise `fromJSON` pour lire les données stockées dans le chemin relatif
+`dossier_donnees/nom_fichier.csv`
+
+
+## Les formats Excel
+
+{{< iconify face-vomiting size=10x >}}
+
+## Les formats Excel
+
+- Format propriétaire
+
+- Mélange mise en forme et données brute
+    + Pas approprié pour l'analyse de données
+    + Dangereux pour la reproductibilité et la transparence
+
+- Plus de détails sur [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_tableurs)
+
+# Le _pipe_ `magrittr` (`%>%`)
+
+## Le _pipe_ `magrittr` (`%>%`)
+
+
+Une manière de chaîner les opérations
+
+![](https://magrittr.tidyverse.org/logo.png){width=20%}
+
+::: {.panel-tabset}
+
+## Fonctions emboitées
+
+```
+library(dplyr)
+library(doremifasol)
+
+df <- filter(
+  as_tibble(telechargerDonnees("BPE_ENS")),
+  TYPEQU == "B316"
+)
+
+summarise(
+  group_by(df, DEP),
+  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)
+)
+```  
+
+
+## Avec le _pipe_
+
+```
+library(dplyr)
+library(doremifasol)
+
+telechargerDonnees("BPE_ENS") %>%
+  as_tibble() %>%
+  filter(TYPEQU == "B316") %>% 
+  group_by(DEP) %>% 
+  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) 
+```  
+
+
+:::
