@@ -601,10 +601,18 @@ sont dans un _dataframe_ nommé `petite_couronne`.
 1. Faire une jointure spatiale pour enrichir les données de stations en y ajoutant des informations de `petite_couronne`. Appeler cet objet `stations_info`
 2. Créer les objets `stations_19e` et `arrondissement_19e` pour stocker, respectivement, 
 les stations appartenant au 19e et les limites de l'arrondissement
-2. Représenter la carte des stations du 19e arrondissement (s'aider de la variable `NOM`)
-    + Ne représenter sur la carte que les stations du 19e avec des points bleus
-    + Représenter en rouge les limites du 19e
-    + Vous pouvez mettre en fond de carte tous les arrondissements parisiens pour contextualiser. 
+2. Représenter la carte des stations du 19e arrondissement avec le code suivant:
+
+```r
+petite_couronne %>% filter(INSEE_DEP == 75) %>%
+  ggplot() +
+    geom_sf(aes(fill = grepl("19e", NOM)), alpha = 0.1) +
+    geom_sf(data = stations_19e, color = "royalblue") +
+    scale_fill_viridis_d() +
+    theme_void() +
+    theme(legend.position = "none")
+```
+
 3. Compter le nombre de stations velib et le nombre de places velib par arrondissement ou commune. Représenter sur une carte chacune des informations
 4. Représenter les mêmes informations mais en densité (diviser par la surface de l'arrondissement ou commune en km2)
 5. (optionnel) Choisir une des cartes de densité et la nettoyer (retirer les axes, mettre les titres...)
@@ -625,15 +633,27 @@ arrondissement_19e <- petite_couronne %>%
 ```
 
 
-```{r}
-ggplot(petite_couronne %>% filter(INSEE_DEP == 75)) +
-  geom_sf(aes(fill = grepl("19e", NOM)), alpha = 0.1) +
-  geom_sf(data = stations_19e) +
-  scale_fill_viridis_d() +
-  theme_void() +
-  theme(legend.position = "none")
-```
+<details>
+<summary>
+La carte obtenue sur la question 2 
+</summary>
 
+```{r}
+petite_couronne %>% filter(INSEE_DEP == 75) %>%
+  ggplot() +
+    geom_sf(aes(fill = grepl("19e", NOM)), alpha = 0.1) +
+    geom_sf(data = stations_19e, color = "royalblue") +
+    scale_fill_viridis_d() +
+    theme_void() +
+    theme(legend.position = "none")
+```
+</details>
+
+<details>
+<summary>
+Une version interactive produite avec `leaflet`, que nous découvrirons
+prochainement.
+</summary>
 
 ```{r}
 pal_fun <- colorQuantile("YlOrRd", NULL, n = 4)
@@ -648,20 +668,39 @@ leaflet(stations_19e) %>%
     fillOpacity = 0.5) %>%
   addPolylines(data = arrondissement_19e)
 ```
+</details>
 
 ```{r}
-#| eval: false
 # Question 3
 stations_agg <- stations_info %>%
-  group_by(NOM) %>%
-  mutate(stationcode_count = n_distinct(stationcode),
+  group_by(INSEE_COG) %>%
+  summarise(stationcode_count = n_distinct(stationcode),
             capacity_sum = sum(capacity)) %>%
   st_drop_geometry()
 
-data_paris <- petite_couronne %>%
+petite_couronne <- petite_couronne %>%
   mutate(area = units::set_units(st_area(.), "km^2"))
 df <- petite_couronne %>% left_join(stations_agg)
 ```
+
+<details>
+<summary>
+La carte obtenue à la question 3
+</summary>
+
+```{r}
+df %>% filter(INSEE_DEP == 75) %>%
+  ggplot() +
+    geom_sf(aes(fill = capacity_sum)) +
+    scale_fill_viridis_c() +
+    theme_void() +
+    theme(legend.position = "bottom")
+```
+</details>
+
+Avec la carte à la question 3, basée sur des aplats de
+couleurs (_choropleth map_), le lecteur est victime d'une illusion
+classique. Les arrondissements 
 
 Enfin, dans la question 4,
 si on représente plutôt la capacité 
@@ -670,12 +709,25 @@ de la taille différente des arrondissements,
 on obtient cette carte:
 
 ```{r}
-#| eval: false
-df %>% mutate(capacity_density = capacity/area)
+df <- df %>% mutate(capacity_density = capacity_sum/as.numeric(area))
+
+df %>% filter(INSEE_DEP == 75) %>%
+  ggplot() +
+    geom_sf(aes(fill = capacity_density)) +
+    scale_fill_viridis_c() +
+    theme_void() +
+    theme(legend.position = "bottom")
 ```
 
-
-
+```{r}
+library(mapsf)
+mf_map(x = df %>% filter(INSEE_DEP == 75))
+mf_map(
+  x = df %>% filter(INSEE_DEP == 75),
+  var = "capacity_density",
+  type = "prop"
+)
+```
 
 ## Exercices supplémentaires
 
