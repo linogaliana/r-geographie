@@ -63,6 +63,7 @@ library(units)
 library(dplyr)
 library(sf)
 library(ggplot2)
+library(mapsf)
 library(leaflet)
 library(cartiflette)
 ```
@@ -671,6 +672,7 @@ leaflet(stations_19e) %>%
 </details>
 
 ```{r}
+#| output: false
 # Question 3
 stations_agg <- stations_info %>%
   group_by(INSEE_COG) %>%
@@ -698,18 +700,34 @@ df %>% filter(INSEE_DEP == 75) %>%
 ```
 </details>
 
-Avec la carte à la question 3, basée sur des aplats de
+Avec la carte de la question 3, basée sur des aplats de
 couleurs (_choropleth map_), le lecteur est victime d'une illusion
-classique. Les arrondissements 
+classique. Les arrondissements les plus visibles sur la carte sont les
+plus grands. D'ailleurs c'est assez logique qu'ils soient également mieux
+pourvus en velib. Même si l'offre de velib est probablement plus reliée
+à la densité de population et d'équipements, on peut penser que l'effet
+taille joue et qu'ainsi on est victime d'une illusion avec la carte précédente.
 
-Enfin, dans la question 4,
-si on représente plutôt la capacité 
+Si on représente plutôt la capacité 
 sous forme de densité, pour tenir compte
 de la taille différente des arrondissements,
-on obtient cette carte:
+les conclusions sont inversées et correspondent
+mieux aux attentes d'un modèle centr-périphérie. Les
+arrondissements centraux sont mieux pourvus, cela se voit
+encore mieux avec des ronds proportionnels plutôt qu'une
+carte chorolèpthe. 
 
 ```{r}
 df <- df %>% mutate(capacity_density = capacity_sum/as.numeric(area))
+```
+
+```{r}
+#| label: fig-density-velib
+#| fig-cap: "Densité de velib dans l'agglomération parisienne"
+#| fig-subcap: 
+#|   - "Aplat de couleur"
+#|   - "Ronds proportionnels"
+#| layout-ncol: 2
 
 df %>% filter(INSEE_DEP == 75) %>%
   ggplot() +
@@ -717,10 +735,7 @@ df %>% filter(INSEE_DEP == 75) %>%
     scale_fill_viridis_c() +
     theme_void() +
     theme(legend.position = "bottom")
-```
 
-```{r}
-library(mapsf)
 mf_map(x = df %>% filter(INSEE_DEP == 75))
 mf_map(
   x = df %>% filter(INSEE_DEP == 75),
@@ -729,22 +744,78 @@ mf_map(
 )
 ```
 
-## Exercices supplémentaires
+## Exercice supplémentaire
+
+Les exercices précédents ont permis de se familiariser au traitement de données
+spatiales. Néanmoins il arrive de devoir jongler plus avec la
+dimension géométrique par exemple pour changer d'échelle ou introduire
+des fusions/dissolutions de géométries.
+
+Imaginons que chaque utilisateur de velib se déplace exclusivement
+vers la station la plus proche (à supposer qu'il n'y a jamais pénurie
+ou surcapacité). Quelle est la carte de la couverture des vélibs ? 
+Pour répondre à ce type de question, on utilise fréquemment la
+la [tesselation de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF),
+une opération classique pour transformer des points en polygones. L'exercice suivant
+permet de se familiariser avec cette approche[^notevoronoi].
+
+
+[^notevoronoi]: Dans [ce document de travail](https://www.insee.fr/en/statistiques/4925202) sur données de téléphonie mobile, on montre néanmoins que cette approche n'est pas sans biais
+sur des phénomènes où l'hypothèse de proximité spatiale est
+trop simplificatrice.
+
+
+::: {.callout-tip}
+## Exercice 5: la tesselation de Voronoï
+
+A l'aide de [cet article](https://www.jla-data.net/eng/spatial-aggregation/), 
+créer progressivement votre tesselation de voronoi
+
+1. Construire une enveloppe nommée `petite_couronne_limites` en utilisant
+la fonction `st_union` sur notre fonds de carte des communes de la petite
+couronne
+2. Créer la tesselation de voronoi en exécutant les étapes suivantes:
+    + Ne conserver que les géométries avec `st_geometry`
+    + Changer le type d'objet `sf` sous-jacent avec `st_union`
+    + Appliquer la transformation avec `st_voronoi`
+    + Transformer ça en objet `sf` auquel on est plus coutumier avec `st_collection_extract(type = "POLYGON")` puis `st_sf()`
+    + Appliquer un masque pour couper les parties extérieures à la petite couronne avec `st_intersection(petite_couronne_limites)`
+    + Joindre à nouveau aux données initiales avec `st_join(stations_info)` pour retrouver les attributs précédents
 
 ```{r}
-#| eval: false
-library(leaflet)
+petite_couronne_limites <- petite_couronne %>% st_union()
 
-pal_fun <- colorQuantile("YlOrRd", NULL, n = 4)
-principales_stations_wgs84 <- principales_stations %>%
-  st_transform(4326)
-
-leaflet(principales_stations_wgs84) %>%
-  addTiles() %>%
-  addCircleMarkers(
-    color = ~pal_fun(capacity),
-    popup = ~paste0(name, ": ", capacity, " places disponibles"),
-    stroke = FALSE,
-    fillOpacity = 0.5)
+voronoi <- stations_info %>% 
+  st_geometry() %>% # to get sfc from sf
+  st_union() %>% # to get a sfc of MULTIPOINT type
+  st_voronoi(envelope = st_geometry(petite_couronne_limites)) %>% # NC sized Voronoi polygon
+  st_collection_extract(type = "POLYGON") %>% # a list of polygons
+  st_sf() %>% # from list to sf object
+  st_intersection(petite_couronne_limites) %>% # cut to shape
+  st_join(stations_info) # put names back
 ```
 
+3. Du fait de la densité des stations dans Paris intramuros, une carte
+au niveau global serait illisible. Il est plus pratique d'avoir une
+carte _web_ dans laquelle il est possible de naviguer. 
+Utiliser le code suivant pour générer cette carte avec `leaflet`: 
+
+```{r}
+#| echo: true
+voronoi_velib <- voronoi %>% st_transform(4326) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addPolygons(
+    fillOpacity = 0.1,
+    popup = ~paste0(name, ": ", capacity, " vélos disponibles"),
+    stroke = TRUE, weight = 1)
+```
+
+:::
+
+A vous d'observer la zone de chalandise de la station la plus
+proche de chez vous :
+
+```{r}
+voronoi_velib
+```
