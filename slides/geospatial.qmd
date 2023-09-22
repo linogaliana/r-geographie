@@ -99,17 +99,61 @@ head(communes_borders %>% select(NOM, POPULATION))
 
 ## Anatomie d'un objet `sf` 
 
-### Les [attributs]{.green}
+### [Les attributs]{.green2}
+
+- Valeurs associées à chaque niveau géographique
+    - Donnée tabulaire classique
+    - `dplyr` fonctionne normalement
 
 ```{ojs}
+//| echo: false
 import {download_vectorfile} from "@linogaliana/cartiflette-js"
-download_vectorfile({
+bertin = require("bertin@latest")
+
+df = download_vectorfile({
       "value": "92",
       "crs": 4326,
       "borders": "COMMUNE",
-      "vectorfile_format": "topojson",
+      "vectorfile_format": "geojson",
       "filter_by": "DEPARTEMENT",
       "source": "EXPRESS-COG-CARTO-TERRITOIRE",
       "year": 2022
   })
 ```
+
+```{ojs}
+Inputs.table(
+  bertin.properties.table(df),
+  {columns: ["NOM","POPULATION"]}
+)
+```
+
+## Anatomie d'un objet `sf` 
+
+### [Les géométries]{.red2}
+
+- Valeurs numériques interprétées pour représenter la dimension géographique
+    + Plusieurs types d'objets: points, polygones, lignes...
+    + Opérations sur géométries grâce à `sf`
+
+
+```{r}
+#| fig-align: center
+#| fig-cap: "Illustration de st_union"
+#| layout-ncol: 2
+library(ggplot2)
+library(sf)
+
+
+ggplot(communes_borders) +
+  geom_sf(fill = "transparent") +
+  theme_void()
+
+ggplot(st_union(communes_borders)) +
+  geom_sf(fill = "transparent") +
+  theme_void()
+```
+
+## Anatomie d'un objet `sf` 
+### [Le système de représentation]{.blue2}
+
