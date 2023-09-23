@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/r-wrangling.html</loc>
-    <lastmod>2023-09-20T08:01:55.600Z</lastmod>
+    <lastmod>2023-09-23T09:14:22.724Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/ggplot.html</loc>
-    <lastmod>2023-09-20T08:01:18.232Z</lastmod>
+    <lastmod>2023-09-23T09:13:37.218Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/wrangling/index.html</loc>
-    <lastmod>2023-09-20T08:00:29.577Z</lastmod>
+    <lastmod>2023-09-23T09:11:46.016Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/ggplot/index.html</loc>
-    <lastmod>2023-09-20T08:00:28.973Z</lastmod>
+    <lastmod>2023-09-23T09:11:45.212Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/index.html</loc>
-    <lastmod>2023-09-20T08:00:28.029Z</lastmod>
-  </url>
-  <url>
-    <loc>https://rgeo.linogaliana.fr/slides/wrangling.html</loc>
-    <lastmod>2023-09-20T08:00:12.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://rgeo.linogaliana.fr/slides/introduction.html</loc>
-    <lastmod>2023-09-20T08:00:04.718Z</lastmod>
+    <lastmod>2023-09-23T09:11:43.972Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/slides/ggplot.html</loc>
-    <lastmod>2023-09-20T08:00:27.229Z</lastmod>
+    <lastmod>2023-09-23T09:11:31.687Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/slides/introduction.html</loc>
+    <lastmod>2023-09-23T09:11:04.802Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/slides/wrangling.html</loc>
+    <lastmod>2023-09-23T09:11:13.534Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rgeo.linogaliana.fr/slides/geospatial.html</loc>
+    <lastmod>2023-09-23T09:11:42.936Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/geospatial-wrangling/index.html</loc>
-    <lastmod>2023-09-20T08:00:28.669Z</lastmod>
+    <lastmod>2023-09-23T09:11:44.776Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/cards/introduction/index.html</loc>
-    <lastmod>2023-09-20T08:00:29.273Z</lastmod>
+    <lastmod>2023-09-23T09:11:45.620Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/geospatial-wrangling.html</loc>
-    <lastmod>2023-09-20T08:00:55.501Z</lastmod>
+    <lastmod>2023-09-23T09:13:08.912Z</lastmod>
   </url>
   <url>
     <loc>https://rgeo.linogaliana.fr/exercises/r-base.html</loc>
-    <lastmod>2023-09-20T08:01:31.744Z</lastmod>
+    <lastmod>2023-09-23T09:13:53.803Z</lastmod>
   </url>
 </urlset>
