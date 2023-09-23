@@ -154,6 +154,114 @@ ggplot(st_union(communes_borders)) +
   theme_void()
 ```
 
-## Anatomie d'un objet `sf` 
-### [Le système de représentation]{.blue2}
+## Anatomie d'un objet `sf` {#projection .smaller}
+### [Les projections cartographiques]{.blue2}
 
+:::: {.columns}
+
+::: {.column width="40%"}
+
+- Représentation dans un plan (2D) d'une surface arrondie en 3D
+- [Théorème remarquable de Gauss](https://fr.wikipedia.org/wiki/Theorema_egregium): _la surface de la Terre ne peut être cartographiée sans distortion._
+- Multitude de projections possibles
+
+::: {.callout-tip}
+## Exemple: projection de Mercator
+
+Préserve les angles mais ne conserve pas les surfaces et leurs proportions relatives
+(cf. site [thetruesize.com](https://www.thetruesize.com)).
+
+:::
+
+:::
+
+::: {.column width="60%"}
+```{ojs}
+html`<div class="container">
+  <div class="row">
+    <div class="projection">
+      <div class="projection-label">Choisir une projection</div>
+      ${viewof projection}
+    </div>
+  </div>
+  <div class="row">
+    <div class="projectedMap">
+      ${projectedMap}
+    </div>
+  </div>
+</div>`
+```
+:::
+
+
+::::
+
+```{ojs}
+viewof projection = projectionInput({
+  name: "",
+  value: "Mercator"
+})
+```
+
+
+
+```{ojs}
+projectedMap = map(projection,
+  {
+    //svg: true,
+    value: projection.options,
+    width: screen.width/4,
+    //height: 300,
+    //rotate: [0, -90],
+    //inertia: true,
+    show_equator: true,
+    background: "#f1f0eb"
+    
+    //show_structure: true
+})
+```
+
+```{ojs}
+import {projectionInput} from "@fil/d3-projections"
+import {map} from "@linogaliana/base-map"
+```
+
+
+## Anatomie d'un objet `sf` 
+### [(Web) Mercator / WGS 84 (EPSG 4326)]{.blue2 .smaller}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+- Projection la plus usuelle:
+    + Système GPS (position précise depuis des satellites grâce conservation des angles)
+    + Fonds de carte _web_ Google, OpenStreetMap...
+
+
+- Mais déforme les distances et superficies
+:::
+
+::: {.column width="50%"}
+
+```{ojs}
+size = 400
+html`<iframe width="${size}" height="${size*1.15 + 50}" frameborder="0"   overflow-x = "hidden" overflow-Y="hidden"
+  src="https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry"></iframe>`
+```  
+
+:::
+::::
+    
+```{ojs}
+//| eval: false
+html`<div class="grid-container">
+  <div class="viewof-projection">${viewof projectionBertin}</div>
+  <div class="viewof-mycountry">${viewof mycountry}</div>
+  <div class="map-bertin">${mapBertin}</div>
+</div>`
+```
+
+```{ojs}
+//| eval: false
+import {map as mapBertin, viewof projection as projectionBertin, viewof mycountry} from "@neocartocnrs/impact-of-projections-on-areas"
+```
