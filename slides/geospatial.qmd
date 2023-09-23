@@ -259,7 +259,7 @@ import {map} from "@linogaliana/base-map"
 ```
 
 
-## (Web) Mercator / WGS 84 (EPSG 4326) {.smaller}
+## (Web) Mercator / WGS 84 ([4326]{.blue2}) {.smaller}
 
 :::: {.columns}
 
@@ -310,7 +310,7 @@ import {map as mapBertin, viewof projection as projectionBertin, viewof mycountr
 
 
 
-## Lambert 93 (EPSG 2154) {.smaller}
+## Lambert 93 ([2154]{.blue2}) {.smaller}
 
 - Projection officielle pour la métropole
     + [Projection conique](https://fr.wikipedia.org/wiki/Projection_conique_conforme_de_Lambert)
