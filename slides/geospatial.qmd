@@ -209,54 +209,20 @@ Préserve les angles mais ne conserve pas les surfaces et leurs proportions rela
 
 ::: {.column width="60%"}
 ```{ojs}
-html`<div class="container">
-  <div class="row">
-    <div class="projection">
-      <div class="projection-label">Choisir une projection</div>
-      ${viewof projection}
-    </div>
-  </div>
-  <div class="row">
-    <div class="projectedMap">
-      ${projectedMap}
-    </div>
-  </div>
-</div>`
+html`<div>${container_projection}</div>`
 ```
 :::
 
 
 ::::
 
+{{< include "../utils/play_projection_d3.qmd" >}}
+
 ```{ojs}
-viewof projection = projectionInput({
-  name: "",
-  value: "Mercator"
-})
+width_projected_map = screen.width/4
 ```
 
 
-
-```{ojs}
-projectedMap = map(projection,
-  {
-    //svg: true,
-    value: projection.options,
-    width: screen.width/4,
-    //height: 300,
-    //rotate: [0, -90],
-    //inertia: true,
-    show_equator: true,
-    background: "#f1f0eb"
-    
-    //show_structure: true
-})
-```
-
-```{ojs}
-import {projectionInput} from "@fil/d3-projections"
-import {map} from "@linogaliana/base-map"
-```
 
 
 ## (Web) Mercator / WGS 84 ([4326]{.blue2}) {.smaller}
@@ -294,19 +260,6 @@ html`<iframe width="${size}" height="${size*1.15 + 50}" frameborder="0"   overfl
 :::
 ::::
     
-```{ojs}
-//| eval: false
-html`<div class="grid-container">
-  <div class="viewof-projection">${viewof projectionBertin}</div>
-  <div class="viewof-mycountry">${viewof mycountry}</div>
-  <div class="map-bertin">${mapBertin}</div>
-</div>`
-```
-
-```{ojs}
-//| eval: false
-import {map as mapBertin, viewof projection as projectionBertin, viewof mycountry} from "@neocartocnrs/impact-of-projections-on-areas"
-```
 
 
 

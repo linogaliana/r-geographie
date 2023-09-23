@@ -69,6 +69,14 @@ library(leaflet)
 library(cartiflette)
 ```
 
+Ce chapitre illustre à partir d'exemples pratiques certains principes
+centraux de l'analyse de données:
+
+- Manipulations sur les attributs des jeux de données ;
+- Manipulations géométriques ;
+- Gestion des projections cartographiques ;
+- Création rapide de cartes (ce sera approfondi dans un prochain chapitre).
+
 
 ::: {.callout-note collapse="true"}
 ## Note sur les annotations
@@ -107,14 +115,15 @@ par le projet [`cartiflette`](https://github.com/InseeFrLab/cartiflette.git)[^ca
 En premier lieu, on récupère des données géographiques grâce
 au _package_ `cartiflette`.
 
-1. S'inspirer des exemples de code présents dans les slides mobilisant
-le package `cartiflette`
-pour télécharger les données communales (produit `Admin Express` de l'IGN)
-des départements de la petite couronne (75, 92, 93 et 94). L'argument à utiliser
-dans cet exercice est `borders="COMMUNE"`
-Vous pouvez nommer l'objet `communes_borders`.
+1. Utiliser
+le code ci-dessous pour
+télécharger les données communales (produit `Admin Express` de l'IGN)
+des départements de la petite couronne (75, 92, 93 et 94)
+de manière simplifiée grâce au _package_
+`cartiflette`:
 
 ```{r}
+#| echo: true
 #| output: false
 #| label: download-borders-communes
 # 1. Chargement des données de cartiflette
@@ -253,8 +262,8 @@ map_paris_arrondissements
 
 ## Le système de projection
 
-Un concept central dans les logiciels de GIS est la notion de système de
-projection. L'exercice précédent imposait parfois certaines projections
+Un concept central dans les logiciels de SIG est la notion de 
+__projection__. L'exercice précédent imposait parfois certaines projections
 sans expliquer l'importance de ces choix. {{< fa brands r-project >}}, comme
 tout SIG, permet une gestion cohérente des projections. 
 
@@ -263,13 +272,28 @@ fonctionnalités de {{< fa brands r-project >}}
 à ce propos. Il illustre les problèmes communs que peuvent rencontrer
 les géographes dans la gestion des systèmes de projection. 
 
+Observez les variations significatives
+de proportions pour certains pays selon les projections
+choisies:
+
+```{ojs}
+html`<div>${container_projection}</div>`
+``` 
+
+{{< include "../utils/play_projection_d3.qmd" >}}
+
+```{ojs}
+width_projected_map = screen.width/2
+```
 
 
 
 ::: {.callout-tip}
 ## Exercice 2: Les projections, représentations et approximations
 
-Voici un code pour récupérer les frontières françaises (découpées par région)
+Voici un code utilisant encore
+`cartiflette` 
+pour récupérer les frontières françaises (découpées par région):
 
 ```{r}
 #| output: false
@@ -313,8 +337,8 @@ france_3304 <- france %>% sf::st_transform(3304)
 
 Avec la question 1 illustrant quelques cas pathologiques,
 on comprend que les projections ont un effet déformant
-qui se voit bien lorsqu'on prend
-quelques cas pathologiques:
+qui se voit bien lorsqu'on les représente côte à côte sous
+forme de cartes :
 
 ```{r}
 #| eval: false
@@ -391,6 +415,30 @@ surtout lorqu'on se rapproche de l'équateur ou des pôles.
 La projection Mercator, une vision déformante
 :::
 
+Pour aller plus loin, la carte interactive
+suivante, construite par Nicolas Lambert, issue de
+ce [_notebook_ `Observable`](https://observablehq.com/@neocartocnrs/impact-of-projections-on-areas), illustre l'effet
+déformant de la projection Mercator, et de quelques unes autres,
+sur notre perception de la taille des pays.
+
+<details>
+<summary>
+Voir la carte interactive
+</summary>
+```{ojs}
+html`<div class="grid-container">
+  <div class="viewof-projection">${viewof projectionBertin}</div>
+  <div class="viewof-mycountry">${viewof mycountry}</div>
+  <div class="map-bertin">${mapBertin}</div>
+</div>`
+```
+
+</details>
+
+```{ojs}
+import {map as mapBertin, viewof projection as projectionBertin, viewof mycountry} from "@neocartocnrs/impact-of-projections-on-areas"
+```
+
 
 
 Il n'est donc pas suprenant que nos déformations soient exacerbées aux
@@ -415,10 +463,11 @@ un autre jeu de données.
 On va partir des données de localisation des
 stations velib, 
 disponibles [sur le site d'open data de la ville de Paris](https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/table/) et 
-requêtables directement par l'url
-<https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr>
+requêtables directement en utilisant un URL
+
 
 ```{r}
+#| echo: true
 url <- "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
 ```
 
