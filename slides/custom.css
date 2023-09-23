@@ -7,6 +7,10 @@
   margin-bottom: 20px; /* Adjust the margin as needed for spacing between rows */
 }
 
+.centered{
+  justify-content: center;
+}
+
 .container {
   /*width: 50%;*/ /* Set the desired width for your container */
   margin: auto;
