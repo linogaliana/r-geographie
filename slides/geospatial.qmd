@@ -155,7 +155,39 @@ ggplot(st_union(communes_borders)) +
 ```
 
 ## Anatomie d'un objet `sf` {#projection .smaller}
-### [Les projections cartographiques]{.blue2}
+### [Le système de référence de l'objet]{.blue2}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+::::: {.incremental}
+
+- Position sur terre $\to$ position dans le plan <br>
+- Multitude de projections (cf. suite)<br>
+- Gestion cohérente grâce à `sf`
+    + Utilise les codes EPSG (4326, 2154...)
+    + Définition souvent automatique
+    + Reprojections facilitées avec `st_transform`
+
+:::::
+
+:::
+
+::: {.column width="40%"}
+
+```{r}
+#| echo: true
+st_crs(communes_borders)
+```
+
+:::
+
+::::
+
+# Les projections cartographiques
+
+## Principe {.smaller}
 
 :::: {.columns}
 
@@ -227,18 +259,28 @@ import {map} from "@linogaliana/base-map"
 ```
 
 
-## Anatomie d'un objet `sf` 
-### [(Web) Mercator / WGS 84 (EPSG 4326)]{.blue2 .smaller}
+## (Web) Mercator / WGS 84 (EPSG 4326) {.smaller}
 
 :::: {.columns}
 
 ::: {.column width="50%"}
 - Projection la plus usuelle:
-    + Système GPS (position précise depuis des satellites grâce conservation des angles)
+    + Système GPS (position précise depuis des satellites grâce [conservation des angles](https://medium.com/@_FrancoisM/introduction-%C3%A0-la-manipulation-de-donn%C3%A9es-cartographiques-23b4e38d8f0f))
     + Fonds de carte _web_ Google, OpenStreetMap...
 
 
-- Mais déforme les distances et superficies
+- Mais __déforme les distances et superficies__
+
+::::: {.callout-tip}
+## Astuce pour la France
+
+- Longitude ($x$) tourne autour de 0° (de -5.2 à +9.6 pour être plus précis)
+- La latitude  ($y$) autour de 45 (entre +41.3 à +51.1)
+
+[Plus de détails](https://medium.com/@_FrancoisM/introduction-%C3%A0-la-manipulation-de-donn%C3%A9es-cartographiques-23b4e38d8f0f)
+:::::
+
+
 :::
 
 ::: {.column width="50%"}
@@ -265,3 +307,91 @@ html`<div class="grid-container">
 //| eval: false
 import {map as mapBertin, viewof projection as projectionBertin, viewof mycountry} from "@neocartocnrs/impact-of-projections-on-areas"
 ```
+
+
+
+## Lambert 93 (EPSG 2154) {.smaller}
+
+- Projection officielle pour la métropole
+    + [Projection conique](https://fr.wikipedia.org/wiki/Projection_conique_conforme_de_Lambert)
+    + D'autres Lambert pour les DROM
+    
+. . .
+    
+- Orthonormée, centrée sur la métropole
+    + On peut faire des calculs de distance sur des coordonnées
+    + Distance en mètres = distance euclidienne ($\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$)
+
+
+:::{.callout-tip}
+## Astuce pour la France
+
+- Coordonnées $x$:  entre 100 000 et 1 300 000
+- La latitude  ($y$): entre 6 000 000 et 7 200 000
+
+
+[Plus de détails](https://medium.com/@_FrancoisM/introduction-%C3%A0-la-manipulation-de-donn%C3%A9es-cartographiques-23b4e38d8f0f)
+:::
+
+
+## La projection de Spilhaus
+
+__Le monde vu par les [poissons]{.blue2} 🐟🐡🐠__
+
+```{ojs}
+html`<div class="centered">${spilhaus}</div>`
+```
+
+```{ojs}
+spilhaus = {
+  const width = 600;
+  const height = width;
+
+  const context = DOM.context2d(width, height);
+  const projection = d3.geoStereographic()
+    .rotate([95, 45])
+    .translate([width / 2, height / 2])
+    .scale(width / 10.1)
+    .center([30, -5])
+    .clipAngle(166);
+  const path = d3.geoPath(projection, context);
+
+  const land = topojson.feature(world, world.objects.land);
+
+  context.lineJoin = "round";
+  context.lineCap = "round";
+  context.fillStyle = "#f2f1ed";
+  context.fillRect(0, 0, width, height);
+
+  context.beginPath();
+  path({type: "Sphere"});
+  path(land);
+  context.lineWidth = 0.5;
+  context.stroke();
+  context.clip("evenodd");
+
+  context.save();
+  context.beginPath();
+  path(land);
+  context.filter = "blur(12px)";
+  context.fillStyle = "#006994";
+  context.fill("evenodd");
+  context.restore();
+  
+  context.beginPath();
+  path(d3.geoGraticule10());
+  context.globalAlpha = 0.2;
+  context.strokeStyle = "#000";
+  context.stroke();
+
+  return context.canvas;
+}
+```
+
+
+```{ojs}
+//import {map as spilhausmap} with {height, width} from "@d3/spilhaus-shoreline-map"
+import { world } from "@d3/spilhaus-shoreline-map"
+```
+
+
