@@ -647,19 +647,7 @@ GEOGCRS["WGS 84",
 </div>
 </div><div class="column" style="width:60%;">
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="211" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 210;"><span id="cb5-211"><a href="#cb5-211"></a><span class="fu">html</span><span class="vs">`&lt;div class="container"&gt;</span></span>
-<span id="cb5-212"><a href="#cb5-212"></a><span class="vs">  &lt;div class="row"&gt;</span></span>
-<span id="cb5-213"><a href="#cb5-213"></a><span class="vs">    &lt;div class="projection"&gt;</span></span>
-<span id="cb5-214"><a href="#cb5-214"></a><span class="vs">      &lt;div class="projection-label"&gt;Choisir une projection&lt;/div&gt;</span></span>
-<span id="cb5-215"><a href="#cb5-215"></a><span class="vs">      </span><span class="sc">${</span>viewof projection<span class="sc">}</span></span>
-<span id="cb5-216"><a href="#cb5-216"></a><span class="vs">    &lt;/div&gt;</span></span>
-<span id="cb5-217"><a href="#cb5-217"></a><span class="vs">  &lt;/div&gt;</span></span>
-<span id="cb5-218"><a href="#cb5-218"></a><span class="vs">  &lt;div class="row"&gt;</span></span>
-<span id="cb5-219"><a href="#cb5-219"></a><span class="vs">    &lt;div class="projectedMap"&gt;</span></span>
-<span id="cb5-220"><a href="#cb5-220"></a><span class="vs">      </span><span class="sc">${</span>projectedMap<span class="sc">}</span></span>
-<span id="cb5-221"><a href="#cb5-221"></a><span class="vs">    &lt;/div&gt;</span></span>
-<span id="cb5-222"><a href="#cb5-222"></a><span class="vs">  &lt;/div&gt;</span></span>
-<span id="cb5-223"><a href="#cb5-223"></a><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="211" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 210;"><span id="cb5-211"><a href="#cb5-211"></a><span class="fu">html</span><span class="vs">`&lt;div&gt;</span><span class="sc">${</span>container_projection<span class="sc">}</span><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">
 
@@ -669,10 +657,19 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="231" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 230;"><span id="cb6-231"><a href="#cb6-231"></a>viewof projection <span class="op">=</span> <span class="fu">projectionInput</span>({</span>
-<span id="cb6-232"><a href="#cb6-232"></a>  <span class="dt">name</span><span class="op">:</span> <span class="st">""</span><span class="op">,</span></span>
-<span id="cb6-233"><a href="#cb6-233"></a>  <span class="dt">value</span><span class="op">:</span> <span class="st">"Mercator"</span></span>
-<span id="cb6-234"><a href="#cb6-234"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="221" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 220;"><span id="cb6-221"><a href="#cb6-221"></a>container_projection <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div class="container"&gt;</span></span>
+<span id="cb6-222"><a href="#cb6-222"></a><span class="vs">  &lt;div class="row"&gt;</span></span>
+<span id="cb6-223"><a href="#cb6-223"></a><span class="vs">    &lt;div class="projection"&gt;</span></span>
+<span id="cb6-224"><a href="#cb6-224"></a><span class="vs">      &lt;div class="projection-label"&gt;Choisir une projection&lt;/div&gt;</span></span>
+<span id="cb6-225"><a href="#cb6-225"></a><span class="vs">      </span><span class="sc">${</span>viewof projection<span class="sc">}</span></span>
+<span id="cb6-226"><a href="#cb6-226"></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb6-227"><a href="#cb6-227"></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb6-228"><a href="#cb6-228"></a><span class="vs">  &lt;div class="row"&gt;</span></span>
+<span id="cb6-229"><a href="#cb6-229"></a><span class="vs">    &lt;div class="projectedMap"&gt;</span></span>
+<span id="cb6-230"><a href="#cb6-230"></a><span class="vs">      </span><span class="sc">${</span>projectedMap<span class="sc">}</span></span>
+<span id="cb6-231"><a href="#cb6-231"></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb6-232"><a href="#cb6-232"></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb6-233"><a href="#cb6-233"></a><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-4" data-nodetype="declaration">
 
@@ -680,19 +677,10 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="240" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 239;"><span id="cb7-240"><a href="#cb7-240"></a>projectedMap <span class="op">=</span> <span class="fu">map</span>(projection<span class="op">,</span></span>
-<span id="cb7-241"><a href="#cb7-241"></a>  {</span>
-<span id="cb7-242"><a href="#cb7-242"></a>    <span class="co">//svg: true,</span></span>
-<span id="cb7-243"><a href="#cb7-243"></a>    <span class="dt">value</span><span class="op">:</span> projection<span class="op">.</span><span class="at">options</span><span class="op">,</span></span>
-<span id="cb7-244"><a href="#cb7-244"></a>    <span class="dt">width</span><span class="op">:</span> <span class="bu">screen</span><span class="op">.</span><span class="at">width</span><span class="op">/</span><span class="dv">4</span><span class="op">,</span></span>
-<span id="cb7-245"><a href="#cb7-245"></a>    <span class="co">//height: 300,</span></span>
-<span id="cb7-246"><a href="#cb7-246"></a>    <span class="co">//rotate: [0, -90],</span></span>
-<span id="cb7-247"><a href="#cb7-247"></a>    <span class="co">//inertia: true,</span></span>
-<span id="cb7-248"><a href="#cb7-248"></a>    <span class="dt">show_equator</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb7-249"><a href="#cb7-249"></a>    <span class="dt">background</span><span class="op">:</span> <span class="st">"#f1f0eb"</span></span>
-<span id="cb7-250"><a href="#cb7-250"></a>    </span>
-<span id="cb7-251"><a href="#cb7-251"></a>    <span class="co">//show_structure: true</span></span>
-<span id="cb7-252"><a href="#cb7-252"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="254" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 253;"><span id="cb7-254"><a href="#cb7-254"></a>viewof projection <span class="op">=</span> <span class="fu">projectionInput</span>({</span>
+<span id="cb7-255"><a href="#cb7-255"></a>  <span class="dt">name</span><span class="op">:</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb7-256"><a href="#cb7-256"></a>  <span class="dt">value</span><span class="op">:</span> <span class="st">"Mercator"</span></span>
+<span id="cb7-257"><a href="#cb7-257"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-5" data-nodetype="declaration">
 
@@ -700,8 +688,8 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="257" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 256;"><span id="cb8-257"><a href="#cb8-257"></a><span class="im">import</span> {projectionInput} <span class="im">from</span> <span class="st">"@fil/d3-projections"</span></span>
-<span id="cb8-258"><a href="#cb8-258"></a><span class="im">import</span> {map} <span class="im">from</span> <span class="st">"@linogaliana/base-map"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="295" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 294;"><span id="cb8-295"><a href="#cb8-295"></a><span class="im">import</span> {projectionInput} <span class="im">from</span> <span class="st">"@fil/d3-projections"</span></span>
+<span id="cb8-296"><a href="#cb8-296"></a><span class="im">import</span> {map} <span class="im">from</span> <span class="st">"@linogaliana/base-map"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-6-1" data-nodetype="declaration">
@@ -714,6 +702,34 @@ GEOGCRS["WGS 84",
 <div id="ojs-cell-6-2" data-nodetype="declaration">
 
 </div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb9" data-startfrom="298" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 297;"><span id="cb9-298"><a href="#cb9-298"></a>projectedMap <span class="op">=</span> <span class="fu">map</span>(projection<span class="op">,</span></span>
+<span id="cb9-299"><a href="#cb9-299"></a>                   {</span>
+<span id="cb9-300"><a href="#cb9-300"></a>                     <span class="co">//svg: true,</span></span>
+<span id="cb9-301"><a href="#cb9-301"></a>                     <span class="dt">value</span><span class="op">:</span> projection<span class="op">.</span><span class="at">options</span><span class="op">,</span></span>
+<span id="cb9-302"><a href="#cb9-302"></a>                     <span class="dt">width</span><span class="op">:</span> width_projected_map<span class="op">,</span></span>
+<span id="cb9-303"><a href="#cb9-303"></a>                     <span class="co">//height: 300,</span></span>
+<span id="cb9-304"><a href="#cb9-304"></a>                     <span class="co">//rotate: [0, -90],</span></span>
+<span id="cb9-305"><a href="#cb9-305"></a>                     <span class="co">//inertia: true,</span></span>
+<span id="cb9-306"><a href="#cb9-306"></a>                     <span class="dt">show_equator</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb9-307"><a href="#cb9-307"></a>                     <span class="dt">background</span><span class="op">:</span> <span class="st">"#f1f0eb"</span></span>
+<span id="cb9-308"><a href="#cb9-308"></a>                     </span>
+<span id="cb9-309"><a href="#cb9-309"></a>                     <span class="co">//show_structure: true</span></span>
+<span id="cb9-310"><a href="#cb9-310"></a>                   })</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb10" data-startfrom="345" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 344;"><span id="cb10-345"><a href="#cb10-345"></a>width_projected_map <span class="op">=</span> <span class="bu">screen</span><span class="op">.</span><span class="at">width</span><span class="op">/</span><span class="dv">4</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-8" data-nodetype="declaration">
+
 </div>
 </div>
 </div>
@@ -749,43 +765,23 @@ GEOGCRS["WGS 84",
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb9" data-startfrom="289" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 288;"><span id="cb9-289"><a href="#cb9-289"></a>size <span class="op">=</span> <span class="dv">400</span></span>
-<span id="cb9-290"><a href="#cb9-290"></a><span class="fu">html</span><span class="vs">`&lt;iframe width="</span><span class="sc">${</span>size<span class="sc">}</span><span class="vs">" height="</span><span class="sc">${</span>size<span class="op">*</span><span class="fl">1.15</span> <span class="op">+</span> <span class="dv">50</span><span class="sc">}</span><span class="vs">" frameborder="0"   overflow-x = "hidden" overflow-Y="hidden"</span></span>
-<span id="cb9-291"><a href="#cb9-291"></a><span class="vs">  src="https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry"&gt;&lt;/iframe&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb11" data-startfrom="0" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb11-0"><a href="#cb11-0"></a>size <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb11-1"><a href="#cb11-1"></a><span class="fu">html</span><span class="vs">`&lt;iframe width="</span><span class="sc">${</span>size<span class="sc">}</span><span class="vs">" height="</span><span class="sc">${</span>size<span class="op">*</span><span class="fl">1.15</span> <span class="op">+</span> <span class="dv">50</span><span class="sc">}</span><span class="vs">" frameborder="0"   overflow-x = "hidden" overflow-Y="hidden"</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="vs">  src="https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry"&gt;&lt;/iframe&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-7-1" data-nodetype="declaration">
+<div id="ojs-cell-9-1" data-nodetype="declaration">
 
 </div>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-7-2" data-nodetype="expression">
+<div id="ojs-cell-9-2" data-nodetype="expression">
 
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="cell" data-eval="false">
-<div class="sourceCode cell-code hidden" id="cb10" data-startfrom="298" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 297;"><span id="cb10-298"><a href="#cb10-298"></a><span class="fu">html</span><span class="vs">`&lt;div class="grid-container"&gt;</span></span>
-<span id="cb10-299"><a href="#cb10-299"></a><span class="vs">  &lt;div class="viewof-projection"&gt;</span><span class="sc">${</span>viewof projectionBertin<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb10-300"><a href="#cb10-300"></a><span class="vs">  &lt;div class="viewof-mycountry"&gt;</span><span class="sc">${</span>viewof mycountry<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb10-301"><a href="#cb10-301"></a><span class="vs">  &lt;div class="map-bertin"&gt;</span><span class="sc">${</span>mapBertin<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb10-302"><a href="#cb10-302"></a><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="ojs-cell-8" data-nodetype="expression">
-
-</div>
-</div>
-</div>
-<div class="cell" data-eval="false">
-<div class="sourceCode cell-code hidden" id="cb11" data-startfrom="307" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 306;"><span id="cb11-307"><a href="#cb11-307"></a><span class="im">import</span> {map <span class="im">as</span> mapBertin<span class="op">,</span> viewof projection <span class="im">as</span> projectionBertin<span class="op">,</span> viewof mycountry} <span class="im">from</span> <span class="st">"@neocartocnrs/impact-of-projections-on-areas"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="ojs-cell-9" data-nodetype="declaration">
-
 </div>
 </div>
 </div>
@@ -830,7 +826,7 @@ GEOGCRS["WGS 84",
 <h2>La projection de Spilhaus</h2>
 <p><strong>Le monde vu par les <span class="blue2">poissons</span> 🐟🐡🐠</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb12" data-startfrom="341" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 340;"><span id="cb12-341"><a href="#cb12-341"></a><span class="fu">html</span><span class="vs">`&lt;div class="centered"&gt;</span><span class="sc">${</span>spilhaus<span class="sc">}</span><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb12" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb12--1"><a href="#cb12--1"></a><span class="fu">html</span><span class="vs">`&lt;div class="centered"&gt;</span><span class="sc">${</span>spilhaus<span class="sc">}</span><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-10" data-nodetype="expression">
 
@@ -838,49 +834,49 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb13" data-startfrom="345" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 344;"><span id="cb13-345"><a href="#cb13-345"></a>spilhaus <span class="op">=</span> {</span>
-<span id="cb13-346"><a href="#cb13-346"></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">600</span><span class="op">;</span></span>
-<span id="cb13-347"><a href="#cb13-347"></a>  <span class="kw">const</span> height <span class="op">=</span> width<span class="op">;</span></span>
-<span id="cb13-348"><a href="#cb13-348"></a></span>
-<span id="cb13-349"><a href="#cb13-349"></a>  <span class="kw">const</span> context <span class="op">=</span> DOM<span class="op">.</span><span class="fu">context2d</span>(width<span class="op">,</span> height)<span class="op">;</span></span>
-<span id="cb13-350"><a href="#cb13-350"></a>  <span class="kw">const</span> projection <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoStereographic</span>()</span>
-<span id="cb13-351"><a href="#cb13-351"></a>    <span class="op">.</span><span class="fu">rotate</span>([<span class="dv">95</span><span class="op">,</span> <span class="dv">45</span>])</span>
-<span id="cb13-352"><a href="#cb13-352"></a>    <span class="op">.</span><span class="fu">translate</span>([width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>])</span>
-<span id="cb13-353"><a href="#cb13-353"></a>    <span class="op">.</span><span class="fu">scale</span>(width <span class="op">/</span> <span class="fl">10.1</span>)</span>
-<span id="cb13-354"><a href="#cb13-354"></a>    <span class="op">.</span><span class="fu">center</span>([<span class="dv">30</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span>])</span>
-<span id="cb13-355"><a href="#cb13-355"></a>    <span class="op">.</span><span class="fu">clipAngle</span>(<span class="dv">166</span>)<span class="op">;</span></span>
-<span id="cb13-356"><a href="#cb13-356"></a>  <span class="kw">const</span> path <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoPath</span>(projection<span class="op">,</span> context)<span class="op">;</span></span>
-<span id="cb13-357"><a href="#cb13-357"></a></span>
-<span id="cb13-358"><a href="#cb13-358"></a>  <span class="kw">const</span> land <span class="op">=</span> topojson<span class="op">.</span><span class="fu">feature</span>(world<span class="op">,</span> world<span class="op">.</span><span class="at">objects</span><span class="op">.</span><span class="at">land</span>)<span class="op">;</span></span>
-<span id="cb13-359"><a href="#cb13-359"></a></span>
-<span id="cb13-360"><a href="#cb13-360"></a>  context<span class="op">.</span><span class="at">lineJoin</span> <span class="op">=</span> <span class="st">"round"</span><span class="op">;</span></span>
-<span id="cb13-361"><a href="#cb13-361"></a>  context<span class="op">.</span><span class="at">lineCap</span> <span class="op">=</span> <span class="st">"round"</span><span class="op">;</span></span>
-<span id="cb13-362"><a href="#cb13-362"></a>  context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"#f2f1ed"</span><span class="op">;</span></span>
-<span id="cb13-363"><a href="#cb13-363"></a>  context<span class="op">.</span><span class="fu">fillRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
-<span id="cb13-364"><a href="#cb13-364"></a></span>
-<span id="cb13-365"><a href="#cb13-365"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb13-366"><a href="#cb13-366"></a>  <span class="fu">path</span>({<span class="dt">type</span><span class="op">:</span> <span class="st">"Sphere"</span>})<span class="op">;</span></span>
-<span id="cb13-367"><a href="#cb13-367"></a>  <span class="fu">path</span>(land)<span class="op">;</span></span>
-<span id="cb13-368"><a href="#cb13-368"></a>  context<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb13-369"><a href="#cb13-369"></a>  context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb13-370"><a href="#cb13-370"></a>  context<span class="op">.</span><span class="fu">clip</span>(<span class="st">"evenodd"</span>)<span class="op">;</span></span>
-<span id="cb13-371"><a href="#cb13-371"></a></span>
-<span id="cb13-372"><a href="#cb13-372"></a>  context<span class="op">.</span><span class="fu">save</span>()<span class="op">;</span></span>
-<span id="cb13-373"><a href="#cb13-373"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb13-374"><a href="#cb13-374"></a>  <span class="fu">path</span>(land)<span class="op">;</span></span>
-<span id="cb13-375"><a href="#cb13-375"></a>  context<span class="op">.</span><span class="at">filter</span> <span class="op">=</span> <span class="st">"blur(12px)"</span><span class="op">;</span></span>
-<span id="cb13-376"><a href="#cb13-376"></a>  context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"#006994"</span><span class="op">;</span></span>
-<span id="cb13-377"><a href="#cb13-377"></a>  context<span class="op">.</span><span class="fu">fill</span>(<span class="st">"evenodd"</span>)<span class="op">;</span></span>
-<span id="cb13-378"><a href="#cb13-378"></a>  context<span class="op">.</span><span class="fu">restore</span>()<span class="op">;</span></span>
-<span id="cb13-379"><a href="#cb13-379"></a>  </span>
-<span id="cb13-380"><a href="#cb13-380"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
-<span id="cb13-381"><a href="#cb13-381"></a>  <span class="fu">path</span>(d3<span class="op">.</span><span class="fu">geoGraticule10</span>())<span class="op">;</span></span>
-<span id="cb13-382"><a href="#cb13-382"></a>  context<span class="op">.</span><span class="at">globalAlpha</span> <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span></span>
-<span id="cb13-383"><a href="#cb13-383"></a>  context<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#000"</span><span class="op">;</span></span>
-<span id="cb13-384"><a href="#cb13-384"></a>  context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
-<span id="cb13-385"><a href="#cb13-385"></a></span>
-<span id="cb13-386"><a href="#cb13-386"></a>  <span class="cf">return</span> context<span class="op">.</span><span class="at">canvas</span><span class="op">;</span></span>
-<span id="cb13-387"><a href="#cb13-387"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb13" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb13--1"><a href="#cb13--1"></a>spilhaus <span class="op">=</span> {</span>
+<span id="cb13-0"><a href="#cb13-0"></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">600</span><span class="op">;</span></span>
+<span id="cb13-1"><a href="#cb13-1"></a>  <span class="kw">const</span> height <span class="op">=</span> width<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="kw">const</span> context <span class="op">=</span> DOM<span class="op">.</span><span class="fu">context2d</span>(width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="kw">const</span> projection <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoStereographic</span>()</span>
+<span id="cb13-5"><a href="#cb13-5"></a>    <span class="op">.</span><span class="fu">rotate</span>([<span class="dv">95</span><span class="op">,</span> <span class="dv">45</span>])</span>
+<span id="cb13-6"><a href="#cb13-6"></a>    <span class="op">.</span><span class="fu">translate</span>([width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="op">.</span><span class="fu">scale</span>(width <span class="op">/</span> <span class="fl">10.1</span>)</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="op">.</span><span class="fu">center</span>([<span class="dv">30</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span>])</span>
+<span id="cb13-9"><a href="#cb13-9"></a>    <span class="op">.</span><span class="fu">clipAngle</span>(<span class="dv">166</span>)<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="kw">const</span> path <span class="op">=</span> d3<span class="op">.</span><span class="fu">geoPath</span>(projection<span class="op">,</span> context)<span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a>  <span class="kw">const</span> land <span class="op">=</span> topojson<span class="op">.</span><span class="fu">feature</span>(world<span class="op">,</span> world<span class="op">.</span><span class="at">objects</span><span class="op">.</span><span class="at">land</span>)<span class="op">;</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a></span>
+<span id="cb13-14"><a href="#cb13-14"></a>  context<span class="op">.</span><span class="at">lineJoin</span> <span class="op">=</span> <span class="st">"round"</span><span class="op">;</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>  context<span class="op">.</span><span class="at">lineCap</span> <span class="op">=</span> <span class="st">"round"</span><span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a>  context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"#f2f1ed"</span><span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17"></a>  context<span class="op">.</span><span class="fu">fillRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a></span>
+<span id="cb13-19"><a href="#cb13-19"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a>  <span class="fu">path</span>({<span class="dt">type</span><span class="op">:</span> <span class="st">"Sphere"</span>})<span class="op">;</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a>  <span class="fu">path</span>(land)<span class="op">;</span></span>
+<span id="cb13-22"><a href="#cb13-22"></a>  context<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb13-23"><a href="#cb13-23"></a>  context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24"></a>  context<span class="op">.</span><span class="fu">clip</span>(<span class="st">"evenodd"</span>)<span class="op">;</span></span>
+<span id="cb13-25"><a href="#cb13-25"></a></span>
+<span id="cb13-26"><a href="#cb13-26"></a>  context<span class="op">.</span><span class="fu">save</span>()<span class="op">;</span></span>
+<span id="cb13-27"><a href="#cb13-27"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
+<span id="cb13-28"><a href="#cb13-28"></a>  <span class="fu">path</span>(land)<span class="op">;</span></span>
+<span id="cb13-29"><a href="#cb13-29"></a>  context<span class="op">.</span><span class="at">filter</span> <span class="op">=</span> <span class="st">"blur(12px)"</span><span class="op">;</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a>  context<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">"#006994"</span><span class="op">;</span></span>
+<span id="cb13-31"><a href="#cb13-31"></a>  context<span class="op">.</span><span class="fu">fill</span>(<span class="st">"evenodd"</span>)<span class="op">;</span></span>
+<span id="cb13-32"><a href="#cb13-32"></a>  context<span class="op">.</span><span class="fu">restore</span>()<span class="op">;</span></span>
+<span id="cb13-33"><a href="#cb13-33"></a>  </span>
+<span id="cb13-34"><a href="#cb13-34"></a>  context<span class="op">.</span><span class="fu">beginPath</span>()<span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35"></a>  <span class="fu">path</span>(d3<span class="op">.</span><span class="fu">geoGraticule10</span>())<span class="op">;</span></span>
+<span id="cb13-36"><a href="#cb13-36"></a>  context<span class="op">.</span><span class="at">globalAlpha</span> <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span></span>
+<span id="cb13-37"><a href="#cb13-37"></a>  context<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="st">"#000"</span><span class="op">;</span></span>
+<span id="cb13-38"><a href="#cb13-38"></a>  context<span class="op">.</span><span class="fu">stroke</span>()<span class="op">;</span></span>
+<span id="cb13-39"><a href="#cb13-39"></a></span>
+<span id="cb13-40"><a href="#cb13-40"></a>  <span class="cf">return</span> context<span class="op">.</span><span class="at">canvas</span><span class="op">;</span></span>
+<span id="cb13-41"><a href="#cb13-41"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-11" data-nodetype="declaration">
 
@@ -888,8 +884,8 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb14" data-startfrom="392" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 391;"><span id="cb14-392"><a href="#cb14-392"></a><span class="co">//import {map as spilhausmap} with {height, width} from "@d3/spilhaus-shoreline-map"</span></span>
-<span id="cb14-393"><a href="#cb14-393"></a><span class="im">import</span> { world } <span class="im">from</span> <span class="st">"@d3/spilhaus-shoreline-map"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb14" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb14--1"><a href="#cb14--1"></a><span class="co">//import {map as spilhausmap} with {height, width} from "@d3/spilhaus-shoreline-map"</span></span>
+<span id="cb14-0"><a href="#cb14-0"></a><span class="im">import</span> { world } <span class="im">from</span> <span class="st">"@d3/spilhaus-shoreline-map"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-12" data-nodetype="declaration">
 
@@ -1116,7 +1112,7 @@ GEOGCRS["WGS 84",
     </script>
     
     <script type="ojs-module-contents">
-    {"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"import {download_vectorfile} from \"@linogaliana/cartiflette-js\"\nbertin = require(\"bertin@latest\")\n\ndf = download_vectorfile({\n      \"value\": \"92\",\n      \"crs\": 4326,\n      \"borders\": \"COMMUNE\",\n      \"vectorfile_format\": \"geojson\",\n      \"filter_by\": \"DEPARTEMENT\",\n      \"source\": \"EXPRESS-COG-CARTO-TERRITOIRE\",\n      \"year\": 2022\n  })\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"Inputs.table(\n  bertin.properties.table(df),\n  {columns: [\"NOM\",\"POPULATION\"]}\n)\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"html`<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"projection\">\n      <div class=\"projection-label\">Choisir une projection</div>\n      ${viewof projection}\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"projectedMap\">\n      ${projectedMap}\n    </div>\n  </div>\n</div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"viewof projection = projectionInput({\n  name: \"\",\n  value: \"Mercator\"\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"projectedMap = map(projection,\n  {\n    //svg: true,\n    value: projection.options,\n    width: screen.width/4,\n    //height: 300,\n    //rotate: [0, -90],\n    //inertia: true,\n    show_equator: true,\n    background: \"#f1f0eb\"\n    \n    //show_structure: true\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"import {projectionInput} from \"@fil/d3-projections\"\nimport {map} from \"@linogaliana/base-map\"\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"size = 400\nhtml`<iframe width=\"${size}\" height=\"${size*1.15 + 50}\" frameborder=\"0\"   overflow-x = \"hidden\" overflow-Y=\"hidden\"\n  src=\"https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry\"></iframe>`\n"},{"methodName":"interpret","cellName":"ojs-cell-10","inline":false,"source":"html`<div class=\"centered\">${spilhaus}</div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-11","inline":false,"source":"spilhaus = {\n  const width = 600;\n  const height = width;\n\n  const context = DOM.context2d(width, height);\n  const projection = d3.geoStereographic()\n    .rotate([95, 45])\n    .translate([width / 2, height / 2])\n    .scale(width / 10.1)\n    .center([30, -5])\n    .clipAngle(166);\n  const path = d3.geoPath(projection, context);\n\n  const land = topojson.feature(world, world.objects.land);\n\n  context.lineJoin = \"round\";\n  context.lineCap = \"round\";\n  context.fillStyle = \"#f2f1ed\";\n  context.fillRect(0, 0, width, height);\n\n  context.beginPath();\n  path({type: \"Sphere\"});\n  path(land);\n  context.lineWidth = 0.5;\n  context.stroke();\n  context.clip(\"evenodd\");\n\n  context.save();\n  context.beginPath();\n  path(land);\n  context.filter = \"blur(12px)\";\n  context.fillStyle = \"#006994\";\n  context.fill(\"evenodd\");\n  context.restore();\n  \n  context.beginPath();\n  path(d3.geoGraticule10());\n  context.globalAlpha = 0.2;\n  context.strokeStyle = \"#000\";\n  context.stroke();\n\n  return context.canvas;\n}\n"},{"methodName":"interpret","cellName":"ojs-cell-12","inline":false,"source":"//import {map as spilhausmap} with {height, width} from \"@d3/spilhaus-shoreline-map\"\nimport { world } from \"@d3/spilhaus-shoreline-map\"\n"},{"methodName":"interpretQuiet","source":"shinyInput('projection')"}]}
+    {"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"import {download_vectorfile} from \"@linogaliana/cartiflette-js\"\nbertin = require(\"bertin@latest\")\n\ndf = download_vectorfile({\n      \"value\": \"92\",\n      \"crs\": 4326,\n      \"borders\": \"COMMUNE\",\n      \"vectorfile_format\": \"geojson\",\n      \"filter_by\": \"DEPARTEMENT\",\n      \"source\": \"EXPRESS-COG-CARTO-TERRITOIRE\",\n      \"year\": 2022\n  })\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"Inputs.table(\n  bertin.properties.table(df),\n  {columns: [\"NOM\",\"POPULATION\"]}\n)\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"html`<div>${container_projection}</div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"container_projection = html`<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"projection\">\n      <div class=\"projection-label\">Choisir une projection</div>\n      ${viewof projection}\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"projectedMap\">\n      ${projectedMap}\n    </div>\n  </div>\n</div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"viewof projection = projectionInput({\n  name: \"\",\n  value: \"Mercator\"\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"import {projectionInput} from \"@fil/d3-projections\"\nimport {map} from \"@linogaliana/base-map\"\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"projectedMap = map(projection,\n                   {\n                     //svg: true,\n                     value: projection.options,\n                     width: width_projected_map,\n                     //height: 300,\n                     //rotate: [0, -90],\n                     //inertia: true,\n                     show_equator: true,\n                     background: \"#f1f0eb\"\n                     \n                     //show_structure: true\n                   })\n"},{"methodName":"interpret","cellName":"ojs-cell-8","inline":false,"source":"width_projected_map = screen.width/4\n"},{"methodName":"interpret","cellName":"ojs-cell-9","inline":false,"source":"size = 400\nhtml`<iframe width=\"${size}\" height=\"${size*1.15 + 50}\" frameborder=\"0\"   overflow-x = \"hidden\" overflow-Y=\"hidden\"\n  src=\"https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry\"></iframe>`\n"},{"methodName":"interpret","cellName":"ojs-cell-10","inline":false,"source":"html`<div class=\"centered\">${spilhaus}</div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-11","inline":false,"source":"spilhaus = {\n  const width = 600;\n  const height = width;\n\n  const context = DOM.context2d(width, height);\n  const projection = d3.geoStereographic()\n    .rotate([95, 45])\n    .translate([width / 2, height / 2])\n    .scale(width / 10.1)\n    .center([30, -5])\n    .clipAngle(166);\n  const path = d3.geoPath(projection, context);\n\n  const land = topojson.feature(world, world.objects.land);\n\n  context.lineJoin = \"round\";\n  context.lineCap = \"round\";\n  context.fillStyle = \"#f2f1ed\";\n  context.fillRect(0, 0, width, height);\n\n  context.beginPath();\n  path({type: \"Sphere\"});\n  path(land);\n  context.lineWidth = 0.5;\n  context.stroke();\n  context.clip(\"evenodd\");\n\n  context.save();\n  context.beginPath();\n  path(land);\n  context.filter = \"blur(12px)\";\n  context.fillStyle = \"#006994\";\n  context.fill(\"evenodd\");\n  context.restore();\n  \n  context.beginPath();\n  path(d3.geoGraticule10());\n  context.globalAlpha = 0.2;\n  context.strokeStyle = \"#000\";\n  context.stroke();\n\n  return context.canvas;\n}\n"},{"methodName":"interpret","cellName":"ojs-cell-12","inline":false,"source":"//import {map as spilhausmap} with {height, width} from \"@d3/spilhaus-shoreline-map\"\nimport { world } from \"@d3/spilhaus-shoreline-map\"\n"},{"methodName":"interpretQuiet","source":"shinyInput('projection')"}]}
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
