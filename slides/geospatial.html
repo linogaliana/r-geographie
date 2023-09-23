@@ -575,9 +575,157 @@
 </div>
 </div>
 </section>
+<section id="projection" class="slide level2 smaller" data-background-image="background.svg" data-background-size="contain">
+<h2>Anatomie d’un objet <code>sf</code></h2>
+<h3 data-background-image="background.svg" data-background-size="contain" id="les-projections-cartographiques"><span class="blue2">Les projections cartographiques</span></h3>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Représentation dans un plan (2D) d’une surface arrondie en 3D</li>
+<li><a href="https://fr.wikipedia.org/wiki/Theorema_egregium">Théorème remarquable de Gauss</a>: <em>la surface de la Terre ne peut être cartographiée sans distortion.</em></li>
+<li>Multitude de projections possibles</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Exemple: projection de Mercator</strong></p>
+</div>
+<div class="callout-content">
+<p>Préserve les angles mais ne conserve pas les surfaces et leurs proportions relatives (cf.&nbsp;site <a href="https://www.thetruesize.com">thetruesize.com</a>).</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="179" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 178;"><span id="cb3-179"><a href="#cb3-179"></a><span class="fu">html</span><span class="vs">`&lt;div class="container"&gt;</span></span>
+<span id="cb3-180"><a href="#cb3-180"></a><span class="vs">  &lt;div class="row"&gt;</span></span>
+<span id="cb3-181"><a href="#cb3-181"></a><span class="vs">    &lt;div class="projection"&gt;</span></span>
+<span id="cb3-182"><a href="#cb3-182"></a><span class="vs">      &lt;div class="projection-label"&gt;Choisir une projection&lt;/div&gt;</span></span>
+<span id="cb3-183"><a href="#cb3-183"></a><span class="vs">      </span><span class="sc">${</span>viewof projection<span class="sc">}</span></span>
+<span id="cb3-184"><a href="#cb3-184"></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb3-185"><a href="#cb3-185"></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb3-186"><a href="#cb3-186"></a><span class="vs">  &lt;div class="row"&gt;</span></span>
+<span id="cb3-187"><a href="#cb3-187"></a><span class="vs">    &lt;div class="projectedMap"&gt;</span></span>
+<span id="cb3-188"><a href="#cb3-188"></a><span class="vs">      </span><span class="sc">${</span>projectedMap<span class="sc">}</span></span>
+<span id="cb3-189"><a href="#cb3-189"></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb3-190"><a href="#cb3-190"></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb3-191"><a href="#cb3-191"></a><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="199" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 198;"><span id="cb4-199"><a href="#cb4-199"></a>viewof projection <span class="op">=</span> <span class="fu">projectionInput</span>({</span>
+<span id="cb4-200"><a href="#cb4-200"></a>  <span class="dt">name</span><span class="op">:</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb4-201"><a href="#cb4-201"></a>  <span class="dt">value</span><span class="op">:</span> <span class="st">"Mercator"</span></span>
+<span id="cb4-202"><a href="#cb4-202"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="208" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 207;"><span id="cb5-208"><a href="#cb5-208"></a>projectedMap <span class="op">=</span> <span class="fu">map</span>(projection<span class="op">,</span></span>
+<span id="cb5-209"><a href="#cb5-209"></a>  {</span>
+<span id="cb5-210"><a href="#cb5-210"></a>    <span class="co">//svg: true,</span></span>
+<span id="cb5-211"><a href="#cb5-211"></a>    <span class="dt">value</span><span class="op">:</span> projection<span class="op">.</span><span class="at">options</span><span class="op">,</span></span>
+<span id="cb5-212"><a href="#cb5-212"></a>    <span class="dt">width</span><span class="op">:</span> <span class="bu">screen</span><span class="op">.</span><span class="at">width</span><span class="op">/</span><span class="dv">4</span><span class="op">,</span></span>
+<span id="cb5-213"><a href="#cb5-213"></a>    <span class="co">//height: 300,</span></span>
+<span id="cb5-214"><a href="#cb5-214"></a>    <span class="co">//rotate: [0, -90],</span></span>
+<span id="cb5-215"><a href="#cb5-215"></a>    <span class="co">//inertia: true,</span></span>
+<span id="cb5-216"><a href="#cb5-216"></a>    <span class="dt">show_equator</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb5-217"><a href="#cb5-217"></a>    <span class="dt">background</span><span class="op">:</span> <span class="st">"#f1f0eb"</span></span>
+<span id="cb5-218"><a href="#cb5-218"></a>    </span>
+<span id="cb5-219"><a href="#cb5-219"></a>    <span class="co">//show_structure: true</span></span>
+<span id="cb5-220"><a href="#cb5-220"></a>})</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="225" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 224;"><span id="cb6-225"><a href="#cb6-225"></a><span class="im">import</span> {projectionInput} <span class="im">from</span> <span class="st">"@fil/d3-projections"</span></span>
+<span id="cb6-226"><a href="#cb6-226"></a><span class="im">import</span> {map} <span class="im">from</span> <span class="st">"@linogaliana/base-map"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-6-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-6-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+</section>
 <section id="anatomie-dun-objet-sf-2" class="slide level2" data-background-image="background.svg" data-background-size="contain">
 <h2>Anatomie d’un objet <code>sf</code></h2>
-<h3 data-background-image="background.svg" data-background-size="contain" id="le-système-de-représentation"><span class="blue2">Le système de représentation</span></h3>
+<h3 data-background-image="background.svg" data-background-size="contain" id="web-mercator-wgs-84-epsg-4326"><span class="blue2 smaller">(Web) Mercator / WGS 84 (EPSG 4326)</span></h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Projection la plus usuelle:
+<ul>
+<li>Système GPS (position précise depuis des satellites grâce conservation des angles)</li>
+<li>Fonds de carte <em>web</em> Google, OpenStreetMap…</li>
+</ul></li>
+<li>Mais déforme les distances et superficies</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="247" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 246;"><span id="cb7-247"><a href="#cb7-247"></a>size <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb7-248"><a href="#cb7-248"></a><span class="fu">html</span><span class="vs">`&lt;iframe width="</span><span class="sc">${</span>size<span class="sc">}</span><span class="vs">" height="</span><span class="sc">${</span>size<span class="op">*</span><span class="fl">1.15</span> <span class="op">+</span> <span class="dv">50</span><span class="sc">}</span><span class="vs">" frameborder="0"   overflow-x = "hidden" overflow-Y="hidden"</span></span>
+<span id="cb7-249"><a href="#cb7-249"></a><span class="vs">  src="https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry"&gt;&lt;/iframe&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-7-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-7-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell" data-eval="false">
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="256" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 255;"><span id="cb8-256"><a href="#cb8-256"></a><span class="fu">html</span><span class="vs">`&lt;div class="grid-container"&gt;</span></span>
+<span id="cb8-257"><a href="#cb8-257"></a><span class="vs">  &lt;div class="viewof-projection"&gt;</span><span class="sc">${</span>viewof projectionBertin<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-258"><a href="#cb8-258"></a><span class="vs">  &lt;div class="viewof-mycountry"&gt;</span><span class="sc">${</span>viewof mycountry<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-259"><a href="#cb8-259"></a><span class="vs">  &lt;div class="map-bertin"&gt;</span><span class="sc">${</span>mapBertin<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-260"><a href="#cb8-260"></a><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-8" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell" data-eval="false">
+<div class="sourceCode cell-code hidden" id="cb9" data-startfrom="265" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 264;"><span id="cb9-265"><a href="#cb9-265"></a><span class="im">import</span> {map <span class="im">as</span> mapBertin<span class="op">,</span> viewof projection <span class="im">as</span> projectionBertin<span class="op">,</span> viewof mycountry} <span class="im">from</span> <span class="st">"@neocartocnrs/impact-of-projections-on-areas"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-9" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
 
 <div class="footer footer-default">
 <p>Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>, École Normale Supérieure (<a href="../">retour page principale</a>)</p>
@@ -798,7 +946,7 @@
     </script>
     
     <script type="ojs-module-contents">
-    {"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"import {download_vectorfile} from \"@linogaliana/cartiflette-js\"\nbertin = require(\"bertin@latest\")\n\ndf = download_vectorfile({\n      \"value\": \"92\",\n      \"crs\": 4326,\n      \"borders\": \"COMMUNE\",\n      \"vectorfile_format\": \"geojson\",\n      \"filter_by\": \"DEPARTEMENT\",\n      \"source\": \"EXPRESS-COG-CARTO-TERRITOIRE\",\n      \"year\": 2022\n  })\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"Inputs.table(\n  bertin.properties.table(df),\n  {columns: [\"NOM\",\"POPULATION\"]}\n)\n"}]}
+    {"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"import {download_vectorfile} from \"@linogaliana/cartiflette-js\"\nbertin = require(\"bertin@latest\")\n\ndf = download_vectorfile({\n      \"value\": \"92\",\n      \"crs\": 4326,\n      \"borders\": \"COMMUNE\",\n      \"vectorfile_format\": \"geojson\",\n      \"filter_by\": \"DEPARTEMENT\",\n      \"source\": \"EXPRESS-COG-CARTO-TERRITOIRE\",\n      \"year\": 2022\n  })\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"Inputs.table(\n  bertin.properties.table(df),\n  {columns: [\"NOM\",\"POPULATION\"]}\n)\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"html`<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"projection\">\n      <div class=\"projection-label\">Choisir une projection</div>\n      ${viewof projection}\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"projectedMap\">\n      ${projectedMap}\n    </div>\n  </div>\n</div>`\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"viewof projection = projectionInput({\n  name: \"\",\n  value: \"Mercator\"\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"projectedMap = map(projection,\n  {\n    //svg: true,\n    value: projection.options,\n    width: screen.width/4,\n    //height: 300,\n    //rotate: [0, -90],\n    //inertia: true,\n    show_equator: true,\n    background: \"#f1f0eb\"\n    \n    //show_structure: true\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"import {projectionInput} from \"@fil/d3-projections\"\nimport {map} from \"@linogaliana/base-map\"\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"size = 400\nhtml`<iframe width=\"${size}\" height=\"${size*1.15 + 50}\" frameborder=\"0\"   overflow-x = \"hidden\" overflow-Y=\"hidden\"\n  src=\"https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry\"></iframe>`\n"},{"methodName":"interpretQuiet","source":"shinyInput('projection')"}]}
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
