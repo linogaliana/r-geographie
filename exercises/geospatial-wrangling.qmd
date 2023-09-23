@@ -303,6 +303,7 @@ pour chaque région.
 :::
 
 ```{r}
+#| eval: false
 #| output: false
 france_2154 <- france %>% sf::st_transform(2154)
 france_healpix <- france %>% sf::st_transform("+proj=healpix +lon_0=0 +a=1")
@@ -316,6 +317,7 @@ qui se voit bien lorsqu'on prend
 quelques cas pathologiques:
 
 ```{r}
+#| eval: false
 #| label: fig-effet-mercator
 #| fig-cap: "Comparaison des projections"
 #| fig-subcap: 
