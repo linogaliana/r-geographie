@@ -162,6 +162,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#fonds-de-carte-contextuels" id="toc-fonds-de-carte-contextuels" class="nav-link" data-scroll-target="#fonds-de-carte-contextuels"><span class="header-section-number">1.3</span> Fonds de carte contextuels</a></li>
   </ul></li>
   <li><a href="#une-première-carte-avec-ggplot" id="toc-une-première-carte-avec-ggplot" class="nav-link" data-scroll-target="#une-première-carte-avec-ggplot"><span class="header-section-number">2</span> Une première carte avec <code>ggplot</code></a></li>
+  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">3</span> Heatmap</a></li>
+  <li><a href="#carte-de-fréquentation-des-stations" id="toc-carte-de-fréquentation-des-stations" class="nav-link" data-scroll-target="#carte-de-fréquentation-des-stations"><span class="header-section-number">4</span> Carte de fréquentation des stations</a></li>
   </ul>
 </nav>
     </div>
@@ -253,11 +255,11 @@ Note
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-3">L’extension <code>.gz</code> est importante pour la suite car <code>readr</code> en a besoin pour comprendre que le fichier est compressé.</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-3" data-code-annotation="1">L’extension <code>.gz</code> est importante pour la suite car <code>readr</code> en a besoin pour comprendre que le fichier est compressé.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="3" data-code-annotation="2" data-code-cell="annotated-cell-3">Lecture des données avec <code>read_csv</code> du package <code>readr</code></span>
+<span data-code-lines="3" data-code-cell="annotated-cell-3" data-code-annotation="2">Lecture des données avec <code>read_csv</code> du package <code>readr</code></span>
 </dd>
 </dl>
 </div>
@@ -278,13 +280,13 @@ Note
 <p>On va utiliser à nouveau <code>cartiflette</code> pour récupérer les arrondissements parisiens et les communes limitrophes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>arrondissements <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="st">"75"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">borders=</span><span class="st">"COMMUNE_ARRONDISSEMENT"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_by=</span><span class="st">"DEPARTEMENT"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year=</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">4326</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="st">"75"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">borders=</span><span class="st">"COMMUNE_ARRONDISSEMENT"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_by=</span><span class="st">"DEPARTEMENT"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">year=</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2154</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -327,11 +329,11 @@ Exercice 1: construire la carte des compteurs avec <code>ggmap</code> et <code>g
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-1">On a besoin de coordonnées en WGS84, il faut donc reprojeter les données avant d’appliquer <code>st_bbox</code></span>
+<span data-code-lines="1" data-code-cell="annotated-cell-1" data-code-annotation="1">On a besoin de coordonnées en WGS84, il faut donc reprojeter les données avant d’appliquer <code>st_bbox</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-1"><code>ggmap</code> attend un vecteur dont les noms sont <code>"left", "bottom", "right", "top"</code>, <code>setNames</code> permet de renommer les éléments de <code>bbox_paris</code></span>
+<span data-code-lines="2" data-code-cell="annotated-cell-1" data-code-annotation="2"><code>ggmap</code> attend un vecteur dont les noms sont <code>"left", "bottom", "right", "top"</code>, <code>setNames</code> permet de renommer les éléments de <code>bbox_paris</code></span>
 </dd>
 </dl>
 </div>
@@ -345,19 +347,23 @@ Exercice 1: construire la carte des compteurs avec <code>ggmap</code> et <code>g
 </div>
 <ol type="1">
 <li><p>Utiliser <code>get_map</code> pour récupérer le fonds de carte. Nommer l’objet <code>map_paris_watercolor</code>. La carte proposée utilise le fonds <code>watercolor</code>, dont la source est <code>stamen</code>. Utiliser ensuite <code>ggmap(fonds_stamen)</code> pour vérifier le fonds de carte récupéré.</p></li>
-<li><p>Ajouter une couche d’arrondissements à cette image avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</p>
+<li><p>Ajouter une couche d’arrondissements à cette image avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</p></li>
+</ol>
 <ul>
 <li><code>data</code>: comme nous initialisons la figure avec <code>ggmap</code>, il faut dire à <code>ggplot</code> que nous partons du jeu de données <code>arrondissements</code> pour cette couche</li>
 <li><code>fill</code> et <code>color</code> pour contrôler, respectivement, la couleur de l’intérieur et des bordures des polygones.</li>
 <li><code>inherit.aes = FALSE</code>: indispensable à cause du comportement de <code>ggmap</code> qui ne sait pas gérer les objets <code>sf</code> (cf.&nbsp;<em>footnote</em> antérieure)</li>
-</ul></li>
-<li><p>Ajouter une couche pour représenter la position des stations avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</p>
+</ul>
+<ol start="3" type="1">
+<li>Ajouter une couche pour représenter la position des stations avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</li>
+</ol>
 <ul>
 <li><code>data</code>: comme nous initialisons la figure avec <code>ggmap</code>, il faut dire à <code>ggplot</code> que nous partons du jeu de données <code>compteurs</code> pour cette couche</li>
 <li><code>color="red"</code>, <code>size=5</code> et <code>alpha=0.4</code> pour contrôler l’apparence de nos points</li>
 <li><code>inherit.aes = FALSE</code>: indispensable à cause du comportement de <code>ggmap</code> qui ne sait pas gérer les objets <code>sf</code> (cf.&nbsp;<em>footnote</em> antérieure)</li>
-</ul></li>
-<li><p>Finaliser l’esthétique de la carte avec <code>theme_void()</code></p></li>
+</ul>
+<ol start="4" type="1">
+<li>Finaliser l’esthétique de la carte avec <code>theme_void()</code></li>
 </ol>
 <details>
 <summary>
@@ -421,6 +427,36 @@ replace the existing one.</code></pre>
 </div>
 </div>
 </details>
+</section>
+<section id="heatmap" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">3</span> Heatmap</h2>
+</section>
+<section id="carte-de-fréquentation-des-stations" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="carte-de-fréquentation-des-stations"><span class="header-section-number">4</span> Carte de fréquentation des stations</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+</div>
 
 
 </section>
