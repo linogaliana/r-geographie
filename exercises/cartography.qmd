@@ -157,13 +157,13 @@ parisiens et les communes limitrophes.
 #| output: false
 #| echo: true
 arrondissements <- download_vectorfile_url_all(
-    crs = 4326,
-    values = "75",
-    borders="COMMUNE_ARRONDISSEMENT",
-    vectorfile_format="geojson",
-    filter_by="DEPARTEMENT",
-    source="EXPRESS-COG-CARTO-TERRITOIRE",
-    year=2022) %>%
+  crs = 4326,
+  values = "75",
+  borders="COMMUNE_ARRONDISSEMENT",
+  vectorfile_format="geojson",
+  filter_by="DEPARTEMENT",
+  source="EXPRESS-COG-CARTO-TERRITOIRE",
+  year=2022) %>%
   st_transform(2154)
 ```
 
@@ -192,12 +192,12 @@ fonds_stamen <- get_map(
   source="stamen")
 
 map_paris_watercolor <- ggmap(fonds_stamen) +
-    geom_sf(
-        data = arrondissements %>% st_transform(4326),
-        fill = "transparent", color = "black",
-        inherit.aes = FALSE) +
-    geom_sf(data = compteurs, color = "red", inherit.aes = FALSE, size = 4, alpha = 0.4) +
-    theme_void()
+  geom_sf(
+    data = arrondissements %>% st_transform(4326),
+    fill = "transparent", color = "black",
+    inherit.aes = FALSE) +
+  geom_sf(data = compteurs, color = "red", inherit.aes = FALSE, size = 4, alpha = 0.4) +
+  theme_void()
 ```
 
 ```{r}
@@ -234,17 +234,17 @@ pour vérifier le fonds de carte récupéré.
 
 2. Ajouter une couche d'arrondissements à cette image avec `geom_sf`. Il va
 être nécessaire d'utiliser les arguments suivants:
-    + `data`: comme nous initialisons la figure avec `ggmap`, il faut dire à `ggplot` que nous partons du jeu de données `arrondissements` pour cette couche
-    + `fill` et `color` pour contrôler, respectivement, la couleur de l'intérieur et des bordures des polygones.
-    + `inherit.aes = FALSE`: indispensable à cause du comportement de `ggmap` qui ne sait pas gérer les objets `sf` (cf. _footnote_ antérieure)
++ `data`: comme nous initialisons la figure avec `ggmap`, il faut dire à `ggplot` que nous partons du jeu de données `arrondissements` pour cette couche
++ `fill` et `color` pour contrôler, respectivement, la couleur de l'intérieur et des bordures des polygones.
++ `inherit.aes = FALSE`: indispensable à cause du comportement de `ggmap` qui ne sait pas gérer les objets `sf` (cf. _footnote_ antérieure)
 
 3. Ajouter une couche pour représenter la position des stations avec `geom_sf`. Il va
 être nécessaire d'utiliser les arguments suivants:
-    + `data`: comme nous initialisons la figure avec `ggmap`, il faut dire à `ggplot` que nous partons du jeu de données `compteurs` pour cette couche
-    + `color="red"`, `size=5` et `alpha=0.4` pour contrôler l'apparence de nos points
-    + `inherit.aes = FALSE`: indispensable à cause du comportement de `ggmap` qui ne sait pas gérer les objets `sf` (cf. _footnote_ antérieure)
++ `data`: comme nous initialisons la figure avec `ggmap`, il faut dire à `ggplot` que nous partons du jeu de données `compteurs` pour cette couche
++ `color="red"`, `size=5` et `alpha=0.4` pour contrôler l'apparence de nos points
++ `inherit.aes = FALSE`: indispensable à cause du comportement de `ggmap` qui ne sait pas gérer les objets `sf` (cf. _footnote_ antérieure)
 4. Finaliser l'esthétique de la carte avec `theme_void()`
-    
+
 
 <details>
 <summary>
@@ -321,5 +321,66 @@ ggmap(fonds_stamen_toner) +
 ```
 </details>
 
+## Heatmap
 
+## Carte de fréquentation des stations
+
+::: {.callout-tip}
+## Exercice
+
+
+:::
+
+```{r}
+library(lubridate)
+library(tidyr)
+
+# Extract the 'hour' from the 'timestamp' column
+comptages <- comptages %>% mutate(hour = hour(`Date et heure de comptage`))
+
+# Filter and calculate the mean 'Comptage horaire' for hours between 7 and 10
+df1 <- comptages %>%
+  filter(hour %in% 7:10) %>%
+  group_by(`Identifiant du compteur`) %>%
+  summarise(y = mean(`Comptage horaire`, na.rm = TRUE))
+
+
+df2 <- comptages %>%
+  filter(hour %in% 7:10) %>%
+  group_by(`Identifiant du compteur`) %>%
+  summarise(y = mean(`Comptage horaire`, na.rm = TRUE))
+
+# Merge with 'compteurs' based on 'id_compteur'
+df1 <- compteurs %>%
+  left_join(
+    df1,
+    by = c("id_compteur" = "Identifiant du compteur")
+  ) %>%
+  drop_na(y)
+
+df2 <- compteurs %>%
+  left_join(
+    df2, by = c("id_compteur" = "Identifiant du compteur")
+  ) %>%
+  drop_na(y)
+```
+
+
+```{r}
+#| eval: false
+library(mapsf)
+
+mf_map(arrondissements %>% st_transform(4326))
+# plot population
+mf_map(
+  x = df1,
+  var = c("y","y"),
+  type = "prop_choro",
+  nbreaks = 4
+  #inches = 0.25,
+  #col = "brown4",
+  #leg_pos = "bottomleft2",
+  #leg_title = "Total population"
+)
+```
 
