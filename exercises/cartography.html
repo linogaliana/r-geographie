@@ -161,6 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#localisation-des-compteurs" id="toc-localisation-des-compteurs" class="nav-link" data-scroll-target="#localisation-des-compteurs"><span class="header-section-number">1.2</span> Localisation des compteurs</a></li>
   <li><a href="#fonds-de-carte-contextuels" id="toc-fonds-de-carte-contextuels" class="nav-link" data-scroll-target="#fonds-de-carte-contextuels"><span class="header-section-number">1.3</span> Fonds de carte contextuels</a></li>
   </ul></li>
+  <li><a href="#une-première-carte-avec-ggplot" id="toc-une-première-carte-avec-ggplot" class="nav-link" data-scroll-target="#une-première-carte-avec-ggplot"><span class="header-section-number">2</span> Une première carte avec <code>ggplot</code></a></li>
   </ul>
 </nav>
     </div>
@@ -227,14 +228,23 @@ Note
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="données" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="données"><span class="header-section-number">1</span> Données</h2>
+<p>Au cours de ce chapitre, nous allons utiliser principalement trois jeux de données :</p>
+<ul>
+<li>Les comptages de passage de vélos dans les stations de mesure parisiennnes ;</li>
+<li><a href="https://parisdata.opendatasoft.com/explore/dataset/comptage-velo-compteurs/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr">La localisation précise des stations</a></li>
+<li>Les limites officielles administratives des arrondissements et communes de l’agglomération parisienne. Ce fonds de carte est produit par l’IGN et sa récupération est facilitée par le <em>package</em> <code>cartiflette</code>.</li>
+</ul>
 <section id="comptages" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="comptages"><span class="header-section-number">1.1</span> Comptages</h3>
-<p>Un sous-ensemble des données de <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">Paris <em>Open Data</em></a> a été mis à disposition pour faciliter l’import. Il s’agit d’une extraction, qui commence à dater, des données disponibles sur le site où seules les colonnes qui servent à cet exercice ont été conservées.</p>
-<p>Nous proposons de télécharger ces données et les enregistrer dans un fichier sur le disque dur local avant de l’importer[^1]. Cependant, nous n’allons pas faire cela manuellement mais nous allons plutôt utiliser <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Effectuer ce type d’action de manière manuelle serait une mauvaise pratique du point de vue de la reproductibilité.</p>
+<p>Un sous-ensemble des données de <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">Paris <em>Open Data</em></a> a été mis à disposition pour faciliter l’import.</p>
+<p>Il s’agit d’une extraction, qui commence à dater, des données disponibles sur le site où seules les colonnes qui servent à cet exercice ont été conservées.</p>
+<p>Nous proposons de télécharger ces données et les enregistrer dans un fichier sur le disque dur local avant de l’importer<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Cependant, nous n’allons pas faire cela manuellement mais nous allons plutôt utiliser <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Effectuer ce type d’action de manière manuelle serait une mauvaise pratique du point de vue de la reproductibilité.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="st">"bike.gz"</span>)</span>
@@ -243,11 +253,11 @@ Note
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-3" data-code-annotation="1">L’extension <code>.gz</code> est importante pour la suite car <code>readr</code> en a besoin pour comprendre que le fichier est compressé.</span>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-3">L’extension <code>.gz</code> est importante pour la suite car <code>readr</code> en a besoin pour comprendre que le fichier est compressé.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-3" data-code-annotation="2">Lecture des données avec <code>read_csv</code> du package <code>readr</code></span>
+<span data-code-lines="3" data-code-annotation="2" data-code-cell="annotated-cell-3">Lecture des données avec <code>read_csv</code> du package <code>readr</code></span>
 </dd>
 </dl>
 </div>
@@ -267,47 +277,162 @@ Note
 <h3 data-number="1.3" class="anchored" data-anchor-id="fonds-de-carte-contextuels"><span class="header-section-number">1.3</span> Fonds de carte contextuels</h3>
 <p>On va utiliser à nouveau <code>cartiflette</code> pour récupérer les arrondissements parisiens et les communes limitrophes.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>arrondissements <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="st">"75"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">borders=</span><span class="st">"COMMUNE_ARRONDISSEMENT"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_by=</span><span class="st">"DEPARTEMENT"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year=</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2154</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="une-première-carte-avec-ggplot" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="une-première-carte-avec-ggplot"><span class="header-section-number">2</span> Une première carte avec <code>ggplot</code></h2>
+<p>Lors des chapitres précédents nous avons appris la manière dont des graphiques peuvent être construits en accumulant des couches.</p>
+<p>Il est possible d’ajouter des couches sur une image, à condition que les coordonnées coïncident. Pour faire cela de manière fiable, nous allons utiliser le package <code>ggmap</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>L’objectif du prochain exercice est de construire la carte suivante, de manière progressive:</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="cartography_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 1: construire la carte des compteurs avec <code>ggmap</code> et <code>ggplot</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pour récupérer la carte, nous allons avoir besoin de construire un certain nombre d’objets en amont. En premier lieu, il est nécessaire de créer un vecteur stockant les extrêmes de notre carte. Dans le jargon des SIG, cela s’appelle la <strong><em>bounding box</em></strong>. Voici comment faire ceci:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>bbox_paris <span class="ot">&lt;-</span> arrondissements <span class="sc">%&gt;%</span> <span class="fu">st_transform</span>(<span class="dv">4326</span>) <span class="sc">%&gt;%</span> <span class="fu">st_bbox</span>()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>bbox_paris <span class="ot">&lt;-</span> <span class="fu">setNames</span>(bbox_paris, <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>, <span class="st">"right"</span>, <span class="st">"top"</span>))</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>bbox_paris</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-1">On a besoin de coordonnées en WGS84, il faut donc reprojeter les données avant d’appliquer <code>st_bbox</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-1"><code>ggmap</code> attend un vecteur dont les noms sont <code>"left", "bottom", "right", "top"</code>, <code>setNames</code> permet de renommer les éléments de <code>bbox_paris</code></span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bbox_paris</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `raw' from data source 
-  `https://minio.lab.sspcloud.fr/projet-cartiflette/diffusion/shapefiles-test2/year=2022/administrative_level=COMMUNE_ARRONDISSEMENT/crs=4326/DEPARTEMENT=75/vectorfile_format=geojson/provider=IGN/source=EXPRESS-COG-CARTO-TERRITOIRE/raw.geojson' 
-  using driver `GeoJSON'
-Simple feature collection with 20 features and 13 fields
-Geometry type: POLYGON
-Dimension:     XY
-Bounding box:  xmin: 2.224217 ymin: 48.81556 xmax: 2.469851 ymax: 48.90215
-Geodetic CRS:  WGS 84
-Reading layer `raw' from data source 
-  `https://minio.lab.sspcloud.fr/projet-cartiflette/diffusion/shapefiles-test2/year=2022/administrative_level=COMMUNE_ARRONDISSEMENT/crs=4326/DEPARTEMENT=92/vectorfile_format=geojson/provider=IGN/source=EXPRESS-COG-CARTO-TERRITOIRE/raw.geojson' 
-  using driver `GeoJSON'
-Simple feature collection with 36 features and 13 fields
-Geometry type: POLYGON
-Dimension:     XY
-Bounding box:  xmin: 2.145719 ymin: 48.72935 xmax: 2.33696 ymax: 48.95097
-Geodetic CRS:  WGS 84
-Reading layer `raw' from data source 
-  `https://minio.lab.sspcloud.fr/projet-cartiflette/diffusion/shapefiles-test2/year=2022/administrative_level=COMMUNE_ARRONDISSEMENT/crs=4326/DEPARTEMENT=93/vectorfile_format=geojson/provider=IGN/source=EXPRESS-COG-CARTO-TERRITOIRE/raw.geojson' 
-  using driver `GeoJSON'
-Simple feature collection with 40 features and 13 fields
-Geometry type: POLYGON
-Dimension:     XY
-Bounding box:  xmin: 2.28833 ymin: 48.80725 xmax: 2.603314 ymax: 49.01233
-Geodetic CRS:  WGS 84
-Reading layer `raw' from data source 
-  `https://minio.lab.sspcloud.fr/projet-cartiflette/diffusion/shapefiles-test2/year=2022/administrative_level=COMMUNE_ARRONDISSEMENT/crs=4326/DEPARTEMENT=94/vectorfile_format=geojson/provider=IGN/source=EXPRESS-COG-CARTO-TERRITOIRE/raw.geojson' 
-  using driver `GeoJSON'
-Simple feature collection with 47 features and 13 fields
-Geometry type: POLYGON
-Dimension:     XY
-Bounding box:  xmin: 2.308694 ymin: 48.68763 xmax: 2.615682 ymax: 48.86149
-Geodetic CRS:  WGS 84</code></pre>
+<pre><code>     left    bottom     right       top 
+ 2.224217 48.815562  2.469851 48.902148 </code></pre>
 </div>
 </div>
+<ol type="1">
+<li><p>Utiliser <code>get_map</code> pour récupérer le fonds de carte. Nommer l’objet <code>map_paris_watercolor</code>. La carte proposée utilise le fonds <code>watercolor</code>, dont la source est <code>stamen</code>. Utiliser ensuite <code>ggmap(fonds_stamen)</code> pour vérifier le fonds de carte récupéré.</p></li>
+<li><p>Ajouter une couche d’arrondissements à cette image avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</p>
+<ul>
+<li><code>data</code>: comme nous initialisons la figure avec <code>ggmap</code>, il faut dire à <code>ggplot</code> que nous partons du jeu de données <code>arrondissements</code> pour cette couche</li>
+<li><code>fill</code> et <code>color</code> pour contrôler, respectivement, la couleur de l’intérieur et des bordures des polygones.</li>
+<li><code>inherit.aes = FALSE</code>: indispensable à cause du comportement de <code>ggmap</code> qui ne sait pas gérer les objets <code>sf</code> (cf.&nbsp;<em>footnote</em> antérieure)</li>
+</ul></li>
+<li><p>Ajouter une couche pour représenter la position des stations avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</p>
+<ul>
+<li><code>data</code>: comme nous initialisons la figure avec <code>ggmap</code>, il faut dire à <code>ggplot</code> que nous partons du jeu de données <code>compteurs</code> pour cette couche</li>
+<li><code>color="red"</code>, <code>size=5</code> et <code>alpha=0.4</code> pour contrôler l’apparence de nos points</li>
+<li><code>inherit.aes = FALSE</code>: indispensable à cause du comportement de <code>ggmap</code> qui ne sait pas gérer les objets <code>sf</code> (cf.&nbsp;<em>footnote</em> antérieure)</li>
+</ul></li>
+<li><p>Finaliser l’esthétique de la carte avec <code>theme_void()</code></p></li>
+</ol>
+<details>
+<summary>
+Aide pour la question 1
+</summary>
+Les arguments à utiliser sont <code>location</code>, <code>maptype</code> et <code>source</code>
+</details>
+</div>
+</div>
+<details>
+<summary>
+Le fonds de carte, sans motif par dessus, est le suivant:
+</summary>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cartography_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<details>
+<summary>
+En ajoutant les arrondissements par dessus (question 2):
+</summary>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cartography_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<details>
+<summary>
+Après avoir ajouté les points (question 3)
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="cartography_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
+<details>
+<summary>
+Si vous préférez un autre fonds de carte que <code>Watercolor</code>, par exemple <code>Stamen Toner</code>:
+</summary>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cartography_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</details>
 
 
 </section>
-</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>D’habitude, nous recommandons d’utiliser directement l’URL de téléchargement ce qui évite de créer un fichier intermédiaire sur le disque dur. Néanmoins, ici, l’import direct avec <code>readr</code> ne fonctionnera pas car le fichier est mal interprété par la librairie. Celle-ci ne comprend pas que le fichier est compressé car il lui manque l’extension <code>.gz</code> (un format compressé) à la fin.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><code>ggmap</code> est un <em>package</em> assez ancien qui n’a pas trop évolué récemment. Il continue notamment à utiliser des objets <code>sp</code>, l’ancêtre de <code>sf</code> qui existe déjà depuis plusieurs années. Il est donc possible que ce <em>package</em> soit archivé dans un futur plus ou moins lointain.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
