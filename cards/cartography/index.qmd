@@ -1,0 +1,16 @@
+---
+image: cartographer.png
+title: Produire des cartes avec <i class="fa-brands fa-r-project"></i>
+date: "2023-09-01"
+description: |
+  <br>
+  Introduction à la cartographie avec
+  <i class="fa-brands fa-r-project"></i>
+  <br>
+categories:
+  - Introduction
+website: /slides/cartography.html
+exercise: /exercises/cartography.html
+order: 5
+---
+

@@ -30,7 +30,7 @@ une [grammaire des graphiques](https://fr.wikibooks.org/wiki/Programmer_en_R/Com
 flexible, cohérente et simple d'usage. 
 
 Si vous êtes intéressés par `Python` {{< fa brands python >}},
-une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/manipulation/02b_pandas_TP.html).
+une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/visualisation/matplotlib.html).
 
 
 ::: {.callout-note}
