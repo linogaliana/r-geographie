@@ -1,6 +1,6 @@
 ---
 title: "Découverte des objets de base de {{< fa brands r-project >}}"
-echo: false
+#echo: false
 number-sections: true
 code-annotations: hover
 ---
@@ -861,6 +861,8 @@ x <- 3.5
 
 ```{r}
 #| output: false
+#| code-fold: true
+#| code-summary: "Solution"
 typeof(3)
 typeof("test")
 typeof(3.5)
@@ -880,8 +882,9 @@ Calculer la somme des longueurs de chacune des chaînes de caractères suivantes
 - _"jamais deux sans trois"_
 
 ```{r}
-#| echo: false
 #| output: false
+#| code-fold: true
+#| code-summary: "Solution"
 x1 <- "une première chaîne"
 x2 <- "et une deuxième"
 x3 <- "jamais deux sans trois"
@@ -930,7 +933,10 @@ liste_communes <- c(
 2. Compter le nombre de départements uniques dans nos données ;
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution"
 #| output: false
+
 # Question 1
 dep <- substr(liste_communes, start = 1, stop = 2)
 # Question 2
@@ -954,6 +960,8 @@ a <- "    Un string très mal formatté.         "
 ```
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution"
 trimws(a)
 ```
 
@@ -1015,6 +1023,8 @@ X <- matrix(letters[1:20], nrow = 4, ncol = 5)
 ```
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution"
 #| output: false
 X[1,1] # <1>
 X[1,]  # <2>
@@ -1023,7 +1033,6 @@ X[2:3,c(1,3)] #<4>
 ```
 1. Sélectionner l'élement le plus à gauche de notre matrice (première ligne, première colonne)
 2. Sélectionner l'ensemble de la première ligne
-
 3. Sélectionner l'ensemble de la première colonne
 4. Sélectionner les éléments à l'intersection :
     + Des 2e et 3e ligne
@@ -1057,6 +1066,7 @@ Voici une liste illustrant le principe de stockage
 de données hétérogènes dans un même objet:
 
 ```{r}
+#| echo: true
 ma_liste <- list(
     1,
     "texte",
@@ -1076,7 +1086,10 @@ dans votre liste stockant les données suivantes `c('01363', '02644', '03137', '
 de votre élément `communes`
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution"
 #| output: false
+
 #Question 1: afficher la liste
 ma_liste
 # Question 2: Accéder au deuxième élément de la liste
@@ -1122,7 +1135,10 @@ aux éléments de notre liste grâce à `lapply`.
 3. Créer un vecteur numérique qui est égal à 1 si `typeof` de l'élément est "double" et 0 sinon 
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution"
 #| output: false
+
 # Question 1
 longueur_liste <- length(ma_liste)
 # Question 2
@@ -1196,6 +1212,7 @@ de toucher utiliser `head` ou de sélectionner des lignes aléatoirement avec
 `sample`:
 
 ```{r}
+#| echo: true
 df[sample(nrow(df), 3), ]
 ```
 
@@ -1225,7 +1242,10 @@ matrice ou d'une liste ?
 - Récupérer la 3e ligne des variables `var1` et `var2`. 
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution"
 #| output: false
+
 dim(df)
 nrow(df)
 ncol(df)
