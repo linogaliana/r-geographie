@@ -151,6 +151,7 @@ les _packages_ afin d'être en mesure d'effectuer tous
 les exercices de ce tutoriel:
 
 ```{r}
+#| echo: true
 #| eval: false
 install.packages(c("readr","dplyr", "tidyr", "ggplot2", "remotes"))
 remotes::install_github('inseefrlab/DoReMIFaSol')
