@@ -275,8 +275,7 @@ Note
 <p>Certains <em>packages</em> que nous verrons ne sont pas sur le CRAN car la procédure de validation pour pouvoir y déposer son <em>package</em> est assez lourde et fatiguante pour des développeurs bénévoles, généralement non rémunéré pour ce travail et qui effectuent souvent cela la nuit.</p>
 </div>
 </div>
-<p>Nous allons supposer que les principales librairies du <code>tidyverse</code> sont déjà installées. Sinon, vous pouvez les installer en suivant la documentation en ligne.</p>
-<p>Pour installer un package disponible sur le CRAN, par exemple le package <a href="https://cran.r-project.org/web/packages/insee/index.html"><code>insee</code></a>, vous pouvez faire:</p>
+<p>Pour installer un package disponible sur le CRAN, par exemple le package <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a>, vous pouvez faire:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"insee"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -284,6 +283,7 @@ Note
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'inseefrlab/DoReMIFaSol'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Voici l’ensemble des instructions pour installer les <em>packages</em> afin d’être en mesure d’effectuer tous les exercices de ce tutoriel:</p>
 </section>
 <section id="importer-les-données" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importer les données</h1>
@@ -329,8 +329,8 @@ dbl (10): Agriculture, Autres transports, Autres transports international, C...
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  com        val
-1   1 -0.7269087
-2   2 -1.4504105</code></pre>
+1   1 -0.4576651
+2   2 -2.5411918</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -590,7 +590,7 @@ Graphique à réaliser pour la question 2
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">stat =</span><span class="st">'identity'</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="r-wrangling_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pas besoin d’aller plus loin pour le moment, nous ferons plus de <code>ggplot</code> ultérieurement.</p>
@@ -664,12 +664,12 @@ Exercice 6: enrichir les données d’émissions
 <pre><code>Warning: Removed 4454 rows containing non-finite values (`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="r-wrangling_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="r-wrangling_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
