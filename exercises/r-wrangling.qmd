@@ -124,12 +124,8 @@ pour ce travail et qui effectuent souvent cela la nuit.
 
 :::
 
-Nous allons supposer que les principales librairies du `tidyverse` sont
-déjà installées. Sinon, vous pouvez les installer en suivant la documentation
-en ligne. 
-
 Pour installer un package disponible sur le CRAN, par exemple
-le package [`insee`](https://cran.r-project.org/web/packages/insee/index.html),
+le package [`dplyr`](https://dplyr.tidyverse.org/),
 vous pouvez faire:
 
 ```{r}
@@ -148,6 +144,18 @@ qui est disponible sur le dépôt du compte `InseeFrLab`, on fait:
 #| echo: true
 remotes::install_github('inseefrlab/DoReMIFaSol')
 ```
+
+
+Voici l'ensemble des instructions pour installer
+les _packages_ afin d'être en mesure d'effectuer tous
+les exercices de ce tutoriel:
+
+```{r}
+#| eval: false
+install.packages(c("readr","dplyr", "tidyr", "ggplot2", "remotes"))
+remotes::install_github('inseefrlab/DoReMIFaSol')
+```
+
 
 # Importer les données
 
