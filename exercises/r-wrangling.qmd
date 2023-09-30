@@ -157,6 +157,16 @@ install.packages(c("readr","dplyr", "tidyr", "ggplot2", "remotes"))
 remotes::install_github('inseefrlab/DoReMIFaSol')
 ```
 
+Puisque nous allons fréquemment utiliser `dplyr`, nous pouvons l'importer
+directement:
+
+```{r}
+#| echo: true
+#| output: false
+library(dplyr)
+library(tidyr)
+library(stringr)
+```
 
 # Importer les données
 
@@ -186,14 +196,6 @@ library(readr)
 emissions <- read_csv(url)
 ```
 
-```{r}
-#| echo: true
-data.frame(
-  "com" = c(1,2),
-  "val" = rnorm(2)
-)
-```
-
 3. Afficher la classe de `emissions`. Comprenez-vous maintenant pourquoi cet objet est un
 peu différent d'un dataframe de base ?
 4. Utiliser les fonctions adéquates pour les 10 premières valeurs, les 15 dernières et un échantillon aléatoire de 10 valeurs grâce à la [fonction adéquate du package `dplyr`](https://dplyr.tidyverse.org/reference/sample_n.html)
@@ -214,6 +216,122 @@ ce nom n'est pas très informatif quand on relit le code quelques semaines
 plus tard. L'autodocumentation, approche qui consiste à avoir un code
 qui se comprend de lui-même, est une bonne pratique et il est donc recommandé
 de donner un nom simple mais efficace pour connaître la nature du _dataset_ en question.
+
+## Premières manipulations de données
+
+Comme c'est évoqué
+dans [`utilitR`](https://www.book.utilitr.org/03_fiches_thematiques/fiche_tidyverse),
+les principales fonctions de `dplyr` (les _verbes_ de la grammaire `dplyr`) 
+sont les suivants:
+
+- `select()` : sélectionner des variables par leur nom ;
+- `rename()` : renommer des variables ;
+- `filter()` : sélectionner des observations selon une ou plusieurs conditions ;
+- `arrange()` : trier la table selon une ou plusieurs variables ;
+- `mutate()` : ajouter des variables qui sont fonction d’autres variables ;
+- `summarise()` : calculer une statistique à partir de données ;
+- `group_by()` : faire des opérations par groupe.
+
+```{ojs}
+viewof dplyrVerbs = Inputs.select(['select','rename','filter','mutate'], {value: "select"})
+```
+
+```{ojs}
+html`<img src="img/${dplyrVerbs}.png"</>`
+```
+
+La _cheatsheet_ suivante est très pratique puisqu'elle illustre ces différentes
+fonctions. Il est recommandé de régulièrement
+la consulter (cliquer sur l'image pour zoomer 🔎) :
+
+::: {#cheatsheets-dplyr layout-ncol=2}
+
+![](img/cheatsheet1.png)
+
+![](img/cheatsheet2.png)
+
+![_Cheatsheets_ `dplyr`](https://dplyr.tidyverse.org/)
+:::
+
+
+::: {.callout-tip}
+## Exercice 2: découverte des verbes de `dplyr` pour manipuler des données
+
+En premier lieu, on propose de se familiariser avec les opérations sur
+les colonnes.
+
+1. Créer un _dataframe_ `emissions_copy` ne conservant que les colonnes
+`INSEE commune`, `Commune`, `Autres transports` et `Autres transports international`
+
+2. Comme les noms de variables sont peu pratiques, les renommer de la
+manière suivante:
+    + `INSEE commune` $\to$ `code_insee`
+    + `Autres transports` $\to$ `transports`
+    + `Autres transports international` $\to$ `transports_international`
+
+3. On propose, pour simplifier, de remplacer les valeurs manquantes (`NA`)
+par la valeur 0[^na]. Utiliser la
+fonction [`replace_na`](https://tidyr.tidyverse.org/reference/replace_na.html)
+du package _tidyr_, en conjonction avec `mutate`,
+pour transformer les valeurs manquantes en 0.
+
+4. Créer dans la même séquence de code les variables suivantes:
+    - `dep`: le département. Celui-ci peut être créé grâce aux deux premiers caractères de `code_insee` avec la fonction `str_sub` du _package_ `stringr`[^notecorse]
+    - `transports_total`: les émissions du secteur transports (somme des deux variables)
+
+5. Ordonner les données de manière décroissante puis ordonner les données 
+de manière décroissante par département (du 01 au 95). 
+
+:::
+
+[^na]: Cette hypothèse est certainement fausse. Elle est exclusivement
+là pour illustrer la création de variables via `mutate`.
+
+[^notecorse]: Pour être vraiment précis, il faudrait modifier les valeurs
+obtenues pour les départements Corse avec la fonction `case_when`
+du _package_ `dplyr`. Ceci est laissé en exercice supplémentaire. 
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 1"
+emissions_copy <- emissions %>%
+  select(`INSEE commune`, `Commune`, `Autres transports`, `Autres transports international`)
+```
+  
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 2"
+emissions_copy <- emissions_copy %>%
+  rename(
+    code_insee = `INSEE commune`,
+    transports = `Autres transports`,
+    transports_international = `Autres transports international`
+    )
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 3"
+emissions_copy <- emissions_copy %>%
+  mutate(
+    transports = replace_na(transports),
+    transports_international = replace_na(transports_international)
+    )
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 4"
+emissions_copy <- emissions_copy %>%
+  mutate(
+    dep = str_sub(code_insee, 1, 2),
+    transports_total = transports + transports_international
+    )
+```
+
+
 
 ## Import de données de l'Insee
 
@@ -287,8 +405,6 @@ Vérifier également celles qui contiennent le terme 'Saint-Denis'
 
 ```{r}
 #| output: false
-
-library(dplyr)
 
 # Question 4
 emissions %>%
