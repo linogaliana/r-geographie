@@ -940,7 +940,7 @@ ggplot(emissions_merged) +
 ```{r}
 #| output: false
 #| code-fold: true
-#| code-summary: "Solution question 6"
+#| code-summary: "Solution question 5"
 #| echo: true
 emissions_merged <- emissions_merged %>%
   rename(departement = dep.x) %>%
@@ -968,7 +968,11 @@ correlations <- cor(
 correlations <- enframe(correlations) %>%
   filter(name %in% colnames(filosofi)) %>%
   arrange(desc(abs(value)))
+```
 
+Voici une visualisation rapide des corrélations à l'empreinte carbone:
+
+```{r}
 ggplot(correlations) + geom_bar(aes(x = value, y = name), stat = "identity") +
   scale_y_discrete(limits = correlations$name) 
 ```
