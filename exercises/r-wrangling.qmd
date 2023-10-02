@@ -250,7 +250,7 @@ la consulter (cliquer sur l'image pour zoomer 🔎) :
 
 ![](img/cheatsheet2.png)
 
-![_Cheatsheets_ `dplyr`](https://dplyr.tidyverse.org/)
+[_Cheatsheets_ `dplyr`](https://dplyr.tidyverse.org/)
 :::
 
 
