@@ -226,7 +226,7 @@ Note
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
+<span data-code-lines="1" data-code-cell="annotated-cell-1" data-code-annotation="1">Je m’affiche quand on passe la souris sur moi 🐭 !</span>
 </dd>
 </dl>
 </div>
@@ -363,20 +363,25 @@ Lire la documentation de <code>read_csv</code> (très bien faite) ou chercher de
 <li><code>group_by()</code> : faire des opérations par groupe.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb9" data-startfrom="235" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 234;"><span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>viewof dplyrVerbs <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">'select'</span><span class="op">,</span><span class="st">'rename'</span><span class="op">,</span><span class="st">'filter'</span><span class="op">,</span><span class="st">'mutate'</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"select"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9" data-startfrom="235" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 234;"><span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>viewof dplyrVerbs <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">'select'</span><span class="op">,</span><span class="st">'rename'</span><span class="op">,</span><span class="st">'filter'</span><span class="op">,</span><span class="st">'mutate'</span><span class="op">,</span> <span class="st">'arrange'</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="st">"select"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
 
 </div>
 </div>
 </div>
+<div id="fig-verbs" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb10" data-startfrom="239" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 238;"><span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;img src="img/</span><span class="sc">${</span>dplyrVerbs<span class="sc">}</span><span class="vs">.png"&lt;/&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10" data-startfrom="241" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 240;"><span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;img src="https://github.com/linogaliana/r-geographie/raw/main/exercises/img/</span><span class="sc">${</span>dplyrVerbs<span class="sc">}</span><span class="vs">.png" width="60%"&lt;/&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
 
 </div>
 </div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;1: Illustration des verbes <code>dplyr</code></figcaption>
+</figure>
 </div>
 <p>La <em>cheatsheet</em> suivante est très pratique puisqu’elle illustre ces différentes fonctions. Il est recommandé de régulièrement la consulter (cliquer sur l’image pour zoomer 🔎) :</p>
 <div id="cheatsheets-dplyr" class="quarto-layout-panel">
@@ -406,7 +411,15 @@ Exercice 2: découverte des verbes de <code>dplyr</code> pour manipuler des donn
 <div class="callout-body-container callout-body">
 <p>En premier lieu, on propose de se familiariser avec les opérations sur les colonnes.</p>
 <ol type="1">
-<li><p>Créer un <em>dataframe</em> <code>emissions_copy</code> ne conservant que les colonnes <code>INSEE commune</code>, <code>Commune</code>, <code>Autres transports</code> et <code>Autres transports international</code></p></li>
+<li>Créer un <em>dataframe</em> <code>emissions_copy</code> ne conservant que les colonnes <code>INSEE commune</code>, <code>Commune</code>, <code>Autres transports</code> et <code>Autres transports international</code></li>
+</ol>
+<details>
+<summary>
+Indice pour cette question
+</summary>
+<img src="../img/select.png" class="img-fluid">
+</details>
+<ol start="2" type="1">
 <li><p>Comme les noms de variables sont peu pratiques, les renommer de la manière suivante:</p>
 <ul>
 <li><code>INSEE commune</code> <span class="math inline">\(\to\)</span> <code>code_insee</code></li>
@@ -419,21 +432,69 @@ Exercice 2: découverte des verbes de <code>dplyr</code> pour manipuler des donn
 <li><code>dep</code>: le département. Celui-ci peut être créé grâce aux deux premiers caractères de <code>code_insee</code> avec la fonction <code>str_sub</code> du <em>package</em> <code>stringr</code><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></li>
 <li><code>transports_total</code>: les émissions du secteur transports (somme des deux variables)</li>
 </ul></li>
-<li><p>Ordonner les données de manière décroissante puis ordonner les données de manière décroissante par département (du 01 au 95).</p></li>
+<li><p>Ordonner les données du plus gros pollueur au plus petit puis ordonner les données du plus gros pollueur au plus petit par département (du 01 au 95).</p></li>
 </ol>
 </div>
+</div>
+<div class="cell">
+<details>
+<summary>Solution question 1</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>emissions_copy <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">INSEE commune</span><span class="st">`</span>, <span class="st">`</span><span class="at">Commune</span><span class="st">`</span>, <span class="st">`</span><span class="at">Autres transports</span><span class="st">`</span>, <span class="st">`</span><span class="at">Autres transports international</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Solution question 2</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>emissions_copy <span class="ot">&lt;-</span> emissions_copy <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">code_insee =</span> <span class="st">`</span><span class="at">INSEE commune</span><span class="st">`</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">transports =</span> <span class="st">`</span><span class="at">Autres transports</span><span class="st">`</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">transports_international =</span> <span class="st">`</span><span class="at">Autres transports international</span><span class="st">`</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Solution question 3</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>emissions_copy <span class="ot">&lt;-</span> emissions_copy <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">transports =</span> <span class="fu">replace_na</span>(transports),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">transports_international =</span> <span class="fu">replace_na</span>(transports_international)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Solution question 4</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>emissions_copy <span class="ot">&lt;-</span> emissions_copy <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dep =</span> <span class="fu">str_sub</span>(code_insee, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">transports_total =</span> transports <span class="sc">+</span> transports_international</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Solution question 5</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>emissions_copy <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(transports_total))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>emissions_copy <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(dep, <span class="fu">desc</span>(transports_total))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="import-de-données-de-linsee" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="import-de-données-de-linsee"><span class="header-section-number">2.3</span> Import de données de l’Insee</h2>
 <p>En ce qui concerne nos informations communales, on va utiliser l’une des plus sources de l’Insee les plus utilisées : les données <a href="https://www.insee.fr/fr/metadonnees/source/serie/s1172"><code>Filosofi</code></a>. Afin de faciliter la récupération de celles-ci, nous allons utiliser le <em>package</em> communautaire <code>doremifasol</code> :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doremifasol)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>filosofi <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">telechargerDonnees</span>(<span class="st">"FILOSOFI_COM"</span>, <span class="at">date =</span> <span class="dv">2016</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filosofi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doremifasol)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>filosofi <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">telechargerDonnees</span>(<span class="st">"FILOSOFI_COM"</span>, <span class="at">date =</span> <span class="dv">2016</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filosofi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -485,6 +546,11 @@ Exercice 2
 <li>Afficher le nom des colonnes de nos <em>dataframes</em> <code>emissions</code> et <code>filosofi</code>. Quelles sont les colonnes communes ? Utiliser la fonction <code>intersect</code> et comprendre la nature du problème.</li>
 <li>Observer la structure de nos jeux de données (les types des colonnes). Les types fixés par défaut sont-ils adéquats ?</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(filosofi)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(emissions)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(<span class="fu">colnames</span>(filosofi), <span class="fu">colnames</span>(emissions))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Ensuite, on vérifie les dimensions des <code>DataFrames</code> et la structure de certaines variables clés. En l’occurrence, les variables fondamentales pour lier nos données sont les variables communales. Ici, on a deux variables géographiques: un code commune et un nom de commune. On va donc vérifier qu’elles sont bien adaptées à l’analyse statistique.</p>
 <ol start="3" type="1">
 <li>Vérifier les dimensions des <em>dataframes</em> ;</li>
@@ -498,12 +564,60 @@ Exercice 2
 <li>Vérifier les grandes villes (plus de 100 000 personnes), la proportion de villes pour lesquelles un même nom est associé à différents codes commune.</li>
 <li>Vérifier dans <code>filosofi</code> les villes dont le libellé est égal à Montreuil. Vérifier également celles qui contiennent le terme ‘Saint-Denis’</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 4</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>emissions <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">'INSEE commune'</span>, <span class="st">'Commune'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Unique_Count =</span> <span class="fu">n_distinct</span>(Commune))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">'CODGEO'</span>, <span class="st">'LIBGEO'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Unique_Count =</span> <span class="fu">n_distinct</span>(LIBGEO))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 5</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>duplicates <span class="ot">&lt;-</span> filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(LIBGEO) <span class="sc">%&gt;%</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(LIBGEO, Count) <span class="sc">%&gt;%</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#arrange(desc(Count)) %&gt;%</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 6</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LIBGEO <span class="sc">%in%</span> duplicates<span class="sc">$</span>LIBGEO) <span class="sc">%&gt;%</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(LIBGEO)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 7</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LIBGEO <span class="sc">%in%</span> duplicates<span class="sc">$</span>LIBGEO) <span class="sc">%&gt;%</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Stats =</span> <span class="fu">mean</span>(NBPERSMENFISC16, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate summary statistics for 'NBPERSMENFISC16' for rows where 'LIBGEO' is not in 'x$LIBGEO'</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(LIBGEO <span class="sc">%in%</span> duplicates<span class="sc">$</span>LIBGEO)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Stats =</span> <span class="fu">mean</span>(NBPERSMENFISC16, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 8</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>filosofi_big <span class="ot">&lt;-</span> filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NBPERSMENFISC16 <span class="sc">&gt;</span> <span class="dv">100000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">probleme =</span> LIBGEO <span class="sc">%in%</span> duplicates<span class="sc">$</span>LIBGEO)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportion de villes à problème</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>mean_probleme <span class="ot">&lt;-</span> filosofi_big <span class="sc">%&gt;%</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(probleme))</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where 'probleme' is TRUE</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>df_probleme <span class="ot">&lt;-</span> filosofi_big <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(probleme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <details>
 <summary>
 Ce que vous devriez trouver dans les questions 8 et 9
 </summary>
 <p>Pour la question 8, vous devriez obtenir ceci:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_probleme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 30
   CODGEO LIBGEO      NBMENFISC16 NBPERSMENFISC16  MED16 PIMP16 TP6016 TP60AGE116
@@ -521,6 +635,9 @@ Ce que vous devriez trouver dans les questions 8 et 9
 </div>
 <p>Alors que pour la question 9, vos deux <em>dataframes</em> ressembleront à</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 9</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LIBGEO <span class="sc">==</span> <span class="st">'Montreuil'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 29
   CODGEO LIBGEO    NBMENFISC16 NBPERSMENFISC16  MED16 PIMP16 TP6016 TP60AGE116
@@ -535,6 +652,10 @@ Ce que vous devriez trouver dans les questions 8 et 9
 #   PPAT16 &lt;dbl&gt;, PPSOC16 &lt;dbl&gt;, PPFAM16 &lt;dbl&gt;, PPMINI16 &lt;dbl&gt;, PPLOGT16 &lt;dbl&gt;,
 #   PIMPOT16 &lt;dbl&gt;, D116 &lt;dbl&gt;, D916 &lt;dbl&gt;, RD16 &lt;dbl&gt;</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 10</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">'Saint-Denis'</span>, LIBGEO)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 29
    CODGEO LIBGEO     NBMENFISC16 NBPERSMENFISC16  MED16 PIMP16 TP6016 TP60AGE116
@@ -577,32 +698,69 @@ Exercice 3
 </ol>
 <p>Commençons le calcul de nos premières statistiques descriptives.</p>
 <ol start="3" type="1">
-<li><p>Calculer les émissions totales par secteur pour chaque département. Mettre en <em>log</em> ces résultats dans un objet <code>emissions_log</code>. La <a href="#fig-sample-log">Figure&nbsp;1</a> illustre la structure de ces émissions sur 5 départements aléatoires.</p></li>
+<li><p>Calculer les émissions totales par secteur pour chaque département. Mettre en <em>log</em> ces résultats dans un objet <code>emissions_log</code>. La <a href="#fig-sample-log">Figure&nbsp;2</a> illustre la structure de ces émissions sur 5 départements aléatoires.</p></li>
 <li><p>Repartir du jeu de données <code>emissions</code>. Calculer les émissions totales par département et sortir la liste des 10 principaux émetteurs de CO2 et des 5 départements les moins émetteurs. Sans faire de <em>merge</em>, regarder les caractéristiques de ces départements (population et niveau de vie)</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>emissions_log_sample <span class="ot">&lt;-</span> emissions_log <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dep <span class="sc">%in%</span> <span class="fu">sample</span>(<span class="fu">unique</span>(dep),<span class="dv">5</span>))</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>emissions_log_sample <span class="ot">&lt;-</span> emissions_log_sample <span class="sc">%&gt;%</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>dep, <span class="at">names_to =</span> <span class="st">"Category"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(emissions_log_sample, <span class="fu">aes</span>(<span class="at">x =</span> dep, <span class="at">y =</span> Value, <span class="at">fill =</span> Category)) <span class="sc">+</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Department"</span>, <span class="at">y =</span> <span class="st">"Value"</span>) <span class="sc">+</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing missing values (`geom_bar()`).</code></pre>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>emissions <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">'code_insee'</span> <span class="ot">=</span> <span class="st">`</span><span class="at">INSEE commune</span><span class="st">`</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>emissions <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dep =</span> <span class="fu">str_sub</span>(code_insee, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">2</span>))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>filosofi <span class="ot">&lt;-</span> filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dep =</span> <span class="fu">str_sub</span>(CODGEO, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>emissions_log <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(dep) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), log))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 5</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Emissions totales par département</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>emissions_dep <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> <span class="fu">rowSums</span>(<span class="fu">pick</span>(<span class="fu">where</span>(is.numeric)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dep) <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(total))</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>gros_emetteurs <span class="ot">&lt;-</span> emissions_dep <span class="sc">%&gt;%</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>petits_emetteurs <span class="ot">&lt;-</span> emissions_dep <span class="sc">%&gt;%</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(total) <span class="sc">%&gt;%</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Caractéristiques de ces départements dans filosofi</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>gros_emetteurs_filosofi <span class="ot">&lt;-</span> filosofi <span class="sc">%&gt;%</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dep <span class="sc">%in%</span> gros_emetteurs<span class="sc">$</span>dep) <span class="sc">%&gt;%</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dep) <span class="sc">%&gt;%</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="st">'NBPERSMENFISC16'</span>,<span class="st">'MED16'</span>), \(x) <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gros_emetteurs_filosofi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>emissions_log_sample <span class="ot">&lt;-</span> emissions_log <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dep <span class="sc">%in%</span> <span class="fu">sample</span>(<span class="fu">unique</span>(dep),<span class="dv">5</span>))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>emissions_log_sample <span class="ot">&lt;-</span> emissions_log_sample <span class="sc">%&gt;%</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>dep, <span class="at">names_to =</span> <span class="st">"Category"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(emissions_log_sample, <span class="fu">aes</span>(<span class="at">x =</span> dep, <span class="at">y =</span> Value, <span class="at">fill =</span> Category)) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Department"</span>, <span class="at">y =</span> <span class="st">"Value"</span>) <span class="sc">+</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-sample-log" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="r-wrangling_files/figure-html/fig-sample-log-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Structure des émissions de cinq départements aléatoires</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;2: Structure des émissions de cinq départements aléatoires</figcaption>
 </figure>
 </div>
 </div>
@@ -611,8 +769,8 @@ Exercice 3
 <summary>
 Exemple d’utilisation de <code>str_sub</code>
 </summary>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">str_sub</span>(y, <span class="at">start =</span> <span class="dv">3</span>, <span class="at">end =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">str_sub</span>(y, <span class="at">start =</span> <span class="dv">3</span>, <span class="at">end =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -656,28 +814,50 @@ Exercice 4: la transformation <em>wide to long</em>
 <li>Faire la somme par secteur et représenter graphiquement un <em>barplot</em><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></li>
 <li>Garder, pour chaque département, le secteur le plus polluant</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 1</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(code_insee, Commune, dep),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"secteur"</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"emissions"</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 2</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>df_long_summary <span class="ot">&lt;-</span> df_long <span class="sc">%&gt;%</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(secteur) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">emissions =</span> <span class="fu">sum</span>(emissions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <details>
 <summary>
 Graphique à réaliser pour la question 2
 </summary>
 <p>Une fois le <em>dataframe</em> <code>df_long_summary</code> créé, le code minimal pour réaliser le <em>barplot</em> voulu est:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long_summary) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y =</span> secteur, <span class="at">x =</span> emissions),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">stat =</span><span class="st">'identity'</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long_summary) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y =</span> secteur, <span class="at">x =</span> emissions),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">stat =</span><span class="st">'identity'</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="r-wrangling_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pas besoin d’aller plus loin pour le moment, nous ferons plus de <code>ggplot</code> ultérieurement.</p>
 </details>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_long_dep <span class="ot">&lt;-</span> df_long <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(secteur, dep) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">emissions =</span> <span class="fu">sum</span>(emissions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(dep), <span class="fu">desc</span>(emissions)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dep) <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'secteur'. You can override using the
 `.groups` argument.</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_long_dep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
 # Groups:   dep [6]
@@ -735,6 +915,19 @@ Exercice 6: enrichir les données d’émissions
 <li>Regarder la corrélation entre les variables de cadrage et l’empreinte carbone. Certaines variables semblent-elles pouvoir potentiellement influer sur l’empreinte carbone ?</li>
 </ol>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>emissions <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> <span class="fu">rowSums</span>(<span class="fu">pick</span>(<span class="fu">where</span>(is.numeric)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>emissions_merged <span class="ot">&lt;-</span> emissions <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(filosofi, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"code_insee"</span> <span class="ot">=</span> <span class="st">"CODGEO"</span>))</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>emissions_merged <span class="ot">&lt;-</span> emissions_merged <span class="sc">%&gt;%</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">empreinte =</span> total<span class="sc">/</span>NBPERSMENFISC16)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(emissions_merged) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> empreinte, <span class="at">y =</span> <span class="fu">after_stat</span>(density))) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
@@ -742,12 +935,25 @@ Exercice 6: enrichir les données d’émissions
 <pre><code>Warning: Removed 4454 rows containing non-finite values (`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="r-wrangling_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">&lt;-</span> <span class="fu">cor</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  emissions_merged <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">use=</span><span class="st">"complete.obs"</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  )[,<span class="st">'empreinte'</span>]</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">&lt;-</span> <span class="fu">enframe</span>(correlations) <span class="sc">%&gt;%</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">colnames</span>(filosofi)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="fu">abs</span>(value)))</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(correlations) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> name), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> correlations<span class="sc">$</span>name) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="r-wrangling_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="r-wrangling_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -772,7 +978,7 @@ Exercice 6: enrichir les données d’émissions
 </ol>
 </section></div></main> <!-- /main -->
 <script type="ojs-module-contents">
-{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"viewof dplyrVerbs = Inputs.select(['select','rename','filter','mutate'], {value: \"select\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"html`<img src=\"img/${dplyrVerbs}.png\"</>`\n"},{"methodName":"interpretQuiet","source":"shinyInput('dplyrVerbs')"}]}
+{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"viewof dplyrVerbs = Inputs.select(['select','rename','filter','mutate', 'arrange'], {value: \"select\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"html`<img src=\"https://github.com/linogaliana/r-geographie/raw/main/exercises/img/${dplyrVerbs}.png\" width=\"60%\"</>`\n"},{"methodName":"interpretQuiet","source":"shinyInput('dplyrVerbs')"}]}
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
