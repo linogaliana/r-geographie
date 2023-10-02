@@ -233,12 +233,14 @@ sont les suivants:
 - `group_by()` : faire des opérations par groupe.
 
 ```{ojs}
+//| echo: false
 viewof dplyrVerbs = Inputs.select(['select','rename','filter','mutate', 'arrange'], {value: "select"})
 ```
 
 ::: {#fig-verbs}
 
 ```{ojs}
+//| echo: false
 html`<img src="https://github.com/linogaliana/r-geographie/raw/main/exercises/img/${dplyrVerbs}.png" width="60%"</>`
 ```
 
@@ -273,7 +275,7 @@ les colonnes.
 <summary>
 Indice pour cette question
 </summary>
-![](/img/select.png)
+![](https://github.com/linogaliana/r-geographie/raw/main/exercises/img/select.png)
 </details>
 
 2. Comme les noms de variables sont peu pratiques, les renommer de la
@@ -282,19 +284,62 @@ manière suivante:
     + `Autres transports` $\to$ `transports`
     + `Autres transports international` $\to$ `transports_international`
 
+<details>
+<summary>
+Indice pour cette question
+</summary>
+![](https://github.com/linogaliana/r-geographie/raw/main/exercises/img/rename.png)
+</details>
+
 3. On propose, pour simplifier, de remplacer les valeurs manquantes (`NA`)
 par la valeur 0[^na]. Utiliser la
 fonction [`replace_na`](https://tidyr.tidyverse.org/reference/replace_na.html)
 du package _tidyr_, en conjonction avec `mutate`,
 pour transformer les valeurs manquantes en 0.
 
+<details>
+<summary>
+Indice pour cette question
+</summary>
+![](https://github.com/linogaliana/r-geographie/raw/main/exercises/img/mutate.png)
+</details>
+
+
 4. Créer dans la même séquence de code les variables suivantes:
     - `dep`: le département. Celui-ci peut être créé grâce aux deux premiers caractères de `code_insee` avec la fonction `str_sub` du _package_ `stringr`[^notecorse]
     - `transports_total`: les émissions du secteur transports (somme des deux variables)
 
+<details>
+<summary>
+Indice pour cette question
+</summary>
+![](https://github.com/linogaliana/r-geographie/raw/main/exercises/img/mutate.png)
+</details>
+
+
 5. Ordonner les données du plus gros pollueur au plus petit 
 puis ordonner les données 
 du plus gros pollueur au plus petit par département (du 01 au 95). 
+
+<details>
+<summary>
+Indice pour cette question
+</summary>
+![](https://github.com/linogaliana/r-geographie/raw/main/exercises/img/arrange.png)
+</details>
+
+6. Calculer les émissions totales par départements
+
+<details>
+<summary>
+Indice pour cette question
+</summary>
+
+* _"Grouper par"_ = `group_by`
+* _"émissions totales"_ = `summarise(sum(***))`
+
+</details>
+
 
 :::
 
@@ -356,6 +401,15 @@ emissions_copy %>%
   arrange(dep, desc(transports_total))
 ```
 
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 6"
+emissions_copy %>%
+  group_by(dep) %>%
+  summarise(sum(transports_total))
+
+```
 
 ## Import de données de l'Insee
 
@@ -400,14 +454,6 @@ Quelles sont les colonnes communes ? Utiliser la fonction `intersect` et compren
 la nature du problème.
 2. Observer la structure de nos jeux de données (les types des colonnes). Les types fixés par défaut sont-ils adéquats ?
 
-```{r}
-#| output: false
-str(filosofi)
-str(emissions)
-intersect(colnames(filosofi), colnames(emissions))
-```
-
-
 Ensuite, on vérifie les dimensions des `DataFrames` et la structure de certaines variables clés.
 En l'occurrence, les variables fondamentales pour lier nos données sont les variables communales.
 Ici, on a deux variables géographiques: un code commune et un nom de commune. 
@@ -428,9 +474,35 @@ la proportion de villes pour lesquelles un même nom est associé à différents
 Vérifier également celles qui contiennent le terme 'Saint-Denis'
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution question 1"
 #| output: false
+str(emissions)
+intersect(colnames(filosofi), colnames(emissions))
+```
 
-# Question 4
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 2"
+#| output: false
+str(filosofi)
+str(emissions)
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 3"
+#| output: false
+dim(filosofi)
+dim(emissions)
+```
+
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 3"
+
 emissions %>%
   select('INSEE commune', 'Commune') %>%
   summarize(Unique_Count = n_distinct(Commune))
@@ -438,6 +510,12 @@ emissions %>%
 filosofi %>%
   select('CODGEO', 'LIBGEO') %>%
   summarize(Unique_Count = n_distinct(LIBGEO))
+```
+
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution questions 5 à 7"
 
 # Question 5
 duplicates <- filosofi %>%
@@ -465,8 +543,9 @@ filosofi %>%
 
 
 ```{r}
-#| output: false
-# Question 8
+#| code-fold: true
+#| code-summary: "Solution question 8"
+
 filosofi_big <- filosofi %>%
   filter(NBPERSMENFISC16 > 100000) %>%
   mutate(probleme = LIBGEO %in% duplicates$LIBGEO)
@@ -496,6 +575,8 @@ Alors que pour la question 9, vos deux _dataframes_ ressembleront à
 
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution question 9"
 # Question 9
 filosofi %>%
   filter(LIBGEO == 'Montreuil')
@@ -544,12 +625,18 @@ textuelle sont rapidement contraignantes. On passe ainsi rapidement à `stringr`
 même si ce n'est pas l'objet principal du chapitre. 
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution question 1"
 #| output: false
 library(stringr)
 
 emissions <- emissions %>%
   rename('code_insee' = `INSEE commune`)
+```
 
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 2"
 emissions <- emissions %>%
   mutate(dep = str_sub(code_insee, start = 1, end = 2))
 filosofi <- filosofi %>%
@@ -557,6 +644,8 @@ filosofi <- filosofi %>%
 ```
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution question 3"
 #| label: question 3 exo 3
 #| output: false
 emissions_log <- emissions %>%
@@ -567,8 +656,8 @@ emissions_log <- emissions %>%
 
 ```{r}
 #| output: false
-
-# Question 5
+#| code-fold: true
+#| code-summary: "Solution question 4"
 
 ## Emissions totales par département
 emissions_dep <- emissions %>%
@@ -596,6 +685,9 @@ head(gros_emetteurs_filosofi)
 #| echo: true
 #| fig-cap: Structure des émissions de cinq départements aléatoires
 #| label: fig-sample-log
+#| code-fold: true
+#| code-summary: "Code pour créer la figure ci-dessous"
+
 library(tidyr)
 library(ggplot2)
 
@@ -644,8 +736,6 @@ Un exemple de la distinction entre les deux peut être pris à l'ouvrage de réf
 
 On est souvent amené avec {{< fa brands r-project >}} à restructurer les données
 pour les allonger (_wide to long_) et les élargir (_long to wide_). 
-
-
 C'est le package _tidyr_ (qui appartient au _tidyverse_) qui permet
 de faire ce type de transformations.
 
@@ -674,20 +764,23 @@ que nous découvrirons dans le prochain chapitre.
 utiliser directement le morceau de code d'aide si vous n'êtes pas familiers de `ggplot`
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Solution question 1"
+
 library(tidyr)
 
-# Question 1
 df_long <- emissions %>%
   pivot_longer(cols = -c(code_insee, Commune, dep),
                names_to = "secteur",
                values_to = "emissions")
+```
 
-# Question 2
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 2"
+
 df_long_summary <- df_long %>%
   group_by(secteur) %>% summarise(emissions = sum(emissions, na.rm = TRUE))
-
-# Question 3
-
 ```
 
 <details>
@@ -711,15 +804,22 @@ de `ggplot` ultérieurement.
 </details>
 
 ```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 3"
 df_long_dep <- df_long %>%
   group_by(secteur, dep) %>%
   summarise(emissions = sum(emissions, na.rm = TRUE)) %>%
   arrange(desc(dep), desc(emissions)) %>%
   group_by(dep) %>%
   slice_head(n = 1)
+```
 
+```{r}
+#| echo: false
 head(df_long_dep)
 ```
+
 
 :::
 
@@ -756,32 +856,112 @@ Les différents type de _join_ disponibles dans `dplyr`
 ::: {.callout-tip}
 ## Exercice 6: enrichir les données d'émissions
 
-2. Faire une jointure à gauche entre les données d'émissions et les données de cadrage. Comparer les émissions moyennes des villes sans *match* (celles dont des variables bien choisies de la table de droite sont `NA`) avec celles où on a bien une valeur correspondante dans la base Insee
-3. Faire un *inner join* puis calculer l'empreinte carbone (l'émission rapportée au nombre de ménages fiscaux) dans chaque commune. Sortir un histogramme en niveau puis en log et quelques statistiques descriptives sur le sujet. 
-4. Regarder la corrélation entre les variables de cadrage et l'empreinte carbone. Certaines variables semblent-elles pouvoir potentiellement influer sur l'empreinte carbone ?
+En premier lieu, on va calculer l'empreinte carbone de chaque commune. 
 
-```{r}
+1. Calculer les émissions totales en utilisant la commande suivante
+(comme celle-ci est complexe, nous la donnons directement):
+
+```r
 emissions <- emissions %>%
   mutate(total = rowSums(pick(where(is.numeric)), na.rm = TRUE))
+```
 
+
+2. Faire une jointure à gauche entre les données d'émissions et les données de cadrage[^notebiais].
+
+[^notebiais]: Idéalement, il serait nécessaire de s'assurer que cette jointure n'introduit
+pas de biais. En effet, comme nos années de référence ne sont pas forcément identiques,
+il peut y avoir un _mismatch_ entre nos deux sources. Le TP étant déjà long, nous n'allons pas dans cette voie. Les lecteurs intéressés pourront effectuer une telle analyse en exercice supplémentaire.
+
+3. Calculer l'empreinte carbone (émissions totales / population).
+
+A ce stade nous pourrions avoir envie d'aller vers la modélisation pour essayer d'expliquer
+les déterminants de l'empreinte carbone à partir de variables communales. 
+Une approche inférentielle nécessite néanmoins pour être pertinente de
+vérifier en amont des statistiques descriptives.
+
+4. Utiliser le code suivant pour sortir un histogramme en niveau puis en log de l'empreinte carbone communale ;
+
+```r
+ggplot(emissions_merged) +
+  geom_histogram(aes(x = empreinte, y = after_stat(density))) +
+  scale_x_log10()
+```
+
+5. Pour chaque ville, comparer l'empreinte carbone à la médiane du département. En relatif, quelles sont les villes particulièrement vertueuses (c'est-à-dire celles qui ont des émissions bien inférieures à la moyenne départementale) ?
+
+Avec une meilleure compréhension de nos données, nous nous rapprochons
+de la statistique inférentielle. Néanmoins, nous avons jusqu'à présent
+construit des statistiques univariées mais n'avons pas cherché à comprendre
+les résultats en regardant le lien avec d'autres variables. 
+Cela nous amène vers la statistique bivariée, notamment l'analyse des corrélations. 
+Ce travail est important puisque toute modélisation ultérieure consistera à 
+raffiner l'analyse des corrélations pour tenir compte des corrélations croisées
+entre multiples facteurs. On propose ici de faire cette analyse
+de manière minimale. 
+
+6. Regarder la corrélation entre les variables de cadrage et l'empreinte carbone (la solution est donnée, car les manipulations ne sont pas évidentes).
+Certaines variables semblent-elles pouvoir potentiellement influer sur l'empreinte carbone ?
+
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 1"
+
+emissions <- emissions %>%
+  mutate(total = rowSums(pick(where(is.numeric)), na.rm = TRUE))
+```
+
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 2"
 emissions_merged <- emissions %>%
   left_join(filosofi, by = c("code_insee" = "CODGEO"))
+```
 
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 3"
 emissions_merged <- emissions_merged %>%
   mutate(empreinte = total/NBPERSMENFISC16)
 ```
 
 ```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 4"
 ggplot(emissions_merged) +
   geom_histogram(aes(x = empreinte, y = after_stat(density))) +
   scale_x_log10()
 ```
 
 ```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 6"
+#| echo: true
+emissions_merged <- emissions_merged %>%
+  rename(departement = dep.x) %>%
+  group_by(departement) %>%
+  mutate(empreinte_mediane = median(empreinte, na.rm = TRUE)) %>%
+  mutate(empreinte_relative = empreinte/empreinte_mediane)
+
+emissions_merged %>% arrange(empreinte_relative)
+```
+
+
+
+```{r}
+#| output: false
+#| code-fold: true
+#| code-summary: "Solution question 6"
+
 library(tibble)
 
 correlations <- cor(
-  emissions_merged %>% select(where(is.numeric)),
+  emissions_merged %>% ungroup() %>% select(where(is.numeric)),
   use="complete.obs"
   )[,'empreinte']
 
