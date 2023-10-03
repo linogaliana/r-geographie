@@ -1,6 +1,6 @@
 ---
 title: "Produire des représentations graphiques avec {{< fa brands r-project >}} et `ggplot2`"
-echo: false
+echo: true
 number-sections: true
 ---
 
