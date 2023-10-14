@@ -187,9 +187,19 @@ ggplot(commune_borders %>% filter(INSEE_REG == 28)) +
   theme_void()
 
 
-ggplot(commune_borders %>% summarise(pop = sum(POPULATION))) +
-  geom_sf(aes(fill = POPULATION)) +
+population_dep <- commune_borders %>%
+  st_drop_geometry() %>%
+  group_by(INSEE_DEP) %>%
+  summarise(pop = sum(POPULATION)) %>%
+  mutate(pop_4 = factor(ntile(pop, 4)))
+
+
+ggplot(
+  departement_borders %>% left_join(population_dep)
+) + geom_sf(aes(fill = pop_4)) +
+  scale_fill_brewer(palette = "Accent") +
   theme_void()
+  
 ```
 
 :::
