@@ -34,10 +34,12 @@ Si vous êtes intéressés par `Python` {{< fa brands python >}},
 une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](https://pythonds.linogaliana.fr/content/visualisation/maps.html).
 
 
+<!----
 La pratique de la cartographie se fera, dans la continuité du chapitre
 sur les graphiques, en répliquant des cartes qu'on peut trouver sur
 la page de l'*open-data* de la ville de Paris 
 [ici](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name).
+------>
 
 ::: {.callout-note}
 Produire de belles cartes demande du temps mais aussi du bon sens. 
@@ -87,13 +89,112 @@ library(cartiflette)
 Au cours de ce chapitre, nous allons utiliser
 principalement trois jeux de données :
 
+<!-----
 * Les comptages de passage de vélos dans les stations de mesure parisiennnes ;
 * [La localisation précise des stations](https://parisdata.opendatasoft.com/explore/dataset/comptage-velo-compteurs/download/?format=geojson&timezone=Europe/Berlin&lang=fr)
+------>
+
+* Les émissions de gaz à effet de serre estimées au niveau communal par l'`ADEME`. Le jeu de données est
+disponible sur [data.gouv](https://www.data.gouv.fr/fr/datasets/inventaire-de-gaz-a-effet-de-serre-territorialise/#_)
+et requêtable directement dans {{< fa brands r-project >}} avec
+[cet url](https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert) (ce sera l'objet du premier exercice)[^notedownload].
+* Idéalement, on utiliserait directement les données
+[disponibles sur le site de l'Insee](https://www.insee.fr/fr/statistiques/3560121) mais celles-ci nécessitent un peu de travail
+de nettoyage qui n'entre pas dans le cadre de ce TP. 
+Pour faciliter l'import de données Insee, il est recommandé d'utiliser les _packages_
+[`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol) et [`insee`](https://github.com/pyr-opendatafr/R-Insee-Data) qui simplifient l'accès aux données
+de l'Insee disponibles sur le site web [insee.fr](https://www.insee.fr/fr/accueil)
+ou via des API. 
 * Les limites officielles administratives des arrondissements et communes de l'agglomération
 parisienne. Ce fonds de carte est produit par l'IGN et sa récupération
 est facilitée par le _package_ `cartiflette`.
 
 
+## Import des données
+
+### Données Filosofi
+
+```{r}
+#| output: false
+#| echo: true
+library(doremifasol)
+library(tibble)
+filosofi <- as_tibble(
+  telechargerDonnees("FILOSOFI_COM", date = 2016)
+)
+head(filosofi)
+```
+
+```{r}
+#| echo: false
+head(filosofi)
+```
+
+::: {.callout-note}
+La fonction `as_tibble` nous sert à transformer le _dataframe_ de base (`doremifasol` 
+ne fait pas d'_a priori_ sur l'écosystème de manipulation adopté) en 
+_dataframe_ adapté à une exploitation via le `tidyverse`. 
+:::
+
+
+### Limites communales et départementales
+
+```{r}
+#| eval: false
+remotes::install_github("linogaliana/cartiflette-r")
+```
+
+```{r}
+library(cartiflette)
+departement_borders <- download_vectorfile_url_all(
+    crs = 4326,
+    values = "metropole",
+    borders="DEPARTEMENT",
+    vectorfile_format="geojson",
+    filter_by="FRANCE_ENTIERE",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022)
+```
+
+```{r}
+commune_borders <- download_vectorfile_url_all(
+    crs = 4326,
+    values = "metropole",
+    borders="COMMUNE",
+    vectorfile_format="geojson",
+    filter_by="FRANCE_ENTIERE",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022)
+```
+commune_borders
+::: {.callout-tip}
+
+## Une première carte de la population
+
+1. 
+
+
+```{r}
+library(ggplot2)
+ggplot(departement_borders) + geom_sf(fill = "white") + theme_void()
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+ggplot(commune_borders %>% filter(INSEE_REG == 28)) +
+  geom_sf(aes(fill = POPULATION)) +
+  theme_void()
+
+
+ggplot(commune_borders %>% summarise(pop = sum(POPULATION))) +
+  geom_sf(aes(fill = POPULATION)) +
+  theme_void()
+```
+
+:::
+
+# OLD
 
 ### Comptages
 
