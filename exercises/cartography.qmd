@@ -197,8 +197,8 @@ population_dep <- departement_borders %>% left_join(population_dep)
 
 ggplot(
   population_dep
-) + geom_sf(aes(fill = pop_4)) +
-  scale_fill_brewer(palette = "Accent") +
+) + geom_sf(aes(fill = pop)) +
+  scale_fill_steps(n.breaks = 5) +
   theme_void() +
   labs(fill = "Population (en milliers)") +
   theme(legend.position = "bottom")
@@ -221,6 +221,41 @@ mf_map(
   )
 ```
 
+```{r}
+#install.packages("archive")
+
+library(sf)
+library(archive)
+library(stringr)
+
+
+download.file("https://wxs.ign.fr/24pq1j404fo3y3nhf6rc9i1z/telechargement/inspire/BDFORETV2-PACK_14-09-2022$BDFORET_2-0__SHP_LAMB93_D040_2018-10-01/file/BDFORET_2-0__SHP_LAMB93_D040_2018-10-01.7z", "landes")
+archive_extract("landes")
+
+foret <- sf::st_read(
+  list.files(pattern = "*shp$", recursive = TRUE)
+)
+
+ggplot(foret) + geom_sf(fill = "forestgreen", lwd = 0) +
+  geom_sf(
+    data = departement_borders %>% filter(INSEE_DEP == 40) %>% st_transform(2154),
+    color = "black", lwd = 1, fill = "transparent") +
+  theme_void() +
+  labs(title = "Couvert forestier dans les Landes")
+
+foret <- foret %>% mutate(pin = str_detect(toupper(ESSENCE), "PIN"))
+
+
+ggplot(foret) + geom_sf(aes(fill = pin), lwd = 0) +
+  geom_sf(
+    data = departement_borders %>% filter(INSEE_DEP == 40) %>% st_transform(2154),
+    color = "black", lwd = 1, fill = "transparent") +
+  scale_fill_manual(values = c("TRUE" = "brown", "FALSE" = "forestgreen")) +
+  theme_void() +
+  labs(title = "Couvert forestier dans les Landes")
+
+
+```
 
 :::
 
