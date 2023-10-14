@@ -191,16 +191,36 @@ population_dep <- commune_borders %>%
   st_drop_geometry() %>%
   group_by(INSEE_DEP) %>%
   summarise(pop = sum(POPULATION)) %>%
-  mutate(pop_4 = factor(ntile(pop, 4)))
+  mutate(pop_4 = cut(pop/1000, breaks = 4))
 
+population_dep <- departement_borders %>% left_join(population_dep)
 
 ggplot(
-  departement_borders %>% left_join(population_dep)
+  population_dep
 ) + geom_sf(aes(fill = pop_4)) +
   scale_fill_brewer(palette = "Accent") +
-  theme_void()
+  theme_void() +
+  labs(fill = "Population (en milliers)") +
+  theme(legend.position = "bottom")
+  
   
 ```
+
+```{r}
+library(mapsf)
+
+mf_map(
+  population_dep, var = "pop", type = "choro",
+  nbreaks = 4,
+  leg_title = "Population"
+  )
+
+mf_map(
+  population_dep, var = "pop", type = "prop",
+  leg_title = "Population"
+  )
+```
+
 
 :::
 
