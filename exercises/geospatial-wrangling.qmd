@@ -49,6 +49,7 @@ une version très proche de ce TP est disponible dans [mon cours de l'ENSAE](htt
 
 ```{r}
 #| eval: false
+#| echo: true
 remotes::install_github("linogaliana/cartiflette-r")
 install.packages("leaflet")
 ```
