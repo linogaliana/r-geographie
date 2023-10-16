@@ -306,7 +306,21 @@ population_dep <- population_dep %>% st_transform(2154) %>%
 ```
 
 
+```{r}
+#| eval: false
 
+# Question 5
+plot_q6_exo1 <- ggplot(
+  population_dep
+) + geom_sf(aes(fill = density)) +
+  scale_fill_fermenter(
+    n.breaks = 5,
+    palette = "RdPu",
+    direction = 1,
+    labels = label_number(scale_cut = cut_short_scale())
+    ) +
+  theme_void()
+```
 
 <details>
 <summary>
@@ -320,7 +334,7 @@ plot_q2_exo1
 
 <details>
 <summary>
-Carte obtenue à l'exercice 3
+Carte obtenue à la question 3
 </summary>
 ```{r}
 plot_q3_exo1
@@ -329,7 +343,7 @@ plot_q3_exo1
 
 <details>
 <summary>
-Carte obtenue à l'exercice 4
+Carte obtenue à la question 4
 </summary>
 ```{r}
 plot_q4_exo1
@@ -337,5 +351,13 @@ plot_q4_exo1
 </details>
 
 
+<details>
+<summary>
+Carte obtenue à la question 5
+</summary>
+```{r}
+plot_q5_exo1
+```
+</details>
 
 
