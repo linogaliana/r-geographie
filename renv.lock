@@ -145,6 +145,21 @@
       ],
       "Hash": "5f912714618d6c4679cf3f6eab8d8f71"
     },
+    "archive": {
+      "Package": "archive",
+      "Version": "1.1.6",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "cli",
+        "cpp11",
+        "glue",
+        "rlang",
+        "tibble"
+      ],
+      "Hash": "397e37e55afc7223a158c09cf3b4ffea"
+    },
     "arrow": {
       "Package": "arrow",
       "Version": "13.0.0",
@@ -351,6 +366,13 @@
         "stats"
       ],
       "Hash": "f20c47fd52fae58b4e377c37bb8c335b"
+    },
+    "commonmark": {
+      "Package": "commonmark",
+      "Version": "1.9.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "d691c61bff84bd63c383874d2d0c3307"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -610,7 +632,7 @@
     },
     "ggplot2": {
       "Package": "ggplot2",
-      "Version": "3.4.3",
+      "Version": "3.4.4",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -631,7 +653,22 @@
         "vctrs",
         "withr"
       ],
-      "Hash": "85846544c596e71f8f46483ab165da33"
+      "Hash": "313d31eff2274ecf4c1d3581db7241f9"
+    },
+    "ggtext": {
+      "Package": "ggtext",
+      "Version": "0.1.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "ggplot2",
+        "grid",
+        "gridtext",
+        "rlang",
+        "scales"
+      ],
+      "Hash": "c5ba8f5056487403a299b91984be86ca"
     },
     "glue": {
       "Package": "glue",
@@ -657,6 +694,26 @@
         "utils"
       ],
       "Hash": "7d7f283939f563670a697165b2cf5560"
+    },
+    "gridtext": {
+      "Package": "gridtext",
+      "Version": "0.1.5",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "curl",
+        "grDevices",
+        "grid",
+        "jpeg",
+        "markdown",
+        "png",
+        "rlang",
+        "stringr",
+        "xml2"
+      ],
+      "Hash": "05e4f5fffb1eecfeaac9ea0b7f255fef"
     },
     "gtable": {
       "Package": "gtable",
@@ -951,6 +1008,19 @@
         "utils"
       ],
       "Hash": "c0f3c382a3d00a3cc701faa8d7965898"
+    },
+    "markdown": {
+      "Package": "markdown",
+      "Version": "1.10",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "commonmark",
+        "utils",
+        "xfun"
+      ],
+      "Hash": "f00a677e0c006183f1232b6f1e0652d0"
     },
     "memoise": {
       "Package": "memoise",
@@ -1634,6 +1704,17 @@
         "tools"
       ],
       "Hash": "be07d23211245fc7d4209f54c4e4ffc8"
+    },
+    "xml2": {
+      "Package": "xml2",
+      "Version": "1.3.5",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "6c40e5cfcc6aefd88110666e18c31f40"
     },
     "yaml": {
       "Package": "yaml",
