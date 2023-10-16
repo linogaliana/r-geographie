@@ -277,7 +277,16 @@ plot_q2_exo2 <- ggplot(population_dep) + geom_sf(aes(fill = pop_4)) + theme_void
 plot_q4_exo1 <- ggplot(
   population_dep
 ) + geom_sf(aes(fill = pop)) +
-  scale_fill_steps() +
+  scale_fill_steps(low = "grey", high = "red") +
+  theme_void()
+```
+
+```{r}
+# Question 5
+plot_q5_exo1 <- ggplot(
+  population_dep
+) + geom_sf(aes(fill = pop)) +
+  scale_fill_steps(low = "grey", high = "red") +
   theme_void()
 ```
 
