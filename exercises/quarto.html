@@ -7,10 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lino Galiana">
-<meta name="dcterms.date" content="2023-09-01">
-<meta name="description" content="  Introduction à la cartographie avec   ">
 
-<title>Produire des cartes avec </title>
+<title>Introduction aux méthodes quantitatives avec  - Produire des représentations graphiques avec  et ggplot2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,27 +21,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -66,7 +98,11 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Produire des représentations graphiques avec  et ggplot2">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://rgeo.linogaliana.fr/cards/version-light/baby.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -76,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span>
     </a>
   </div>
@@ -87,11 +123,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html" rel="" target="">
+    <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../exercises/r-base.html" rel="" target="">
+    <a class="nav-link" href="../exercises/r-base.html" rel="" target="">
  <span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -100,11 +136,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-manipuler-des-données">    
         <li>
-    <a class="dropdown-item" href="../../exercises/r-wrangling.html" rel="" target="">
+    <a class="dropdown-item" href="../exercises/r-wrangling.html" rel="" target="">
  <span class="dropdown-text">Importer et manipuler des données avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercises/geospatial-wrangling.html" rel="" target="">
+    <a class="dropdown-item" href="../exercises/geospatial-wrangling.html" rel="" target="">
  <span class="dropdown-text">Manipuler des données spatiales avec <code>sf</code></span></a>
   </li>  
     </ul>
@@ -115,11 +151,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-visualiser">    
         <li>
-    <a class="dropdown-item" href="../../exercises/ggplot.html" rel="" target="">
+    <a class="dropdown-item" href="../exercises/ggplot.html" rel="" target="">
  <span class="dropdown-text">Produire des représentations graphiques avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> et <code>ggplot2</code></span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercises/cartography.html" rel="" target="">
+    <a class="dropdown-item" href="../exercises/cartography.html" rel="" target="">
  <span class="dropdown-text">Produire des cartes avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span></a>
   </li>  
     </ul>
@@ -130,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-communiquer">    
         <li>
-    <a class="dropdown-item" href="../../exercises/quarto.html" rel="" target="">
+    <a class="dropdown-item" href="../exercises/quarto.html" rel="" target="">
  <span class="dropdown-text">Produire des représentations graphiques avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> et <code>ggplot2</code></span></a>
   </li>  
     </ul>
@@ -159,17 +195,9 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Produire des cartes avec <i class="fa-brands fa-r-project"></i></h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">Introduction</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    <p><br> Introduction à la cartographie avec <i class="fa-brands fa-r-project"></i> <br></p>
-  </div>
+<h1 class="title">Produire des représentations graphiques avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> et <code>ggplot2</code></h1>
 </div>
+
 
 
 <div class="quarto-title-meta">
@@ -181,12 +209,6 @@ ul.task-list li input[type="checkbox"] {
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">September 1, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -194,6 +216,16 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<div class="badge">
+<p><a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=false&amp;networking.user.enabled=true&amp;onyxia.friendlyName=%C2%ABrstudio-cours-ENS%C2%BB" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&amp;labelColor=black&amp;color=%231965b8" alt="Onyxia"></a><br></p>
+</div>
+<details>
+<summary>
+Dérouler les <em>slides</em> ci-dessous ou <a href="../slides/ggplot.html">cliquer ici</a> pour afficher les slides en plein écran.
+</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><iframe class="sourceCode yaml code-with-copy" src="/slides/ggplot.html"></iframe></div>
+</details>
+<p>Chapitre arrivant prochainement</p>
 
 
 
