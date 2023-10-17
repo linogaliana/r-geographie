@@ -266,7 +266,8 @@ population_dep <- commune_borders %>%
   summarise(pop = sum(POPULATION)) %>%
   mutate(pop_4 = cut(pop/1000, breaks = 4))
 
-population_dep <- departement_borders %>% left_join(population_dep)
+population_dep <- departement_borders %>% left_join(population_dep) %>%
+  mutate(densite = as.numeric(pop / set_units(st_area(.), "km2") ))
 
 head(population_dep, 3)
 ```
@@ -295,11 +296,13 @@ catégories de couleurs.
 :::
 
 ```{r}
+#| label: q2-exo1
 # Question 2
 plot_q2_exo1 <- ggplot(population_dep) + geom_sf(aes(fill = pop)) + theme_void()
 ```
 
 ```{r}
+#| label: q3-exo1
 # Question 3
 plot_q3_exo1 <- ggplot(population_dep) + geom_sf(aes(fill = pop_4)) + theme_void()
 ```
@@ -328,11 +331,39 @@ plot_q5_exo1 <- ggplot(
 ```
 
 
+```{r}
+#| label: q6-exo1
+# Question 6
+plot_q6_exo1 <- ggplot(
+    population_dep
+) + geom_sf(aes(fill = pop), color = "white") +
+    scale_fill_steps(
+        n.breaks = 5, trans = "log",
+        low = "white", high = "black",
+        labels = label_number(scale_cut = cut_short_scale())
+    ) +
+    theme_void() +
+  labs(fill = "Population")
+
+plot_q6_exo1_bis <- ggplot(
+    population_dep
+) + geom_sf(aes(fill = densite), color = "white") +
+    scale_fill_steps(
+        n.breaks = 5, trans = "log",
+        low = "white", high = "black",
+        labels = label_number(scale_cut = cut_short_scale())
+    ) +
+    theme_void() +
+  labs(fill = "Habitants\n(par km²)")
+```
+
+
 <details>
 <summary>
 Carte obtenue à l'exercice 2
 </summary>
 ```{r}
+#| echo: false
 plot_q2_exo1
 ```
 </details>
@@ -343,6 +374,7 @@ plot_q2_exo1
 Carte obtenue à la question 3
 </summary>
 ```{r}
+#| echo: false
 plot_q3_exo1
 ```
 </details>
@@ -352,6 +384,7 @@ plot_q3_exo1
 Carte obtenue à la question 4
 </summary>
 ```{r}
+#| echo: false
 plot_q4_exo1
 ```
 </details>
@@ -362,8 +395,63 @@ plot_q4_exo1
 Carte obtenue à la question 5
 </summary>
 ```{r}
+#| echo: false
 plot_q5_exo1
 ```
 </details>
+
+
+<details>
+<summary>
+Cartes obtenue à la question 6
+</summary>
+
+```{r}
+#| echo: false
+plot_q6_exo1
+```
+
+```{r}
+#| echo: false
+plot_q6_exo1_bis
+```
+
+
+</details>
+
+Avec `ggplot2`, avec peu de travail sur le style,
+on obtient déjà une carte déjà intéressante. On voit bien dessus
+la _"diagonale du vide"_. Par exemple, les deux cartes dans le style de 
+Dupin (1926):
+
+```{r}
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Line Plot 1"
+#|   - "Line Plot 2"
+plot_q6_exo1
+
+plot_q6_exo1_bis
+```
+
+La carte de densité est plus représentative de la réalité démographique
+que la carte ne tenant pas compte des surfaces. Néanmoins elle reste 
+imparfaite pour décrire la très forte concentration de la population dans l'aire
+parisienne. Pour mieux représenter les phénomènes en présence de zonages
+de dimension hétérogène, il sera nécessaire d'utiliser une autre représentation
+cartographique.
+
+::: {.callout-tip}
+
+## Exercice supplémentaire: déplacer les DROM, zoomer sur l'Île de France
+
+Un exercice illustratif à venir
+:::
+
+
+## Une carte de couverture
+
+
 
 
