@@ -186,12 +186,13 @@ On va également récupérer les limites des
 communes françaises avec `cartiflette`. Pour
 
 ```{r}
+#| label: download-shapefile-communes
 #| echo: true
 commune_borders <- download_vectorfile_url_all(
     crs = 4326,
     values = "metropole",
     borders="COMMUNE",
-    vectorfile_format="geojson",
+    vectorfile_format="topojson",
     filter_by="FRANCE_ENTIERE",
     source="EXPRESS-COG-CARTO-TERRITOIRE",
     year=2022)
@@ -450,8 +451,32 @@ Un exercice illustratif à venir
 :::
 
 
-## Une carte de couverture
+## Une carte de couverture forestière
+
+Pour cette partie, nous allons faire une carte du couvert forestier
+landais à partir de la BD Forêt produite par l'IGN. Cette dernière étant
+un petit peu volumineuse dans le format _shapefile_, nous proposons
+de la récupérer dans un format plus compressé: le _geopackage_.
+
+Le code suivant peut être utilisé pour cela:
+
+```{r}
+#| echo: true
+foret <- sf::st_read(
+  "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
+)
+```
 
 
+```{r}
+foret <- sf::st_read(
+  "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
+)
 
-
+ggplot(foret) + geom_sf(fill = "forestgreen", lwd = 0) +
+  geom_sf(
+    data = departement_borders %>% filter(INSEE_DEP == 40) %>% st_transform(2154),
+    color = "black", lwd = 1, fill = "transparent") +
+  theme_void() +
+  labs(title = "Couvert forestier dans les Landes")
+```
