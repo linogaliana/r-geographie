@@ -2,6 +2,7 @@
 title: "Produire des cartes avec {{< fa brands r-project >}}"
 echo: false
 number-sections: true
+bibliography: ../references.bib
 ---
 
 ::: {.badge}
@@ -216,6 +217,35 @@ son jeu de données dans l'espace mais ça n'apporte pas
 d'information supplémentaire. Pour cela, il va être nécessaire
 d'utiliser les données tabulaires associées à la dimension spatiale.
 
+## Découverte des cartes choroplèthes
+
+La carte par aplat de couleur, dite carte choroplèthes,
+est l'une des représentations de données géographiques
+les plus traditionnelles. 
+
+D'après @chen2008brief, la première représentation de ce type 
+a été proposée par Charles Dupin en 1926
+pour représenter les niveaux d'instruction sur le territoire français. 
+L'émergence des cartes choroplèthes est en effet indissociable 
+de l'organisation du pouvoir sous forme d'entités pensées
+politiques supposées unitaires:
+les cartes du monde représentent souvent des aplats de couleurs à partir
+des nations, les cartes nationales à partir d'échelons administratifs
+(régions, départements, communes, mais aussi Etats ou _landers_). 
+
+![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg)
+
+On peut voir l'émergence pendant le XIXe siècle de la
+carte choroplèthe comme un moment important de la cartographie,
+un glissement de l'usage militaire vers l'usage politique.
+Il ne s'agissait plus exclusivement
+de représenter le territoire physique mais aussi la réalité socioéconomique,
+dans des bornes administratives connues de tous. 
+
+Malgré toutes ces limites, sur lesquelles nous reviendrons, la carte
+choroplèthe est tout de même instructive. Savoir en produire une rapidement,
+pour saisir les principaux faits structurants d'un jeu de données, est
+particulièrement utile. 
 
 ::: {.callout-tip}
 
@@ -297,30 +327,6 @@ plot_q5_exo1 <- ggplot(
   theme_void()
 ```
 
-
-```{r}
-# Question 6
-population_dep <- population_dep %>% st_transform(2154) %>%
-  mutate(surface = set_units(st_area(.), "km^2")) %>%
-  mutate(density = pop/as.numeric(surface))
-```
-
-
-```{r}
-#| eval: false
-
-# Question 5
-plot_q6_exo1 <- ggplot(
-  population_dep
-) + geom_sf(aes(fill = density)) +
-  scale_fill_fermenter(
-    n.breaks = 5,
-    palette = "RdPu",
-    direction = 1,
-    labels = label_number(scale_cut = cut_short_scale())
-    ) +
-  theme_void()
-```
 
 <details>
 <summary>
