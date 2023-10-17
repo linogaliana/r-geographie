@@ -233,7 +233,7 @@ les cartes du monde représentent souvent des aplats de couleurs à partir
 des nations, les cartes nationales à partir d'échelons administratifs
 (régions, départements, communes, mais aussi Etats ou _landers_). 
 
-![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg)
+![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg){fig-width="80%"}.
 
 On peut voir l'émergence pendant le XIXe siècle de la
 carte choroplèthe comme un moment important de la cartographie,
@@ -422,7 +422,7 @@ plot_q6_exo1_bis
 Avec `ggplot2`, avec peu de travail sur le style,
 on obtient déjà une carte déjà intéressante. On voit bien dessus
 la _"diagonale du vide"_. Par exemple, les deux cartes dans le style de 
-Dupin (1926):
+Dupin (1826):
 
 ```{r}
 #| echo: false
