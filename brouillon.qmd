@@ -36,16 +36,8 @@ mf_map(
 ```
 
 ```{r}
-#install.packages("archive")
-
-
-
-
-download.file("https://wxs.ign.fr/24pq1j404fo3y3nhf6rc9i1z/telechargement/inspire/BDFORETV2-PACK_14-09-2022$BDFORET_2-0__SHP_LAMB93_D040_2018-10-01/file/BDFORET_2-0__SHP_LAMB93_D040_2018-10-01.7z", "landes")
-archive_extract("landes")
-
 foret <- sf::st_read(
-  list.files(pattern = "*shp$", recursive = TRUE)
+  "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
 )
 
 ggplot(foret) + geom_sf(fill = "forestgreen", lwd = 0) +
