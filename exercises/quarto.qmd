@@ -1,0 +1,23 @@
+---
+title: "Produire des représentations graphiques avec {{< fa brands r-project >}} et `ggplot2`"
+echo: true
+number-sections: true
+---
+
+::: {.badge}
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=false&networking.user.enabled=true&onyxia.friendlyName=%C2%ABrstudio-cours-ENS%C2%BB" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
+:::
+
+<details>
+<summary>
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/ggplot.qmd)
+pour afficher les slides en plein écran.
+</summary>
+
+
+``` {.yaml code-preview="/slides/ggplot.qmd"}
+```
+
+</details>
+
+Chapitre arrivant prochainement

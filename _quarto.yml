@@ -18,8 +18,17 @@ website:
         text: Home
       - href: exercises/r-base.html
         text: Introduction
-      - href: exercises/r-wrangling.html
-        text: Manipulation
+      - text: "Manipuler des données"
+        menu:
+          - exercises/r-wrangling.qmd
+          - exercises/geospatial-wrangling.qmd
+      - text: "Visualiser"
+        menu:
+          - exercises/ggplot.qmd
+          - exercises/cartography.qmd
+      - text: "Communiquer"
+        menu:
+          - exercises/quarto.qmd
       - icon: github
         href: https://github.com/linogaliana/r-geographie
     background: "#802a03"
