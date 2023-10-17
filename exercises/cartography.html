@@ -55,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -155,15 +174,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#données" id="toc-données" class="nav-link active" data-scroll-target="#données"><span class="header-section-number">1</span> Données</a>
+  <li><a href="#données" id="toc-données" class="nav-link active" data-scroll-target="#données"><span class="header-section-number">1</span> Données</a></li>
+  <li><a href="#import-des-données" id="toc-import-des-données" class="nav-link" data-scroll-target="#import-des-données"><span class="header-section-number">2</span> Import des données</a>
   <ul class="collapse">
-  <li><a href="#comptages" id="toc-comptages" class="nav-link" data-scroll-target="#comptages"><span class="header-section-number">1.1</span> Comptages</a></li>
-  <li><a href="#localisation-des-compteurs" id="toc-localisation-des-compteurs" class="nav-link" data-scroll-target="#localisation-des-compteurs"><span class="header-section-number">1.2</span> Localisation des compteurs</a></li>
-  <li><a href="#fonds-de-carte-contextuels" id="toc-fonds-de-carte-contextuels" class="nav-link" data-scroll-target="#fonds-de-carte-contextuels"><span class="header-section-number">1.3</span> Fonds de carte contextuels</a></li>
+  <li><a href="#données-filosofi" id="toc-données-filosofi" class="nav-link" data-scroll-target="#données-filosofi"><span class="header-section-number">2.1</span> Données Filosofi</a></li>
+  <li><a href="#limites-communales-et-départementales" id="toc-limites-communales-et-départementales" class="nav-link" data-scroll-target="#limites-communales-et-départementales"><span class="header-section-number">2.2</span> Limites communales et départementales</a></li>
   </ul></li>
-  <li><a href="#une-première-carte-avec-ggplot" id="toc-une-première-carte-avec-ggplot" class="nav-link" data-scroll-target="#une-première-carte-avec-ggplot"><span class="header-section-number">2</span> Une première carte avec <code>ggplot</code></a></li>
-  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">3</span> Heatmap</a></li>
-  <li><a href="#carte-de-fréquentation-des-stations" id="toc-carte-de-fréquentation-des-stations" class="nav-link" data-scroll-target="#carte-de-fréquentation-des-stations"><span class="header-section-number">4</span> Carte de fréquentation des stations</a></li>
+  <li><a href="#découverte-des-cartes-choroplèthes" id="toc-découverte-des-cartes-choroplèthes" class="nav-link" data-scroll-target="#découverte-des-cartes-choroplèthes"><span class="header-section-number">3</span> Découverte des cartes choroplèthes</a></li>
+  <li><a href="#une-carte-de-couverture-forestière" id="toc-une-carte-de-couverture-forestière" class="nav-link" data-scroll-target="#une-carte-de-couverture-forestière"><span class="header-section-number">4</span> Une carte de couverture forestière</a></li>
   </ul>
 </nav>
     </div>
@@ -204,7 +222,12 @@ Dérouler les <em>slides</em> ci-dessous ou <a href="../slides/ggplot.html">cliq
 </details>
 <p>Dans ce TP, nous allons apprendre à créer des cartes avec <i class="fa-brands fa-r-project" aria-label="r-project"></i>. A mesure que <i class="fa-brands fa-r-project" aria-label="r-project"></i> devient incontournable auprès des personnes manipulant des données spatiales, les solutions pour produire des cartes de qualité deviennent de plus en plus nombreuses. <i class="fa-brands fa-r-project" aria-label="r-project"></i> a de moins en moins à envier aux logiciels spécialisés comme QGIS.</p>
 <p>Si vous êtes intéressés par <code>Python</code> <i class="fa-brands fa-python" aria-label="python"></i>, une version très proche de ce TP est disponible dans <a href="https://pythonds.linogaliana.fr/content/visualisation/maps.html">mon cours de l’ENSAE</a>.</p>
-<p>La pratique de la cartographie se fera, dans la continuité du chapitre sur les graphiques, en répliquant des cartes qu’on peut trouver sur la page de l’<em>open-data</em> de la ville de Paris <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">ici</a>.</p>
+<!----
+La pratique de la cartographie se fera, dans la continuité du chapitre
+sur les graphiques, en répliquant des cartes qu'on peut trouver sur
+la page de l'*open-data* de la ville de Paris 
+[ici](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/dataviz/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name).
+------>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -230,245 +253,206 @@ Note
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(archive)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(units)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="données" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="données"><span class="header-section-number">1</span> Données</h2>
-<p>Au cours de ce chapitre, nous allons utiliser principalement trois jeux de données :</p>
-<ul>
-<li>Les comptages de passage de vélos dans les stations de mesure parisiennnes ;</li>
-<li><a href="https://parisdata.opendatasoft.com/explore/dataset/comptage-velo-compteurs/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr">La localisation précise des stations</a></li>
-<li>Les limites officielles administratives des arrondissements et communes de l’agglomération parisienne. Ce fonds de carte est produit par l’IGN et sa récupération est facilitée par le <em>package</em> <code>cartiflette</code>.</li>
-</ul>
-<section id="comptages" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="comptages"><span class="header-section-number">1.1</span> Comptages</h3>
-<p>Un sous-ensemble des données de <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">Paris <em>Open Data</em></a> a été mis à disposition pour faciliter l’import.</p>
-<p>Il s’agit d’une extraction, qui commence à dater, des données disponibles sur le site où seules les colonnes qui servent à cet exercice ont été conservées.</p>
-<p>Nous proposons de télécharger ces données et les enregistrer dans un fichier sur le disque dur local avant de l’importer<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Cependant, nous n’allons pas faire cela manuellement mais nous allons plutôt utiliser <i class="fa-brands fa-r-project" aria-label="r-project"></i>. Effectuer ce type d’action de manière manuelle serait une mauvaise pratique du point de vue de la reproductibilité.</p>
+<p>Au cours de ce chapitre, nous allons utiliser plusieurs jeux de données pour illustrer différents types de cartes.</p>
+
+<!-----
+* Les comptages de passage de vélos dans les stations de mesure parisiennnes ;
+* [La localisation précise des stations](https://parisdata.opendatasoft.com/explore/dataset/comptage-velo-compteurs/download/?format=geojson&timezone=Europe/Berlin&lang=fr)
+
+* Les émissions de gaz à effet de serre estimées au niveau communal par l'`ADEME`. Le jeu de données est
+disponible sur [data.gouv](https://www.data.gouv.fr/fr/datasets/inventaire-de-gaz-a-effet-de-serre-territorialise/#_)
+et requêtable directement dans  avec
+[cet url](https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert) (ce sera l'objet du premier exercice)[^notedownload].
+* Idéalement, on utiliserait directement les données
+[disponibles sur le site de l'Insee](https://www.insee.fr/fr/statistiques/3560121) mais celles-ci nécessitent un peu de travail
+de nettoyage qui n'entre pas dans le cadre de ce TP. 
+Pour faciliter l'import de données Insee, il est recommandé d'utiliser les _packages_
+[`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol) et [`insee`](https://github.com/pyr-opendatafr/R-Insee-Data) qui simplifient l'accès aux données
+de l'Insee disponibles sur le site web [insee.fr](https://www.insee.fr/fr/accueil)
+ou via des API. 
+* Les limites officielles administratives des arrondissements et communes de l'agglomération
+parisienne. Ce fonds de carte est produit par l'IGN et sa récupération
+est facilitée par le _package_ `cartiflette`.
+------>
+</section>
+<section id="import-des-données" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="import-des-données"><span class="header-section-number">2</span> Import des données</h2>
+<section id="données-filosofi" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="données-filosofi"><span class="header-section-number">2.1</span> Données Filosofi</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/python-datascientist/bike.csv"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="st">"bike.gz"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>comptages <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"bike.gz"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-3" data-code-annotation="1" data-code-lines="2">L’extension <code>.gz</code> est importante pour la suite car <code>readr</code> en a besoin pour comprendre que le fichier est compressé.</span>
-</dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-3" data-code-annotation="2" data-code-lines="3">Lecture des données avec <code>read_csv</code> du package <code>readr</code></span>
-</dd>
-</dl>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doremifasol)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>filosofi <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">telechargerDonnees</span>(<span class="st">"FILOSOFI_COM"</span>, <span class="at">date =</span> <span class="dv">2016</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filosofi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La fonction <code>as_tibble</code> nous sert à transformer le <em>dataframe</em> de base (<code>doremifasol</code> ne fait pas d’<em>a priori</em> sur l’écosystème de manipulation adopté) en <em>dataframe</em> adapté à une exploitation via le <code>tidyverse</code>.</p>
 </div>
 </div>
 </section>
-<section id="localisation-des-compteurs" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="localisation-des-compteurs"><span class="header-section-number">1.2</span> Localisation des compteurs</h3>
+<section id="limites-communales-et-départementales" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="limites-communales-et-départementales"><span class="header-section-number">2.2</span> Limites communales et départementales</h3>
+<p>Nous allons utiliser <code>cartiflette</code> qui facilite la récupération des fonds de carte administratifs de l’IGN.</p>
+<p>En premier lieu, nous allons récupérer les limites des départements:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>compteurs <span class="ot">=</span> <span class="fu">st_read</span>(<span class="st">"https://parisdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/comptage-velo-compteurs/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>departement_borders <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="st">"metropole"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">borders=</span><span class="st">"DEPARTEMENT"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_by=</span><span class="st">"FRANCE_ENTIERE"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">year=</span><span class="dv">2022</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Il y a quelques valeurs aberrantes dans ce jeu de données qui doivent être laissées de côté. Elles sont identifiables par le fait que la variable <code>nom_compteurs</code> ne comporte pas les mentions <code>Bike IN</code> ou <code>Bike OUT</code>. Comme c’est un petit peu avancé pour une introduction, nous donnons directement la solution de ce travail de nettoyage:</p>
+<p>Pour s’en assurer, une carte peut rapidement être produite:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>compteurs <span class="ot">&lt;-</span> compteurs <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(<span class="st">"(Bike IN|Bike OUT)"</span>, nom_compteur))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(departement_borders) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>On va également récupérer les limites des communes françaises avec <code>cartiflette</code>. Pour</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>commune_borders <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="st">"metropole"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">borders=</span><span class="st">"COMMUNE"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_by=</span><span class="st">"FRANCE_ENTIERE"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year=</span><span class="dv">2022</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si on veut s’assurer du caractère fonctionnel du fond de carte récupéré, on peut représenter les communes d’un département, par exemple le Finistère:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  commune_borders <span class="sc">%&gt;%</span> <span class="fu">filter</span>(INSEE_DEP <span class="sc">==</span> <span class="dv">29</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les exemples de code ci-dessus illustraient une situation où on ne désire représenter que les limites des polygones dans l’objet <code>sf</code>. C’est une carte utile pour rapidement placer son jeu de données dans l’espace mais ça n’apporte pas d’information supplémentaire. Pour cela, il va être nécessaire d’utiliser les données tabulaires associées à la dimension spatiale.</p>
 </section>
-<section id="fonds-de-carte-contextuels" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="fonds-de-carte-contextuels"><span class="header-section-number">1.3</span> Fonds de carte contextuels</h3>
-<p>On va utiliser à nouveau <code>cartiflette</code> pour récupérer les arrondissements parisiens et les communes limitrophes.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>arrondissements <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">4326</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="st">"75"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">borders=</span><span class="st">"COMMUNE_ARRONDISSEMENT"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_by=</span><span class="st">"DEPARTEMENT"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">year=</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">2154</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
-</section>
-<section id="une-première-carte-avec-ggplot" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="une-première-carte-avec-ggplot"><span class="header-section-number">2</span> Une première carte avec <code>ggplot</code></h2>
-<p>Lors des chapitres précédents nous avons appris la manière dont des graphiques peuvent être construits en accumulant des couches.</p>
-<p>Il est possible d’ajouter des couches sur une image, à condition que les coordonnées coïncident. Pour faire cela de manière fiable, nous allons utiliser le package <code>ggmap</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<p>L’objectif du prochain exercice est de construire la carte suivante, de manière progressive:</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Coordinate system already present. Adding new coordinate system, which will
-replace the existing one.</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="cartography_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="découverte-des-cartes-choroplèthes" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="découverte-des-cartes-choroplèthes"><span class="header-section-number">3</span> Découverte des cartes choroplèthes</h2>
+<p>La carte par aplat de couleur, dite carte choroplèthes, est l’une des représentations de données géographiques les plus traditionnelles.</p>
+<p>D’après <span class="citation" data-cites="chen2008brief">Chen et al. (<a href="#ref-chen2008brief" role="doc-biblioref">2008</a>)</span>, la première représentation de ce type a été proposée par Charles Dupin en 1926 pour représenter les niveaux d’instruction sur le territoire français. L’émergence des cartes choroplèthes est en effet indissociable de l’organisation du pouvoir sous forme d’entités pensées politiques supposées unitaires: les cartes du monde représentent souvent des aplats de couleurs à partir des nations, les cartes nationales à partir d’échelons administratifs (régions, départements, communes, mais aussi Etats ou <em>landers</em>).</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg" class="img-fluid" data-fig-width="80%" alt="La première carte choroplèthes par Dupin (1826)">.</p>
+<p>On peut voir l’émergence pendant le XIXe siècle de la carte choroplèthe comme un moment important de la cartographie, un glissement de l’usage militaire vers l’usage politique. Il ne s’agissait plus exclusivement de représenter le territoire physique mais aussi la réalité socioéconomique, dans des bornes administratives connues de tous.</p>
+<p>Malgré toutes ces limites, sur lesquelles nous reviendrons, la carte choroplèthe est tout de même instructive. Savoir en produire une rapidement, pour saisir les principaux faits structurants d’un jeu de données, est particulièrement utile.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercice 1: construire la carte des compteurs avec <code>ggmap</code> et <code>ggplot</code>
+Une première carte de la population
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Pour récupérer la carte, nous allons avoir besoin de construire un certain nombre d’objets en amont. En premier lieu, il est nécessaire de créer un vecteur stockant les extrêmes de notre carte. Dans le jargon des SIG, cela s’appelle la <strong><em>bounding box</em></strong>. Voici comment faire ceci:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>bbox_paris <span class="ot">&lt;-</span> arrondissements <span class="sc">%&gt;%</span> <span class="fu">st_transform</span>(<span class="dv">4326</span>) <span class="sc">%&gt;%</span> <span class="fu">st_bbox</span>()</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>bbox_paris <span class="ot">&lt;-</span> <span class="fu">setNames</span>(bbox_paris, <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>, <span class="st">"right"</span>, <span class="st">"top"</span>))</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>bbox_paris</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="1" data-code-lines="1">On a besoin de coordonnées en WGS84, il faut donc reprojeter les données avant d’appliquer <code>st_bbox</code></span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="2" data-code-lines="2"><code>ggmap</code> attend un vecteur dont les noms sont <code>"left", "bottom", "right", "top"</code>, <code>setNames</code> permet de renommer les éléments de <code>bbox_paris</code></span>
-</dd>
-</dl>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bbox_paris</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     left    bottom     right       top 
- 2.224217 48.815562  2.469851 48.902148 </code></pre>
-</div>
-</div>
+<p>L’objectif de cet exercice va être d’enrichir les informations présentées sur la carte des départements.</p>
 <ol type="1">
-<li><p>Utiliser <code>get_map</code> pour récupérer le fonds de carte. Nommer l’objet <code>map_paris_watercolor</code>. La carte proposée utilise le fonds <code>watercolor</code>, dont la source est <code>stamen</code>. Utiliser ensuite <code>ggmap(fonds_stamen)</code> pour vérifier le fonds de carte récupéré.</p></li>
-<li><p>Ajouter une couche d’arrondissements à cette image avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</p></li>
+<li>Utiliser le code ci-dessous pour enrichir notre objet <code>sf</code> des départements d’une variable de population:</li>
 </ol>
-<ul>
-<li><code>data</code>: comme nous initialisons la figure avec <code>ggmap</code>, il faut dire à <code>ggplot</code> que nous partons du jeu de données <code>arrondissements</code> pour cette couche</li>
-<li><code>fill</code> et <code>color</code> pour contrôler, respectivement, la couleur de l’intérieur et des bordures des polygones.</li>
-<li><code>inherit.aes = FALSE</code>: indispensable à cause du comportement de <code>ggmap</code> qui ne sait pas gérer les objets <code>sf</code> (cf.&nbsp;<em>footnote</em> antérieure)</li>
-</ul>
+<ol start="2" type="1">
+<li>Adapter le modèle ci-dessous à l’objet <code>population_dep</code> pour représenter une première carte par aplat de couleur (<a href="https://en.wikipedia.org/wiki/Choropleth_map"><em>choropleth map</em></a>) de la variable <code>pop</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modèle</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(departement_borders) <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cette carte étant peu lisible, on propose, en premier lieu, de discrétiser ses couleurs.</p>
 <ol start="3" type="1">
-<li>Ajouter une couche pour représenter la position des stations avec <code>geom_sf</code>. Il va être nécessaire d’utiliser les arguments suivants:</li>
+<li>Utiliser la variable <code>pop_4</code> pour voir un petit peu à quoi ressemble une version discrétisée de notre carte de population.</li>
 </ol>
-<ul>
-<li><code>data</code>: comme nous initialisons la figure avec <code>ggmap</code>, il faut dire à <code>ggplot</code> que nous partons du jeu de données <code>compteurs</code> pour cette couche</li>
-<li><code>color="red"</code>, <code>size=5</code> et <code>alpha=0.4</code> pour contrôler l’apparence de nos points</li>
-<li><code>inherit.aes = FALSE</code>: indispensable à cause du comportement de <code>ggmap</code> qui ne sait pas gérer les objets <code>sf</code> (cf.&nbsp;<em>footnote</em> antérieure)</li>
-</ul>
-<ol start="4" type="1">
-<li>Finaliser l’esthétique de la carte avec <code>theme_void()</code></li>
-</ol>
-<details>
-<summary>
-Aide pour la question 1
-</summary>
-Les arguments à utiliser sont <code>location</code>, <code>maptype</code> et <code>source</code>
-</details>
+<p>Cela apparaît mieux mais la discrétisation n’est sans doute pas idéale, les catégories étant plutôt hasardeuses. Il vaut mieux utiliser <code>scale_fill_steps</code> qui construit de manière plus pertinente les catégories de couleurs.</p>
 </div>
 </div>
 <details>
 <summary>
-Le fonds de carte, sans motif par dessus, est le suivant:
+Carte obtenue à l’exercice 2
 </summary>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="cartography_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 </details>
 <details>
 <summary>
-En ajoutant les arrondissements par dessus (question 2):
+Carte obtenue à la question 3
 </summary>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Coordinate system already present. Adding new coordinate system, which will
-replace the existing one.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="cartography_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 </details>
 <details>
 <summary>
-Après avoir ajouté les points (question 3)
+Carte obtenue à la question 4
 </summary>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="cartography_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 </details>
 <details>
 <summary>
-Si vous préférez un autre fonds de carte que <code>Watercolor</code>, par exemple <code>Stamen Toner</code>:
+Carte obtenue à la question 5
 </summary>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Coordinate system already present. Adding new coordinate system, which will
-replace the existing one.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="cartography_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 </details>
-</section>
-<section id="heatmap" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">3</span> Heatmap</h2>
-</section>
-<section id="carte-de-fréquentation-des-stations" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="carte-de-fréquentation-des-stations"><span class="header-section-number">4</span> Carte de fréquentation des stations</h2>
+<details>
+<summary>
+Cartes obtenue à la question 6
+</summary>
+</details>
+<p>Avec <code>ggplot2</code>, avec peu de travail sur le style, on obtient déjà une carte déjà intéressante. On voit bien dessus la <em>“diagonale du vide”</em>. Par exemple, les deux cartes dans le style de Dupin (1826):</p>
+<div class="cell quarto-layout-panel">
+
+</div>
+<p>La carte de densité est plus représentative de la réalité démographique que la carte ne tenant pas compte des surfaces. Néanmoins elle reste imparfaite pour décrire la très forte concentration de la population dans l’aire parisienne. Pour mieux représenter les phénomènes en présence de zonages de dimension hétérogène, il sera nécessaire d’utiliser une autre représentation cartographique.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercice
+Exercice supplémentaire: déplacer les DROM, zoomer sur l’Île de France
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<p>Un exercice illustratif à venir</p>
 </div>
 </div>
+</section>
+<section id="une-carte-de-couverture-forestière" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="une-carte-de-couverture-forestière"><span class="header-section-number">4</span> Une carte de couverture forestière</h2>
+<p>Pour cette partie, nous allons faire une carte du couvert forestier landais à partir de la BD Forêt produite par l’IGN. Cette dernière étant un petit peu volumineuse dans le format <em>shapefile</em>, nous proposons de la récupérer dans un format plus compressé: le <em>geopackage</em>.</p>
+<p>Le code suivant peut être utilisé pour cela:</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'lubridate'</code></pre>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>foret <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
 
-    date, intersect, setdiff, union</code></pre>
-</div>
-</div>
 
 
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>D’habitude, nous recommandons d’utiliser directement l’URL de téléchargement ce qui évite de créer un fichier intermédiaire sur le disque dur. Néanmoins, ici, l’import direct avec <code>readr</code> ne fonctionnera pas car le fichier est mal interprété par la librairie. Celle-ci ne comprend pas que le fichier est compressé car il lui manque l’extension <code>.gz</code> (un format compressé) à la fin.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><code>ggmap</code> est un <em>package</em> assez ancien qui n’a pas trop évolué récemment. Il continue notamment à utiliser des objets <code>sp</code>, l’ancêtre de <code>sf</code> qui existe déjà depuis plusieurs années. Il est donc possible que ce <em>package</em> soit archivé dans un futur plus ou moins lointain.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-chen2008brief" class="csl-entry" role="listitem">
+Chen, Chun-houh, Wolfgang Härdle, Antony Unwin, and Michael Friendly. 2008. <span>“A Brief History of Data Visualization.”</span> <em>Handbook of Data Visualization</em>, 15–56.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
