@@ -573,4 +573,34 @@ Un exercice illustratif à venir
 mf_map(population_dep, var = "densite", type = "choro", nbreaks = 4)
 ```
 
+Créer des ronds proportionnels
+
+```{r}
+mf_map(population_dep)
+mf_map(population_dep, var = "densite", type = "prop")
+```
+
+Faire une carte bivariée 
+
+```{r}
+mf_map(population_dep)
+mf_map(population_dep, var = c("densite", "densite"), type = "prop_choro", breaks = 4)
+mf_layout(
+  title = "Population en France"
+)
+```
+
+```{r}
+idf <- population_dep %>% filter(INSEE_REG == 11) 
+```
+
+
+```{r}
+mf_map(idf)
+mf_map(idf, var = c("densite", "densite"), type = "prop_choro")
+mf_layout(
+    title = "Population en Île de France"
+)
+```
+
 :::
