@@ -302,6 +302,7 @@ Le code suivant peut être utilisé pour cela:
 
 ```{r}
 #| echo: true
+#| label: download-landes
 foret <- sf::st_read(
   "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
 )
@@ -349,7 +350,7 @@ particulièrement utile.
 
 ::: {.callout-tip}
 
-## Une première carte de la population
+## Exercice 3: une première carte de la population
 
 L'objectif de cet exercice va être d'enrichir
 les informations présentées sur la carte
@@ -564,6 +565,12 @@ Un exercice illustratif à venir
 :::
 
 
+## Retour aux cartes classiques avec `mapsf`
 
+::: {.callout-tip}
 
-## Retour aux cartes classiques avec 
+```{r}
+mf_map(population_dep, var = "densite", type = "choro", nbreaks = 4)
+```
+
+:::
