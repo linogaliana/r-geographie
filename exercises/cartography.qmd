@@ -3,7 +3,7 @@ title: "Produire des cartes avec {{< fa brands r-project >}}"
 echo: false
 number-sections: true
 bibliography: ../references.bib
-eval: true
+eval: false
 ---
 
 ::: {.badge}
