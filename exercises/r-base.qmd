@@ -73,7 +73,6 @@ cliquez sur ce bouton :
 
 ::: {.badge}
 <a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?version=1.15.13&networking.user.enabled=true&onyxia.friendlyName=%C2%ABrstudio-cours-ENS%C2%BB»&networking.user.enabled=true&onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&labelColor=black&color=%231965b8" alt="Onyxia"></a><br>
-
 :::
 
 Après quelques instants de lancement du service sur les serveurs de l'Insee, 

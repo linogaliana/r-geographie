@@ -3,7 +3,7 @@ title: "Produire des cartes avec {{< fa brands r-project >}}"
 echo: false
 number-sections: true
 bibliography: ../references.bib
-eval: false
+eval: true
 ---
 
 ::: {.badge}
@@ -83,11 +83,11 @@ library(sf)
 library(stringr)
 library(archive)
 library(ggplot2)
-library(ggmap)
 library(glue)
 library(ggtext)
 library(scales)
 library(units)
+library(leaflet)
 library(cartiflette)
 ```
 
@@ -120,7 +120,19 @@ est facilitée par le _package_ `cartiflette`.
 
 ## Import des données
 
+Ce TD va proposer un certain nombre de jeux de données intéressants
+pour la cartographie. Comme l'import de ceux-ci n'est pas le coeur
+du chapitre, nous proposons directement le code d'import
+des données. 
+
 ### Données Filosofi
+
+En premier lieu, nous proposons d"utiliser les données 
+`Filosofi` qui sont des données de revenu agrégées
+à l'échelle communale. 
+
+Celles-ci peuvent être téléchargées par le biais du _package_
+[`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol):
 
 ```{r}
 #| output: false
@@ -130,11 +142,6 @@ library(tibble)
 filosofi <- as_tibble(
   telechargerDonnees("FILOSOFI_COM", date = 2016)
 )
-head(filosofi)
-```
-
-```{r}
-#| echo: false
 head(filosofi)
 ```
 
@@ -162,15 +169,21 @@ des départements:
 
 ```{r}
 #| echo: true
-library(cartiflette)
-departement_borders <- download_vectorfile_url_all(
-    crs = 4326,
-    values = "metropole",
-    borders="DEPARTEMENT",
-    vectorfile_format="geojson",
-    filter_by="FRANCE_ENTIERE",
-    source="EXPRESS-COG-CARTO-TERRITOIRE",
-    year=2022)
+#| output: false
+
+departement_borders <-st_read(
+  "https://minio.lab.sspcloud.fr/lgaliana/diffusion/communes.gpkg"
+  )
+
+#library(cartiflette)
+#departement_borders <- download_vectorfile_url_all(
+#    crs = 4326,
+#    values = "metropole",
+#    borders="DEPARTEMENT",
+#    vectorfile_format="geojson",
+#    filter_by="FRANCE_ENTIERE",
+#    source="EXPRESS-COG-CARTO-TERRITOIRE",
+#    year=2022)
 ```
 
 Pour s'en assurer, une carte peut rapidement être
@@ -185,10 +198,12 @@ ggplot(departement_borders) +
 
 On va également récupérer les limites des
 communes françaises avec `cartiflette`. Pour
+cela, ce code peut être utilisé
 
 ```{r}
 #| label: download-shapefile-communes
 #| echo: true
+
 commune_borders <- download_vectorfile_url_all(
     crs = 4326,
     values = "metropole",
@@ -201,16 +216,71 @@ commune_borders <- download_vectorfile_url_all(
 
 Si on veut s'assurer du caractère fonctionnel du fond de carte
 récupéré, on peut représenter les
-communes d'un département, par exemple le Finistère:
+communes d'un département, par exemple le Finistère.
+
+Voici le code pour ne garder que le Finistère (département 29)
+
 
 ```{r}
-#| echo: true
-ggplot(
-  commune_borders %>% filter(INSEE_DEP == 29)
-  ) +
+finistere <- commune_borders %>% filter(INSEE_DEP == 29)
+```
+
+
+::: {.callout-tip}
+## Exercice 1: représenter rapidement les frontières pour se placer dans l'espace
+
+On va d'abord faire une carte simple, avec `ggplot`, des limites communales
+
+1. En s'inspirant du code précédent, faire la carte du Finistère
+
+Pour en apprendre un peu plus sur les données, on va mettre en oeuvre
+une carte avec le _package_ `leaflet`. Celui-ci permettra de créer des 
+visualisations réactives, plus propice à l'exploration de données.
+
+2. Représenter les limites communales du Finistère avec le package leaflet
+en utilisant les fonctions suivantes:
+    + Afficher un fonds de carte _Open Street Map_ avec la fonction `addTiles`
+    + Afficher les limites des polygones avec la fonction `addPolylines`
+    
+3. Travailler un peu la couche `Polylines` en réduisant la taille des bordures
+et en utilisant le paramètre `popup` pour afficher le nom de la ville et la
+population communales
+
+:::
+
+Carte obtenue à la question 1
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 1"
+ggplot(finistere) +
   geom_sf(fill = "transparent") +
   theme_void()
 ```
+
+Carte obtenue à la question 2
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 2"
+leaflet(finistere) %>% 
+  addTiles() %>%
+  addPolylines()
+```
+
+Carte obtenue à la question 3
+
+```{r}
+#| code-fold: true
+#| code-summary: "Solution question 3"
+leaflet(finistere) %>% 
+  addTiles() %>%
+  addPolylines(
+    weight = 2,
+    popup = ~paste0(NOM, ": ", POPULATION, " habitants")
+  )
+```
+
 
 Les exemples de code ci-dessus illustraient une situation
 où on ne désire représenter que les limites des polygones
@@ -235,7 +305,7 @@ les cartes du monde représentent souvent des aplats de couleurs à partir
 des nations, les cartes nationales à partir d'échelons administratifs
 (régions, départements, communes, mais aussi Etats ou _landers_). 
 
-![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg){fig-width="80%"}.
+![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg){width="60%"}.
 
 On peut voir l'émergence pendant le XIXe siècle de la
 carte choroplèthe comme un moment important de la cartographie,
