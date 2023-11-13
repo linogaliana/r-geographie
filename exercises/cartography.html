@@ -217,8 +217,9 @@ div.csl-indent {
   <li><a href="#données-filosofi" id="toc-données-filosofi" class="nav-link" data-scroll-target="#données-filosofi"><span class="header-section-number">2.1</span> Données Filosofi</a></li>
   <li><a href="#limites-communales-et-départementales" id="toc-limites-communales-et-départementales" class="nav-link" data-scroll-target="#limites-communales-et-départementales"><span class="header-section-number">2.2</span> Limites communales et départementales</a></li>
   </ul></li>
-  <li><a href="#découverte-des-cartes-choroplèthes" id="toc-découverte-des-cartes-choroplèthes" class="nav-link" data-scroll-target="#découverte-des-cartes-choroplèthes"><span class="header-section-number">3</span> Découverte des cartes choroplèthes</a></li>
-  <li><a href="#une-carte-de-couverture-forestière" id="toc-une-carte-de-couverture-forestière" class="nav-link" data-scroll-target="#une-carte-de-couverture-forestière"><span class="header-section-number">4</span> Une carte de couverture forestière</a></li>
+  <li><a href="#une-carte-de-couverture-forestière" id="toc-une-carte-de-couverture-forestière" class="nav-link" data-scroll-target="#une-carte-de-couverture-forestière"><span class="header-section-number">3</span> Une carte de couverture forestière</a></li>
+  <li><a href="#découverte-des-cartes-choroplèthes" id="toc-découverte-des-cartes-choroplèthes" class="nav-link" data-scroll-target="#découverte-des-cartes-choroplèthes"><span class="header-section-number">4</span> Découverte des cartes choroplèthes</a></li>
+  <li><a href="#retour-aux-cartes-classiques-avec-mapsf" id="toc-retour-aux-cartes-classiques-avec-mapsf" class="nav-link" data-scroll-target="#retour-aux-cartes-classiques-avec-mapsf"><span class="header-section-number">5</span> Retour aux cartes classiques avec <code>mapsf</code></a></li>
   </ul>
 </nav>
     </div>
@@ -249,7 +250,7 @@ div.csl-indent {
 </header>
 
 <div class="badge">
-<p><a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?autoLaunch=true&amp;init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fr-geographie%2Fmain%2Fsspcloud%2Finit.sh»&amp;networking.user.enabled=true&amp;onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&amp;labelColor=black&amp;color=%231965b8" alt="Onyxia"></a><br></p>
+<p><a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?version=1.15.13&amp;networking.user.enabled=true&amp;onyxia.friendlyName=%C2%ABrstudio-cours-ENS%C2%BB»&amp;networking.user.enabled=true&amp;onyxia.friendlyName=«rstudio-cours-ENS»" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Tester%20via%20SSP%20cloud%20-%20SSPCloud?logo=R&amp;labelColor=black&amp;color=%231965b8" alt="Onyxia"></a><br></p>
 </div>
 <details>
 <summary>
@@ -292,11 +293,11 @@ Note
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(archive)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(units)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(units)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cartiflette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="données" class="level2" data-number="1">
@@ -325,8 +326,11 @@ est facilitée par le _package_ `cartiflette`.
 </section>
 <section id="import-des-données" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="import-des-données"><span class="header-section-number">2</span> Import des données</h2>
+<p>Ce TD va proposer un certain nombre de jeux de données intéressants pour la cartographie. Comme l’import de ceux-ci n’est pas le coeur du chapitre, nous proposons directement le code d’import des données.</p>
 <section id="données-filosofi" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="données-filosofi"><span class="header-section-number">2.1</span> Données Filosofi</h3>
+<p>En premier lieu, nous proposons d”utiliser les données <code>Filosofi</code> qui sont des données de revenu agrégées à l’échelle communale.</p>
+<p>Celles-ci peuvent être téléchargées par le biais du <em>package</em> <a href="https://github.com/InseeFrLab/DoReMIFaSol"><code>doremifasol</code></a>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doremifasol)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
@@ -370,33 +374,69 @@ Note
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>On va également récupérer les limites des communes françaises avec <code>cartiflette</code>. Pour</p>
+<p>On va également récupérer les limites des communes françaises avec <code>cartiflette</code>. Pour cela, ce code peut être utilisé</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>commune_borders <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="st">"metropole"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">borders=</span><span class="st">"COMMUNE"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_by=</span><span class="st">"FRANCE_ENTIERE"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year=</span><span class="dv">2022</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#commune_borders &lt;- download_vectorfile_url_all(</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    crs = 4326,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    values = "metropole",</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    borders="COMMUNE",</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    vectorfile_format="geojson",</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    filter_by="FRANCE_ENTIERE",</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    source="EXPRESS-COG-CARTO-TERRITOIRE",</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#    year=2022)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>commune_borders <span class="ot">&lt;-</span><span class="fu">st_read</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://minio.lab.sspcloud.fr/lgaliana/diffusion/communes.gpkg"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Si on veut s’assurer du caractère fonctionnel du fond de carte récupéré, on peut représenter les communes d’un département, par exemple le Finistère:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  commune_borders <span class="sc">%&gt;%</span> <span class="fu">filter</span>(INSEE_DEP <span class="sc">==</span> <span class="dv">29</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Si on veut s’assurer du caractère fonctionnel du fond de carte récupéré, on peut représenter les communes d’un département, par exemple le Finistère.</p>
+<p>Voici le code pour ne garder que le Finistère (département 29)</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+Exercice 1: représenter rapidement les frontières pour se placer dans l’espace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On va d’abord faire une carte simple, avec <code>ggplot</code>, des limites communales</p>
+<ol type="1">
+<li>En s’inspirant du code précédent, faire la carte du Finistère</li>
+</ol>
+<p>Pour en apprendre un peu plus sur les données, on va mettre en oeuvre une carte avec le <em>package</em> <code>leaflet</code>. Celui-ci permettra de créer des visualisations réactives, plus propice à l’exploration de données.</p>
+<ol start="2" type="1">
+<li>Représenter les limites communales du Finistère avec le package leaflet en utilisant les fonctions suivantes:
+<ul>
+<li>Afficher un fonds de carte <em>Open Street Map</em> avec la fonction <code>addTiles</code></li>
+<li>Afficher les limites des polygones avec la fonction <code>addPolylines</code></li>
+</ul></li>
+<li>Travailler un peu la couche <code>Polylines</code> en réduisant la taille des bordures et en utilisant le paramètre <code>popup</code> pour afficher le nom de la ville et la population communales</li>
+</ol>
+</div>
+</div>
+<p>Carte obtenue à la question 1</p>
+<p>Carte obtenue à la question 2</p>
+<p>Carte obtenue à la question 3</p>
 <p>Les exemples de code ci-dessus illustraient une situation où on ne désire représenter que les limites des polygones dans l’objet <code>sf</code>. C’est une carte utile pour rapidement placer son jeu de données dans l’espace mais ça n’apporte pas d’information supplémentaire. Pour cela, il va être nécessaire d’utiliser les données tabulaires associées à la dimension spatiale.</p>
 </section>
 </section>
-<section id="découverte-des-cartes-choroplèthes" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="découverte-des-cartes-choroplèthes"><span class="header-section-number">3</span> Découverte des cartes choroplèthes</h2>
+<section id="une-carte-de-couverture-forestière" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="une-carte-de-couverture-forestière"><span class="header-section-number">3</span> Une carte de couverture forestière</h2>
+<p>Pour cette partie, nous allons faire une carte du couvert forestier landais à partir de la BD Forêt produite par l’IGN. Cette dernière étant un petit peu volumineuse dans le format <em>shapefile</em>, nous proposons de la récupérer dans un format plus compressé: le <em>geopackage</em>.</p>
+<p>Le code suivant peut être utilisé pour cela:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>foret <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="découverte-des-cartes-choroplèthes" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="découverte-des-cartes-choroplèthes"><span class="header-section-number">4</span> Découverte des cartes choroplèthes</h2>
 <p>La carte par aplat de couleur, dite carte choroplèthes, est l’une des représentations de données géographiques les plus traditionnelles.</p>
 <p>D’après <span class="citation" data-cites="chen2008brief">Chen et al. (<a href="#ref-chen2008brief" role="doc-biblioref">2008</a>)</span>, la première représentation de ce type a été proposée par Charles Dupin en 1926 pour représenter les niveaux d’instruction sur le territoire français. L’émergence des cartes choroplèthes est en effet indissociable de l’organisation du pouvoir sous forme d’entités pensées politiques supposées unitaires: les cartes du monde représentent souvent des aplats de couleurs à partir des nations, les cartes nationales à partir d’échelons administratifs (régions, départements, communes, mais aussi Etats ou <em>landers</em>).</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg" class="img-fluid" data-fig-width="80%" alt="La première carte choroplèthes par Dupin (1826)">.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg" class="img-fluid" style="width:60.0%" data-fig-align="center" alt="La première carte choroplèthes par Dupin (1826)">.</p>
 <p>On peut voir l’émergence pendant le XIXe siècle de la carte choroplèthe comme un moment important de la cartographie, un glissement de l’usage militaire vers l’usage politique. Il ne s’agissait plus exclusivement de représenter le territoire physique mais aussi la réalité socioéconomique, dans des bornes administratives connues de tous.</p>
 <p>Malgré toutes ces limites, sur lesquelles nous reviendrons, la carte choroplèthe est tout de même instructive. Savoir en produire une rapidement, pour saisir les principaux faits structurants d’un jeu de données, est particulièrement utile.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -405,7 +445,7 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Une première carte de la population
+Exercice 3: une première carte de la population
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -413,23 +453,40 @@ Une première carte de la population
 <ol type="1">
 <li>Utiliser le code ci-dessous pour enrichir notre objet <code>sf</code> des départements d’une variable de population:</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>population_dep <span class="ot">&lt;-</span> commune_borders <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(INSEE_DEP) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pop =</span> <span class="fu">sum</span>(POPULATION)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pop_4 =</span> <span class="fu">cut</span>(pop<span class="sc">/</span><span class="dv">1000</span>, <span class="at">breaks =</span> <span class="dv">4</span>))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>population_dep <span class="ot">&lt;-</span> departement_borders <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(population_dep) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">densite =</span> <span class="fu">as.numeric</span>(pop <span class="sc">/</span> <span class="fu">set_units</span>(<span class="fu">st_area</span>(.), <span class="st">"km2"</span>) ))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(population_dep, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol start="2" type="1">
-<li>Adapter le modèle ci-dessous à l’objet <code>population_dep</code> pour représenter une première carte par aplat de couleur (<a href="https://en.wikipedia.org/wiki/Choropleth_map"><em>choropleth map</em></a>) de la variable <code>pop</code></li>
+<li>En utilisant votre connaissance de <code>ggplot</code> et le modèle ci-dessous, représenter une première carte par aplat de couleur (<a href="https://en.wikipedia.org/wiki/Choropleth_map"><em>choropleth map</em></a>) de la variable <code>pop</code></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modèle</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(departement_borders) <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modèle</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(departement_borders) <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Cette carte étant peu lisible, on propose, en premier lieu, de discrétiser ses couleurs.</p>
 <ol start="3" type="1">
 <li>Utiliser la variable <code>pop_4</code> pour voir un petit peu à quoi ressemble une version discrétisée de notre carte de population.</li>
 </ol>
 <p>Cela apparaît mieux mais la discrétisation n’est sans doute pas idéale, les catégories étant plutôt hasardeuses. Il vaut mieux utiliser <code>scale_fill_steps</code> qui construit de manière plus pertinente les catégories de couleurs.</p>
+<ol start="4" type="1">
+<li><p>Reprendre la carte de la question 2 construite avec la variable continue <code>pop</code>. Appliquer l’échelle de couleur de <code>scale_fill_steps</code></p></li>
+<li><p>Il existe aussi la fonction <code>scale_fill_fermenter</code> qui permet de discrétiser une échelle continue. A partir de la palette <code>RdPu</code>, construire une carte discrétisée.</p></li>
+<li><p>Choisir une des deux approches et travailler cette carte pour la rendre plus esthétique. Par exemple, avec <code>scale_fill_steps</code>, travailler la carte pour la faire ressembler à la chloroplèthe de Dupin. <a href="https://colorbrewer2.org/#type=sequential&amp;scheme=Blues&amp;n=3">Ce site</a> est pratique pour explorer les palettes de couleurs.</p></li>
+</ol>
 </div>
 </div>
 <details>
 <summary>
-Carte obtenue à l’exercice 2
+Carte obtenue à la question 2
 </summary>
 </details>
 <details>
@@ -471,14 +528,21 @@ Exercice supplémentaire: déplacer les DROM, zoomer sur l’Île de France
 </div>
 </div>
 </section>
-<section id="une-carte-de-couverture-forestière" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="une-carte-de-couverture-forestière"><span class="header-section-number">4</span> Une carte de couverture forestière</h2>
-<p>Pour cette partie, nous allons faire une carte du couvert forestier landais à partir de la BD Forêt produite par l’IGN. Cette dernière étant un petit peu volumineuse dans le format <em>shapefile</em>, nous proposons de la récupérer dans un format plus compressé: le <em>geopackage</em>.</p>
-<p>Le code suivant peut être utilisé pour cela:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>foret <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="retour-aux-cartes-classiques-avec-mapsf" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="retour-aux-cartes-classiques-avec-mapsf"><span class="header-section-number">5</span> Retour aux cartes classiques avec <code>mapsf</code></h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer des ronds proportionnels</p>
+<p>Faire une carte bivariée</p>
+</div>
 </div>
 
 
