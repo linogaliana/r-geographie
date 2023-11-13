@@ -171,19 +171,15 @@ des départements:
 #| echo: true
 #| output: false
 
-departement_borders <-st_read(
-  "https://minio.lab.sspcloud.fr/lgaliana/diffusion/communes.gpkg"
-  )
-
-#library(cartiflette)
-#departement_borders <- download_vectorfile_url_all(
-#    crs = 4326,
-#    values = "metropole",
-#    borders="DEPARTEMENT",
-#    vectorfile_format="geojson",
-#    filter_by="FRANCE_ENTIERE",
-#    source="EXPRESS-COG-CARTO-TERRITOIRE",
-#    year=2022)
+library(cartiflette)
+departement_borders <- download_vectorfile_url_all(
+    crs = 4326,
+    values = "metropole",
+    borders="DEPARTEMENT",
+    vectorfile_format="geojson",
+    filter_by="FRANCE_ENTIERE",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022)
 ```
 
 Pour s'en assurer, une carte peut rapidement être
@@ -204,14 +200,20 @@ cela, ce code peut être utilisé
 #| label: download-shapefile-communes
 #| echo: true
 
-commune_borders <- download_vectorfile_url_all(
-    crs = 4326,
-    values = "metropole",
-    borders="COMMUNE",
-    vectorfile_format="geojson",
-    filter_by="FRANCE_ENTIERE",
-    source="EXPRESS-COG-CARTO-TERRITOIRE",
-    year=2022)
+#commune_borders <- download_vectorfile_url_all(
+#    crs = 4326,
+#    values = "metropole",
+#    borders="COMMUNE",
+#    vectorfile_format="geojson",
+#    filter_by="FRANCE_ENTIERE",
+#    source="EXPRESS-COG-CARTO-TERRITOIRE",
+#    year=2022)
+
+commune_borders <-st_read(
+  "https://minio.lab.sspcloud.fr/lgaliana/diffusion/communes.gpkg"
+  )
+
+
 ```
 
 Si on veut s'assurer du caractère fonctionnel du fond de carte
@@ -289,6 +291,32 @@ son jeu de données dans l'espace mais ça n'apporte pas
 d'information supplémentaire. Pour cela, il va être nécessaire
 d'utiliser les données tabulaires associées à la dimension spatiale.
 
+## Une carte de couverture forestière
+
+Pour cette partie, nous allons faire une carte du couvert forestier
+landais à partir de la BD Forêt produite par l'IGN. Cette dernière étant
+un petit peu volumineuse dans le format _shapefile_, nous proposons
+de la récupérer dans un format plus compressé: le _geopackage_.
+
+Le code suivant peut être utilisé pour cela:
+
+```{r}
+#| echo: true
+foret <- sf::st_read(
+  "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
+)
+```
+
+
+```{r}
+ggplot(foret) + geom_sf(fill = "forestgreen", lwd = 0) +
+  geom_sf(
+    data = departement_borders %>% filter(INSEE_DEP == 40) %>% st_transform(2154),
+    color = "black", lwd = 1, fill = "transparent") +
+  theme_void() +
+  labs(title = "Couvert forestier dans les Landes")
+```
+
 ## Découverte des cartes choroplèthes
 
 La carte par aplat de couleur, dite carte choroplèthes,
@@ -305,7 +333,7 @@ les cartes du monde représentent souvent des aplats de couleurs à partir
 des nations, les cartes nationales à partir d'échelons administratifs
 (régions, départements, communes, mais aussi Etats ou _landers_). 
 
-![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg){width="60%"}.
+![La première carte choroplèthes par Dupin (1826)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg/800px-Carte_figurative_de_l%27instruction_populaire_de_la_France.jpg){width="60%" fig-align="center"}.
 
 On peut voir l'émergence pendant le XIXe siècle de la
 carte choroplèthe comme un moment important de la cartographie,
@@ -332,6 +360,7 @@ pour enrichir notre objet `sf` des départements d'une variable
 de population:
 
 ```{r}
+#| echo: true
 population_dep <- commune_borders %>%
   st_drop_geometry() %>%
   group_by(INSEE_DEP) %>%
@@ -344,7 +373,8 @@ population_dep <- departement_borders %>% left_join(population_dep) %>%
 head(population_dep, 3)
 ```
 
-2. Adapter le modèle ci-dessous à l'objet `population_dep` pour représenter
+2. En utilisant votre connaissance de `ggplot` et
+le modèle ci-dessous, représenter
 une première carte par aplat de couleur ([_choropleth map_](https://en.wikipedia.org/wiki/Choropleth_map)) de la variable `pop`
 
 ```{r}
@@ -365,6 +395,18 @@ les catégories étant plutôt hasardeuses. Il vaut mieux
 utiliser `scale_fill_steps` qui construit de manière plus pertinente les 
 catégories de couleurs. 
 
+4. Reprendre la carte de la question 2 construite avec la variable continue
+`pop`. Appliquer l'échelle de couleur de `scale_fill_steps`
+
+5. Il existe aussi la fonction `scale_fill_fermenter` qui permet de discrétiser
+une échelle continue. A partir de la palette `RdPu`, construire une 
+carte discrétisée. 
+
+6. Choisir une des deux approches et travailler cette carte pour la rendre
+plus esthétique. Par exemple, avec `scale_fill_steps`, travailler
+la carte pour la faire ressembler à la chloroplèthe de Dupin. 
+[Ce site](https://colorbrewer2.org/#type=sequential&scheme=Blues&n=3) est 
+pratique pour explorer les palettes de couleurs. 
 :::
 
 ```{r}
@@ -432,7 +474,7 @@ plot_q6_exo1_bis <- ggplot(
 
 <details>
 <summary>
-Carte obtenue à l'exercice 2
+Carte obtenue à la question 2
 </summary>
 ```{r}
 #| echo: false
@@ -522,32 +564,6 @@ Un exercice illustratif à venir
 :::
 
 
-## Une carte de couverture forestière
-
-Pour cette partie, nous allons faire une carte du couvert forestier
-landais à partir de la BD Forêt produite par l'IGN. Cette dernière étant
-un petit peu volumineuse dans le format _shapefile_, nous proposons
-de la récupérer dans un format plus compressé: le _geopackage_.
-
-Le code suivant peut être utilisé pour cela:
-
-```{r}
-#| echo: true
-foret <- sf::st_read(
-  "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
-)
-```
 
 
-```{r}
-foret <- sf::st_read(
-  "https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg"
-)
-
-ggplot(foret) + geom_sf(fill = "forestgreen", lwd = 0) +
-  geom_sf(
-    data = departement_borders %>% filter(INSEE_DEP == 40) %>% st_transform(2154),
-    color = "black", lwd = 1, fill = "transparent") +
-  theme_void() +
-  labs(title = "Couvert forestier dans les Landes")
-```
+## Retour aux cartes classiques avec 
