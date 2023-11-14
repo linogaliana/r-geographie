@@ -3,7 +3,6 @@ title: "Produire des cartes avec {{< fa brands r-project >}}"
 echo: false
 number-sections: true
 bibliography: ../references.bib
-eval: false
 ---
 
 ::: {.badge}
@@ -64,13 +63,14 @@ de la _dataviz_ cartographique.
 
 :::
 
+
 Ce TP vise à initier:
 
+* A l'utilisation de `ggplot` pour la cartographie ;
 * Au _package_ [`mapsf`](https://riatelab.github.io/mapsf/),
 conçu par les géographiques du RIATE (Paris 7), le _package_ de référence
 pour réaliser des cartes avec {{< fa brands r-project >}}
-`geoplot` est construit sur `seaborn` et constitue ainsi une extension des graphiques de base.
-* Au package [`leaflet`](https://rstudio.github.io/leaflet/) qui est un point d'accès vers la librairie `JavaScript` [leaflet](https://leafletjs.com/) permettant de produire des cartes interactives. Nous approfondirons ultérieurement
+* Au package [`leaflet`](https://rstudio.github.io/leaflet/) qui est un point d'accès vers la librairie `JavaScript` [`leaflet`](https://leafletjs.com/) permettant de produire des cartes interactives. Nous approfondirons ultérieurement
 les cartes réactives avec un chapitre d'ouverture vers [`Observable`](https://observablehq.com).
 
 Dans ce chapitre, nous allons utiliser les _packages_ suivants:
@@ -95,27 +95,12 @@ library(cartiflette)
 
 Au cours de ce chapitre, nous allons utiliser
 plusieurs jeux de données pour illustrer
-différents types de cartes.
+différents types de cartes:
 
-<!-----
-* Les comptages de passage de vélos dans les stations de mesure parisiennnes ;
-* [La localisation précise des stations](https://parisdata.opendatasoft.com/explore/dataset/comptage-velo-compteurs/download/?format=geojson&timezone=Europe/Berlin&lang=fr)
-
-* Les émissions de gaz à effet de serre estimées au niveau communal par l'`ADEME`. Le jeu de données est
-disponible sur [data.gouv](https://www.data.gouv.fr/fr/datasets/inventaire-de-gaz-a-effet-de-serre-territorialise/#_)
-et requêtable directement dans {{< fa brands r-project >}} avec
-[cet url](https://koumoul.com/s/data-fair/api/v1/datasets/igt-pouvoir-de-rechauffement-global/convert) (ce sera l'objet du premier exercice)[^notedownload].
-* Idéalement, on utiliserait directement les données
-[disponibles sur le site de l'Insee](https://www.insee.fr/fr/statistiques/3560121) mais celles-ci nécessitent un peu de travail
-de nettoyage qui n'entre pas dans le cadre de ce TP. 
-Pour faciliter l'import de données Insee, il est recommandé d'utiliser les _packages_
-[`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol) et [`insee`](https://github.com/pyr-opendatafr/R-Insee-Data) qui simplifient l'accès aux données
-de l'Insee disponibles sur le site web [insee.fr](https://www.insee.fr/fr/accueil)
-ou via des API. 
-* Les limites officielles administratives des arrondissements et communes de l'agglomération
-parisienne. Ce fonds de carte est produit par l'IGN et sa récupération
-est facilitée par le _package_ `cartiflette`.
------->
+- Des comptages de population ;
+- Les limites départementales de la France métropolitaine ;
+- Les limites communales du Finistère ;
+- Le couvert forestier du département des Landes ;
 
 
 ## Import des données
@@ -125,31 +110,23 @@ pour la cartographie. Comme l'import de ceux-ci n'est pas le coeur
 du chapitre, nous proposons directement le code d'import
 des données. 
 
-### Données Filosofi
 
-En premier lieu, nous proposons d"utiliser les données 
-`Filosofi` qui sont des données de revenu agrégées
-à l'échelle communale. 
-
-Celles-ci peuvent être téléchargées par le biais du _package_
-[`doremifasol`](https://github.com/InseeFrLab/DoReMIFaSol):
+### Populations légales au niveau départemental
 
 ```{r}
-#| output: false
-#| echo: true
-library(doremifasol)
-library(tibble)
-filosofi <- as_tibble(
-  telechargerDonnees("FILOSOFI_COM", date = 2016)
-)
-head(filosofi)
-```
+library(readr)
+library(dplyr)
 
-::: {.callout-note}
-La fonction `as_tibble` nous sert à transformer le _dataframe_ de base (`doremifasol` 
-ne fait pas d'_a priori_ sur l'écosystème de manipulation adopté) en 
-_dataframe_ adapté à une exploitation via le `tidyverse`. 
-:::
+# download et unzip pour avoir les fichiers
+url_pop_legales = "https://www.insee.fr/fr/statistiques/fichier/6683035/ensemble.zip"
+download.file(url_pop_legales, "pop_legales.zip")
+unzip("pop_legales.zip")
+
+pop_legales_departements = read_csv2("donnees_departements.csv")
+pop_legales_finistere = read_csv2("donnees_communes.csv") %>%
+  filter(CODDEP == "29") %>%
+  mutate(code_insee = paste0(CODDEP, CODCOM))
+```
 
 
 ### Limites communales et départementales
@@ -193,38 +170,24 @@ ggplot(departement_borders) +
 ```
 
 On va également récupérer les limites des
-communes françaises avec `cartiflette`. Pour
-cela, ce code peut être utilisé
+communes du Finistère avec `cartiflette`. 
+Voici le code pour ne garder que les communes du Finistère (département 29):
 
 ```{r}
 #| label: download-shapefile-communes
 #| echo: true
 
-#commune_borders <- download_vectorfile_url_all(
-#    crs = 4326,
-#    values = "metropole",
-#    borders="COMMUNE",
-#    vectorfile_format="geojson",
-#    filter_by="FRANCE_ENTIERE",
-#    source="EXPRESS-COG-CARTO-TERRITOIRE",
-#    year=2022)
-
-commune_borders <-st_read(
-  "https://minio.lab.sspcloud.fr/lgaliana/diffusion/communes.gpkg"
-  )
+finistere <- download_vectorfile_url_all(
+    crs = 4326,
+    values = "29",
+    borders="COMMUNE",
+    vectorfile_format="geojson",
+    filter_by="DEPARTEMENT",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022)
 
 
-```
-
-Si on veut s'assurer du caractère fonctionnel du fond de carte
-récupéré, on peut représenter les
-communes d'un département, par exemple le Finistère.
-
-Voici le code pour ne garder que le Finistère (département 29)
-
-
-```{r}
-finistere <- commune_borders %>% filter(INSEE_DEP == 29)
+finistere <- finistere %>% left_join(pop_legales_finistere, by = c("INSEE_COM" = "code_insee") )
 ```
 
 
@@ -237,7 +200,7 @@ On va d'abord faire une carte simple, avec `ggplot`, des limites communales
 
 Pour en apprendre un peu plus sur les données, on va mettre en oeuvre
 une carte avec le _package_ `leaflet`. Celui-ci permettra de créer des 
-visualisations réactives, plus propice à l'exploration de données.
+visualisations réactives, plus propices à l'exploration de données.
 
 2. Représenter les limites communales du Finistère avec le package leaflet
 en utilisant les fonctions suivantes:
@@ -279,7 +242,7 @@ leaflet(finistere) %>%
   addTiles() %>%
   addPolylines(
     weight = 2,
-    popup = ~paste0(NOM, ": ", POPULATION, " habitants")
+    popup = ~paste0(NOM, ": ", PTOT, " habitants")
   )
 ```
 
@@ -362,14 +325,13 @@ de population:
 
 ```{r}
 #| echo: true
-population_dep <- commune_borders %>%
-  st_drop_geometry() %>%
-  group_by(INSEE_DEP) %>%
-  summarise(pop = sum(POPULATION)) %>%
-  mutate(pop_4 = cut(pop/1000, breaks = 4))
-
-population_dep <- departement_borders %>% left_join(population_dep) %>%
-  mutate(densite = as.numeric(pop / set_units(st_area(.), "km2") ))
+population_dep <- departement_borders %>%
+  left_join(pop_legales_departements, by = c("INSEE_DEP" = "CODDEP"))
+  
+population_dep <- population_dep %>%
+  mutate(densite = as.numeric(PTOT / set_units(st_area(.), "km2") )) %>%
+  mutate(pop_4 = cut(PTOT/1000, breaks = 4)) %>%
+  mutate(pop = PTOT)
 
 head(population_dep, 3)
 ```
@@ -555,7 +517,7 @@ que la carte ne tenant pas compte des surfaces. Néanmoins elle reste
 imparfaite pour décrire la très forte concentration de la population dans l'aire
 parisienne. Pour mieux représenter les phénomènes en présence de zonages
 de dimension hétérogène, il sera nécessaire d'utiliser une autre représentation
-cartographique.
+cartographique, comme les ronds proportionnels ou les cartogrammes. 
 
 ::: {.callout-tip}
 
@@ -565,42 +527,103 @@ Un exercice illustratif à venir
 :::
 
 
-## Retour aux cartes classiques avec `mapsf`
+## D'autres cartes avec `mapsf`
+
+En soi, il est possible de faire des cartes autres que les aplats de couleurs
+avec `ggplot`. Néanmoins, c'est un peu complexe à mettre en oeuvre pour
+contrôler de manière fine l'étendue des cercles. Heureusement, il existe
+un package adapté pour cela, construit par des géographes 
+pour des géographes: le _package_ `mapsf` !
+
+L'exercice suivant va illustrer comment créer ce type de carte. 
 
 ::: {.callout-tip}
 
-```{r}
-mf_map(population_dep, var = "densite", type = "choro", nbreaks = 4)
-```
+## Exercice 4: représentations alternatives avec `mapsf`
 
-Créer des ronds proportionnels
+1. Recréer une carte choroplèthe avec `mapsf` en utilisant 
+4 couleurs dont les valeurs proviennent des quantiles de la 
+distribution des densités
 
-```{r}
-mf_map(population_dep)
-mf_map(population_dep, var = "densite", type = "prop")
-```
+2. Pour se rendre compte de la nature hautement non-linéaire de notre
+variable de densité, représenter la même carte avec l'argument `breaks` égal
+à `equal` ou `pretty`.
 
-Faire une carte bivariée 
+3. Pour s'abstraire du problème de biais visuel lié aux chrolepthes, 
+on peut tester la représentation par ronds proportionnels. Représenter la
+même information mais en utilisant cette fois des ronds proportionnels. 
 
-```{r}
-mf_map(population_dep)
-mf_map(population_dep, var = c("densite", "densite"), type = "prop_choro", breaks = 4)
-mf_layout(
-  title = "Population en France"
-)
-```
+4. [Cette page](https://transcarto.github.io/rcartograms/TRANSCARTO_cartograms.html)
+propose de nombreuses représentations de données. Reproduire la figure ci-dessous
+avec notre jeu de données du Finistère
 
-```{r}
-idf <- population_dep %>% filter(INSEE_REG == 11) 
-```
-
-
-```{r}
-mf_map(idf)
-mf_map(idf, var = c("densite", "densite"), type = "prop_choro")
-mf_layout(
-    title = "Population en Île de France"
-)
-```
+![](isere_bronner_bertin.png){fig-width="60%"}
 
 :::
+
+```{r}
+# code-fold: true
+# code-summary: Question 1
+library(mapsf)
+mf_map(
+  population_dep, var = "densite", type = "choro", nbreaks = 4,
+  pal = "Dark Mint",
+  leg_val_rnd = -2,
+  breaks = "arith")
+```
+
+```{r}
+# code-fold: true
+# code-summary: Question 2
+mf_map(
+  population_dep, var = "densite", type = "choro", nbreaks = 4,
+  pal = "Dark Mint",
+  leg_val_rnd = -2,
+  breaks = "quantile")
+```
+
+```{r}
+# code-fold: true
+# code-summary: Question 3
+population_dep_lambert <- population_dep %>% st_transform(2154)
+mf_map(population_dep_lambert)
+mf_map(population_dep_lambert, var = "densite", type = "prop")
+mf_layout(
+    title = "Densité en France"
+)
+```
+
+
+```{r}
+# code-fold: true
+# code-summary: Question 4
+finistere <- finistere %>% st_transform(2154)
+
+mf_map(
+  finistere,
+  col = "#CCCCCC",
+  border = "white",
+  lwd = 0.5
+)
+mf_map(
+  finistere, var = "PTOT",
+  type = "prop",
+  col = "#c291bc",
+  border = "#6b4266",
+  lwd = 0.5,
+  add = TRUE
+)
+mf_title("Population du Finistère", bg = "#6b4266")
+mf_annotation(
+      x = c(132040, 6826675),
+      txt = "Finistère (29)",
+      pos = "bottomleft",
+      col_txt = "#6b4266",
+      cex = 1.2,
+      font = 2,
+      halo = TRUE,
+      s = 1.5
+    )
+```
+
+
