@@ -1,6 +1,6 @@
 ---
 title: "Produire des cartes avec {{< fa brands r-project >}}"
-echo: false
+echo: true
 number-sections: true
 bibliography: ../references.bib
 ---
@@ -114,6 +114,8 @@ des données.
 ### Populations légales au niveau départemental
 
 ```{r}
+#| echo: true
+#| output: false
 library(readr)
 library(dplyr)
 
@@ -176,6 +178,7 @@ Voici le code pour ne garder que les communes du Finistère (département 29):
 ```{r}
 #| label: download-shapefile-communes
 #| echo: true
+#| output: false
 
 finistere <- download_vectorfile_url_all(
     crs = 4326,
@@ -271,8 +274,16 @@ foret <- sf::st_read(
 )
 ```
 
+::: {.callout-tip}
+
+1. Créer une carte du couvert forestier des Landes à partir des données
+importées précédemment depuis la BD Forêt
+
+:::
 
 ```{r}
+#| code-summary: Question 1
+#| code-fold: true
 ggplot(foret) + geom_sf(fill = "forestgreen", lwd = 0) +
   geom_sf(
     data = departement_borders %>% filter(INSEE_DEP == 40) %>% st_transform(2154),
