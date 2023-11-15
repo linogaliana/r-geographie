@@ -1,5 +1,5 @@
 ---
-title: "Produire des représentations graphiques avec {{< fa brands r-project >}} et `ggplot2`"
+title: "Publications reproductibles avec {{< fa brands r-project >}} et `Quarto`"
 echo: true
 number-sections: true
 ---
@@ -10,14 +10,72 @@ number-sections: true
 
 <details>
 <summary>
-Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/ggplot.qmd)
+Dérouler les _slides_ ci-dessous ou [cliquer ici](/slides/quarto.qmd)
 pour afficher les slides en plein écran.
 </summary>
 
 
-``` {.yaml code-preview="/slides/ggplot.qmd"}
+``` {.yaml code-preview="/slides/quarto.qmd"}
 ```
 
 </details>
 
-Chapitre arrivant prochainement
+L'un des défis majeurs dans la recherche et l'analyse de données est la communication __transparente__ et __reproductible__ des résultats ainsi que la __collaboration__. 
+Les publications reproductibles offrent une solution à ce défi en intégrant le code, les données et les analyses dans un format permettant à quiconque de connaître les traitements 
+de données mis en oeuvre et de reproduire les résultats exacts à condition
+de disposer du même environnement. 
+
+
+`Quarto`, l'outil qui a succédé à `R Markdown`,
+permet de produire des documents texte en y intégrant nativement des morceaux de code `R`.
+Ceci permet de fluidifier le processus de rédaction d’une publication, en réduisant fortement le nombre de gestes manuels nécessaires pour inclure des graphiques ou du code dans un document : plutôt qu’avoir un code Stata ayant généré des sorties Excel/Calc intégrées dans un document Word ou transformées en table LaTeX, on dispose d’un unique document-source qui contient à la fois le texte et les codes qui produisent les sorties du document final. 
+
+Avec `Quarto`, nous allons pouvoir dissocier le fond de la forme. Cela nous
+permettra de nous concentrer sur le contenu prioritaire. 
+
+Un exemple de ce rapport mis en forme est disponible sur [cette page](../utils/report.qmd).
+Ce TD est moins guidé qu'habituellement pour offrir de la liberté dans le 
+document finalement obtenu. 
+
+## Initialisation du document
+
+::: {.callout-tip}
+## Exercice 1: Création du fichier
+
+1. Cliquer sur `File > New file > Quarto document`:
+    + Donner un titre et un.e auteur.e au rapport
+    + Choisir `HTML` comme format de sortie
+    + Décocher la case `Use visual markdown editor`
+2. Sauvegarder le fichier sous le nom `report.qmd`.
+3. Dans le _header_ du fichier,
+modifier les métadonnées de la publication (titre, auteur, date, etc.) en
+utilisant quelques unes des options de [cette page](https://quarto.org/docs/reference/formats/html.html).
+5. Ecrire une première phrase dans le corps du document en utilisant
+un ou deux éléments de la syntaxe `Markdown` pour la mise en
+forme. Par exemple, mettre une partie du texte en gras. 
+6. Ajouter un titre de niveau 2 (deux `#`) pour créer une section `A propos`
+et proposer une ou deux phrases dedans
+6. Compiler en 
+cliquant sur le bouton `Render`:
+
+![Source: [Hello Quarto! par `Posit`](https://quarto.org/docs/get-started/hello/rstudio.html#rendering) ](https://quarto.org/docs/get-started/hello/images/rstudio-render.png) 
+
+:::
+
+
+::: {.callout-tip}
+## Exercice 2: Insertion de sorties `R`
+
+1. Choisir un des chapitres sur lesquels nous avons travaillé précédemment
+et pour lequel nous avons produit un graphique ou une carte.
+Reprendre les exemples de code de la correction (import de données et visualisations)
+et les introduire dans le document.
+
+2. Compiler. S'il y a des erreurs, lire celles-ci et les corriger 
+pour avoir
+un document reproductible.
+
+3. Utiliser le package `GT` pour faire un beau tableau, par
+exemple un tableau de statistique descriptive (une moyenne par exemple).
+
+:::

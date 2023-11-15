@@ -6,7 +6,9 @@ project:
     - /slides/ggplot.qmd
     - /slides/geospatial.qmd
     - /slides/cartography.qmd
+    - /slides/quarto.qmd
     - index.qmd
+    - utils/report.qmd
     - "/cards/**/*.qmd"
     - "/exercises/**/*.qmd"
 
@@ -49,5 +51,4 @@ author: Lino Galiana
 #knitr:
 #  opts_chunk:
 #    out.width: "90%"
-    
-    
+

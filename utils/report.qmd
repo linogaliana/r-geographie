@@ -1,0 +1,157 @@
+---
+title: "Exemple de document `Quarto`"
+author: "Daffy Duck"
+echo: false
+message: false
+output: false
+---
+
+Ce rapport vise à présenter l'intérêt de `Quarto` pour produire
+des publications reproductibles. 
+
+
+```{r}
+library(dplyr)
+library(sf)
+library(ggplot2)
+library(gt)
+library(glue)
+library(leaflet)
+library(cartiflette)
+```
+
+```{r}
+idf <- download_vectorfile_url_all(
+      values = "11",
+      crs = 4326,
+      borders = "DEPARTEMENT",
+      vectorfile_format="geojson",
+      filter_by="REGION",
+      source="EXPRESS-COG-CARTO-TERRITOIRE",
+      year=2022)
+petite_couronne <- download_vectorfile_url_all(
+      values = c("75", "92", "93", "94"),
+      crs = 4326,
+      borders = "COMMUNE_ARRONDISSEMENT",
+      vectorfile_format="geojson",
+      filter_by="DEPARTEMENT",
+      source="EXPRESS-COG-CARTO-TERRITOIRE",
+      year=2022)
+petite_couronne_departements <- idf %>%
+  filter(INSEE_DEP %in% c("75","92","93","94"))
+```
+
+```{r}
+url <- "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin&lang=fr"
+```
+
+```{r}
+nombre_stations <- 5
+nombre_stations_carte <- 50
+```
+
+```{r}
+# 1. Importer les données velib
+stations <- st_read(url)
+
+# 2. Reprojection
+st_crs(stations)
+stations <- stations %>% 
+  st_transform(st_crs(petite_couronne_departements))
+
+# 3. Principales stations
+principales_stations <- stations %>%
+  arrange(desc(capacity)) %>%
+  head(50)
+```
+
+
+
+## Géographie du vélib
+
+Les stations Vélib' sont réparties stratégiquement à travers la ville, couvrant les principaux quartiers et points d'intérêt. Des stations se trouvent à proximité des gares, des monuments emblématiques, des parcs et des zones commerciales, facilitant l'accès aux utilisateurs.
+
+```{r}
+#| output: true
+my_icons <- makeAwesomeIcon(
+  icon = "bicycle",
+  library = 'fa',
+  markerColor = "#1d58a1"
+)
+
+
+leaflet(stations) %>%
+  addTiles() %>%
+  addAwesomeMarkers(
+    icon = my_icons, clusterOptions = markerClusterOptions(),
+    popup = ~paste0(name, ": ", capacity, " places")
+  )
+```
+
+
+
+## Principales stations de velib
+
+Le réseau Vélib' couvre l'ensemble de la ville de Paris,
+avec une densité plus élevée de stations dans le centre-ville,
+les quartiers densément peuplés ou les lieux publics à grande capacité. 
+
+La Table @tbl-stations recense
+les __`r nombre_stations`__ principales stations. 
+On peut retrouver les __`r nombre_stations_carte`__ sur la Figure @fig-stations.
+
+```{r}
+#| output: true
+#| tbl-cap: Principales stations
+#| label: tbl-stations
+principales_stations %>% head(nombre_stations) %>%
+    select(name, capacity) %>%
+  st_set_geometry(NULL) %>%
+  gt() %>%
+  tab_header(
+    title = md("<strong>Principales stations de <span style='color:red;'>Velib</span></strong>"),
+    subtitle = md(glue("_Les {nombre_stations} principales de l'agglo Parisienne_"))
+  ) %>%
+  cols_label(
+    name = md("__Nom__"),
+    capacity = md("__Capacité de la station__")
+  )
+```
+
+
+```{r}
+# 4. Principales stations sous forme de nuage de points
+carte <- ggplot(principales_stations) +
+  geom_sf(aes(color = "red", size = capacity))
+
+# Question 5
+carte <- carte + geom_sf(data = petite_couronne, fill = "transparent")
+
+# Question 6
+carte <- carte +
+  geom_sf(data = petite_couronne_departements, fill = "transparent", color = "blue")
+
+carte <- carte +
+  theme_void() +
+  theme(legend.position = "bottom") +
+  guides(color = "none", size = guide_legend(title.position="top", title.hjust = 0.5)) +
+  labs(size = "Capacité de la station", title = glue("Les {nombre_stations_carte} principales stations de vélib"))
+```
+
+
+
+
+```{r}
+#| output: true
+#| label: fig-stations
+#| fig-cap: "Carte des principales stations"
+carte
+```
+
+
+## A propos
+
+Ce rapport est écrit par Daffy Duck, géographe en herbe
+
+![](daffyduck.png){fig-width="60%"}
+

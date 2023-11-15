@@ -1,0 +1,107 @@
+---
+title: Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}
+subtitle: |
+  **[Chapitre 6: Introduction aux publications reproductibles avec `quarto`]{.orange}**
+authors: |
+  [Lino Galiana](https://www.linogaliana.fr/),
+# date: 
+slide-number: true
+header: |
+  [Retour à la page principale du cours](https://rgeo.linogaliana.fr/)
+footer: |
+  Introduction aux méthodes quantitatives avec {{< fa brands r-project >}}, École Normale Supérieure ([retour page principale](/))
+# uncomment for French presentations:
+lang: fr-FR
+# for blind readers:
+slide-tone: false
+# for @olevitt:
+chalkboard: # press the B key to toggle chalkboard
+  theme: whiteboard
+# uncomment to use the multiplex mode:
+#multiplex: true
+format:
+  onyxia-revealjs
+  # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
+  #onyxia-dark-revealjs:
+controls: true
+css: custom.css
+from: markdown+emoji
+listing:
+  id: sample-listings
+  contents: teaching
+  sort: "date desc"
+  type: table
+#filters:
+#  - reveal-header
+---
+
+## Introduction
+
+::: {.callout-note}
+- Exercices associés à ce chapitre [ici](/exercises/quarto.html)
+:::
+
+![](../cards/quarto/scroll.png){fig-align="center"}
+
+- [Retour à la page principale](/)
+
+
+
+## Enjeux
+
+- Produire des [**études reproductibles**]{.orange} en intégrant le code et le texte dans un même document
+
+. . .
+
+- La génération complète de l'étude est contenue dans un [**unique projet**]{.orange}
+
+. . .
+
+- [**Limiter les risques d'erreurs**]{.orange} dues aux gestes manuels
+
+. . .
+
+- Gestion native de [**différents formats**]{.orange} pour le document final (`pdf`, `html`, `odt`, etc.)
+
+## `R Markdown` {.smaller}
+
+::: {.incremental}
+- `R Markdown` est un *package* `R` qui permet de lier
+  - Du [**texte**]{.orange} au format `Markdown`
+  - Du [**code**]{.orange} `R` qui peut être exécuté et dont les sorties peuvent être intégrées au texte
+:::
+
+. . .
+
+- [**Dissociation du fond et de la forme**]{.orange} du document
+
+::: {.incremental}
+- Un document est [**compilé**]{.orange} en deux étapes
+  - [***knit***]{.green2} : le package `knitr` transforme le texte et les sorties `R` en un document `Markdown` standard
+  - [***convert***]{.green2} : le logiciel `pandoc` transforme le document `.md` en un format de sortie standard (`html`, `pdf`, etc.)
+:::
+
+## `Quarto`
+
+- `Quarto` est le successeur de `R Markdown`
+
+. . .
+
+- `Quarto` supporte [**différents moteurs de calcul**]{.orange} (`knitr`, `Jupyter`, `Observable`..) ce qui le rend nativement [**multi-langage**]{.orange} (`R`, `Python`, `JavaScript`..)
+
+. . .
+
+- Le fonctionnement des deux systèmes reste très proche
+
+## Anatomie d'un document reproductible
+
+![](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/img/qmd.png){height="500" fig-align="center"}
+
+## Ressources supplémentaires
+
+- La [documentation officielle de `R Markdown`](https://rmarkdown.rstudio.com/lesson-1.html)
+
+- La [fiche `UtilitR` sur `R Markdown`](https://www.book.utilitr.org/rmarkdown.html)
+
+- La [documentation officielle de `quarto`](https://quarto.org/)
+
