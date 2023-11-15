@@ -34,8 +34,11 @@ Avec `Quarto`, nous allons pouvoir dissocier le fond de la forme. Cela nous
 permettra de nous concentrer sur le contenu prioritaire. 
 
 Un exemple de ce rapport mis en forme est disponible sur [cette page](../utils/report.qmd).
-Ce TD est moins guidé qu'habituellement pour offrir de la liberté dans le 
-document finalement obtenu. 
+
+::: {.callout-note}
+Ce TD est moins guidé qu'habituellement pour offrir de la liberté dans l'exploration
+pour obtenir un document. 
+:::
 
 ## Initialisation du document
 
@@ -77,5 +80,14 @@ un document reproductible.
 
 3. Utiliser le package `GT` pour faire un beau tableau, par
 exemple un tableau de statistique descriptive (une moyenne par exemple).
-
 :::
+
+
+::: {.callout-tip}
+## Exercice 3: Du style !
+
+Customiser la sortie pour avoir un document esthétique. Pour avoir
+un document plus esthétique, vous pouvez utiliser un modèle. 
+:::
+
+
