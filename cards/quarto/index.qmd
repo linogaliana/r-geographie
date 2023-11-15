@@ -1,0 +1,17 @@
+---
+image: scroll.png
+title: Introduction aux publications reproductibles avec <code>quarto</code>
+date: "2023-11-02"
+description: |
+  <br>
+  Introduction à <code>quarto</code>,
+  pour produire des publications avec
+  <i class="fa-brands fa-r-project"></i>
+  <br>
+categories:
+  - Introduction
+website: /slides/quarto.html
+exercise: /exercises/quarto.html
+order: 6
+---
+
