@@ -91,3 +91,11 @@ un document plus esthétique, vous pouvez utiliser un modèle.
 :::
 
 
+::: {.callout-note}
+Avec un `Mac` {{< fa brands apple >}}, certains caractères utiles
+sont plus complexes à mettre en oeuvre. Par exemple, `|`
+s'obtiendra avec le raccourci suivant:
+<kbd>MAJ</kbd>+<kbd>option</kbd>+<kbd>L</kbd> 
+:::
+
+
