@@ -7,7 +7,8 @@ output: false
 ---
 
 Ce rapport vise à présenter l'intérêt de `Quarto` pour produire
-des publications reproductibles. 
+des publications reproductibles. Son code source est disponible sur 
+[{{< fa brands github >}}](https://github.com/linogaliana/r-geographie/blob/main/utils/report.qmd).
 
 
 ```{r}
