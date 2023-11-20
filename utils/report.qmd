@@ -105,17 +105,32 @@ On peut retrouver les __`r nombre_stations_carte`__ sur la Figure @fig-stations.
 #| output: true
 #| tbl-cap: Principales stations
 #| label: tbl-stations
+library(gtExtras)
+
 principales_stations %>% head(nombre_stations) %>%
-    select(name, capacity) %>%
+  select(name, capacity) %>%
+  dplyr::mutate(color = "", capacity2 = capacity) %>%
   st_set_geometry(NULL) %>%
   gt() %>%
+  gt_plt_bar(column = capacity2, keep_column = FALSE, width = 35) %>%
   tab_header(
-    title = md("<strong>Principales stations de <span style='color:red;'>Velib</span></strong>"),
+    title = md("<strong>Principales stations de <span style='color:purple;'>Velib</span></strong>"),
     subtitle = md(glue("_Les {nombre_stations} principales de l'agglo Parisienne_"))
   ) %>%
   cols_label(
     name = md("__Nom__"),
     capacity = md("__Capacité de la station__")
+  ) %>%
+  data_color(
+    columns = capacity2,
+    target_columns = color,
+    palette = "RdPu"
+  ) %>%
+  cols_label(
+    name = md("__Nom__"),
+    capacity = md("__Capacité de la station__"),
+    color = "",
+    capacity2 = ""
   )
 ```
 
