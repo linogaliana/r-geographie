@@ -31,6 +31,9 @@ website:
       - text: "Communiquer"
         menu:
           - exercises/quarto.qmd
+      - text: "Evaluation"
+        menu:
+          - exercises/eval.qmd
       - icon: github
         href: https://github.com/linogaliana/r-geographie
     background: "#802a03"
