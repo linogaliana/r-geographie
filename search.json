@@ -98,144 +98,270 @@
     "text": "Footnotes\n\n\nLa librairie  est expérimentale mais les prochaines semaines devraient permettre de combler ce manque. Une documentation interactive illustrant le code nécessaire pour reproduire telle ou telle carte est disponible sur linogaliana.github.io/cartiflette-website.↩︎\nCette carte n’est pas trop soignée, c’est normal nous verrons comment faire de belles cartes ultérieurement.↩︎\nDans ce document de travail sur données de téléphonie mobile, on montre néanmoins que cette approche n’est pas sans biais sur des phénomènes où l’hypothèse de proximité spatiale est trop simplificatrice.↩︎"
   },
   {
-    "objectID": "utils/report.html",
-    "href": "utils/report.html",
-    "title": "Exemple de document Quarto",
+    "objectID": "exercises/cartography.html",
+    "href": "exercises/cartography.html",
+    "title": "Produire des cartes avec ",
     "section": "",
-    "text": "Ce rapport vise à présenter l’intérêt de Quarto pour produire des publications reproductibles. Son code source est disponible sur ."
+    "text": "Dans ce TP, nous allons apprendre à créer des cartes avec . A mesure que  devient incontournable auprès des personnes manipulant des données spatiales, les solutions pour produire des cartes de qualité deviennent de plus en plus nombreuses.  a de moins en moins à envier aux logiciels spécialisés comme QGIS.\nSi vous êtes intéressés par Python , une version très proche de ce TP est disponible dans mon cours de l’ENSAE.\nCe TP vise à initier:\nDans ce chapitre, nous allons utiliser les packages suivants:\nlibrary(dplyr)\nlibrary(sf)\nlibrary(stringr)\nlibrary(archive)\nlibrary(ggplot2)\nlibrary(glue)\nlibrary(ggtext)\nlibrary(scales)\nlibrary(units)\nlibrary(leaflet)\nlibrary(cartiflette)"
   },
   {
-    "objectID": "utils/report.html#géographie-du-vélib",
-    "href": "utils/report.html#géographie-du-vélib",
-    "title": "Exemple de document Quarto",
-    "section": "Géographie du vélib",
-    "text": "Géographie du vélib\nLes stations Vélib’ sont réparties stratégiquement à travers la ville, couvrant les principaux quartiers et points d’intérêt. Des stations se trouvent à proximité des gares, des monuments emblématiques, des parcs et des zones commerciales, facilitant l’accès aux utilisateurs."
+    "objectID": "exercises/cartography.html#données",
+    "href": "exercises/cartography.html#données",
+    "title": "Produire des cartes avec ",
+    "section": "1 Données",
+    "text": "1 Données\nAu cours de ce chapitre, nous allons utiliser plusieurs jeux de données pour illustrer différents types de cartes:\n\nDes comptages de population ;\nLes limites départementales de la France métropolitaine ;\nLes limites communales du Finistère ;\nLe couvert forestier du département des Landes ;"
   },
   {
-    "objectID": "utils/report.html#principales-stations-de-velib",
-    "href": "utils/report.html#principales-stations-de-velib",
-    "title": "Exemple de document Quarto",
-    "section": "Principales stations de velib",
-    "text": "Principales stations de velib\nLe réseau Vélib’ couvre l’ensemble de la ville de Paris, avec une densité plus élevée de stations dans le centre-ville, les quartiers densément peuplés ou les lieux publics à grande capacité.\nLa Table Table 1 recense les 5 principales stations. On peut retrouver les 50 sur la Figure Figure 1.\n\n\n\n\n\n\nTable 1:  Principales stations \n  \n    \n      Principales stations de Velib\n    \n    \n      Les 5 principales de l’agglo Parisienne\n    \n    \n      Nom\n      Capacité de la station\n      \n      \n    \n  \n  \n    Emeriau - Beaugrenelle\n74\n\n          \n    Grenelle - Dr Finlay\n71\n\n          \n    Censier - Santeuil\n69\n\n          \n    Fabre d'Eglantine - Place de la Nation\n68\n\n          \n    Gare de Lyon - Roland Barthes\n68\n\n          \n  \n  \n  \n\n\n\n\n\n\n\n\n\n\nFigure 1: Carte des principales stations"
+    "objectID": "exercises/cartography.html#import-des-données",
+    "href": "exercises/cartography.html#import-des-données",
+    "title": "Produire des cartes avec ",
+    "section": "2 Import des données",
+    "text": "2 Import des données\nCe TD va proposer un certain nombre de jeux de données intéressants pour la cartographie. Comme l’import de ceux-ci n’est pas le coeur du chapitre, nous proposons directement le code d’import des données.\n\n2.1 Populations légales au niveau départemental\n\nlibrary(readr)\nlibrary(dplyr)\n\n# download et unzip pour avoir les fichiers\nurl_pop_legales = \"https://www.insee.fr/fr/statistiques/fichier/6683035/ensemble.zip\"\ndownload.file(url_pop_legales, \"pop_legales.zip\")\nunzip(\"pop_legales.zip\")\n\npop_legales_departements = read_csv2(\"donnees_departements.csv\")\npop_legales_finistere = read_csv2(\"donnees_communes.csv\") %&gt;%\n  filter(CODDEP == \"29\") %&gt;%\n  mutate(code_insee = paste0(CODDEP, CODCOM))\n\n\n\n2.2 Limites communales et départementales\nNous allons utiliser cartiflette qui facilite la récupération des fonds de carte administratifs de l’IGN.\n\nremotes::install_github(\"linogaliana/cartiflette-r\")\n\nEn premier lieu, nous allons récupérer les limites des départements:\n\nlibrary(cartiflette)\ndepartement_borders &lt;- download_vectorfile_url_all(\n    crs = 4326,\n    values = \"metropole\",\n    borders=\"DEPARTEMENT\",\n    vectorfile_format=\"geojson\",\n    filter_by=\"FRANCE_ENTIERE\",\n    source=\"EXPRESS-COG-CARTO-TERRITOIRE\",\n    year=2022)\n\nPour s’en assurer, une carte peut rapidement être produite:\n\nggplot(departement_borders) +\n  geom_sf(fill = \"transparent\") +\n  theme_void()\n\n\n\n\nOn va également récupérer les limites des communes du Finistère avec cartiflette. Voici le code pour ne garder que les communes du Finistère (département 29):\n\nfinistere &lt;- download_vectorfile_url_all(\n    crs = 4326,\n    values = \"29\",\n    borders=\"COMMUNE\",\n    vectorfile_format=\"geojson\",\n    filter_by=\"DEPARTEMENT\",\n    source=\"EXPRESS-COG-CARTO-TERRITOIRE\",\n    year=2022)\n\n\nfinistere &lt;- finistere %&gt;% left_join(pop_legales_finistere, by = c(\"INSEE_COM\" = \"code_insee\") )\n\n\n\n\n\n\n\nExercice 1: représenter rapidement les frontières pour se placer dans l’espace\n\n\n\nOn va d’abord faire une carte simple, avec ggplot, des limites communales\n\nEn s’inspirant du code précédent, faire la carte du Finistère\n\nPour en apprendre un peu plus sur les données, on va mettre en oeuvre une carte avec le package leaflet. Celui-ci permettra de créer des visualisations réactives, plus propices à l’exploration de données.\n\nReprésenter les limites communales du Finistère avec le package leaflet en utilisant les fonctions suivantes:\n\nAfficher un fonds de carte Open Street Map avec la fonction addTiles\nAfficher les limites des polygones avec la fonction addPolylines\n\nTravailler un peu la couche Polylines en réduisant la taille des bordures et en utilisant le paramètre popup pour afficher le nom de la ville et la population communales\n\n\n\nCarte obtenue à la question 1\n\n\nSolution question 1\nggplot(finistere) +\n  geom_sf(fill = \"transparent\") +\n  theme_void()\n\n\n\n\n\nCarte obtenue à la question 2\n\n\nSolution question 2\nleaflet(finistere) %&gt;% \n  addTiles() %&gt;%\n  addPolylines()\n\n\n\n\n\n\nCarte obtenue à la question 3\n\n\nSolution question 3\nleaflet(finistere) %&gt;% \n  addTiles() %&gt;%\n  addPolylines(\n    weight = 2,\n    popup = ~paste0(NOM, \": \", PTOT, \" habitants\")\n  )\n\n\n\n\n\n\nLes exemples de code ci-dessus illustraient une situation où on ne désire représenter que les limites des polygones dans l’objet sf. C’est une carte utile pour rapidement placer son jeu de données dans l’espace mais ça n’apporte pas d’information supplémentaire. Pour cela, il va être nécessaire d’utiliser les données tabulaires associées à la dimension spatiale."
   },
   {
-    "objectID": "utils/report.html#a-propos",
-    "href": "utils/report.html#a-propos",
-    "title": "Exemple de document Quarto",
-    "section": "A propos",
-    "text": "A propos\nCe rapport est écrit par Daffy Duck, géographe en herbe"
+    "objectID": "exercises/cartography.html#une-carte-de-couverture-forestière",
+    "href": "exercises/cartography.html#une-carte-de-couverture-forestière",
+    "title": "Produire des cartes avec ",
+    "section": "3 Une carte de couverture forestière",
+    "text": "3 Une carte de couverture forestière\nPour cette partie, nous allons faire une carte du couvert forestier landais à partir de la BD Forêt produite par l’IGN. Cette dernière étant un petit peu volumineuse dans le format shapefile, nous proposons de la récupérer dans un format plus compressé: le geopackage.\nLe code suivant peut être utilisé pour cela:\n\nforet &lt;- sf::st_read(\n  \"https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg\"\n)\n\nReading layer `landes' from data source \n  `https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg' \n  using driver `GPKG'\nSimple feature collection with 43094 features and 5 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 334878 ymin: 6274073 xmax: 470942.7 ymax: 6389966\nProjected CRS: RGF93 v1 / Lambert-93\n\n\n\n\n\n\n\n\nTip\n\n\n\n\nCréer une carte du couvert forestier des Landes à partir des données importées précédemment depuis la BD Forêt\n\n\n\n\n\nQuestion 1\nggplot(foret) + geom_sf(fill = \"forestgreen\", lwd = 0) +\n  geom_sf(\n    data = departement_borders %&gt;% filter(INSEE_DEP == 40) %&gt;% st_transform(2154),\n    color = \"black\", lwd = 1, fill = \"transparent\") +\n  theme_void() +\n  labs(title = \"Couvert forestier dans les Landes\")"
   },
   {
-    "objectID": "slides/quarto.html#introduction",
-    "href": "slides/quarto.html#introduction",
+    "objectID": "exercises/cartography.html#découverte-des-cartes-choroplèthes",
+    "href": "exercises/cartography.html#découverte-des-cartes-choroplèthes",
+    "title": "Produire des cartes avec ",
+    "section": "4 Découverte des cartes choroplèthes",
+    "text": "4 Découverte des cartes choroplèthes\nLa carte par aplat de couleur, dite carte choroplèthes, est l’une des représentations de données géographiques les plus traditionnelles.\nD’après Chen et al. (2008), la première représentation de ce type a été proposée par Charles Dupin en 1926 pour représenter les niveaux d’instruction sur le territoire français. L’émergence des cartes choroplèthes est en effet indissociable de l’organisation du pouvoir sous forme d’entités pensées politiques supposées unitaires: les cartes du monde représentent souvent des aplats de couleurs à partir des nations, les cartes nationales à partir d’échelons administratifs (régions, départements, communes, mais aussi Etats ou landers).\n.\nOn peut voir l’émergence pendant le XIXe siècle de la carte choroplèthe comme un moment important de la cartographie, un glissement de l’usage militaire vers l’usage politique. Il ne s’agissait plus exclusivement de représenter le territoire physique mais aussi la réalité socioéconomique, dans des bornes administratives connues de tous.\nMalgré toutes ces limites, sur lesquelles nous reviendrons, la carte choroplèthe est tout de même instructive. Savoir en produire une rapidement, pour saisir les principaux faits structurants d’un jeu de données, est particulièrement utile.\n\n\n\n\n\n\nExercice 3: une première carte de la population\n\n\n\nL’objectif de cet exercice va être d’enrichir les informations présentées sur la carte des départements.\n\nUtiliser le code ci-dessous pour enrichir notre objet sf des départements d’une variable de population:\n\n\npopulation_dep &lt;- departement_borders %&gt;%\n  left_join(pop_legales_departements, by = c(\"INSEE_DEP\" = \"CODDEP\"))\n  \npopulation_dep &lt;- population_dep %&gt;%\n  mutate(densite = as.numeric(PTOT / set_units(st_area(.), \"km2\") )) %&gt;%\n  mutate(pop_4 = cut(PTOT/1000, breaks = 4)) %&gt;%\n  mutate(pop = PTOT)\n\nhead(population_dep, 3)\n\nSimple feature collection with 3 features and 18 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2.958036 ymin: 41.33356 xmax: 9.40804 ymax: 50.0695\nGeodetic CRS:  WGS 84\n                        ID        NOM_M          NOM INSEE_DEP INSEE_REG\n1 DEPARTEM_FXX_00000000001          AIN          Ain        01        84\n2 DEPARTEM_FXX_00000000002        AISNE        Aisne        02        32\n3 DEPARTEM_FXX_00000000003 CORSE-DU-SUD Corse-du-Sud        2A        94\n                            source territoire CODREG                  REG\n1 IGN:EXPRESS-COG-CARTO-TERRITOIRE  metropole     84 Auvergne-Rhône-Alpes\n2 IGN:EXPRESS-COG-CARTO-TERRITOIRE  metropole     32      Hauts-de-France\n3 IGN:EXPRESS-COG-CARTO-TERRITOIRE  metropole     94                Corse\n           DEP NBARR NBCAN NBCOM   PMUN   PTOT                       geometry\n1          Ain     4    23   393 657856 673801 MULTIPOLYGON (((4.795393 46...\n2        Aisne     5    21   799 529374 541176 MULTIPOLYGON (((3.120799 49...\n3 Corse-du-Sud     2    11   124 160814 163182 MULTIPOLYGON (((8.597976 41...\n    densite      pop_4    pop\n1 116.76601 (77.7,720] 673801\n2  73.26169 (77.7,720] 541176\n3  40.70050 (77.7,720] 163182\n\n\n\nEn utilisant votre connaissance de ggplot et le modèle ci-dessous, représenter une première carte par aplat de couleur (choropleth map) de la variable pop\n\n\n# Modèle\nggplot(departement_borders) + geom_sf(fill = \"white\") + theme_void()\n\nCette carte étant peu lisible, on propose, en premier lieu, de discrétiser ses couleurs.\n\nUtiliser la variable pop_4 pour voir un petit peu à quoi ressemble une version discrétisée de notre carte de population.\n\nCela apparaît mieux mais la discrétisation n’est sans doute pas idéale, les catégories étant plutôt hasardeuses. Il vaut mieux utiliser scale_fill_steps qui construit de manière plus pertinente les catégories de couleurs.\n\nReprendre la carte de la question 2 construite avec la variable continue pop. Appliquer l’échelle de couleur de scale_fill_steps\nIl existe aussi la fonction scale_fill_fermenter qui permet de discrétiser une échelle continue. A partir de la palette RdPu, construire une carte discrétisée.\nChoisir une des deux approches et travailler cette carte pour la rendre plus esthétique. Par exemple, avec scale_fill_steps, travailler la carte pour la faire ressembler à la chloroplèthe de Dupin. Ce site est pratique pour explorer les palettes de couleurs.\n\n\n\n\n# Question 2\nplot_q2_exo1 &lt;- ggplot(population_dep) + geom_sf(aes(fill = pop)) + theme_void()\n\n\n# Question 3\nplot_q3_exo1 &lt;- ggplot(population_dep) + geom_sf(aes(fill = pop_4)) + theme_void()\n\n\n# Question 4\nplot_q4_exo1 &lt;- ggplot(\n  population_dep\n) + geom_sf(aes(fill = pop)) +\n  scale_fill_steps() +\n  theme_void()\n\n\n# Question 5\nplot_q5_exo1 &lt;- ggplot(\n  population_dep\n) + geom_sf(aes(fill = pop)) +\n  scale_fill_fermenter(\n    n.breaks = 5,\n    palette = \"RdPu\",\n    direction = 1,\n    labels = label_number(scale_cut = cut_short_scale())\n    ) +\n  theme_void()\n\n\n# Question 6\nplot_q6_exo1 &lt;- ggplot(\n    population_dep\n) + geom_sf(aes(fill = pop), color = \"white\") +\n    scale_fill_steps(\n        n.breaks = 5, trans = \"log\",\n        low = \"white\", high = \"black\",\n        labels = label_number(scale_cut = cut_short_scale())\n    ) +\n    theme_void() +\n  labs(fill = \"Population\")\n\nplot_q6_exo1_bis &lt;- ggplot(\n    population_dep\n) + geom_sf(aes(fill = densite), color = \"white\") +\n    scale_fill_steps(\n        n.breaks = 5, trans = \"log\",\n        low = \"white\", high = \"black\",\n        labels = label_number(scale_cut = cut_short_scale())\n    ) +\n    theme_void() +\n  labs(fill = \"Habitants\\n(par km²)\")\n\n\n\nCarte obtenue à la question 2\n\n\n\n\n\n\n\n\n\nCarte obtenue à la question 3\n\n\n\n\n\n\n\n\n\nCarte obtenue à la question 4\n\n\n\n\n\n\n\n\n\nCarte obtenue à la question 5\n\n\n\n\n\n\n\n\n\nCartes obtenue à la question 6\n\n\n\n\n\n\n\n\n\n\n\n\nAvec ggplot2, avec peu de travail sur le style, on obtient déjà une carte déjà intéressante. On voit bien dessus la “diagonale du vide”. Par exemple, les deux cartes dans le style de Dupin (1826):\n\n\n\n\n\n\nCarte de la population française\n\n\n\n\n\n\n\nCarte de densité de la population française\n\n\n\n\n\nLa carte de densité est plus représentative de la réalité démographique que la carte ne tenant pas compte des surfaces. Néanmoins elle reste imparfaite pour décrire la très forte concentration de la population dans l’aire parisienne. Pour mieux représenter les phénomènes en présence de zonages de dimension hétérogène, il sera nécessaire d’utiliser une autre représentation cartographique, comme les ronds proportionnels ou les cartogrammes.\n\n\n\n\n\n\nExercice supplémentaire: déplacer les DROM, zoomer sur l’Île de France\n\n\n\nUn exercice illustratif à venir"
+  },
+  {
+    "objectID": "exercises/cartography.html#dautres-cartes-avec-mapsf",
+    "href": "exercises/cartography.html#dautres-cartes-avec-mapsf",
+    "title": "Produire des cartes avec ",
+    "section": "5 D’autres cartes avec mapsf",
+    "text": "5 D’autres cartes avec mapsf\nEn soi, il est possible de faire des cartes autres que les aplats de couleurs avec ggplot. Néanmoins, c’est un peu complexe à mettre en oeuvre pour contrôler de manière fine l’étendue des cercles. Heureusement, il existe un package adapté pour cela, construit par des géographes pour des géographes: le package mapsf !\nL’exercice suivant va illustrer comment créer ce type de carte.\n\n\n\n\n\n\nExercice 4: représentations alternatives avec mapsf\n\n\n\n\nRecréer une carte choroplèthe avec mapsf en utilisant 4 couleurs dont les valeurs proviennent des quantiles de la distribution des densités\nPour se rendre compte de la nature hautement non-linéaire de notre variable de densité, représenter la même carte avec l’argument breaks égal à equal ou pretty.\nPour s’abstraire du problème de biais visuel lié aux chrolepthes, on peut tester la représentation par ronds proportionnels. Représenter la même information mais en utilisant cette fois des ronds proportionnels.\nCette page propose de nombreuses représentations de données. Reproduire la figure ci-dessous avec notre jeu de données du Finistère\n\n\n\n\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 1\nlibrary(mapsf)\nmf_map(\n  population_dep, var = \"densite\", type = \"choro\", nbreaks = 4,\n  pal = \"Dark Mint\",\n  leg_val_rnd = -2,\n  breaks = \"arith\")\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 2\nmf_map(\n  population_dep, var = \"densite\", type = \"choro\", nbreaks = 4,\n  pal = \"Dark Mint\",\n  leg_val_rnd = -2,\n  breaks = \"quantile\")\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 3\npopulation_dep_lambert &lt;- population_dep %&gt;% st_transform(2154)\nmf_map(population_dep_lambert)\nmf_map(population_dep_lambert, var = \"densite\", type = \"prop\")\nmf_layout(\n    title = \"Densité en France\"\n)\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 4\nfinistere &lt;- finistere %&gt;% st_transform(2154)\n\nmf_map(\n  finistere,\n  col = \"#CCCCCC\",\n  border = \"white\",\n  lwd = 0.5\n)\nmf_map(\n  finistere, var = \"PTOT\",\n  type = \"prop\",\n  col = \"#c291bc\",\n  border = \"#6b4266\",\n  lwd = 0.5,\n  add = TRUE\n)\nmf_title(\"Population du Finistère\", bg = \"#6b4266\")\nmf_annotation(\n      x = c(132040, 6826675),\n      txt = \"Finistère (29)\",\n      pos = \"bottomleft\",\n      col_txt = \"#6b4266\",\n      cex = 1.2,\n      font = 2,\n      halo = TRUE,\n      s = 1.5\n    )"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "",
+    "text": "Introduction aux méthodes quantitatives avec \nLino Galiana\nCours du département de sciences sociales de l’ENS Ulm.\nUn cours pour se familiariser à  par la pratique avec l’open data.\n\n\n\n  \n     \n      \n          \n            \n          \n          \n            Introduction aux objets de base \n            \n              \nIntroduction aux objets basiques de \net à RStudio\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données avec le tidyverse\n            \n              \nIntroduction à l'écosystème du tidyverse\npour lire et manipuler des données structurées avec \n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Produire des représentations graphiques avec ggplot2\n            \n              \nIntroduction à ggplot2,\npour produire des graphiques avec\n\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données spatiales avec sf\n            \n              \nIntroduction à sf,\nune extension du\ntidyverse\npour transformer \nen SIG capable de lire et manipuler des données géographiques.\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Produire des cartes avec \n            \n              \nIntroduction à la cartographie avec\n\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Introduction aux publications reproductibles avec quarto\n            \n              \nIntroduction à quarto,\npour produire des publications avec\n\n\n\n              \n                Lino Galiana\n                Nov 2, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
+  },
+  {
+    "objectID": "slides/geospatial.html#chapitre-introductif",
+    "href": "slides/geospatial.html#chapitre-introductif",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Chapitre introductif",
+    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+  },
+  {
+    "objectID": "slides/geospatial.html#introduction",
+    "href": "slides/geospatial.html#introduction",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Introduction",
-    "text": "Introduction\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+    "text": "Introduction\n\ndplyr facilite l’analyse de données avec \n\n\n\nMais les données géographiques sont plus complexes:\n\nDonnées classiques associées à des objets géométriques\nBesoin de faire des opérations géométriques (fusion, dissolution…)\n\n\n\n\n\nSIG offrent une approche cohérente pour ce type d’opération\n\n peut se comporter comme un SIG !"
   },
   {
-    "objectID": "slides/quarto.html#enjeux",
-    "href": "slides/quarto.html#enjeux",
+    "objectID": "slides/geospatial.html#la-réponse-le-package-sf",
+    "href": "slides/geospatial.html#la-réponse-le-package-sf",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Enjeux",
-    "text": "Enjeux\n\nProduire des études reproductibles en intégrant le code et le texte dans un même document\n\n\n\nLa génération complète de l’étude est contenue dans un unique projet\n\n\n\n\nLimiter les risques d’erreurs dues aux gestes manuels\n\n\n\n\nGestion native de différents formats pour le document final (pdf, html, odt, etc.)"
+    "section": "La réponse: le package sf !",
+    "text": "La réponse: le package sf !\n\n\n\nsf, une association de tables de données classiques à des géométries\n\n\n\n\n\nL’écosystème du tidyverse"
   },
   {
-    "objectID": "slides/quarto.html#r-markdown",
-    "href": "slides/quarto.html#r-markdown",
+    "objectID": "slides/geospatial.html#la-réponse-le-package-sf-1",
+    "href": "slides/geospatial.html#la-réponse-le-package-sf-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "R Markdown",
-    "text": "R Markdown\n\n\nR Markdown est un package R qui permet de lier\n\nDu texte au format Markdown\nDu code R qui peut être exécuté et dont les sorties peuvent être intégrées au texte\n\n\n\n\n\nDissociation du fond et de la forme du document\n\n\n\nUn document est compilé en deux étapes\n\nknit : le package knitr transforme le texte et les sorties R en un document Markdown standard\nconvert : le logiciel pandoc transforme le document .md en un format de sortie standard (html, pdf, etc.)"
+    "section": "La réponse: le package sf !",
+    "text": "La réponse: le package sf !\n\nExtension de dplyr pour les données spatiales\n\nVerbes dplyr fonctionnent de la même manière\nOpérations géométriques grâce à GDAL en arrière plan\n\n\nUn tibble amélioré:\n{fig-align = “center”}"
   },
   {
-    "objectID": "slides/quarto.html#quarto",
-    "href": "slides/quarto.html#quarto",
+    "objectID": "slides/geospatial.html#anatomie-dun-objet-sf",
+    "href": "slides/geospatial.html#anatomie-dun-objet-sf",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Quarto",
-    "text": "Quarto\n\nQuarto est le successeur de R Markdown\n\n\n\nQuarto supporte différents moteurs de calcul (knitr, Jupyter, Observable..) ce qui le rend nativement multi-langage (R, Python, JavaScript..)\n\n\n\n\nLe fonctionnement des deux systèmes reste très proche"
+    "section": "Anatomie d’un objet sf",
+    "text": "Anatomie d’un objet sf\nLes attributs\n\nValeurs associées à chaque niveau géographique\n\nDonnée tabulaire classique\ndplyr fonctionne normalement\n\n\n\nimport {download_vectorfile} from \"@linogaliana/cartiflette-js\"\nbertin = require(\"bertin@latest\")\n\ndf = download_vectorfile({\n      \"value\": \"92\",\n      \"crs\": 4326,\n      \"borders\": \"COMMUNE\",\n      \"vectorfile_format\": \"geojson\",\n      \"filter_by\": \"DEPARTEMENT\",\n      \"source\": \"EXPRESS-COG-CARTO-TERRITOIRE\",\n      \"year\": 2022\n  })\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInputs.table(\n  bertin.properties.table(df),\n  {columns: [\"NOM\",\"POPULATION\"]}\n)"
   },
   {
-    "objectID": "slides/quarto.html#anatomie-dun-document-reproductible",
-    "href": "slides/quarto.html#anatomie-dun-document-reproductible",
+    "objectID": "slides/geospatial.html#anatomie-dun-objet-sf-1",
+    "href": "slides/geospatial.html#anatomie-dun-objet-sf-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Anatomie d’un document reproductible",
-    "text": "Anatomie d’un document reproductible"
+    "section": "Anatomie d’un objet sf",
+    "text": "Anatomie d’un objet sf\nLes géométries\n\nValeurs numériques interprétées pour représenter la dimension géographique\n\nPlusieurs types d’objets: points, polygones, lignes…\nOpérations sur géométries grâce à sf\n\n\n\n\n\n\n\n\nIllustration de st_union\n\n\n\n\n\n\n\nIllustration de st_union"
   },
   {
-    "objectID": "slides/quarto.html#ressources-supplémentaires",
-    "href": "slides/quarto.html#ressources-supplémentaires",
+    "objectID": "slides/geospatial.html#projection",
+    "href": "slides/geospatial.html#projection",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Ressources supplémentaires",
-    "text": "Ressources supplémentaires\n\nLa documentation officielle de R Markdown\nLa fiche UtilitR sur R Markdown\nLa documentation officielle de quarto\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+    "section": "Anatomie d’un objet sf",
+    "text": "Anatomie d’un objet sf\nLe système de référence de l’objet\n\n\n\n\nPosition sur terre \\(\\to\\) position dans le plan \nMultitude de projections (cf. suite)\nGestion cohérente grâce à sf\n\nUtilise les codes EPSG (4326, 2154…)\nDéfinition souvent automatique\nReprojections facilitées avec st_transform\n\n\n\n\n\nst_crs(communes_borders)\n\nCoordinate Reference System:\n  User input: WGS 84 \n  wkt:\nGEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4326]]"
   },
   {
-    "objectID": "slides/ggplot.html#introduction",
-    "href": "slides/ggplot.html#introduction",
+    "objectID": "slides/geospatial.html#principe",
+    "href": "slides/geospatial.html#principe",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Principe",
+    "text": "Principe\n\n\n\nReprésentation dans un plan (2D) d’une surface arrondie en 3D\nThéorème remarquable de Gauss: la surface de la Terre ne peut être cartographiée sans distortion.\nMultitude de projections possibles\n\n\n\n\n\n\n\nExemple: projection de Mercator\n\n\nPréserve les angles mais ne conserve pas les surfaces et leurs proportions relatives (cf. site thetruesize.com).\n\n\n\n\n\nhtml`&lt;div&gt;${container_projection}&lt;/div&gt;`\n\n\n\n\n\n\n\n\n\ncontainer_projection = html`&lt;div class=\"container\"&gt;\n  &lt;div class=\"row\"&gt;\n    &lt;div class=\"projection\"&gt;\n      &lt;div class=\"projection-label\"&gt;Choisir une projection&lt;/div&gt;\n      ${viewof projection}\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div class=\"row\"&gt;\n    &lt;div class=\"projectedMap\"&gt;\n      ${projectedMap}\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;`\n\n\n\n\n\n\n\nviewof projection = projectionInput({\n  name: \"\",\n  value: \"Mercator\"\n})\n\n\n\n\n\n\n\nimport {projectionInput} from \"@fil/d3-projections\"\nimport {map} from \"@linogaliana/base-map\"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nprojectedMap = map(projection,\n                   {\n                     //svg: true,\n                     value: projection.options,\n                     width: width_projected_map,\n                     //height: 300,\n                     //rotate: [0, -90],\n                     //inertia: true,\n                     show_equator: true,\n                     background: \"#f1f0eb\"\n                     \n                     //show_structure: true\n                   })\n\n\n\n\n\n\n\nwidth_projected_map = screen.width/4"
+  },
+  {
+    "objectID": "slides/geospatial.html#web-mercator-wgs-84-4326",
+    "href": "slides/geospatial.html#web-mercator-wgs-84-4326",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "(Web) Mercator / WGS 84 (4326)",
+    "text": "(Web) Mercator / WGS 84 (4326)\n\n\n\nProjection la plus usuelle:\n\nSystème GPS (position précise depuis des satellites grâce conservation des angles)\nFonds de carte web Google, OpenStreetMap…\n\nMais déforme les distances et superficies\n\n\n\n\n\n\n\nAstuce pour la France\n\n\n\nLongitude (\\(x\\)) tourne autour de 0° (de -5.2 à +9.6 pour être plus précis)\nLa latitude (\\(y\\)) autour de 45 (entre +41.3 à +51.1)\n\nPlus de détails\n\n\n\n\n\nsize = 400\nhtml`&lt;iframe width=\"${size}\" height=\"${size*1.15 + 50}\" frameborder=\"0\"   overflow-x = \"hidden\" overflow-Y=\"hidden\"\n  src=\"https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry\"&gt;&lt;/iframe&gt;`"
+  },
+  {
+    "objectID": "slides/geospatial.html#lambert-93-2154",
+    "href": "slides/geospatial.html#lambert-93-2154",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Lambert 93 (2154)",
+    "text": "Lambert 93 (2154)\n\nProjection officielle pour la métropole\n\nProjection conique\nD’autres Lambert pour les DROM\n\n\n\n\nOrthonormée, centrée sur la métropole\n\nOn peut faire des calculs de distance sur des coordonnées\nDistance en mètres = distance euclidienne (\\(\\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}\\))\n\n\n\n\n\n\n\n\nAstuce pour la France\n\n\n\nCoordonnées \\(x\\): entre 100 000 et 1 300 000\nLa latitude (\\(y\\)): entre 6 000 000 et 7 200 000\n\nPlus de détails"
+  },
+  {
+    "objectID": "slides/geospatial.html#la-projection-de-spilhaus",
+    "href": "slides/geospatial.html#la-projection-de-spilhaus",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "La projection de Spilhaus",
+    "text": "La projection de Spilhaus\nLe monde vu par les poissons 🐟🐡🐠\n\nhtml`&lt;div class=\"centered\"&gt;${spilhaus}&lt;/div&gt;`\n\n\n\n\n\n\n\nspilhaus = {\n  const width = 600;\n  const height = width;\n\n  const context = DOM.context2d(width, height);\n  const projection = d3.geoStereographic()\n    .rotate([95, 45])\n    .translate([width / 2, height / 2])\n    .scale(width / 10.1)\n    .center([30, -5])\n    .clipAngle(166);\n  const path = d3.geoPath(projection, context);\n\n  const land = topojson.feature(world, world.objects.land);\n\n  context.lineJoin = \"round\";\n  context.lineCap = \"round\";\n  context.fillStyle = \"#f2f1ed\";\n  context.fillRect(0, 0, width, height);\n\n  context.beginPath();\n  path({type: \"Sphere\"});\n  path(land);\n  context.lineWidth = 0.5;\n  context.stroke();\n  context.clip(\"evenodd\");\n\n  context.save();\n  context.beginPath();\n  path(land);\n  context.filter = \"blur(12px)\";\n  context.fillStyle = \"#006994\";\n  context.fill(\"evenodd\");\n  context.restore();\n  \n  context.beginPath();\n  path(d3.geoGraticule10());\n  context.globalAlpha = 0.2;\n  context.strokeStyle = \"#000\";\n  context.stroke();\n\n  return context.canvas;\n}\n\n\n\n\n\n\n\n//import {map as spilhausmap} with {height, width} from \"@d3/spilhaus-shoreline-map\"\nimport { world } from \"@d3/spilhaus-shoreline-map\"\n\n\n\n\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+  },
+  {
+    "objectID": "slides/wrangling.html#chapitre-introductif",
+    "href": "slides/wrangling.html#chapitre-introductif",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Chapitre introductif",
+    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+  },
+  {
+    "objectID": "slides/wrangling.html#introduction",
+    "href": "slides/wrangling.html#introduction",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Introduction",
-    "text": "Introduction\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
+    "text": "Introduction\n\n centré autour du dataframe\n\n\n\nMais manipulations parfois un peu lourdes :\n\ndf$var: un peu lourd\ndf[,]: un peu trop calqué sur les matrices\n\n\n\n\n\nDonnées textuelles: une base perfectible\n\nDes outputs alambiqués\nDes fonctionnalités manquantes par rapport à Python"
   },
   {
-    "objectID": "slides/ggplot.html#introduction-1",
-    "href": "slides/ggplot.html#introduction-1",
+    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse",
+    "href": "slides/wrangling.html#la-réponse-le-tidyverse",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Introduction",
-    "text": "Introduction\n\nLa visualisation de données synthétise la structure des données\n\nGuide l’exploration ultérieure de données\nTransmets un message au lecteur\n\n\n\n\n2 types de visualisations :\n\nReprésentations figées: ggplot2\nReprésentations HTML: leaflet"
+    "section": "La réponse: le tidyverse !",
+    "text": "La réponse: le tidyverse !\n\nL’écosystème du tidyverse"
   },
   {
-    "objectID": "slides/ggplot.html#jeu-de-données-des-exemples",
-    "href": "slides/ggplot.html#jeu-de-données-des-exemples",
+    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse-1",
+    "href": "slides/wrangling.html#la-réponse-le-tidyverse-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Jeu de données des exemples",
-    "text": "Jeu de données des exemples\n\nlibrary(doremifasol)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(scales)\n\ndf &lt;- telechargerDonnees(\"FILOSOFI_DISP_IRIS\", date = 2017) %&gt;%\n  as_tibble() %&gt;%\n  sample_frac(0.1)\n\n\n\n\n\n\n\nNote\n\n\nInspiration pour ces slides :\n\nDocumentation collaborative utilitR ;\nManuel ggplot ;\nCours de Joseph Larmarange"
+    "section": "La réponse: le tidyverse !",
+    "text": "La réponse: le tidyverse !\nUn ensemble de packages développés par RStudio qui facilite :\n\nLa lecture (readr) et la manipulation de bases de données (dplyr)\nL’exploitation de données textuelles (stringr), temporelles (lubridate) ou catégorielles (forcats)\nLa création de graphiques (ggplot2)\nLa programmation à partir de dataframes (purrr)\nEt bien d’autres choses…"
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2",
-    "href": "slides/ggplot.html#ggplot2",
+    "objectID": "slides/wrangling.html#le-concept-de-données-tidy",
+    "href": "slides/wrangling.html#le-concept-de-données-tidy",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nInitialise une figure associée à un jeu de données\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917))"
+    "section": "Le concept de données tidy",
+    "text": "Le concept de données tidy\n\nChaque variable possède sa propre colonne ;\nChaque observation possède sa propre ligne ;\nUne valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.\n\n\n\n\n\n\n\nNote\n\n\nConcept popularisé par Hadley Wickham."
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2-1",
-    "href": "slides/ggplot.html#ggplot2-1",
+    "objectID": "slides/wrangling.html#readr",
+    "href": "slides/wrangling.html#readr",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nAjoute des couches (+) avec les fonctions geom_*\n\nggplot(df) +\n  geom_point(aes(x = DISP_MED17, y = DISP_D917))"
+    "section": "readr",
+    "text": "readr\n\n\nLe package pour lire des fichiers plats (.csv, .txt…)\nPermet d’obtenir un tibble, le dataframe augmenté du tidyverse"
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2-2",
-    "href": "slides/ggplot.html#ggplot2-2",
+    "objectID": "slides/wrangling.html#dplyr",
+    "href": "slides/wrangling.html#dplyr",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nParamétrise les couches avec aes\n\nggplot(df) +\n  geom_point(aes(x = DISP_MED17, y = DISP_D917, color = DISP_Q117), shape = 3)\n\n\n\n\n\n\n\n\nNote\n\n\nLe contrôle de l’esthétique d’une couche geom_ se fait :\n\naes: paramètres variables de la couche liés à une variable ;\nhors aes: paramètres qui s’appliquent uniformément sur la couche"
+    "section": "dplyr",
+    "text": "dplyr\n\n\nLe package central de l’écosystème de manipulation de données ;\nManipulation de données et statistiques descriptives ;"
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2-3",
-    "href": "slides/ggplot.html#ggplot2-3",
+    "objectID": "slides/wrangling.html#dplyr-1",
+    "href": "slides/wrangling.html#dplyr-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nAjoute des couches (+) avec les fonctions geom_*\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = DISP_Q117), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE)"
+    "section": "dplyr",
+    "text": "dplyr\nPrincipaux verbes\nOn travaille sur un tibble (dataframe augmenté)\n\nselect() : sélectionner des variables par leur nom ;\nrename() : renommer des variables ;\nfilter() : sélectionner des observations selon une ou plusieurs conditions ;\narrange() : trier la table selon une ou plusieurs variables ;\nmutate() : ajouter des variables qui sont fonction d’autres variables ;\nsummarise() : calculer une statistique à partir de données ;\ngroup_by() : faire des opérations par groupe.- `"
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2-4",
-    "href": "slides/ggplot.html#ggplot2-4",
+    "objectID": "slides/wrangling.html#dplyr-2",
+    "href": "slides/wrangling.html#dplyr-2",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nModifier les échelles avec les fonctions scale_\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = DISP_Q117), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_c()"
+    "section": "dplyr",
+    "text": "dplyr\nManipulation de données\nOn enchaine des séquences avec les pipe (%&gt;%)\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  mutate(x = paste0(AN, \"_\", NB_EQUIP))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans utilitR"
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2-5",
-    "href": "slides/ggplot.html#ggplot2-5",
+    "objectID": "slides/wrangling.html#dplyr-3",
+    "href": "slides/wrangling.html#dplyr-3",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nModifier les échelles avec les fonctions scale_\n\ndf &lt;- df %&gt;% mutate(quartile = factor(ntile(DISP_Q117, 4)))\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = quartile), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_d(option = \"turbo\")"
+    "section": "dplyr",
+    "text": "dplyr\nStatistiques agrégées\n\nLogique du split-apply-combine avec groupby\n\n\n\nIllustration du split-apply-combine\n\n\n\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  group_by(DEP) %&gt;%\n4  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn définit DEP comme une variable de stratification pour définir des groupes\n\n4\n\nOn résume les données en faisant la somme des stations services dans chaque groupe"
   },
   {
-    "objectID": "slides/ggplot.html#ggplot2-6",
-    "href": "slides/ggplot.html#ggplot2-6",
+    "objectID": "slides/wrangling.html#ggplot",
+    "href": "slides/wrangling.html#ggplot",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot2",
-    "text": "ggplot2\nModifier l’esthétique, à la fin seulement\n\np &lt;- ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = quartile), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_d(option = \"turbo\")\n\np + theme_bw() +\n  labs(x = \"Revenu médian\", y = \"9e décile\", color = \"Quartile\") +\n  theme(legend.position = \"bottom\")\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+    "section": "ggplot",
+    "text": "ggplot\n\n\nLe package indispensable pour faire des graphiques ❤️ ;\nApproche cohérente et flexible basée sur la grammaire des graphiques\n\nObjet d’un chapitre dédié"
+  },
+  {
+    "objectID": "slides/wrangling.html#stringr-forcats-et-lubridate",
+    "href": "slides/wrangling.html#stringr-forcats-et-lubridate",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "stringr, forcats et lubridate",
+    "text": "stringr, forcats et lubridate\n\n  \n\n\nPlein de fonctions facilitant la manipulation:\n\nDonnées textuelles: stringr\nDonnées catégorielles: forcats\nDonnées temporelles: lubridate"
+  },
+  {
+    "objectID": "slides/wrangling.html#généralités",
+    "href": "slides/wrangling.html#généralités",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Généralités",
+    "text": "Généralités\n\nDonnées peuvent être stockées dans de nombreux formats différents\n\nStandards différents\nManières d’importer différentes\n\n\n\n\nFonctionnalités de  limitées:\n\nPackages spécialisés pour certains formats\nObjectif: applatir l’information dans un dataframe\n\n\n\n\n\n\n\n\nNote\n\n\nOn verra les formats géographiques, et leurs enjeux, ultérieurement"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-csv",
+    "href": "slides/wrangling.html#le-csv",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le CSV",
+    "text": "Le CSV\n\nFormat de fichier plat avec des colonnes délimitées:\n\nStandard: , en délimitateur, . en décimale ;\nVariante européenne 😮‍💨: ; en délimitateur, , en décimale\n\nFormat universel, simple d’utilisation (quelques limites)\n\n\nviewof info_csv = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_csv == \"Fichier brut\" ? html`&lt;div&gt;${md_csv}&lt;div&gt;` : html`&lt;div&gt;${df_csv}&lt;div&gt;`\n\n\n\n\n\n\n\ndf_csv = Inputs.table(\n  d3.csvParse(raw_csv)\n)\nmd_csv = md`\n\\`\\`\\`\n${raw_csv}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nraw_csv = `DEP,REG,CHEFLIEU,TNCC,NCC,NCCENR,LIBELLE\n01,84,01053,5,AIN,Ain,Ain\n02,32,02408,5,AISNE,Aisne,Aisne\n03,84,03190,5,ALLIER,Allier,Allier\n04,93,04070,4,ALPES DE HAUTE PROVENCE,Alpes-de-Haute-Provence,Alpes-de-Haute-Provence\n05,93,05061,4,HAUTES ALPES,Hautes-Alpes,Hautes-Alpes\n06,93,06088,4,ALPES MARITIMES,Alpes-Maritimes,Alpes-Maritimes\n`"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-csv-1",
+    "href": "slides/wrangling.html#le-csv-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le CSV",
+    "text": "Le CSV\n\nLecture avec la fonction read_csv du package readr!\n\n\n1library(readr)\n2read_csv(\"dossier_donnees/nom_fichier.csv\")\n\n\n1\n\nOn importe la librairie readr pour avoir accès à la fonction read_csv\n\n2\n\nOn utilise read_csv pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nCSV avec délimitateur ;: fonction read_csv2.\nFormats plats plus exotiques (.txt par exemple): read_delim\n\nPlus de détails dans la documentation utilitR"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-json",
+    "href": "slides/wrangling.html#le-json",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le JSON",
+    "text": "Le JSON\n\nLe format du web, notamment des API\n\nAPI: on verra ça plus tard\n\n\n\nviewof info_json = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_json == \"Fichier brut\" ? html`&lt;div&gt;${md_json}&lt;div&gt;` : html`&lt;div&gt;${df_json}&lt;div&gt;`\n\n\n\n\n\n\n\njson_string = `[\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]`\nraw_json = [\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]\nmd_json = md`\n\\`\\`\\`\n${json_string}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ndf_json = Inputs.table(raw_json)"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-json-1",
+    "href": "slides/wrangling.html#le-json-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le JSON",
+    "text": "Le JSON\n\nImporté comme une liste hiérarchisée\nObjectif: transformer cette information dans un dataframe tidy\n\nPas toujours évident !\n\n\n\n1library(jsonlite)\n2df &lt;- fromJSON(file=\"dossier_donnees/nom_fichier.json\")\n\n\n1\n\nOn importe la librairie jsonlite pour avoir accès à la fonction fromJSON\n\n2\n\nOn utilise fromJSON pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv"
+  },
+  {
+    "objectID": "slides/wrangling.html#les-formats-excel",
+    "href": "slides/wrangling.html#les-formats-excel",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Les formats Excel",
+    "text": "Les formats Excel"
+  },
+  {
+    "objectID": "slides/wrangling.html#les-formats-excel-1",
+    "href": "slides/wrangling.html#les-formats-excel-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Les formats Excel",
+    "text": "Les formats Excel\n\nFormat propriétaire\nMélange mise en forme et données brute\n\nPas approprié pour l’analyse de données\nDangereux pour la reproductibilité et la transparence\n\nPlus de détails sur utilitR"
+  },
+  {
+    "objectID": "slides/wrangling.html#le-pipe-magrittr-1",
+    "href": "slides/wrangling.html#le-pipe-magrittr-1",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Le pipe magrittr (%>%)",
+    "text": "Le pipe magrittr (%&gt;%)\nUne manière de chaîner les opérations\n\n\nFonctions emboitéesAvec le pipe\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ndf &lt;- filter(\n  as_tibble(telechargerDonnees(\"BPE_ENS\")),\n  TYPEQU == \"B316\"\n)\n\nsummarise(\n  group_by(df, DEP),\n  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)\n)\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ntelechargerDonnees(\"BPE_ENS\") %&gt;%\n  as_tibble() %&gt;%\n  filter(TYPEQU == \"B316\") %&gt;% \n  group_by(DEP) %&gt;% \n  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) \n\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
   },
   {
     "objectID": "slides/introduction.html#chapitre-introductif",
@@ -553,270 +679,179 @@
     "text": "L’interface RStudio\n\nIllustration empruntée à ce livre"
   },
   {
-    "objectID": "slides/wrangling.html#chapitre-introductif",
-    "href": "slides/wrangling.html#chapitre-introductif",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Chapitre introductif",
-    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
-  },
-  {
-    "objectID": "slides/wrangling.html#introduction",
-    "href": "slides/wrangling.html#introduction",
+    "objectID": "slides/ggplot.html#introduction",
+    "href": "slides/ggplot.html#introduction",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Introduction",
-    "text": "Introduction\n\n centré autour du dataframe\n\n\n\nMais manipulations parfois un peu lourdes :\n\ndf$var: un peu lourd\ndf[,]: un peu trop calqué sur les matrices\n\n\n\n\n\nDonnées textuelles: une base perfectible\n\nDes outputs alambiqués\nDes fonctionnalités manquantes par rapport à Python"
+    "text": "Introduction\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
   },
   {
-    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse",
-    "href": "slides/wrangling.html#la-réponse-le-tidyverse",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La réponse: le tidyverse !",
-    "text": "La réponse: le tidyverse !\n\nL’écosystème du tidyverse"
-  },
-  {
-    "objectID": "slides/wrangling.html#la-réponse-le-tidyverse-1",
-    "href": "slides/wrangling.html#la-réponse-le-tidyverse-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La réponse: le tidyverse !",
-    "text": "La réponse: le tidyverse !\nUn ensemble de packages développés par RStudio qui facilite :\n\nLa lecture (readr) et la manipulation de bases de données (dplyr)\nL’exploitation de données textuelles (stringr), temporelles (lubridate) ou catégorielles (forcats)\nLa création de graphiques (ggplot2)\nLa programmation à partir de dataframes (purrr)\nEt bien d’autres choses…"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-concept-de-données-tidy",
-    "href": "slides/wrangling.html#le-concept-de-données-tidy",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le concept de données tidy",
-    "text": "Le concept de données tidy\n\nChaque variable possède sa propre colonne ;\nChaque observation possède sa propre ligne ;\nUne valeur, matérialisant une observation d’une variable, se trouve sur une unique cellule.\n\n\n\n\n\n\n\nNote\n\n\nConcept popularisé par Hadley Wickham."
-  },
-  {
-    "objectID": "slides/wrangling.html#readr",
-    "href": "slides/wrangling.html#readr",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "readr",
-    "text": "readr\n\n\nLe package pour lire des fichiers plats (.csv, .txt…)\nPermet d’obtenir un tibble, le dataframe augmenté du tidyverse"
-  },
-  {
-    "objectID": "slides/wrangling.html#dplyr",
-    "href": "slides/wrangling.html#dplyr",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\n\n\nLe package central de l’écosystème de manipulation de données ;\nManipulation de données et statistiques descriptives ;"
-  },
-  {
-    "objectID": "slides/wrangling.html#dplyr-1",
-    "href": "slides/wrangling.html#dplyr-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\nPrincipaux verbes\nOn travaille sur un tibble (dataframe augmenté)\n\nselect() : sélectionner des variables par leur nom ;\nrename() : renommer des variables ;\nfilter() : sélectionner des observations selon une ou plusieurs conditions ;\narrange() : trier la table selon une ou plusieurs variables ;\nmutate() : ajouter des variables qui sont fonction d’autres variables ;\nsummarise() : calculer une statistique à partir de données ;\ngroup_by() : faire des opérations par groupe.- `"
-  },
-  {
-    "objectID": "slides/wrangling.html#dplyr-2",
-    "href": "slides/wrangling.html#dplyr-2",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\nManipulation de données\nOn enchaine des séquences avec les pipe (%&gt;%)\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  mutate(x = paste0(AN, \"_\", NB_EQUIP))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn crée une nouvelle colonne en faisant référence à celles existantes (sans guillemets!)\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nPlus de détails dans utilitR"
-  },
-  {
-    "objectID": "slides/wrangling.html#dplyr-3",
-    "href": "slides/wrangling.html#dplyr-3",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "dplyr",
-    "text": "dplyr\nStatistiques agrégées\n\nLogique du split-apply-combine avec groupby\n\n\n\nIllustration du split-apply-combine\n\n\n\n\nlibrary(doremifasol)\nlibrary(dplyr)\n\nbase_publique_equipements &lt;- telechargerDonnees(\"BPE_ENS\")\nbase_publique_equipements %&gt;%\n1  as_tibble() %&gt;%\n2  filter(TYPEQU == \"B316\") %&gt;%\n3  group_by(DEP) %&gt;%\n4  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE))\n\n\n1\n\nOn convertit le dataframe standard en tibble\n\n2\n\nOn ne garde que les stations services (valeurs B316 de TYPEQU)\n\n3\n\nOn définit DEP comme une variable de stratification pour définir des groupes\n\n4\n\nOn résume les données en faisant la somme des stations services dans chaque groupe"
-  },
-  {
-    "objectID": "slides/wrangling.html#ggplot",
-    "href": "slides/wrangling.html#ggplot",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "ggplot",
-    "text": "ggplot\n\n\nLe package indispensable pour faire des graphiques ❤️ ;\nApproche cohérente et flexible basée sur la grammaire des graphiques\n\nObjet d’un chapitre dédié"
-  },
-  {
-    "objectID": "slides/wrangling.html#stringr-forcats-et-lubridate",
-    "href": "slides/wrangling.html#stringr-forcats-et-lubridate",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "stringr, forcats et lubridate",
-    "text": "stringr, forcats et lubridate\n\n  \n\n\nPlein de fonctions facilitant la manipulation:\n\nDonnées textuelles: stringr\nDonnées catégorielles: forcats\nDonnées temporelles: lubridate"
-  },
-  {
-    "objectID": "slides/wrangling.html#généralités",
-    "href": "slides/wrangling.html#généralités",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Généralités",
-    "text": "Généralités\n\nDonnées peuvent être stockées dans de nombreux formats différents\n\nStandards différents\nManières d’importer différentes\n\n\n\n\nFonctionnalités de  limitées:\n\nPackages spécialisés pour certains formats\nObjectif: applatir l’information dans un dataframe\n\n\n\n\n\n\n\n\nNote\n\n\nOn verra les formats géographiques, et leurs enjeux, ultérieurement"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-csv",
-    "href": "slides/wrangling.html#le-csv",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le CSV",
-    "text": "Le CSV\n\nFormat de fichier plat avec des colonnes délimitées:\n\nStandard: , en délimitateur, . en décimale ;\nVariante européenne 😮‍💨: ; en délimitateur, , en décimale\n\nFormat universel, simple d’utilisation (quelques limites)\n\n\nviewof info_csv = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_csv == \"Fichier brut\" ? html`&lt;div&gt;${md_csv}&lt;div&gt;` : html`&lt;div&gt;${df_csv}&lt;div&gt;`\n\n\n\n\n\n\n\ndf_csv = Inputs.table(\n  d3.csvParse(raw_csv)\n)\nmd_csv = md`\n\\`\\`\\`\n${raw_csv}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nraw_csv = `DEP,REG,CHEFLIEU,TNCC,NCC,NCCENR,LIBELLE\n01,84,01053,5,AIN,Ain,Ain\n02,32,02408,5,AISNE,Aisne,Aisne\n03,84,03190,5,ALLIER,Allier,Allier\n04,93,04070,4,ALPES DE HAUTE PROVENCE,Alpes-de-Haute-Provence,Alpes-de-Haute-Provence\n05,93,05061,4,HAUTES ALPES,Hautes-Alpes,Hautes-Alpes\n06,93,06088,4,ALPES MARITIMES,Alpes-Maritimes,Alpes-Maritimes\n`"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-csv-1",
-    "href": "slides/wrangling.html#le-csv-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le CSV",
-    "text": "Le CSV\n\nLecture avec la fonction read_csv du package readr!\n\n\n1library(readr)\n2read_csv(\"dossier_donnees/nom_fichier.csv\")\n\n\n1\n\nOn importe la librairie readr pour avoir accès à la fonction read_csv\n\n2\n\nOn utilise read_csv pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nCSV avec délimitateur ;: fonction read_csv2.\nFormats plats plus exotiques (.txt par exemple): read_delim\n\nPlus de détails dans la documentation utilitR"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-json",
-    "href": "slides/wrangling.html#le-json",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le JSON",
-    "text": "Le JSON\n\nLe format du web, notamment des API\n\nAPI: on verra ça plus tard\n\n\n\nviewof info_json = Inputs.radio(\n  [\"Fichier brut\", \"Ficher après import\"], {value: \"Fichier brut\"}\n)\n\n\n\n\n\n\n\ninfo_json == \"Fichier brut\" ? html`&lt;div&gt;${md_json}&lt;div&gt;` : html`&lt;div&gt;${df_json}&lt;div&gt;`\n\n\n\n\n\n\n\njson_string = `[\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]`\nraw_json = [\n  {\"DEP\": \"01\", \"REG\": \"84\", \"CHEFLIEU\": \"01053\", \"TNCC\": \"5\", \"NCC\": \"AIN\", \"NCCENR\": \"Ain\", \"LIBELLE\": \"Ain\"},\n  {\"DEP\": \"02\", \"REG\": \"32\", \"CHEFLIEU\": \"02408\", \"TNCC\": \"5\", \"NCC\": \"AISNE\", \"NCCENR\": \"Aisne\", \"LIBELLE\": \"Aisne\"},\n  {\"DEP\": \"03\", \"REG\": \"84\", \"CHEFLIEU\": \"03190\", \"TNCC\": \"5\", \"NCC\": \"ALLIER\", \"NCCENR\": \"Allier\", \"LIBELLE\": \"Allier\"},\n  {\"DEP\": \"04\", \"REG\": \"93\", \"CHEFLIEU\": \"04070\", \"TNCC\": \"4\", \"NCC\": \"ALPES DE HAUTE PROVENCE\", \"NCCENR\": \"Alpes-de-Haute-Provence\", \"LIBELLE\": \"Alpes-de-Haute-Provence\"},\n  {\"DEP\": \"05\", \"REG\": \"93\", \"CHEFLIEU\": \"05061\", \"TNCC\": \"4\", \"NCC\": \"HAUTES ALPES\", \"NCCENR\": \"Hautes-Alpes\", \"LIBELLE\": \"Hautes-Alpes\"},\n  {\"DEP\": \"06\", \"REG\": \"93\", \"CHEFLIEU\": \"06088\", \"TNCC\": \"4\", \"NCC\": \"ALPES MARITIMES\", \"NCCENR\": \"Alpes-Maritimes\", \"LIBELLE\": \"Alpes-Maritimes\"}\n]\nmd_json = md`\n\\`\\`\\`\n${json_string}\n\\`\\`\\`\n`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ndf_json = Inputs.table(raw_json)"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-json-1",
-    "href": "slides/wrangling.html#le-json-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le JSON",
-    "text": "Le JSON\n\nImporté comme une liste hiérarchisée\nObjectif: transformer cette information dans un dataframe tidy\n\nPas toujours évident !\n\n\n\n1library(jsonlite)\n2df &lt;- fromJSON(file=\"dossier_donnees/nom_fichier.json\")\n\n\n1\n\nOn importe la librairie jsonlite pour avoir accès à la fonction fromJSON\n\n2\n\nOn utilise fromJSON pour lire les données stockées dans le chemin relatif dossier_donnees/nom_fichier.csv"
-  },
-  {
-    "objectID": "slides/wrangling.html#les-formats-excel",
-    "href": "slides/wrangling.html#les-formats-excel",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Les formats Excel",
-    "text": "Les formats Excel"
-  },
-  {
-    "objectID": "slides/wrangling.html#les-formats-excel-1",
-    "href": "slides/wrangling.html#les-formats-excel-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Les formats Excel",
-    "text": "Les formats Excel\n\nFormat propriétaire\nMélange mise en forme et données brute\n\nPas approprié pour l’analyse de données\nDangereux pour la reproductibilité et la transparence\n\nPlus de détails sur utilitR"
-  },
-  {
-    "objectID": "slides/wrangling.html#le-pipe-magrittr-1",
-    "href": "slides/wrangling.html#le-pipe-magrittr-1",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Le pipe magrittr (%>%)",
-    "text": "Le pipe magrittr (%&gt;%)\nUne manière de chaîner les opérations\n\n\nFonctions emboitéesAvec le pipe\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ndf &lt;- filter(\n  as_tibble(telechargerDonnees(\"BPE_ENS\")),\n  TYPEQU == \"B316\"\n)\n\nsummarise(\n  group_by(df, DEP),\n  nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)\n)\n\n\nlibrary(dplyr)\nlibrary(doremifasol)\n\ntelechargerDonnees(\"BPE_ENS\") %&gt;%\n  as_tibble() %&gt;%\n  filter(TYPEQU == \"B316\") %&gt;% \n  group_by(DEP) %&gt;% \n  summarise(nombre_station_serv = sum(NB_EQUIP, na.rm = TRUE)) \n\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
-  },
-  {
-    "objectID": "slides/geospatial.html#chapitre-introductif",
-    "href": "slides/geospatial.html#chapitre-introductif",
-    "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Chapitre introductif",
-    "text": "Chapitre introductif\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
-  },
-  {
-    "objectID": "slides/geospatial.html#introduction",
-    "href": "slides/geospatial.html#introduction",
+    "objectID": "slides/ggplot.html#introduction-1",
+    "href": "slides/ggplot.html#introduction-1",
     "title": "Introduction aux méthodes quantitatives avec ",
     "section": "Introduction",
-    "text": "Introduction\n\ndplyr facilite l’analyse de données avec \n\n\n\nMais les données géographiques sont plus complexes:\n\nDonnées classiques associées à des objets géométriques\nBesoin de faire des opérations géométriques (fusion, dissolution…)\n\n\n\n\n\nSIG offrent une approche cohérente pour ce type d’opération\n\n peut se comporter comme un SIG !"
+    "text": "Introduction\n\nLa visualisation de données synthétise la structure des données\n\nGuide l’exploration ultérieure de données\nTransmets un message au lecteur\n\n\n\n\n2 types de visualisations :\n\nReprésentations figées: ggplot2\nReprésentations HTML: leaflet"
   },
   {
-    "objectID": "slides/geospatial.html#la-réponse-le-package-sf",
-    "href": "slides/geospatial.html#la-réponse-le-package-sf",
+    "objectID": "slides/ggplot.html#jeu-de-données-des-exemples",
+    "href": "slides/ggplot.html#jeu-de-données-des-exemples",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La réponse: le package sf !",
-    "text": "La réponse: le package sf !\n\n\n\nsf, une association de tables de données classiques à des géométries\n\n\n\n\n\nL’écosystème du tidyverse"
+    "section": "Jeu de données des exemples",
+    "text": "Jeu de données des exemples\n\nlibrary(doremifasol)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(scales)\n\ndf &lt;- telechargerDonnees(\"FILOSOFI_DISP_IRIS\", date = 2017) %&gt;%\n  as_tibble() %&gt;%\n  sample_frac(0.1)\n\n\n\n\n\n\n\nNote\n\n\nInspiration pour ces slides :\n\nDocumentation collaborative utilitR ;\nManuel ggplot ;\nCours de Joseph Larmarange"
   },
   {
-    "objectID": "slides/geospatial.html#la-réponse-le-package-sf-1",
-    "href": "slides/geospatial.html#la-réponse-le-package-sf-1",
+    "objectID": "slides/ggplot.html#ggplot2",
+    "href": "slides/ggplot.html#ggplot2",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La réponse: le package sf !",
-    "text": "La réponse: le package sf !\n\nExtension de dplyr pour les données spatiales\n\nVerbes dplyr fonctionnent de la même manière\nOpérations géométriques grâce à GDAL en arrière plan\n\n\nUn tibble amélioré:\n{fig-align = “center”}"
+    "section": "ggplot2",
+    "text": "ggplot2\nInitialise une figure associée à un jeu de données\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917))"
   },
   {
-    "objectID": "slides/geospatial.html#anatomie-dun-objet-sf",
-    "href": "slides/geospatial.html#anatomie-dun-objet-sf",
+    "objectID": "slides/ggplot.html#ggplot2-1",
+    "href": "slides/ggplot.html#ggplot2-1",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Anatomie d’un objet sf",
-    "text": "Anatomie d’un objet sf\nLes attributs\n\nValeurs associées à chaque niveau géographique\n\nDonnée tabulaire classique\ndplyr fonctionne normalement\n\n\n\nimport {download_vectorfile} from \"@linogaliana/cartiflette-js\"\nbertin = require(\"bertin@latest\")\n\ndf = download_vectorfile({\n      \"value\": \"92\",\n      \"crs\": 4326,\n      \"borders\": \"COMMUNE\",\n      \"vectorfile_format\": \"geojson\",\n      \"filter_by\": \"DEPARTEMENT\",\n      \"source\": \"EXPRESS-COG-CARTO-TERRITOIRE\",\n      \"year\": 2022\n  })\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInputs.table(\n  bertin.properties.table(df),\n  {columns: [\"NOM\",\"POPULATION\"]}\n)"
+    "section": "ggplot2",
+    "text": "ggplot2\nAjoute des couches (+) avec les fonctions geom_*\n\nggplot(df) +\n  geom_point(aes(x = DISP_MED17, y = DISP_D917))"
   },
   {
-    "objectID": "slides/geospatial.html#anatomie-dun-objet-sf-1",
-    "href": "slides/geospatial.html#anatomie-dun-objet-sf-1",
+    "objectID": "slides/ggplot.html#ggplot2-2",
+    "href": "slides/ggplot.html#ggplot2-2",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Anatomie d’un objet sf",
-    "text": "Anatomie d’un objet sf\nLes géométries\n\nValeurs numériques interprétées pour représenter la dimension géographique\n\nPlusieurs types d’objets: points, polygones, lignes…\nOpérations sur géométries grâce à sf\n\n\n\n\n\n\n\n\nIllustration de st_union\n\n\n\n\n\n\n\nIllustration de st_union"
+    "section": "ggplot2",
+    "text": "ggplot2\nParamétrise les couches avec aes\n\nggplot(df) +\n  geom_point(aes(x = DISP_MED17, y = DISP_D917, color = DISP_Q117), shape = 3)\n\n\n\n\n\n\n\n\nNote\n\n\nLe contrôle de l’esthétique d’une couche geom_ se fait :\n\naes: paramètres variables de la couche liés à une variable ;\nhors aes: paramètres qui s’appliquent uniformément sur la couche"
   },
   {
-    "objectID": "slides/geospatial.html#projection",
-    "href": "slides/geospatial.html#projection",
+    "objectID": "slides/ggplot.html#ggplot2-3",
+    "href": "slides/ggplot.html#ggplot2-3",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Anatomie d’un objet sf",
-    "text": "Anatomie d’un objet sf\nLe système de référence de l’objet\n\n\n\n\nPosition sur terre \\(\\to\\) position dans le plan \nMultitude de projections (cf. suite)\nGestion cohérente grâce à sf\n\nUtilise les codes EPSG (4326, 2154…)\nDéfinition souvent automatique\nReprojections facilitées avec st_transform\n\n\n\n\n\nst_crs(communes_borders)\n\nCoordinate Reference System:\n  User input: WGS 84 \n  wkt:\nGEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4326]]"
+    "section": "ggplot2",
+    "text": "ggplot2\nAjoute des couches (+) avec les fonctions geom_*\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = DISP_Q117), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE)"
   },
   {
-    "objectID": "slides/geospatial.html#principe",
-    "href": "slides/geospatial.html#principe",
+    "objectID": "slides/ggplot.html#ggplot2-4",
+    "href": "slides/ggplot.html#ggplot2-4",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Principe",
-    "text": "Principe\n\n\n\nReprésentation dans un plan (2D) d’une surface arrondie en 3D\nThéorème remarquable de Gauss: la surface de la Terre ne peut être cartographiée sans distortion.\nMultitude de projections possibles\n\n\n\n\n\n\n\nExemple: projection de Mercator\n\n\nPréserve les angles mais ne conserve pas les surfaces et leurs proportions relatives (cf. site thetruesize.com).\n\n\n\n\n\nhtml`&lt;div&gt;${container_projection}&lt;/div&gt;`\n\n\n\n\n\n\n\n\n\ncontainer_projection = html`&lt;div class=\"container\"&gt;\n  &lt;div class=\"row\"&gt;\n    &lt;div class=\"projection\"&gt;\n      &lt;div class=\"projection-label\"&gt;Choisir une projection&lt;/div&gt;\n      ${viewof projection}\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div class=\"row\"&gt;\n    &lt;div class=\"projectedMap\"&gt;\n      ${projectedMap}\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;`\n\n\n\n\n\n\n\nviewof projection = projectionInput({\n  name: \"\",\n  value: \"Mercator\"\n})\n\n\n\n\n\n\n\nimport {projectionInput} from \"@fil/d3-projections\"\nimport {map} from \"@linogaliana/base-map\"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nprojectedMap = map(projection,\n                   {\n                     //svg: true,\n                     value: projection.options,\n                     width: width_projected_map,\n                     //height: 300,\n                     //rotate: [0, -90],\n                     //inertia: true,\n                     show_equator: true,\n                     background: \"#f1f0eb\"\n                     \n                     //show_structure: true\n                   })\n\n\n\n\n\n\n\nwidth_projected_map = screen.width/4"
+    "section": "ggplot2",
+    "text": "ggplot2\nModifier les échelles avec les fonctions scale_\n\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = DISP_Q117), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_c()"
   },
   {
-    "objectID": "slides/geospatial.html#web-mercator-wgs-84-4326",
-    "href": "slides/geospatial.html#web-mercator-wgs-84-4326",
+    "objectID": "slides/ggplot.html#ggplot2-5",
+    "href": "slides/ggplot.html#ggplot2-5",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "(Web) Mercator / WGS 84 (4326)",
-    "text": "(Web) Mercator / WGS 84 (4326)\n\n\n\nProjection la plus usuelle:\n\nSystème GPS (position précise depuis des satellites grâce conservation des angles)\nFonds de carte web Google, OpenStreetMap…\n\nMais déforme les distances et superficies\n\n\n\n\n\n\n\nAstuce pour la France\n\n\n\nLongitude (\\(x\\)) tourne autour de 0° (de -5.2 à +9.6 pour être plus précis)\nLa latitude (\\(y\\)) autour de 45 (entre +41.3 à +51.1)\n\nPlus de détails\n\n\n\n\n\nsize = 400\nhtml`&lt;iframe width=\"${size}\" height=\"${size*1.15 + 50}\" frameborder=\"0\"   overflow-x = \"hidden\" overflow-Y=\"hidden\"\n  src=\"https://observablehq.com/embed/@neocartocnrs/impact-of-projections-on-areas?cells=map%2Cviewof+mycountry\"&gt;&lt;/iframe&gt;`"
+    "section": "ggplot2",
+    "text": "ggplot2\nModifier les échelles avec les fonctions scale_\n\ndf &lt;- df %&gt;% mutate(quartile = factor(ntile(DISP_Q117, 4)))\nggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = quartile), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_d(option = \"turbo\")"
   },
   {
-    "objectID": "slides/geospatial.html#lambert-93-2154",
-    "href": "slides/geospatial.html#lambert-93-2154",
+    "objectID": "slides/ggplot.html#ggplot2-6",
+    "href": "slides/ggplot.html#ggplot2-6",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "Lambert 93 (2154)",
-    "text": "Lambert 93 (2154)\n\nProjection officielle pour la métropole\n\nProjection conique\nD’autres Lambert pour les DROM\n\n\n\n\nOrthonormée, centrée sur la métropole\n\nOn peut faire des calculs de distance sur des coordonnées\nDistance en mètres = distance euclidienne (\\(\\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}\\))\n\n\n\n\n\n\n\n\nAstuce pour la France\n\n\n\nCoordonnées \\(x\\): entre 100 000 et 1 300 000\nLa latitude (\\(y\\)): entre 6 000 000 et 7 200 000\n\nPlus de détails"
+    "section": "ggplot2",
+    "text": "ggplot2\nModifier l’esthétique, à la fin seulement\n\np &lt;- ggplot(df, aes(x = DISP_MED17, y = DISP_D917)) +\n  geom_point(aes(color = quartile), shape = 3) +\n  geom_smooth(color = \"red\", alpha = 0.7, se = FALSE) +\n  scale_x_continuous(labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_y_continuous(trans='log', labels = unit_format(unit = \"k\", scale=1e-3)) +\n  scale_color_viridis_d(option = \"turbo\")\n\np + theme_bw() +\n  labs(x = \"Revenu médian\", y = \"9e décile\", color = \"Quartile\") +\n  theme(legend.position = \"bottom\")\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
   },
   {
-    "objectID": "slides/geospatial.html#la-projection-de-spilhaus",
-    "href": "slides/geospatial.html#la-projection-de-spilhaus",
+    "objectID": "slides/quarto.html#introduction",
+    "href": "slides/quarto.html#introduction",
     "title": "Introduction aux méthodes quantitatives avec ",
-    "section": "La projection de Spilhaus",
-    "text": "La projection de Spilhaus\nLe monde vu par les poissons 🐟🐡🐠\n\nhtml`&lt;div class=\"centered\"&gt;${spilhaus}&lt;/div&gt;`\n\n\n\n\n\n\n\nspilhaus = {\n  const width = 600;\n  const height = width;\n\n  const context = DOM.context2d(width, height);\n  const projection = d3.geoStereographic()\n    .rotate([95, 45])\n    .translate([width / 2, height / 2])\n    .scale(width / 10.1)\n    .center([30, -5])\n    .clipAngle(166);\n  const path = d3.geoPath(projection, context);\n\n  const land = topojson.feature(world, world.objects.land);\n\n  context.lineJoin = \"round\";\n  context.lineCap = \"round\";\n  context.fillStyle = \"#f2f1ed\";\n  context.fillRect(0, 0, width, height);\n\n  context.beginPath();\n  path({type: \"Sphere\"});\n  path(land);\n  context.lineWidth = 0.5;\n  context.stroke();\n  context.clip(\"evenodd\");\n\n  context.save();\n  context.beginPath();\n  path(land);\n  context.filter = \"blur(12px)\";\n  context.fillStyle = \"#006994\";\n  context.fill(\"evenodd\");\n  context.restore();\n  \n  context.beginPath();\n  path(d3.geoGraticule10());\n  context.globalAlpha = 0.2;\n  context.strokeStyle = \"#000\";\n  context.stroke();\n\n  return context.canvas;\n}\n\n\n\n\n\n\n\n//import {map as spilhausmap} with {height, width} from \"@d3/spilhaus-shoreline-map\"\nimport { world } from \"@d3/spilhaus-shoreline-map\"\n\n\n\n\n\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+    "section": "Introduction",
+    "text": "Introduction\n\n\n\n\n\n\nNote\n\n\n\nExercices associés à ce chapitre ici\n\n\n\n\n\n\nRetour à la page principale"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
+    "objectID": "slides/quarto.html#enjeux",
+    "href": "slides/quarto.html#enjeux",
     "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Enjeux",
+    "text": "Enjeux\n\nProduire des études reproductibles en intégrant le code et le texte dans un même document\n\n\n\nLa génération complète de l’étude est contenue dans un unique projet\n\n\n\n\nLimiter les risques d’erreurs dues aux gestes manuels\n\n\n\n\nGestion native de différents formats pour le document final (pdf, html, odt, etc.)"
+  },
+  {
+    "objectID": "slides/quarto.html#r-markdown",
+    "href": "slides/quarto.html#r-markdown",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "R Markdown",
+    "text": "R Markdown\n\n\nR Markdown est un package R qui permet de lier\n\nDu texte au format Markdown\nDu code R qui peut être exécuté et dont les sorties peuvent être intégrées au texte\n\n\n\n\n\nDissociation du fond et de la forme du document\n\n\n\nUn document est compilé en deux étapes\n\nknit : le package knitr transforme le texte et les sorties R en un document Markdown standard\nconvert : le logiciel pandoc transforme le document .md en un format de sortie standard (html, pdf, etc.)"
+  },
+  {
+    "objectID": "slides/quarto.html#quarto",
+    "href": "slides/quarto.html#quarto",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Quarto",
+    "text": "Quarto\n\nQuarto est le successeur de R Markdown\n\n\n\nQuarto supporte différents moteurs de calcul (knitr, Jupyter, Observable..) ce qui le rend nativement multi-langage (R, Python, JavaScript..)\n\n\n\n\nLe fonctionnement des deux systèmes reste très proche"
+  },
+  {
+    "objectID": "slides/quarto.html#anatomie-dun-document-reproductible",
+    "href": "slides/quarto.html#anatomie-dun-document-reproductible",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Anatomie d’un document reproductible",
+    "text": "Anatomie d’un document reproductible"
+  },
+  {
+    "objectID": "slides/quarto.html#ressources-supplémentaires",
+    "href": "slides/quarto.html#ressources-supplémentaires",
+    "title": "Introduction aux méthodes quantitatives avec ",
+    "section": "Ressources supplémentaires",
+    "text": "Ressources supplémentaires\n\nLa documentation officielle de R Markdown\nLa fiche UtilitR sur R Markdown\nLa documentation officielle de quarto\n\n\n\nIntroduction aux méthodes quantitatives avec , École Normale Supérieure (retour page principale)"
+  },
+  {
+    "objectID": "utils/report.html",
+    "href": "utils/report.html",
+    "title": "Exemple de document Quarto",
     "section": "",
-    "text": "Introduction aux méthodes quantitatives avec \nLino Galiana\nCours du département de sciences sociales de l’ENS Ulm.\nUn cours pour se familiariser à  par la pratique avec l’open data.\n\n\n\n  \n     \n      \n          \n            \n          \n          \n            Introduction aux objets de base \n            \n              \nIntroduction aux objets basiques de \net à RStudio\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données avec le tidyverse\n            \n              \nIntroduction à l'écosystème du tidyverse\npour lire et manipuler des données structurées avec \n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Produire des représentations graphiques avec ggplot2\n            \n              \nIntroduction à ggplot2,\npour produire des graphiques avec\n\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Manipuler des données spatiales avec sf\n            \n              \nIntroduction à sf,\nune extension du\ntidyverse\npour transformer \nen SIG capable de lire et manipuler des données géographiques.\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Produire des cartes avec \n            \n              \nIntroduction à la cartographie avec\n\n\n\n              \n                Lino Galiana\n                Sep 1, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n  \n     \n      \n          \n            \n          \n          \n            Introduction aux publications reproductibles avec quarto\n            \n              \nIntroduction à quarto,\npour produire des publications avec\n\n\n\n              \n                Lino Galiana\n                Nov 2, 2023\n              \n            \n            \n                \n                  Exercice ✏️\n                \n                \n                  Slides 🧑‍🏫\n                \n            \n          \n        \n      \n     \n  \n\n\nNo matching items"
+    "text": "Ce rapport vise à présenter l’intérêt de Quarto pour produire des publications reproductibles. Son code source est disponible sur ."
   },
   {
-    "objectID": "exercises/cartography.html",
-    "href": "exercises/cartography.html",
-    "title": "Produire des cartes avec ",
+    "objectID": "utils/report.html#géographie-du-vélib",
+    "href": "utils/report.html#géographie-du-vélib",
+    "title": "Exemple de document Quarto",
+    "section": "Géographie du vélib",
+    "text": "Géographie du vélib\nLes stations Vélib’ sont réparties stratégiquement à travers la ville, couvrant les principaux quartiers et points d’intérêt. Des stations se trouvent à proximité des gares, des monuments emblématiques, des parcs et des zones commerciales, facilitant l’accès aux utilisateurs."
+  },
+  {
+    "objectID": "utils/report.html#principales-stations-de-velib",
+    "href": "utils/report.html#principales-stations-de-velib",
+    "title": "Exemple de document Quarto",
+    "section": "Principales stations de velib",
+    "text": "Principales stations de velib\nLe réseau Vélib’ couvre l’ensemble de la ville de Paris, avec une densité plus élevée de stations dans le centre-ville, les quartiers densément peuplés ou les lieux publics à grande capacité.\nLa Table Table 1 recense les 5 principales stations. On peut retrouver les 50 sur la Figure Figure 1.\n\n\n\n\n\n\nTable 1:  Principales stations \n  \n    \n      Principales stations de Velib\n    \n    \n      Les 5 principales de l’agglo Parisienne\n    \n    \n      Nom\n      Capacité de la station\n      \n      \n    \n  \n  \n    Emeriau - Beaugrenelle\n74\n\n          \n    Grenelle - Dr Finlay\n71\n\n          \n    Censier - Santeuil\n69\n\n          \n    Fabre d'Eglantine - Place de la Nation\n68\n\n          \n    Gare de Lyon - Roland Barthes\n68\n\n          \n  \n  \n  \n\n\n\n\n\n\n\n\n\n\nFigure 1: Carte des principales stations"
+  },
+  {
+    "objectID": "utils/report.html#a-propos",
+    "href": "utils/report.html#a-propos",
+    "title": "Exemple de document Quarto",
+    "section": "A propos",
+    "text": "A propos\nCe rapport est écrit par Daffy Duck, géographe en herbe"
+  },
+  {
+    "objectID": "exercises/eval.html",
+    "href": "exercises/eval.html",
+    "title": "Evaluation",
     "section": "",
-    "text": "Dans ce TP, nous allons apprendre à créer des cartes avec . A mesure que  devient incontournable auprès des personnes manipulant des données spatiales, les solutions pour produire des cartes de qualité deviennent de plus en plus nombreuses.  a de moins en moins à envier aux logiciels spécialisés comme QGIS.\nSi vous êtes intéressés par Python , une version très proche de ce TP est disponible dans mon cours de l’ENSAE.\nCe TP vise à initier:\nDans ce chapitre, nous allons utiliser les packages suivants:\nlibrary(dplyr)\nlibrary(sf)\nlibrary(stringr)\nlibrary(archive)\nlibrary(ggplot2)\nlibrary(glue)\nlibrary(ggtext)\nlibrary(scales)\nlibrary(units)\nlibrary(leaflet)\nlibrary(cartiflette)"
+    "text": "Ce chapitre présente la consigne pour l’évaluation de l’année 2023-2024.\nL’objectif de ces exercices est de vous amener à explorer la richesse des données électorales fines. Vous pourrez ultérieurement aller plus loin pour essayer de relier les résultats de vote à des variables socioéconomiques disponibles à la même échelle.\nLes consignes générales sont les suivantes:\nLe code d’import des données est directement mis à disposition pour vous permettre de démarrer les exercices.\ndf &lt;- read_csv(\n  'https://www.data.gouv.fr/fr/datasets/r/182268fc-2103-4bcb-a850-6cf90b02a9eb'\n)"
   },
   {
-    "objectID": "exercises/cartography.html#données",
-    "href": "exercises/cartography.html#données",
-    "title": "Produire des cartes avec ",
-    "section": "1 Données",
-    "text": "1 Données\nAu cours de ce chapitre, nous allons utiliser plusieurs jeux de données pour illustrer différents types de cartes:\n\nDes comptages de population ;\nLes limites départementales de la France métropolitaine ;\nLes limites communales du Finistère ;\nLe couvert forestier du département des Landes ;"
+    "objectID": "exercises/eval.html#explorations-générales",
+    "href": "exercises/eval.html#explorations-générales",
+    "title": "Evaluation",
+    "section": "Explorations générales",
+    "text": "Explorations générales\n\n\n\n\n\n\nQuestion 1\n\n\n\nCréer ou mettre à jour les variables suivantes:\n\ncode_commune: En utilisant la variable déjà existante et le département, remplacer la valeur code_commune pour constituer un vrai code commune. Par exemple, pour Montrouge, vous devriez obtenir 92049.\ncandidat: créer une colonne avec le prenom et le nom mis ensemble, en n’oubliant pas de mettre un espace. Ne pas éliminer les bulletins abstentions, blancs ou nuls, nous allons les exploiter ultérieurement.\n\n\n\n\n\n\n\n\n\nExercice 2\n\n\n\nCompléter la phrase suivante grâce à R:\n\nEn 2022, il y avait XXXXX candidats à l’élection présidentielle\n\nL’intégrer dans un code inline pour obtenir la phrase comme ci-dessous\nNote: Attention aux votes non exprimés et aux abstentions\n\n\nEn 2022, il y avait 12 candidats à l’élection présidentielle.\n\n\n\n\n\n\nQuestion 3\n\n\n\nCalculer les scores nationaux de chaque candidat. Représenter dans ce tableau, pour chaque candidat, le nombre de voix et le pourcatage des votes exprimés (c’est-à-dire en retirant abstentions et votes non exprimés).\nUtiliser gt pour représenter cela dans un tableau, par exemple dans le style de celui disponible plus bas (il n’est pas obligatoire d’aller aussi loin dans la mise en forme mais essayez d’obtenir un beau tableau tout de même).\nNote: vous pouvez contrôler vos résultats obtenus avec cette page\n\n\nExemple de tableau à obtenir:\n\n\n\n\n\n\n  \n    \n    \n    \n    \n    \n  \n  \n    \n      Elections 🇫🇷\n    \n    \n      Résultats du premier tour (📅 10 avril 2022)\n    \n    \n      Candidat.e\n      Nombre votes (total)\n      Score (% votes exprimés)\n      \n      \n    \n  \n  \n    Emmanuel MACRON\n9 783 058\n27.85%\n\n\n    Marine LE PEN\n8 133 828\n23.15%\n\n\n    Jean-Luc MÉLENCHON\n7 712 520\n21.95%\n\n\n    Éric ZEMMOUR\n2 485 226\n7.07%\n\n\n    Valérie PÉCRESSE\n1 679 001\n4.78%\n\n\n    Yannick JADOT\n1 627 853\n4.63%\n\n\n    Jean LASSALLE\n1 101 387\n3.13%\n\n\n    Fabien ROUSSEL\n802 422\n2.28%\n\n\n    Nicolas DUPONT-AIGNAN\n725 176\n2.06%\n\n\n    Anne HIDALGO\n616 478\n1.75%\n\n\n    Philippe POUTOU\n268 904\n0.77%\n\n\n    Nathalie ARTHAUD\n197 094\n0.56%"
   },
   {
-    "objectID": "exercises/cartography.html#import-des-données",
-    "href": "exercises/cartography.html#import-des-données",
-    "title": "Produire des cartes avec ",
-    "section": "2 Import des données",
-    "text": "2 Import des données\nCe TD va proposer un certain nombre de jeux de données intéressants pour la cartographie. Comme l’import de ceux-ci n’est pas le coeur du chapitre, nous proposons directement le code d’import des données.\n\n2.1 Populations légales au niveau départemental\n\nlibrary(readr)\nlibrary(dplyr)\n\n# download et unzip pour avoir les fichiers\nurl_pop_legales = \"https://www.insee.fr/fr/statistiques/fichier/6683035/ensemble.zip\"\ndownload.file(url_pop_legales, \"pop_legales.zip\")\nunzip(\"pop_legales.zip\")\n\npop_legales_departements = read_csv2(\"donnees_departements.csv\")\npop_legales_finistere = read_csv2(\"donnees_communes.csv\") %&gt;%\n  filter(CODDEP == \"29\") %&gt;%\n  mutate(code_insee = paste0(CODDEP, CODCOM))\n\n\n\n2.2 Limites communales et départementales\nNous allons utiliser cartiflette qui facilite la récupération des fonds de carte administratifs de l’IGN.\n\nremotes::install_github(\"linogaliana/cartiflette-r\")\n\nEn premier lieu, nous allons récupérer les limites des départements:\n\nlibrary(cartiflette)\ndepartement_borders &lt;- download_vectorfile_url_all(\n    crs = 4326,\n    values = \"metropole\",\n    borders=\"DEPARTEMENT\",\n    vectorfile_format=\"geojson\",\n    filter_by=\"FRANCE_ENTIERE\",\n    source=\"EXPRESS-COG-CARTO-TERRITOIRE\",\n    year=2022)\n\nPour s’en assurer, une carte peut rapidement être produite:\n\nggplot(departement_borders) +\n  geom_sf(fill = \"transparent\") +\n  theme_void()\n\n\n\n\nOn va également récupérer les limites des communes du Finistère avec cartiflette. Voici le code pour ne garder que les communes du Finistère (département 29):\n\nfinistere &lt;- download_vectorfile_url_all(\n    crs = 4326,\n    values = \"29\",\n    borders=\"COMMUNE\",\n    vectorfile_format=\"geojson\",\n    filter_by=\"DEPARTEMENT\",\n    source=\"EXPRESS-COG-CARTO-TERRITOIRE\",\n    year=2022)\n\n\nfinistere &lt;- finistere %&gt;% left_join(pop_legales_finistere, by = c(\"INSEE_COM\" = \"code_insee\") )\n\n\n\n\n\n\n\nExercice 1: représenter rapidement les frontières pour se placer dans l’espace\n\n\n\nOn va d’abord faire une carte simple, avec ggplot, des limites communales\n\nEn s’inspirant du code précédent, faire la carte du Finistère\n\nPour en apprendre un peu plus sur les données, on va mettre en oeuvre une carte avec le package leaflet. Celui-ci permettra de créer des visualisations réactives, plus propices à l’exploration de données.\n\nReprésenter les limites communales du Finistère avec le package leaflet en utilisant les fonctions suivantes:\n\nAfficher un fonds de carte Open Street Map avec la fonction addTiles\nAfficher les limites des polygones avec la fonction addPolylines\n\nTravailler un peu la couche Polylines en réduisant la taille des bordures et en utilisant le paramètre popup pour afficher le nom de la ville et la population communales\n\n\n\nCarte obtenue à la question 1\n\n\nSolution question 1\nggplot(finistere) +\n  geom_sf(fill = \"transparent\") +\n  theme_void()\n\n\n\n\n\nCarte obtenue à la question 2\n\n\nSolution question 2\nleaflet(finistere) %&gt;% \n  addTiles() %&gt;%\n  addPolylines()\n\n\n\n\n\n\nCarte obtenue à la question 3\n\n\nSolution question 3\nleaflet(finistere) %&gt;% \n  addTiles() %&gt;%\n  addPolylines(\n    weight = 2,\n    popup = ~paste0(NOM, \": \", PTOT, \" habitants\")\n  )\n\n\n\n\n\n\nLes exemples de code ci-dessus illustraient une situation où on ne désire représenter que les limites des polygones dans l’objet sf. C’est une carte utile pour rapidement placer son jeu de données dans l’espace mais ça n’apporte pas d’information supplémentaire. Pour cela, il va être nécessaire d’utiliser les données tabulaires associées à la dimension spatiale."
+    "objectID": "exercises/eval.html#comparaison-des-scores-départements-aux-moyennes-nationales.",
+    "href": "exercises/eval.html#comparaison-des-scores-départements-aux-moyennes-nationales.",
+    "title": "Evaluation",
+    "section": "Comparaison des scores départements aux moyennes nationales.",
+    "text": "Comparaison des scores départements aux moyennes nationales.\nOn va essayer d’étudier la territorialité de certains votes. Pour cela, nous allons étudier la manière dont certains candidats sont surreprésentés dans les résultats par rapport à leur moyenne nationale.\n\n\n\n\n\n\nQuestion 4\n\n\n\nCréer un dataframe nommé score_departements stockant, pour chaque département, le nombre de vote obtenu pour chaque candidat et le score (en %).\nPar exemple, vous devriez obtenir le résultat suivant pour l’Aude:\n\n\n# A tibble: 12 × 4\n# Groups:   code_departement [1]\n   code_departement candidat              votes   score\n   &lt;chr&gt;            &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;\n 1 11               Anne HIDALGO           6166 0.0290 \n 2 11               Emmanuel MACRON       43104 0.203  \n 3 11               Fabien ROUSSEL         5622 0.0265 \n 4 11               Jean LASSALLE         12382 0.0583 \n 5 11               Jean-Luc MÉLENCHON    42039 0.198  \n 6 11               Marine LE PEN         64027 0.301  \n 7 11               Nathalie ARTHAUD       1026 0.00483\n 8 11               Nicolas DUPONT-AIGNAN  4206 0.0198 \n 9 11               Philippe POUTOU        1748 0.00823\n10 11               Valérie PÉCRESSE       7350 0.0346 \n11 11               Yannick JADOT          6322 0.0298 \n12 11               Éric ZEMMOUR          18434 0.0868 \n\n\n\n\n\n\n\n\n\n\nQuestion 5\n\n\n\nRefaire le lien avec le niveau national pour comparer le score départemental avec le score national. Nommer ce dataframe score_departements, nous allons le réutiliser par la suite.\nPar exemple, vous devriez obtenir le résultat suivant pour l’Aude:\n\n\n# A tibble: 12 × 6\n# Groups:   code_departement [1]\n   code_departement candidat  votes_departement score_departement votes_national\n   &lt;chr&gt;            &lt;chr&gt;                 &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt;\n 1 11               Anne HID…              6166           0.0290          616478\n 2 11               Emmanuel…             43104           0.203          9783058\n 3 11               Fabien R…              5622           0.0265          802422\n 4 11               Jean LAS…             12382           0.0583         1101387\n 5 11               Jean-Luc…             42039           0.198          7712520\n 6 11               Marine L…             64027           0.301          8133828\n 7 11               Nathalie…              1026           0.00483         197094\n 8 11               Nicolas …              4206           0.0198          725176\n 9 11               Philippe…              1748           0.00823         268904\n10 11               Valérie …              7350           0.0346         1679001\n11 11               Yannick …              6322           0.0298         1627853\n12 11               Éric ZEM…             18434           0.0868         2485226\n# ℹ 1 more variable: score_national &lt;dbl&gt;\n\n\n\n\n\n\n\n\n\n\nQuestion 6\n\n\n\nCréer une variable surrepresentation qui compare, en relatif, les scores nationaux et départementaux.\nPar exemple, si un candidat a un score de 30% dans un département mais de 15% ailleurs, la valeur de surrepresentation sera égale à 100 (%).\n\n\n\n\n\n\n\n\nQuestion 7\n\n\n\nObserver les 5 principales représentations, en valeur absolue, pour chaque candidat. Représenter cela sur un graphique, du type de celui-ci dessous."
   },
   {
-    "objectID": "exercises/cartography.html#une-carte-de-couverture-forestière",
-    "href": "exercises/cartography.html#une-carte-de-couverture-forestière",
-    "title": "Produire des cartes avec ",
-    "section": "3 Une carte de couverture forestière",
-    "text": "3 Une carte de couverture forestière\nPour cette partie, nous allons faire une carte du couvert forestier landais à partir de la BD Forêt produite par l’IGN. Cette dernière étant un petit peu volumineuse dans le format shapefile, nous proposons de la récupérer dans un format plus compressé: le geopackage.\nLe code suivant peut être utilisé pour cela:\n\nforet &lt;- sf::st_read(\n  \"https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg\"\n)\n\nReading layer `landes' from data source \n  `https://minio.lab.sspcloud.fr/projet-formation/diffusion/r-geographie/landes.gpkg' \n  using driver `GPKG'\nSimple feature collection with 43094 features and 5 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 334878 ymin: 6274073 xmax: 470942.7 ymax: 6389966\nProjected CRS: RGF93 v1 / Lambert-93\n\n\n\n\n\n\n\n\nTip\n\n\n\n\nCréer une carte du couvert forestier des Landes à partir des données importées précédemment depuis la BD Forêt\n\n\n\n\n\nQuestion 1\nggplot(foret) + geom_sf(fill = \"forestgreen\", lwd = 0) +\n  geom_sf(\n    data = departement_borders %&gt;% filter(INSEE_DEP == 40) %&gt;% st_transform(2154),\n    color = \"black\", lwd = 1, fill = \"transparent\") +\n  theme_void() +\n  labs(title = \"Couvert forestier dans les Landes\")"
+    "objectID": "exercises/eval.html#un-peu-de-cartographie",
+    "href": "exercises/eval.html#un-peu-de-cartographie",
+    "title": "Evaluation",
+    "section": "Un peu de cartographie",
+    "text": "Un peu de cartographie\nPour cette partie, vous pouvez récupérer le fonds de carte des départements grâce au code ci-dessous:\n\ndepartement_borders &lt;- download_vectorfile_url_all(\n  crs = 4326,\n  values = \"metropole\",\n  borders=\"DEPARTEMENT\",\n  vectorfile_format=\"geojson\",\n  filter_by=\"FRANCE_ENTIERE\",\n  source=\"EXPRESS-COG-CARTO-TERRITOIRE\",\n  year=2022)\n\n\n\n\n\n\n\nQuestion 8a\n\n\n\nRestreindre score_departements aux résultats de Marine Le Pen (ne pas écraser score_departements nous allons l’utiliser à nouveau !). Faire une jointure au fond de carte des départements et effectuer une carte de la représentation. L’échelle de couleur que vous pouvez utiliser est white pour les valeurs les plus basses et #394679 pour les valeurs les plus hautes.\nInterpréter.\n\n\nVous devriez obtenir une carte proche de celle-ci\n\n\n\n\n\n\n\n\n\n\n\nQuestion 8b\n\n\n\nMême question pour Emmanuel Macron. L’échelle de couleur que vous pouvez utiliser est white pour les valeurs les plus basses et #f1c237 pour les valeurs les plus hautes.\nInterpréter.\n\n\n\n\n\n\n\n\n\n\n\n\n\nQuestion 8c\n\n\n\nMême question pour Jean-Luc Mélenchon. L’échelle de couleur que vous pouvez utiliser est white pour les valeurs les plus basses et #cb452a pour les valeurs les plus hautes.\nInterpréter."
   },
   {
-    "objectID": "exercises/cartography.html#découverte-des-cartes-choroplèthes",
-    "href": "exercises/cartography.html#découverte-des-cartes-choroplèthes",
-    "title": "Produire des cartes avec ",
-    "section": "4 Découverte des cartes choroplèthes",
-    "text": "4 Découverte des cartes choroplèthes\nLa carte par aplat de couleur, dite carte choroplèthes, est l’une des représentations de données géographiques les plus traditionnelles.\nD’après Chen et al. (2008), la première représentation de ce type a été proposée par Charles Dupin en 1926 pour représenter les niveaux d’instruction sur le territoire français. L’émergence des cartes choroplèthes est en effet indissociable de l’organisation du pouvoir sous forme d’entités pensées politiques supposées unitaires: les cartes du monde représentent souvent des aplats de couleurs à partir des nations, les cartes nationales à partir d’échelons administratifs (régions, départements, communes, mais aussi Etats ou landers).\n.\nOn peut voir l’émergence pendant le XIXe siècle de la carte choroplèthe comme un moment important de la cartographie, un glissement de l’usage militaire vers l’usage politique. Il ne s’agissait plus exclusivement de représenter le territoire physique mais aussi la réalité socioéconomique, dans des bornes administratives connues de tous.\nMalgré toutes ces limites, sur lesquelles nous reviendrons, la carte choroplèthe est tout de même instructive. Savoir en produire une rapidement, pour saisir les principaux faits structurants d’un jeu de données, est particulièrement utile.\n\n\n\n\n\n\nExercice 3: une première carte de la population\n\n\n\nL’objectif de cet exercice va être d’enrichir les informations présentées sur la carte des départements.\n\nUtiliser le code ci-dessous pour enrichir notre objet sf des départements d’une variable de population:\n\n\npopulation_dep &lt;- departement_borders %&gt;%\n  left_join(pop_legales_departements, by = c(\"INSEE_DEP\" = \"CODDEP\"))\n  \npopulation_dep &lt;- population_dep %&gt;%\n  mutate(densite = as.numeric(PTOT / set_units(st_area(.), \"km2\") )) %&gt;%\n  mutate(pop_4 = cut(PTOT/1000, breaks = 4)) %&gt;%\n  mutate(pop = PTOT)\n\nhead(population_dep, 3)\n\nSimple feature collection with 3 features and 18 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2.958036 ymin: 41.33356 xmax: 9.40804 ymax: 50.0695\nGeodetic CRS:  WGS 84\n                        ID        NOM_M          NOM INSEE_DEP INSEE_REG\n1 DEPARTEM_FXX_00000000001          AIN          Ain        01        84\n2 DEPARTEM_FXX_00000000002        AISNE        Aisne        02        32\n3 DEPARTEM_FXX_00000000003 CORSE-DU-SUD Corse-du-Sud        2A        94\n                            source territoire CODREG                  REG\n1 IGN:EXPRESS-COG-CARTO-TERRITOIRE  metropole     84 Auvergne-Rhône-Alpes\n2 IGN:EXPRESS-COG-CARTO-TERRITOIRE  metropole     32      Hauts-de-France\n3 IGN:EXPRESS-COG-CARTO-TERRITOIRE  metropole     94                Corse\n           DEP NBARR NBCAN NBCOM   PMUN   PTOT                       geometry\n1          Ain     4    23   393 657856 673801 MULTIPOLYGON (((4.795393 46...\n2        Aisne     5    21   799 529374 541176 MULTIPOLYGON (((3.120799 49...\n3 Corse-du-Sud     2    11   124 160814 163182 MULTIPOLYGON (((8.597976 41...\n    densite      pop_4    pop\n1 116.76601 (77.7,720] 673801\n2  73.26169 (77.7,720] 541176\n3  40.70050 (77.7,720] 163182\n\n\n\nEn utilisant votre connaissance de ggplot et le modèle ci-dessous, représenter une première carte par aplat de couleur (choropleth map) de la variable pop\n\n\n# Modèle\nggplot(departement_borders) + geom_sf(fill = \"white\") + theme_void()\n\nCette carte étant peu lisible, on propose, en premier lieu, de discrétiser ses couleurs.\n\nUtiliser la variable pop_4 pour voir un petit peu à quoi ressemble une version discrétisée de notre carte de population.\n\nCela apparaît mieux mais la discrétisation n’est sans doute pas idéale, les catégories étant plutôt hasardeuses. Il vaut mieux utiliser scale_fill_steps qui construit de manière plus pertinente les catégories de couleurs.\n\nReprendre la carte de la question 2 construite avec la variable continue pop. Appliquer l’échelle de couleur de scale_fill_steps\nIl existe aussi la fonction scale_fill_fermenter qui permet de discrétiser une échelle continue. A partir de la palette RdPu, construire une carte discrétisée.\nChoisir une des deux approches et travailler cette carte pour la rendre plus esthétique. Par exemple, avec scale_fill_steps, travailler la carte pour la faire ressembler à la chloroplèthe de Dupin. Ce site est pratique pour explorer les palettes de couleurs.\n\n\n\n\n# Question 2\nplot_q2_exo1 &lt;- ggplot(population_dep) + geom_sf(aes(fill = pop)) + theme_void()\n\n\n# Question 3\nplot_q3_exo1 &lt;- ggplot(population_dep) + geom_sf(aes(fill = pop_4)) + theme_void()\n\n\n# Question 4\nplot_q4_exo1 &lt;- ggplot(\n  population_dep\n) + geom_sf(aes(fill = pop)) +\n  scale_fill_steps() +\n  theme_void()\n\n\n# Question 5\nplot_q5_exo1 &lt;- ggplot(\n  population_dep\n) + geom_sf(aes(fill = pop)) +\n  scale_fill_fermenter(\n    n.breaks = 5,\n    palette = \"RdPu\",\n    direction = 1,\n    labels = label_number(scale_cut = cut_short_scale())\n    ) +\n  theme_void()\n\n\n# Question 6\nplot_q6_exo1 &lt;- ggplot(\n    population_dep\n) + geom_sf(aes(fill = pop), color = \"white\") +\n    scale_fill_steps(\n        n.breaks = 5, trans = \"log\",\n        low = \"white\", high = \"black\",\n        labels = label_number(scale_cut = cut_short_scale())\n    ) +\n    theme_void() +\n  labs(fill = \"Population\")\n\nplot_q6_exo1_bis &lt;- ggplot(\n    population_dep\n) + geom_sf(aes(fill = densite), color = \"white\") +\n    scale_fill_steps(\n        n.breaks = 5, trans = \"log\",\n        low = \"white\", high = \"black\",\n        labels = label_number(scale_cut = cut_short_scale())\n    ) +\n    theme_void() +\n  labs(fill = \"Habitants\\n(par km²)\")\n\n\n\nCarte obtenue à la question 2\n\n\n\n\n\n\n\n\n\nCarte obtenue à la question 3\n\n\n\n\n\n\n\n\n\nCarte obtenue à la question 4\n\n\n\n\n\n\n\n\n\nCarte obtenue à la question 5\n\n\n\n\n\n\n\n\n\nCartes obtenue à la question 6\n\n\n\n\n\n\n\n\n\n\n\n\nAvec ggplot2, avec peu de travail sur le style, on obtient déjà une carte déjà intéressante. On voit bien dessus la “diagonale du vide”. Par exemple, les deux cartes dans le style de Dupin (1826):\n\n\n\n\n\n\nCarte de la population française\n\n\n\n\n\n\n\nCarte de densité de la population française\n\n\n\n\n\nLa carte de densité est plus représentative de la réalité démographique que la carte ne tenant pas compte des surfaces. Néanmoins elle reste imparfaite pour décrire la très forte concentration de la population dans l’aire parisienne. Pour mieux représenter les phénomènes en présence de zonages de dimension hétérogène, il sera nécessaire d’utiliser une autre représentation cartographique, comme les ronds proportionnels ou les cartogrammes.\n\n\n\n\n\n\nExercice supplémentaire: déplacer les DROM, zoomer sur l’Île de France\n\n\n\nUn exercice illustratif à venir"
-  },
-  {
-    "objectID": "exercises/cartography.html#dautres-cartes-avec-mapsf",
-    "href": "exercises/cartography.html#dautres-cartes-avec-mapsf",
-    "title": "Produire des cartes avec ",
-    "section": "5 D’autres cartes avec mapsf",
-    "text": "5 D’autres cartes avec mapsf\nEn soi, il est possible de faire des cartes autres que les aplats de couleurs avec ggplot. Néanmoins, c’est un peu complexe à mettre en oeuvre pour contrôler de manière fine l’étendue des cercles. Heureusement, il existe un package adapté pour cela, construit par des géographes pour des géographes: le package mapsf !\nL’exercice suivant va illustrer comment créer ce type de carte.\n\n\n\n\n\n\nExercice 4: représentations alternatives avec mapsf\n\n\n\n\nRecréer une carte choroplèthe avec mapsf en utilisant 4 couleurs dont les valeurs proviennent des quantiles de la distribution des densités\nPour se rendre compte de la nature hautement non-linéaire de notre variable de densité, représenter la même carte avec l’argument breaks égal à equal ou pretty.\nPour s’abstraire du problème de biais visuel lié aux chrolepthes, on peut tester la représentation par ronds proportionnels. Représenter la même information mais en utilisant cette fois des ronds proportionnels.\nCette page propose de nombreuses représentations de données. Reproduire la figure ci-dessous avec notre jeu de données du Finistère\n\n\n\n\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 1\nlibrary(mapsf)\nmf_map(\n  population_dep, var = \"densite\", type = \"choro\", nbreaks = 4,\n  pal = \"Dark Mint\",\n  leg_val_rnd = -2,\n  breaks = \"arith\")\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 2\nmf_map(\n  population_dep, var = \"densite\", type = \"choro\", nbreaks = 4,\n  pal = \"Dark Mint\",\n  leg_val_rnd = -2,\n  breaks = \"quantile\")\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 3\npopulation_dep_lambert &lt;- population_dep %&gt;% st_transform(2154)\nmf_map(population_dep_lambert)\nmf_map(population_dep_lambert, var = \"densite\", type = \"prop\")\nmf_layout(\n    title = \"Densité en France\"\n)\n\n\n\n\n\n# code-fold: true\n# code-summary: Question 4\nfinistere &lt;- finistere %&gt;% st_transform(2154)\n\nmf_map(\n  finistere,\n  col = \"#CCCCCC\",\n  border = \"white\",\n  lwd = 0.5\n)\nmf_map(\n  finistere, var = \"PTOT\",\n  type = \"prop\",\n  col = \"#c291bc\",\n  border = \"#6b4266\",\n  lwd = 0.5,\n  add = TRUE\n)\nmf_title(\"Population du Finistère\", bg = \"#6b4266\")\nmf_annotation(\n      x = c(132040, 6826675),\n      txt = \"Finistère (29)\",\n      pos = \"bottomleft\",\n      col_txt = \"#6b4266\",\n      cex = 1.2,\n      font = 2,\n      halo = TRUE,\n      s = 1.5\n    )"
+    "objectID": "exercises/eval.html#focus-sur-labstention",
+    "href": "exercises/eval.html#focus-sur-labstention",
+    "title": "Evaluation",
+    "section": "Focus sur l’abstention",
+    "text": "Focus sur l’abstention\n\n\n\n\n\n\nQuestion 9\n\n\n\nRetrouver les 10 principales communes abstentionnistes parmi les communes où il y a eu plus de 2000 votes et n’appartenant pas aux départements des DROM ou des Français à l’étranger (pour cela, le filtre est directement donné: filter(!str_starts(code_commune, \"(fr|98|97)\")).\nAnalyser\n\n\nLe tableau à obtenir sera le suivant. Le votre devra avoir au moins une colonne supplémentaire: les noms de commune.\n\n\n# A tibble: 853 × 5\n# Groups:   code_commune, libelle_commune [853]\n   libelle_commune    code_commune abstention  votes taux_abstention\n   &lt;chr&gt;              &lt;chr&gt;        &lt;chr&gt;       &lt;dbl&gt;           &lt;dbl&gt;\n 1 Bastia             2B033        Abstentions  9191           0.418\n 2 Clichy-sous-Bois   93014        Abstentions  4941           0.418\n 3 Roubaix            59512        Abstentions 19526           0.410\n 4 Porto-Vecchio      2A247        Abstentions  3983           0.405\n 5 Vaulx-en-Velin     69256        Abstentions  9730           0.404\n 6 Jeumont            59324        Abstentions  2607           0.396\n 7 Forbach            57227        Abstentions  5025           0.392\n 8 Stains             93072        Abstentions  6716           0.391\n 9 Hautmont           59291        Abstentions  3700           0.389\n10 Châlette-sur-Loing 45068        Abstentions  2865           0.389\n# ℹ 843 more rows\n\n\n\nL’abstention en Corse\nVoici le code pour récupérer le fond de carte des communes Corse.\n\ncorse &lt;- download_vectorfile_url_all(\n  crs = 4326,\n  values = c(\"2A\",\"2B\"),\n  borders=\"COMMUNE\",\n  vectorfile_format=\"geojson\",\n  filter_by=\"DEPARTEMENT\",\n  source=\"EXPRESS-COG-CARTO-TERRITOIRE\",\n  year=2022)\n\n\n\n\n\n\n\nNote\n\n\n\nFaire une carte du taux d’abstention par commune en corse\n\n\nLa carte obtenue devrait ressembler à celle-ci:"
   },
   {
     "objectID": "exercises/ggplot.html",
@@ -921,7 +956,7 @@
     "href": "exercises/r-base.html#les-dataframes",
     "title": "Découverte des objets de base de ",
     "section": "7.3 Les dataframes",
-    "text": "7.3 Les dataframes\nC’est l’objet central de l’analyse de données avec . Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).\n\n\n\nIllustration du principe du dataframe (empruntée à H. Wickham)\n\n\nVoici par exemple un dataframe:\n\n# Création du data.frame df\ndf &lt;- data.frame(\n  var1 = 1:10,\n  var2 = letters[1:10],\n  var3 = rep(c(TRUE, FALSE), times = 5)\n)\n\nSa structure interne peut être vérifiée avec la fonction str:\n\nstr(df)\n\n'data.frame':   10 obs. of  3 variables:\n $ var1: int  1 2 3 4 5 6 7 8 9 10\n $ var2: chr  \"a\" \"b\" \"c\" \"d\" ...\n $ var3: logi  TRUE FALSE TRUE FALSE TRUE FALSE ...\n\n\nQuand on travaille avec R, l’une des fonctions qu’on utilise le plus est head. Elle permet d’afficher les \\(n\\) premières lignes de notre jeu de données:\n\nhead(df)\n\n  var1 var2  var3\n1    1    a  TRUE\n2    2    b FALSE\n3    3    c  TRUE\n4    4    d FALSE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\n\n\n\n\nWarning\n\n\n\nIl est également possible d’utiliser le viewer de RStudio pour afficher des jeux de données.\nAttention cependant, ce viewer peut rencontrer des problèmes de performance et faire planter votre session R quand le jeu de données commence à être d’une taille conséquente.\nJe recommande plutôt de toucher utiliser head ou de sélectionner des lignes aléatoirement avec sample:\n\ndf[sample(nrow(df), 3), ]\n\n   var1 var2  var3\n10   10    j FALSE\n7     7    g  TRUE\n6     6    f FALSE\n\n\n\n\nDu point de vue de sa structure, un data.frame est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.\n\nis.list(df)\n\n[1] TRUE\n\nlapply(df, length)\n\n$var1\n[1] 10\n\n$var2\n[1] 10\n\n$var3\n[1] 10\n\n\nDe ce fait, les data.frame empruntent leurs caractéristiques tantôt aux listes, tantôt aux matrices comme le montre l’exercice suivant:\n\n\n\n\n\n\nExercice 10\n\n\n\n\nVérifier la dimension du dataframe df\nCompter le nombre de lignes et de colonnes de df\nVérifier la longueur (length) de df. Est-ce le comportement d’une matrice ou d’une liste ?\nExtraire l’élement à la 2e ligne, 3e colonne de df. Est-ce le comportement d’indexation d’une matrice ou d’une liste ?\nRécupérer la 3e ligne des variables var1 et var2.\n\n\n\nSolution\ndim(df)\nnrow(df)\nncol(df)\nlength(df) #comme une liste\ndf[3, c(\"var1\",\"var2\")]\n\n\n\n\nL’intérêt d’utiliser un data.frame est qu’on peut facilement mettre à jour nos données lors d’une analyse statistique. Les opérations les plus classiques, sur lesquelles nous reviendrons lors du prochain chapitre, sont\n\nCréer une nouvelle colonne à partir des colonnes pré-existantes ;\nSélectionner un sous-échantillon des données correspondant à certaines valeurs observées.\n\nIl existe plusieurs manières de faire référence à une colonne déjà existante d’un dataframe. La plus simple est d’utiliser la structure dataframe$colonne. Cela nous donnera un vecteur et on retombe sur ce format qu’on connaît déjà:\n\nclass(df$var1)\n\n[1] \"integer\"\n\n\n\n\n\n\n\n\nExercice 11\n\n\n\n\nCréer une colonne var4 de notre jeu de données égale au carré de var1\nCréer une colonne var5 de notre jeu de données concaténant les deux premières variables en généralisant le schéma 1=a.\nCréer un dataframe df_small1 pour les lignes où la condition logique var3 est vérifiée\nCréer un dataframe df_small2 pour les lignes où var1 est paire (voir plus haut l’exemple sur la division euclidienne pour le modèle)\n\n\n\nLe prochain chapitre va nous permettre d’aller beaucoup plus loin grâce à l’écosystème du tidyverse et notamment son package phare dplyr. Sans cet ensemble de packages facilitant grandement l’analyse statistique,  ne serait pas devenu l’un des deux langages phares de la statistique."
+    "text": "7.3 Les dataframes\nC’est l’objet central de l’analyse de données avec . Ces objets permettent en effet de représenter sous la forme d’une table (i.e. d’un objet à deux dimensions) des données de nature tant quantitatives (variables numériques) que qualitatives (variables de type caractère ou facteur).\n\n\n\nIllustration du principe du dataframe (empruntée à H. Wickham)\n\n\nVoici par exemple un dataframe:\n\n# Création du data.frame df\ndf &lt;- data.frame(\n  var1 = 1:10,\n  var2 = letters[1:10],\n  var3 = rep(c(TRUE, FALSE), times = 5)\n)\n\nSa structure interne peut être vérifiée avec la fonction str:\n\nstr(df)\n\n'data.frame':   10 obs. of  3 variables:\n $ var1: int  1 2 3 4 5 6 7 8 9 10\n $ var2: chr  \"a\" \"b\" \"c\" \"d\" ...\n $ var3: logi  TRUE FALSE TRUE FALSE TRUE FALSE ...\n\n\nQuand on travaille avec R, l’une des fonctions qu’on utilise le plus est head. Elle permet d’afficher les \\(n\\) premières lignes de notre jeu de données:\n\nhead(df)\n\n  var1 var2  var3\n1    1    a  TRUE\n2    2    b FALSE\n3    3    c  TRUE\n4    4    d FALSE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\n\n\n\n\nWarning\n\n\n\nIl est également possible d’utiliser le viewer de RStudio pour afficher des jeux de données.\nAttention cependant, ce viewer peut rencontrer des problèmes de performance et faire planter votre session R quand le jeu de données commence à être d’une taille conséquente.\nJe recommande plutôt de toucher utiliser head ou de sélectionner des lignes aléatoirement avec sample:\n\ndf[sample(nrow(df), 3), ]\n\n  var1 var2  var3\n3    3    c  TRUE\n5    5    e  TRUE\n6    6    f FALSE\n\n\n\n\nDu point de vue de sa structure, un data.frame est en réalité une liste dont tous les éléments ont la même longueur : c’est ce qui permet de le représenter sous la forme d’un tableau à deux dimensions.\n\nis.list(df)\n\n[1] TRUE\n\nlapply(df, length)\n\n$var1\n[1] 10\n\n$var2\n[1] 10\n\n$var3\n[1] 10\n\n\nDe ce fait, les data.frame empruntent leurs caractéristiques tantôt aux listes, tantôt aux matrices comme le montre l’exercice suivant:\n\n\n\n\n\n\nExercice 10\n\n\n\n\nVérifier la dimension du dataframe df\nCompter le nombre de lignes et de colonnes de df\nVérifier la longueur (length) de df. Est-ce le comportement d’une matrice ou d’une liste ?\nExtraire l’élement à la 2e ligne, 3e colonne de df. Est-ce le comportement d’indexation d’une matrice ou d’une liste ?\nRécupérer la 3e ligne des variables var1 et var2.\n\n\n\nSolution\ndim(df)\nnrow(df)\nncol(df)\nlength(df) #comme une liste\ndf[3, c(\"var1\",\"var2\")]\n\n\n\n\nL’intérêt d’utiliser un data.frame est qu’on peut facilement mettre à jour nos données lors d’une analyse statistique. Les opérations les plus classiques, sur lesquelles nous reviendrons lors du prochain chapitre, sont\n\nCréer une nouvelle colonne à partir des colonnes pré-existantes ;\nSélectionner un sous-échantillon des données correspondant à certaines valeurs observées.\n\nIl existe plusieurs manières de faire référence à une colonne déjà existante d’un dataframe. La plus simple est d’utiliser la structure dataframe$colonne. Cela nous donnera un vecteur et on retombe sur ce format qu’on connaît déjà:\n\nclass(df$var1)\n\n[1] \"integer\"\n\n\n\n\n\n\n\n\nExercice 11\n\n\n\n\nCréer une colonne var4 de notre jeu de données égale au carré de var1\nCréer une colonne var5 de notre jeu de données concaténant les deux premières variables en généralisant le schéma 1=a.\nCréer un dataframe df_small1 pour les lignes où la condition logique var3 est vérifiée\nCréer un dataframe df_small2 pour les lignes où var1 est paire (voir plus haut l’exemple sur la division euclidienne pour le modèle)\n\n\n\nLe prochain chapitre va nous permettre d’aller beaucoup plus loin grâce à l’écosystème du tidyverse et notamment son package phare dplyr. Sans cet ensemble de packages facilitant grandement l’analyse statistique,  ne serait pas devenu l’un des deux langages phares de la statistique."
   },
   {
     "objectID": "exercises/r-base.html#footnotes",

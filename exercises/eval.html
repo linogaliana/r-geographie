@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lino Galiana">
+
+<title>Introduction aux méthodes quantitatives avec  - Evaluation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Introduction aux méthodes quantitatives avec  - Evaluation">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://rgeo.linogaliana.fr/cards/version-light/baby.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introduction aux méthodes quantitatives avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../exercises/r-base.html" rel="" target="">
+ <span class="menu-text">Introduction</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-manipuler-des-données" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Manipuler des données</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-manipuler-des-données">    
+        <li>
+    <a class="dropdown-item" href="../exercises/r-wrangling.html" rel="" target="">
+ <span class="dropdown-text">Importer et manipuler des données avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../exercises/geospatial-wrangling.html" rel="" target="">
+ <span class="dropdown-text">Manipuler des données spatiales avec <code>sf</code></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-visualiser" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Visualiser</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-visualiser">    
+        <li>
+    <a class="dropdown-item" href="../exercises/ggplot.html" rel="" target="">
+ <span class="dropdown-text">Produire des représentations graphiques avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> et <code>ggplot2</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../exercises/cartography.html" rel="" target="">
+ <span class="dropdown-text">Produire des cartes avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-communiquer" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Communiquer</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-communiquer">    
+        <li>
+    <a class="dropdown-item" href="../exercises/quarto.html" rel="" target="">
+ <span class="dropdown-text">Publications reproductibles avec <i class="fa-brands fa-r-project" aria-label="r-project"></i> et <code>Quarto</code></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-evaluation" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Evaluation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-evaluation">    
+        <li>
+    <a class="dropdown-item" href="../exercises/eval.html" rel="" target="">
+ <span class="dropdown-text">Evaluation</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/linogaliana/r-geographie" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#explorations-générales" id="toc-explorations-générales" class="nav-link active" data-scroll-target="#explorations-générales">Explorations générales</a></li>
+  <li><a href="#comparaison-des-scores-départements-aux-moyennes-nationales." id="toc-comparaison-des-scores-départements-aux-moyennes-nationales." class="nav-link" data-scroll-target="#comparaison-des-scores-départements-aux-moyennes-nationales.">Comparaison des scores départements aux moyennes nationales.</a></li>
+  <li><a href="#un-peu-de-cartographie" id="toc-un-peu-de-cartographie" class="nav-link" data-scroll-target="#un-peu-de-cartographie">Un peu de cartographie</a></li>
+  <li><a href="#focus-sur-labstention" id="toc-focus-sur-labstention" class="nav-link" data-scroll-target="#focus-sur-labstention">Focus sur l’abstention</a>
+  <ul class="collapse">
+  <li><a href="#labstention-en-corse" id="toc-labstention-en-corse" class="nav-link" data-scroll-target="#labstention-en-corse">L’abstention en Corse</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Evaluation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lino Galiana </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Ce chapitre présente la consigne pour l’évaluation de l’année 2023-2024.</p>
+<p>L’objectif de ces exercices est de vous amener à explorer la richesse des données électorales fines. Vous pourrez ultérieurement aller plus loin pour essayer de relier les résultats de vote à des variables socioéconomiques disponibles à la même échelle.</p>
+<p>Les consignes générales sont les suivantes:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Consignes générales
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Envoyer par mail avant le <strong>XX janvier 2024</strong> deux documents: un fichier <code>.qmd</code> reproductible mélangeant vos réponses aux questions et vos analyses et le <code>.html</code> généré grâce à celui-ci ;</li>
+<li>Le <code>.html</code> ne présente pas les exemples de code, pensez donc à mettre <code>echo: false</code> dans les options du <em>header</em> ;</li>
+<li>N’oubliez pas d’ajouter les informations personnelles standards (auteur, titre) dans votre document ;</li>
+<li>Essayez de soigner le <code>.html</code> rendu. Vous pouvez néanmoins avoir des sorties graphiques ou tableau au style différent de ceux que j’ai mis en exemple si vous avez envie de donner une touche personnel à votre rapport ;</li>
+<li>Le document <code>.qmd</code> doit être reproductible, c’est-à-dire que je dois pouvoir cliquer sur le bouton <code>Render</code> et que cela va fonctionner.</li>
+</ul>
+</div>
+</div>
+<p>Le code d’import des données est directement mis à disposition pour vous permettre de démarrer les exercices.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'https://www.data.gouv.fr/fr/datasets/r/182268fc-2103-4bcb-a850-6cf90b02a9eb'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="explorations-générales" class="level2">
+<h2 class="anchored" data-anchor-id="explorations-générales">Explorations générales</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer ou mettre à jour les variables suivantes:</p>
+<ul>
+<li><code>code_commune</code>: En utilisant la variable déjà existante et le département, remplacer la valeur <code>code_commune</code> pour constituer un vrai code commune. Par exemple, pour Montrouge, vous devriez obtenir <code>92049</code>.</li>
+<li><code>candidat</code>: créer une colonne avec le <code>prenom</code> et le <code>nom</code> mis ensemble, en n’oubliant pas de mettre un espace. Ne pas éliminer les bulletins abstentions, blancs ou nuls, nous allons les exploiter ultérieurement.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercice 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compléter la phrase suivante grâce à <code>R</code>:</p>
+<blockquote class="blockquote">
+<p>En 2022, il y avait XXXXX candidats à l’élection présidentielle</p>
+</blockquote>
+<p>L’intégrer dans un code <em>inline</em> pour obtenir la phrase comme ci-dessous</p>
+<p><em>Note: Attention aux <a href="https://www.conseil-constitutionnel.fr/referendum-traite-constitution-pour-l-europe/bulletins-blancs-et-nuls">votes non exprimés</a> et aux abstentions</em></p>
+</div>
+</div>
+<p>En 2022, il y avait <strong>12</strong> candidats à l’élection présidentielle.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calculer les scores nationaux de chaque candidat. Représenter dans ce tableau, pour chaque candidat, le nombre de voix et le pourcatage des votes exprimés (c’est-à-dire en retirant abstentions et votes non exprimés).</p>
+<p>Utiliser <code>gt</code> pour représenter cela dans un tableau, par exemple dans le style de celui disponible plus bas (il n’est pas obligatoire d’aller aussi loin dans la mise en forme mais essayez d’obtenir un beau tableau tout de même).</p>
+<p><em>Note: vous pouvez contrôler vos résultats obtenus avec <a href="https://www.gouvernement.fr/actualite/election-presidentielle-les-resultats-du-premier-tour">cette page</a></em></p>
+</div>
+</div>
+<p><em>Exemple de tableau à obtenir</em>:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="tgaayrgqmv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tgaayrgqmv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tgaayrgqmv thead, #tgaayrgqmv tbody, #tgaayrgqmv tfoot, #tgaayrgqmv tr, #tgaayrgqmv td, #tgaayrgqmv th {
+  border-style: none;
+}
+
+#tgaayrgqmv p {
+  margin: 0;
+  padding: 0;
+}
+
+#tgaayrgqmv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tgaayrgqmv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tgaayrgqmv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tgaayrgqmv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tgaayrgqmv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tgaayrgqmv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tgaayrgqmv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tgaayrgqmv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tgaayrgqmv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tgaayrgqmv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tgaayrgqmv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#tgaayrgqmv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tgaayrgqmv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tgaayrgqmv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tgaayrgqmv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tgaayrgqmv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tgaayrgqmv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tgaayrgqmv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tgaayrgqmv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tgaayrgqmv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tgaayrgqmv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tgaayrgqmv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#tgaayrgqmv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tgaayrgqmv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tgaayrgqmv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tgaayrgqmv .gt_left {
+  text-align: left;
+}
+
+#tgaayrgqmv .gt_center {
+  text-align: center;
+}
+
+#tgaayrgqmv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tgaayrgqmv .gt_font_normal {
+  font-weight: normal;
+}
+
+#tgaayrgqmv .gt_font_bold {
+  font-weight: bold;
+}
+
+#tgaayrgqmv .gt_font_italic {
+  font-style: italic;
+}
+
+#tgaayrgqmv .gt_super {
+  font-size: 65%;
+}
+
+#tgaayrgqmv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tgaayrgqmv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tgaayrgqmv .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tgaayrgqmv .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tgaayrgqmv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tgaayrgqmv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tgaayrgqmv .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" style="table-layout: fixed;" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <colgroup>
+    <col>
+    <col>
+    <col>
+    <col>
+    <col style="width:100px;">
+  </colgroup>
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="5" class="gt_heading gt_title gt_font_normal" style=""><strong>Elections 🇫🇷</strong></td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Résultats du premier tour (📅 <em>10 avril 2022</em>)</td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: center; font-weight: bold;" scope="col" id="Candidat.e">Candidat.e</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: center; font-weight: bold;" scope="col" id="Nombre votes (total)">Nombre votes (total)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: center; font-weight: bold;" scope="col" id="Score (% votes exprimés)">Score (% votes exprimés)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: center; font-weight: bold;" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: center; font-weight: bold;" scope="col" id=""></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="candidat" class="gt_row gt_left">Emmanuel MACRON</td>
+<td headers="votes" class="gt_row gt_right">9 783 058</td>
+<td headers="score" class="gt_row gt_right">27.85%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #2D004B; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:27.8458223274011%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Marine LE PEN</td>
+<td headers="votes" class="gt_row gt_right">8 133 828</td>
+<td headers="score" class="gt_row gt_right">23.15%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #755EA2; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:23.1515676723618%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Jean-Luc MÉLENCHON</td>
+<td headers="votes" class="gt_row gt_right">7 712 520</td>
+<td headers="score" class="gt_row gt_right">21.95%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #887CB2; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:21.9523856054546%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Éric ZEMMOUR</td>
+<td headers="votes" class="gt_row gt_right">2 485 226</td>
+<td headers="score" class="gt_row gt_right">7.07%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #EC9737; color: #000000;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:7.07377607691151%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Valérie PÉCRESSE</td>
+<td headers="votes" class="gt_row gt_right">1 679 001</td>
+<td headers="score" class="gt_row gt_right">4.78%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #CB6F0D; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:4.77899277848795%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Yannick JADOT</td>
+<td headers="votes" class="gt_row gt_right">1 627 853</td>
+<td headers="score" class="gt_row gt_right">4.63%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #C96D0D; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:4.63340863492038%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Jean LASSALLE</td>
+<td headers="votes" class="gt_row gt_right">1 101 387</td>
+<td headers="score" class="gt_row gt_right">3.13%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #B05606; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:3.13491208124385%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Fabien ROUSSEL</td>
+<td headers="votes" class="gt_row gt_right">802 422</td>
+<td headers="score" class="gt_row gt_right">2.28%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #9F4D07; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:2.2839587012157%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Nicolas DUPONT-AIGNAN</td>
+<td headers="votes" class="gt_row gt_right">725 176</td>
+<td headers="score" class="gt_row gt_right">2.06%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #9B4B07; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:2.06409100836318%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Anne HIDALGO</td>
+<td headers="votes" class="gt_row gt_right">616 478</td>
+<td headers="score" class="gt_row gt_right">1.75%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #954708; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:1.75470050946765%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Philippe POUTOU</td>
+<td headers="votes" class="gt_row gt_right">268 904</td>
+<td headers="score" class="gt_row gt_right">0.77%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #833D08; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:0.765389820557894%;height:16px;"></div></div></td></tr>
+    <tr><td headers="candidat" class="gt_row gt_left">Nathalie ARTHAUD</td>
+<td headers="votes" class="gt_row gt_right">197 094</td>
+<td headers="score" class="gt_row gt_right">0.56%</td>
+<td headers="color" class="gt_row gt_right" style="background-color: #7F3B08; color: #FFFFFF;"></td>
+<td headers="score2" class="gt_row gt_left"><div style="flex-grow:1;margin-left:8px;background:#e1e1e1;"><div style="background:purple;width:0.560994783614366%;height:16px;"></div></div></td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="comparaison-des-scores-départements-aux-moyennes-nationales." class="level2">
+<h2 class="anchored" data-anchor-id="comparaison-des-scores-départements-aux-moyennes-nationales.">Comparaison des scores départements aux moyennes nationales.</h2>
+<p>On va essayer d’étudier la territorialité de certains votes. Pour cela, nous allons étudier la manière dont certains candidats sont surreprésentés dans les résultats par rapport à leur moyenne nationale.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer un <em>dataframe</em> nommé <code>score_departements</code> stockant, pour chaque département, le nombre de vote obtenu pour chaque candidat et le score (en %).</p>
+<p>Par exemple, vous devriez obtenir le résultat suivant pour l’Aude:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 4
+# Groups:   code_departement [1]
+   code_departement candidat              votes   score
+   &lt;chr&gt;            &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;
+ 1 11               Anne HIDALGO           6166 0.0290 
+ 2 11               Emmanuel MACRON       43104 0.203  
+ 3 11               Fabien ROUSSEL         5622 0.0265 
+ 4 11               Jean LASSALLE         12382 0.0583 
+ 5 11               Jean-Luc MÉLENCHON    42039 0.198  
+ 6 11               Marine LE PEN         64027 0.301  
+ 7 11               Nathalie ARTHAUD       1026 0.00483
+ 8 11               Nicolas DUPONT-AIGNAN  4206 0.0198 
+ 9 11               Philippe POUTOU        1748 0.00823
+10 11               Valérie PÉCRESSE       7350 0.0346 
+11 11               Yannick JADOT          6322 0.0298 
+12 11               Éric ZEMMOUR          18434 0.0868 </code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refaire le lien avec le niveau national pour comparer le score départemental avec le score national. Nommer ce <em>dataframe</em> <code>score_departements</code>, nous allons le réutiliser par la suite.</p>
+<p>Par exemple, vous devriez obtenir le résultat suivant pour l’Aude:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 6
+# Groups:   code_departement [1]
+   code_departement candidat  votes_departement score_departement votes_national
+   &lt;chr&gt;            &lt;chr&gt;                 &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt;
+ 1 11               Anne HID…              6166           0.0290          616478
+ 2 11               Emmanuel…             43104           0.203          9783058
+ 3 11               Fabien R…              5622           0.0265          802422
+ 4 11               Jean LAS…             12382           0.0583         1101387
+ 5 11               Jean-Luc…             42039           0.198          7712520
+ 6 11               Marine L…             64027           0.301          8133828
+ 7 11               Nathalie…              1026           0.00483         197094
+ 8 11               Nicolas …              4206           0.0198          725176
+ 9 11               Philippe…              1748           0.00823         268904
+10 11               Valérie …              7350           0.0346         1679001
+11 11               Yannick …              6322           0.0298         1627853
+12 11               Éric ZEM…             18434           0.0868         2485226
+# ℹ 1 more variable: score_national &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer une variable <code>surrepresentation</code> qui compare, en relatif, les scores nationaux et départementaux.</p>
+<p>Par exemple, si un candidat a un score de 30% dans un département mais de 15% ailleurs, la valeur de <code>surrepresentation</code> sera égale à 100 (%).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Observer les 5 principales représentations, en valeur absolue, pour chaque candidat. Représenter cela sur un graphique, du type de celui-ci dessous.</p>
+</div>
+</div>
+</section>
+<section id="un-peu-de-cartographie" class="level2">
+<h2 class="anchored" data-anchor-id="un-peu-de-cartographie">Un peu de cartographie</h2>
+<p>Pour cette partie, vous pouvez récupérer le fonds de carte des départements grâce au code ci-dessous:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>departement_borders <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">4326</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="st">"metropole"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">borders=</span><span class="st">"DEPARTEMENT"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_by=</span><span class="st">"FRANCE_ENTIERE"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">year=</span><span class="dv">2022</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 8a
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Restreindre <code>score_departements</code> aux résultats de Marine Le Pen (ne pas écraser <code>score_departements</code> nous allons l’utiliser à nouveau !). Faire une jointure au fond de carte des départements et effectuer une carte de la représentation. L’échelle de couleur que vous pouvez utiliser est <code>white</code> pour les valeurs les plus basses et <code>#394679</code> pour les valeurs les plus hautes.</p>
+<p>Interpréter.</p>
+</div>
+</div>
+<p>Vous devriez obtenir une carte proche de celle-ci</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eval_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 8b
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Même question pour Emmanuel Macron. L’échelle de couleur que vous pouvez utiliser est <code>white</code> pour les valeurs les plus basses et <code>#f1c237</code> pour les valeurs les plus hautes.</p>
+<p>Interpréter.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eval_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 8c
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Même question pour Jean-Luc Mélenchon. L’échelle de couleur que vous pouvez utiliser est <code>white</code> pour les valeurs les plus basses et <code>#cb452a</code> pour les valeurs les plus hautes.</p>
+<p>Interpréter.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eval_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="focus-sur-labstention" class="level2">
+<h2 class="anchored" data-anchor-id="focus-sur-labstention">Focus sur l’abstention</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Retrouver les 10 principales communes abstentionnistes parmi les communes où il y a eu plus de 2000 votes et n’appartenant pas aux départements des DROM ou des Français à l’étranger (pour cela, le filtre est directement donné: <code>filter(!str_starts(code_commune, "(fr|98|97)"))</code>.</p>
+<p>Analyser</p>
+</div>
+</div>
+<p>Le tableau à obtenir sera le suivant. Le votre devra avoir au moins une colonne supplémentaire: les noms de commune.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 853 × 5
+# Groups:   code_commune, libelle_commune [853]
+   libelle_commune    code_commune abstention  votes taux_abstention
+   &lt;chr&gt;              &lt;chr&gt;        &lt;chr&gt;       &lt;dbl&gt;           &lt;dbl&gt;
+ 1 Bastia             2B033        Abstentions  9191           0.418
+ 2 Clichy-sous-Bois   93014        Abstentions  4941           0.418
+ 3 Roubaix            59512        Abstentions 19526           0.410
+ 4 Porto-Vecchio      2A247        Abstentions  3983           0.405
+ 5 Vaulx-en-Velin     69256        Abstentions  9730           0.404
+ 6 Jeumont            59324        Abstentions  2607           0.396
+ 7 Forbach            57227        Abstentions  5025           0.392
+ 8 Stains             93072        Abstentions  6716           0.391
+ 9 Hautmont           59291        Abstentions  3700           0.389
+10 Châlette-sur-Loing 45068        Abstentions  2865           0.389
+# ℹ 843 more rows</code></pre>
+</div>
+</div>
+<section id="labstention-en-corse" class="level3">
+<h3 class="anchored" data-anchor-id="labstention-en-corse">L’abstention en Corse</h3>
+<p>Voici le code pour récupérer le fond de carte des communes Corse.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>corse <span class="ot">&lt;-</span> <span class="fu">download_vectorfile_url_all</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">4326</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2A"</span>,<span class="st">"2B"</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">borders=</span><span class="st">"COMMUNE"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">vectorfile_format=</span><span class="st">"geojson"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_by=</span><span class="st">"DEPARTEMENT"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">source=</span><span class="st">"EXPRESS-COG-CARTO-TERRITOIRE"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">year=</span><span class="dv">2022</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Faire une carte du taux d’abstention par commune en corse</p>
+</div>
+</div>
+<p>La carte obtenue devrait ressembler à celle-ci:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="eval_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Handle positioning of the toggle
+      window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
