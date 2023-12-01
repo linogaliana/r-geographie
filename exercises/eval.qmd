@@ -263,6 +263,7 @@ pour chaque candidat. Représenter cela sur un graphique,
 du type de celui-ci dessous.
 
 ```{r}
+#| output: true
 score_departements_top <- score_departements %>%
   arrange(candidat, desc(abs(surrepresentation))) %>%
   group_by(candidat) %>%
@@ -278,7 +279,7 @@ ggplot(score_departements_top) +
 
 ## Un peu de cartographie
 
-Pour cette partie, vous pouvez récupérer le fonds de carte
+Pour cette partie, vous pouvez récupérer le fond de carte
 des départements grâce au code ci-dessous:
 
 ```{r}
