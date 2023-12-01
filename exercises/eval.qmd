@@ -462,7 +462,9 @@ corse <- download_vectorfile_url_all(
 
 ::: {.callout-note}
 
-Faire une carte du taux d'abstention par commune en corse
+Faire une carte du taux d'abstention par commune en Corse. Vous
+pouvez la faire figer avec ggplot ou mapsf ou, si vous préférez,
+réactive avec leaflet.
 :::
 
 
