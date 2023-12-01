@@ -1,0 +1,499 @@
+---
+title: "Evaluation"
+echo: false
+output: false
+---
+
+Ce chapitre présente la consigne pour l'évaluation de l'année 2023-2024.
+
+L'objectif de ces exercices est de vous amener à explorer la richesse
+des données
+électorales fines. Vous pourrez ultérieurement aller plus loin pour 
+essayer de relier les résultats de vote à des variables socioéconomiques
+disponibles à la même échelle. 
+
+Les consignes générales sont les suivantes:
+
+::: {.callout-tip}
+## Consignes générales
+
+- Envoyer par mail avant le __XX janvier 2024__ deux documents: un fichier `.qmd`
+reproductible mélangeant vos réponses aux questions et vos analyses et
+le `.html` généré grâce à celui-ci ;
+- Le `.html` ne présente pas les exemples de code, pensez donc à mettre
+`echo: false` dans les options du _header_ ;
+- N'oubliez pas d'ajouter les informations personnelles standards (auteur, titre)
+dans votre document ;
+- Essayez de soigner le `.html` rendu. Vous pouvez néanmoins avoir
+des sorties graphiques ou tableau au style différent de ceux que j'ai mis en
+exemple si vous avez envie de donner une touche personnel à votre rapport ;
+- Le document `.qmd` doit être reproductible, c'est-à-dire que je dois pouvoir
+cliquer sur le bouton `Render` et que cela va fonctionner. 
+:::
+
+
+```{r}
+library(readr)
+library(dplyr)
+library(gt)
+library(gtExtras)
+library(cartiflette)
+library(stringr)
+library(ggplot2)
+library(scales)
+library(svglite)
+```
+
+Le code d'import des données est directement mis à disposition 
+pour vous permettre de démarrer les exercices.
+
+```{r}
+#| echo: true
+df <- read_csv(
+  'https://www.data.gouv.fr/fr/datasets/r/182268fc-2103-4bcb-a850-6cf90b02a9eb'
+)
+```
+
+## Explorations générales
+
+::: {.callout-tip}
+## Question 1
+
+Créer ou mettre à jour les variables suivantes:
+
+  - `code_commune`: En utilisant la variable déjà existante et le département, remplacer la valeur `code_commune` pour constituer un vrai code commune. Par exemple, pour Montrouge, vous devriez obtenir `92049`. 
+  - `candidat`: créer une colonne avec le `prenom` et le `nom` mis ensemble, en n'oubliant pas de mettre un espace. Ne pas éliminer les bulletins abstentions, blancs ou nuls, nous allons les exploiter ultérieurement. 
+
+```{r}
+df <- df %>% mutate(
+  code_commune = paste0(code_departement, code_commune),
+  candidat = paste0(paste0(prenom, ' ', nom))
+)
+```
+:::
+
+
+::: {.callout-tip}
+## Exercice 2
+
+Compléter la phrase suivante grâce à `R`:
+
+> En 2022, il y avait XXXXX candidats à l'élection présidentielle
+
+L'intégrer dans un code _inline_ pour obtenir la phrase comme ci-dessous
+
+_Note: Attention aux [votes non exprimés](https://www.conseil-constitutionnel.fr/referendum-traite-constitution-pour-l-europe/bulletins-blancs-et-nuls) et aux abstentions_
+:::
+
+
+
+```{r}
+candidats <- df %>%
+  filter(!is.na(prenom)) %>%
+  summarise(candidats = n_distinct(candidat)) %>%
+  as.numeric()
+```
+
+
+En 2022, il y avait __`r candidats`__ candidats à l'élection présidentielle.
+
+
+
+::: {.callout-tip}
+## Question 3
+
+Calculer les scores nationaux de chaque candidat. Représenter dans ce tableau,
+pour chaque candidat, le nombre de voix et le pourcatage des votes exprimés
+(c'est-à-dire en retirant abstentions et votes non exprimés). 
+
+Utiliser `gt` pour représenter cela dans un tableau, par exemple dans le style
+de celui disponible plus bas (il n'est pas obligatoire d'aller aussi loin
+dans la mise en forme mais essayez d'obtenir un beau tableau tout de même).
+
+_Note: vous pouvez contrôler vos résultats obtenus avec [cette page](https://www.gouvernement.fr/actualite/election-presidentielle-les-resultats-du-premier-tour)_
+
+:::
+
+```{r}
+tableau_resultats <- df %>%
+  filter(!is.na(prenom)) %>%
+  group_by(candidat) %>%
+  summarise(votes = sum(voix)) %>%
+  mutate(score = votes/sum(votes)) %>%
+  arrange(desc(score))
+```
+
+_Exemple de tableau à obtenir_:
+
+```{r}
+#| output: true
+gt(tableau_resultats %>% mutate(color = "", score2 = 100*score)) %>%
+  fmt_integer(columns = votes, locale = "fr") %>%
+  fmt_percent(columns = score) %>%
+  gt_plt_bar_pct(
+    column = score2, scaled = TRUE
+  ) %>%
+  cols_label(
+    votes = "Nombre votes (total)",
+    score = "Score (% votes exprimés)",
+    candidat = "Candidat.e",
+    color = "",
+    score2 = ""
+    ) %>%
+  data_color(columns = c('score'), target_columns = color, method = "numeric", palette = "PuOr") %>%
+  tab_header(
+    title = md("__Elections 🇫🇷__"),
+    subtitle = md("Résultats du premier tour (📅 _10 avril 2022_)")
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold", align = "center"),
+    locations = cells_column_labels()
+  )
+```
+
+
+```{r}
+#| eval: false
+
+# Calculer pour les départements de la petite couronne,
+# les scores de E. Macron, M. Le Pen. agréger les votes restants en autre
+votes_idf_top3 <- df %>%
+  filter(!is.na(prenom)) %>%
+  filter(code_departement %in% c(75,92,93,94)) %>%
+  mutate(candidat2 = if_else(
+    nom %in% c("MACRON", "LE PEN"),
+    candidat, "Autres candidats")) %>%
+  group_by(code_departement, candidat2) %>%
+  summarise(votes = sum(voix)) %>%
+  group_by(code_departement) %>% 
+  mutate(score = votes/sum(votes))
+
+votes_idf_top3 <- votes_idf_top3 %>%
+  group_by(code_departement) %>%
+  summarize(list_data = list(score))
+
+gt(votes_idf_top3) %>%
+  gt_plt_bar_stack(list_data, width = 65,
+                   labels = c("Autres candidats", "Macron", "Le Pen"),
+                   palette= c("#bfbfbf", "#ff4343", "#0a1c2b"))
+```
+
+## Comparaison des scores départements aux moyennes nationales. 
+
+On va essayer d'étudier la territorialité de certains votes. Pour cela, nous
+allons étudier la manière dont certains candidats sont surreprésentés dans
+les résultats par rapport à leur moyenne nationale. 
+
+
+::: {.callout-tip}
+## Question 4
+
+Créer un _dataframe_ nommé `score_departements` stockant, pour chaque
+département, le nombre de vote obtenu pour chaque candidat et 
+le score (en %). 
+
+```{r}
+score_departements <- df %>%
+  filter(!is.na(prenom)) %>%
+  group_by(code_departement, candidat) %>%
+  summarise(votes = sum(voix)) %>%
+  mutate(score = votes/sum(votes)) 
+```
+
+Par exemple, vous devriez obtenir le résultat suivant pour l'Aude:
+
+
+```{r}
+#| output: true
+score_departements %>% filter(code_departement == 11)
+```
+
+:::
+
+
+::: {.callout-tip}
+## Question 5
+
+Refaire le lien avec le niveau national pour comparer le score
+départemental avec le score national. Nommer ce _dataframe_
+`score_departements`, nous allons le réutiliser par la suite. 
+
+```{r}
+score_departements <- score_departements %>%
+  left_join(
+    tableau_resultats,
+    by = "candidat",
+    suffix = c("_departement", "_national")
+  )
+```
+
+Par exemple, vous devriez obtenir le résultat suivant pour l'Aude:
+
+
+```{r}
+#| output: true
+score_departements %>% filter(code_departement == 11)
+```
+
+:::
+
+
+::: {.callout-tip}
+## Question 6
+
+Créer une variable `surrepresentation` qui compare, en relatif, 
+les scores nationaux et départementaux.
+
+Par exemple, si un candidat a un score de 30% dans un département
+mais de 15% ailleurs, la valeur de `surrepresentation` sera égale à 100 (%).
+
+
+```{r}
+score_departements <- score_departements %>%
+  mutate(surrepresentation = 100*(score_departement/score_national - 1))
+```
+
+:::
+
+::: {.callout-tip}
+## Question 7
+
+Observer les 5 principales représentations, en valeur absolue,
+pour chaque candidat. Représenter cela sur un graphique, 
+du type de celui-ci dessous.
+
+```{r}
+score_departements_top <- score_departements %>%
+  arrange(candidat, desc(abs(surrepresentation))) %>%
+  group_by(candidat) %>%
+  filter(row_number() <= 5)
+
+ggplot(score_departements_top) +
+  geom_bar(aes(x = surrepresentation, y = factor(code_departement)), stat = "identity") +
+  facet_wrap(~candidat, scales = "free")
+```
+
+:::
+
+
+## Un peu de cartographie
+
+Pour cette partie, vous pouvez récupérer le fonds de carte
+des départements grâce au code ci-dessous:
+
+```{r}
+#| echo: true
+departement_borders <- download_vectorfile_url_all(
+  crs = 4326,
+  values = "metropole",
+  borders="DEPARTEMENT",
+  vectorfile_format="geojson",
+  filter_by="FRANCE_ENTIERE",
+  source="EXPRESS-COG-CARTO-TERRITOIRE",
+  year=2022)
+```
+
+
+::: {.callout-tip}
+## Question 8a
+
+Restreindre `score_departements` aux résultats de Marine Le Pen (ne pas écraser
+`score_departements` nous allons l'utiliser à nouveau !). Faire une jointure
+au fond de carte des départements et effectuer une carte de la représentation. 
+L'échelle de couleur que vous pouvez utiliser est `white` pour les valeurs les
+plus basses et `#394679` pour les valeurs les plus hautes.
+
+Interpréter.
+
+:::
+
+```{r}
+score_departements_mlp <- score_departements %>%
+  filter(candidat == "Marine LE PEN")
+
+departement_borders_mlp <- departement_borders %>%
+  left_join(score_departements_mlp, by = c("INSEE_DEP" = "code_departement"))
+```
+
+
+Vous devriez obtenir une carte proche de celle-ci
+
+```{r}
+#| output: true
+ggplot(departement_borders_mlp) +
+  geom_sf(aes(fill = surrepresentation)) +
+  scale_fill_steps(
+    n.breaks = 5,
+    low = "white", high = "#394679",
+    labels = label_number(scale_cut = cut_short_scale())
+  ) +
+  theme_void()  +
+  labs(fill = "(% par rapport\nmoyenne nationale)")
+```
+
+
+
+::: {.callout-tip}
+## Question 8b
+
+Même question pour Emmanuel Macron. 
+L'échelle de couleur que vous pouvez utiliser est `white` pour les valeurs les
+plus basses et `#f1c237` pour les valeurs les plus hautes.
+
+Interpréter.
+
+:::
+
+
+```{r}
+score_departements_em <- score_departements %>%
+  filter(candidat == "Emmanuel MACRON")
+
+departement_borders_em <- departement_borders %>%
+  left_join(score_departements_em, by = c("INSEE_DEP" = "code_departement"))
+```
+
+```{r}
+#| output: true
+ggplot(departement_borders_em) +
+  geom_sf(aes(fill = surrepresentation)) +
+  scale_fill_steps(
+    n.breaks = 5,
+    low = "white", high = "#f1c237",
+    labels = label_number(scale_cut = cut_short_scale())
+  ) +
+  theme_void()  +
+  labs(fill = "(% par rapport\nmoyenne nationale)")
+```
+
+::: {.callout-tip}
+## Question 8c
+
+Même question pour Jean-Luc Mélenchon. 
+L'échelle de couleur que vous pouvez utiliser est `white` pour les valeurs les
+plus basses et `#cb452a` pour les valeurs les plus hautes.
+
+Interpréter.
+
+:::
+
+
+```{r}
+score_departements_jlm <- score_departements %>%
+  filter(candidat == "Jean-Luc MÉLENCHON")
+
+departement_borders_jlm <- departement_borders %>%
+  left_join(score_departements_jlm, by = c("INSEE_DEP" = "code_departement"))
+```
+
+```{r}
+#| output: true
+ggplot(departement_borders_jlm) +
+  geom_sf(aes(fill = surrepresentation)) +
+  scale_fill_steps(
+    n.breaks = 5,
+    low = "white", high = "#cb452a",
+    labels = label_number(scale_cut = cut_short_scale())
+  ) +
+  theme_void()  +
+  labs(fill = "(% par rapport\nmoyenne nationale)")
+```
+
+
+## Focus sur l'abstention
+
+::: {.callout-tip}
+# Question 9
+
+Retrouver les 10 principales communes abstentionnistes parmi les 
+communes où il y a eu plus de 2000 votes et n'appartenant pas
+aux départements des DROM ou des Français à l'étranger
+(pour cela, le filtre est
+directement donné: `filter(!str_starts(code_commune, "(fr|98|97)"))`.
+
+Analyser
+
+:::
+
+
+```{r}
+abstention <- df %>%
+  mutate(abstention = if_else(nom == "abstentions", "Abstentions", "Exprimés")) %>%
+  group_by(code_commune, libelle_commune, abstention) %>%
+  summarise(votes = sum(voix)) %>%
+  group_by(code_commune, libelle_commune) %>%
+  mutate(taux_abstention = votes/sum(votes)) %>%
+  filter(
+    abstention == "Abstentions", !str_starts(code_commune, "(fr|98|97)"),
+    votes > 2000
+    ) %>%
+  arrange(desc(taux_abstention))
+```
+
+
+Le tableau à obtenir sera le suivant. Le votre devra avoir au moins une colonne
+supplémentaire: les noms de commune. 
+
+```{r}
+#| output: true
+abstention %>%
+    select(-one_of("libelle_commune"))
+```
+
+
+
+### L'abstention en Corse
+
+Voici le code pour récupérer le fond de carte des communes Corse.
+
+
+```{r}
+#| echo: true
+corse <- download_vectorfile_url_all(
+  crs = 4326,
+  values = c("2A","2B"),
+  borders="COMMUNE",
+  vectorfile_format="geojson",
+  filter_by="DEPARTEMENT",
+  source="EXPRESS-COG-CARTO-TERRITOIRE",
+  year=2022)
+```
+
+::: {.callout-note}
+
+Faire une carte du taux d'abstention par commune en corse
+:::
+
+
+
+```{r}
+abstention_corse <- df %>%
+  mutate(abstention = if_else(nom == "abstentions", "Abstentions", "Exprimés")) %>%
+  group_by(code_commune, libelle_commune, abstention) %>%
+  summarise(votes = sum(voix)) %>%
+  group_by(code_commune, libelle_commune) %>%
+  mutate(taux_abstention = votes/sum(votes)) %>%
+  filter(str_starts(code_commune,'(2A|2B)'), abstention == "Abstentions") %>%
+  mutate(code_commune_propre = str_sub(code_commune, 3, -1))
+
+
+corse_enrichie <- corse %>% inner_join(abstention_corse, by = c("INSEE_COM" = "code_commune"))
+```
+
+La carte obtenue devrait ressembler à celle-ci:
+
+
+```{r}
+#| output: true
+ggplot(corse_enrichie) +
+  geom_sf(aes(fill = taux_abstention)) +
+  scale_fill_fermenter(
+    n.breaks = 5,
+    palette = "RdPu",
+    direction = 1,
+    labels = label_number(scale_cut = cut_short_scale())
+  ) +
+  theme_void() +
+  labs(fill = "Taux d'abstention")
+```
+
