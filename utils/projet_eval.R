@@ -253,7 +253,7 @@ abstention_corse <- df %>%
   mutate(code_commune_propre = str_sub(code_commune, 3, -1))
 
 
-corse_enrichie <- corse %>% inner_join(abstention_corse, by = c("INSEE_COM" = "code_commune_propre"))
+corse_enrichie <- corse %>% inner_join(abstention_corse, by = c("INSEE_COM" = "code_commune"))
 
 
 
@@ -269,4 +269,31 @@ ggplot(corse_enrichie) +
   labs(fill = "Taux d'abstention")
 
 
+
+
+mf_map(
+  corse_enrichie,
+  col = "#CCCCCC",
+  border = "white",
+  lwd = 0.5
+)
+mf_map(
+  corse_enrichie, var = "taux_abstention",
+  type = "prop",
+  col = "#c291bc",
+  border = "#6b4266",
+  lwd = 0.5,
+  add = TRUE
+)
+mf_title("Population du Finistère", bg = "#6b4266")
+mf_annotation(
+  x = c(132040, 6826675),
+  txt = "Finistère (29)",
+  pos = "bottomleft",
+  col_txt = "#6b4266",
+  cex = 1.2,
+  font = 2,
+  halo = TRUE,
+  s = 1.5
+)
 
