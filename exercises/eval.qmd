@@ -26,9 +26,9 @@ le `.html` généré grâce à celui-ci ;
 dans votre document ;
 - Essayez de soigner le `.html` rendu. Vous pouvez néanmoins avoir
 des sorties graphiques ou tableau au style différent de ceux que j'ai mis en
-exemple si vous avez envie de donner une touche personnel à votre rapport ;
-- Le document `.qmd` doit être reproductible, c'est-à-dire que je dois pouvoir
-cliquer sur le bouton `Render` et que cela va fonctionner. 
+exemple si vous avez envie de donner une touche personnelle à votre rapport ;
+- Le document `.qmd` doit être reproductible, c'est-à-dire que si je clique
+sur le bouton `Render`, cela va fonctionner. 
 :::
 
 
