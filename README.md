@@ -1,5 +1,4 @@
 # Introduction à l'analyse quantitative avec R
 
-__Cours en construction__
-
+Un cours introductif de `R` pour découvrir la richesse de l'écosystème de valorisation des données.
 
